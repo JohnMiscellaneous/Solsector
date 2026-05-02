@@ -6241,6 +6241,8 @@ if(!transNeptuneShortlist){
     calc.spawnSPSObject(system, star, "2007 TG422", "2007 TG422", "asteroid", showNameProv, 222f, 567.7505f, 0.9373f, 112.959f, 285.923f, 2005.929f, zeroDegGlobal, null, 1f);
     // 2013 RA109 
     calc.spawnSPSObject(system, star, "2013 RA109", "2013 RA109", "asteroid", showNameProv, 200f, 491.3236f, 0.9062f, 104.901f, 263.143f, 2007.659f, zeroDegGlobal, null, 1f);
+    // Ammonite (2023 KQ14)
+    calc.spawnSPSObject(system, star, "Ammonite", "Ammonite", "asteroid", showNameMinor, 380f, 246.0777f, 0.7322f, 72.073f, 198.830f, 2063.660f, zeroDegGlobal, null, 1f);
 }
 
 // =========================================================================
