@@ -1,0 +1,137 @@
+{
+    ## 0 disables all minor planet names (bar custom entities), 
+    ## 1 disables provisional names, (DEFAULT)
+    ## 2 shows all names
+    "Show_Names": 1,
+
+    ## Fills the system with a massive amount of renmnant nexuses and fleets.
+    "Remnant_Horde": true,
+
+    ## Planets will be settled by various factions
+    ## the settled planets will appear upon jump into the Sol system
+    "Generate_Settled_Planets": true,
+
+    ## Mercury gets poor light and very cold because of its near locking and no heat distribution, venus gets poor light because of its near locking, Eros gets cold and hot because of its 90 degree axial tilt
+    "Mercury_And_Venus_Have_Poor_Light": true,
+
+    ## Uranus and Neptune's 'surface gravity' is earth like, and throughout their 3d geometry remains close to earth, removes high gravity after hyperspace so that the gravity wells exist but not the hazard.
+    "Uranus_And_Neptune_Have_Normal_Gravity": true,
+
+    ## probably most interested in Sol, but I don't like the gameplay impact
+    "Luddic_Church_Claim_On_Sol": false,
+
+    ## ======================================================
+    ## ======= What entities to generate? ===================
+    ## ======================================================
+
+    ## disable if you hate the Sol star system, but installed this mod, for purposes unkown.
+	"Generate_Sol": true,   
+
+    ## disables some less interesting NEAs
+    "Inner_Sol_Shortlist": true,
+
+    ## disables some small Visited Asteroids
+    "Visited_Asteroids_Shortlist": true, ## FUCK YOU BENNU ITOKAWA RYUGU AND DIDYMOS/DIMORPHOS FUCK YOU ANNEFRANK FUCK YYOU DINKATESH/SELAM YOU ARE ALL TOO AVERAGE AND BORING AND THE IDEA THAT SELAM IS THE FIRST CONTACT BINARY MOON CONFIRMED IS A FAT LIE EXPLAIN HOW KERBEROS IS NOT A CONTACT BNARY
+
+    ## disables some less interesting asteroids
+    "Asteroid_Belt_Shortlist": true,
+
+    ## number of generic asteroid belt asteroids to generate
+    "Generic_Asteroids": 10,
+
+    ## disables some smaller trojan
+    "Jupiter_Trojans_Shortlist": false,
+
+    ## 0 - galilean moons, inner moons, and a few irregulars (default)
+    ## 1 - adds some more irregulars
+    ## 2 - adds EVERY irregular (not recommended)
+    "Jupiter_Detail": 0,
+
+    ## 0 - inner moons, and a few irregulars (default)
+    ## 1 - adds some more inner moons and irregulars
+    ## 2 - adds EVERY irregular (VERY not recommended)
+    "Saturn_Detail": 0,
+
+    ## disables all but a few irregulars, plus some smaller inner bodies
+    "Uranus_Shortlist": true,
+
+    ## disables all but a few irregulars, plus some smaller inner bodies
+    "Neptune_Shortlist": true,
+
+    ## disables some smaller trojans
+    "Neptune_Trojans_Shortlist": false,
+
+    ## Disables smaller and unnamed centaurs
+    "Centaur_Shortlist": true,
+
+    ## Disables smaller and unnamed trans neptunians
+    "Trans_Neptune_Shortlist": true,
+
+    ## A few asteroids from science fiction which A, I respect, and B, has the grace to include a minor TNO or Jovian Irreg
+    "Fictional_Trans_Neptunian_Objects": true,
+
+    ## 0 is confirmed moons only, (default)
+    ## 1 is convincing speculative moons, 
+    ## 2 is edge-case speculative moons
+    "Speculative_Bodies": 0,
+
+    ## 0 is only the confirmed planets (default)
+    ## 1 adds planet 9 (the famous pocket ice giant)
+    ## 2 adds planet 10 (a mercury-mars sized scattered disk object)
+    ## 3 adds Sean N. Raymond's 7% chance oort ice giant 
+    "Speculative_Bodies_Big": 0,
+
+    ## 0 is no deep space probes
+    ## 1 is a few deep space probes (default)
+    ## 2 is pretty much every probe that could last thousands of years and is not on a bassically earth orbit
+    "Generate_Probes": 1,
+
+    ## disable if you dont like the elevator custom entities
+    "Generate_Space_Elevators": true,
+
+    ## ======================================================
+    ## =============== ORBIT & SIZE STUFF ===================
+    ## ======================================================
+
+    ## enables custom orbits, great for performance, if it doesn't make you crash
+    "Occult_Orbit_Beta": true,
+    ## defines if the logic should be circular or eccentric (if Occultorbitbeta should be false )
+    "Eccentricity_Cutoff": 0.01,
+    ## if occultOrbitBeta == true, 'pins' some bodies to other bodies so the intel screen doesn't bug out, orbitally they act the same but Vesta registers as a moon of Ceres, etc
+    "False_Moons": true,
+    ## recommended - KEEP FALSE
+    "Linear_Distance": false,   
+    ## 0 = false
+    ## 1 = true except inner gas giant moons (default)
+    ## 2 = true 
+    "Linear_Time": 1,   
+    "Linear_Size": false,   
+    ## requires linear Size, takes precedent over to scale, converts gas giant distances to in AU to km
+    "To_Scale_Gas_Giant": false,
+    ## requires linear distance, does as says, highly inadvisable, will break
+    "To_Scale": false,
+
+    ## extComp(log(intComp * AU + 1)) + Lin * AU
+    "extComp": 10500, "intComp": 0.4, "distLinMod": 10,
+
+    "distMax": 1000000,
+
+    ## progradeMult * timeExt(log(timeInt * days + 1)) + Lin * AU
+    "timeExt": 120000,
+    "timeInt": 0.000019,
+    "timeLinMod": 1,
+
+    "giantTimeExt": 10,
+    "giantTimeInt": 0.8,
+    "giantTimeLinMod": 1,
+
+    "progradeMult": -1, ## in progress
+
+    ## Bad math warning
+    ## ext(log(int * km + 1)) + (sqrt(km) / 1 + (sizeDenom * km)) + sizeConst + Lin * Km
+    "sizeExt": 220,
+    "sizeInt": 0.00005,
+    "sizeDenom": 0.001,
+    "sizeConst": 3,
+    "sizeLinMod": 0.001,
+}

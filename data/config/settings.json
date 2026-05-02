@@ -1,0 +1,16 @@
+{
+    
+    "graphics":{
+        "sol_rings":{
+            "rings_alpha0":"graphics/planets/rings_alpha0.png",
+            "rings_alpha1":"graphics/planets/rings_alpha1.png",
+            "rings_alpha2":"graphics/planets/rings_alpha2.png",
+            "rings_alpha3":"graphics/planets/rings_alpha3.png",
+            "saturn_rings0":"graphics/planets/saturn_rings0.png",
+            "rings_rocks0":"graphics/planets/rings_rocks0.png",
+            "rings_rocks1":"graphics/planets/rings_rocks1.png",
+            "rings_rocks2":"graphics/planets/rings_rocks2.png",
+        },
+    },
+    
+}

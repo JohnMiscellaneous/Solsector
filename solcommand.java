@@ -1,0 +1,1 @@
+runcode if (Global.getSector().getStarSystem("Sol") == null) { new data.scripts.world.systems.SolTotal().generate(Global.getSector()); }

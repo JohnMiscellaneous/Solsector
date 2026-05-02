@@ -1,0 +1,3 @@
+id,trigger,conditions,script,text,options,notes
+ruleOverthrowAdd,PopulateOptions,"$originalEntity.id == ""Earth""",,"""""","opt_overthrow:""Launch Special Operation""",
+ruleOverthrowRun,DialogOptionSelected,$option == opt_overthrow,MarketCMD raidValuable,,,

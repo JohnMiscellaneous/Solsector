@@ -1,0 +1,9 @@
+id,access
+sol_retrograde_moon,-0.1
+sol_fast_moon,-0.2
+sol_space_elevator,0.3
+sol_orbital_ring,0.4
+sol_inter_binary_elevator,0.2
+sol_space_ladder,0.1
+sol_space_elevator_nearby,0.1
+sol_jump_point_nearby,0.1

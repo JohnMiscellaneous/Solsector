@@ -1,0 +1,11 @@
+{
+	"id": "Solsector",
+	"name": "Solsector",
+	"author": "Ugly American",
+	"version": "1.0.1",
+	"utility": "true",
+	"description": "Adds a highly detailed solar system to starsector",
+	"gameVersion": "0.98a-RC7",
+	"jars":["jars/solsector.jar"],
+	"modPlugin":"data.scripts.SolModPlugin"
+}

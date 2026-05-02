@@ -1,0 +1,73 @@
+@echo off
+:: 1. Go to the Starsector Game Folder
+cd /d "C:\Program Files (x86)\Fractal Softworks\Starsector"
+
+:: 2. Set Classpath
+:: FIX: Removed 'lib' folder. Libraries are directly in starsector-core.
+:: If your log4j version number is different, check the folder and update the name below.
+set CLASSPATH="starsector-core\starfarer.api.jar;starsector-core\json.jar;starsector-core\log4j-1.2.9.jar"
+
+:: 3. Set where your mod source code is
+set SOURCEPATH="mods\Solsector\jars"
+
+:: 4. List all files to compile
+set FILES=^
+mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\SolIntelHelper.java ^
+mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\sol_industry_compat.java ^
+mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\sol_remove_replace.java ^
+mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\pre_domain_sapience.java ^
+mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\antimatter_infrastructure.java ^
+mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\contact_binary.java ^
+mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\goblin_world.java ^
+mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\goblin_subpop.java ^
+mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\tiny_polity.java ^
+mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\tiny_stripped.java ^
+mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\megaforges_hyperenergetic.java ^
+mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\megaforges.java ^
+mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\ancient_drug_lab.java ^
+mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\insurgent_network.java ^
+mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\ancient_orbital_manufactories.java ^
+mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\penal_world.java ^
+mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\organ_complex.java ^
+mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\meteoroids.java ^
+mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\dist_abyssal.java ^
+mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\dist_hadal.java ^
+mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\dist_erebal.java ^
+mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\dist_tartarean.java ^
+mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\degenerate.java ^
+mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\degenerate_subpop.java ^
+mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\unpronounceable.java ^
+mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\loose_bioweapon.java ^
+mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\unexploded_ordnance.java ^
+mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\automated_habitats.java ^
+mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\fast_rotator.java ^
+mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\orbital_fleetworks.java ^
+mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\lvmh_hq.java ^
+mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\insurgent_network_desperate.java ^
+mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\sol_dust_storms.java ^
+mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\sol_pond_scum.java ^
+mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\sol_monument_fallen.java ^
+mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\sol_insurgent_network_mapped.java ^
+mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\sol_megaforges_complete.java ^
+mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\sol_ai_freedom_fighters.java ^
+mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\sol_ai_terminators.java ^
+mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\sol_ai_security_systems_complete.java ^
+mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\sol_ai_security_systems.java ^
+mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\sol_megaforges_hyperenergetic_complete.java ^
+mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\sol_cradle_of_ash.java ^
+mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\sol_apocalypse.java ^
+mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\sol_antimatter_nonproliferation_treaty_breacher.java ^
+mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\sol_antimatter_nonproliferation_treaty_signatory.java ^
+mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\sol_world_war.java ^
+mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\sol_civilised_subpop.java ^
+mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\sol_civilised_world.java ^
+mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\sol_oort_strikes.java ^
+mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\sol_subsurface_aquaponics.java ^
+mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\sol_access_condition.java 
+
+:: 5. Execute Compilation
+echo Compiling...
+javac -classpath %CLASSPATH% -sourcepath %SOURCEPATH% %FILES%
+
+echo Done.
+pause

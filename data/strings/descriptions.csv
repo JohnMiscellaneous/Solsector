@@ -1,0 +1,483 @@
+id,type,text1,text2,text3,text4,text5,notes
+sol_asteroid,CUSTOM,"A pitted chunk of metal, ice, or rock hurtling through space. Mainly significant for being a navigational hazard.",,,,,
+,,,,,,,
+sol_sol,,,,,,,
+,,,,,,,
+sol_vulcanshunt,,,,,,,
+sol_vulcan_station,CUSTOM,"""             If man is of nature.
+               The Artificial is nature made.
+               So please mature.
+               And recognize me... as a Vulcanoid.               ""
+Closing remarks in: I Dream of Vulcanoids, recovered from spacefaring vessel, 2185.
+
+Blah Blah Blah",,,,,TODO
+,,,,,,,
+sol_mercury,,,,,,,
+,,,,,,,
+sol_venus,,,,,,,
+sol_zoozve,CUSTOM,"While Zoozve may graze Earth and Mercury, it does a full 360° around Venus every time Venus does a full 360° around Sol. For this, the term quasi-moon was created and awarded as a consolation prize to a Venus that had deorbited its moons in the stellar womb.
+
+Today, it, alongside its terran twin, Kamooalewa, play host to a poorly disguised listening station, which your nav officer can't stop laughing at.",,,,,
+,,,,,,,
+sol_earth,CUSTOM,"The ancient home of humanity, once rendered bare, once having cast an astray humanity to the stars long before the domain, now rests, having outlasted the domain and in a sine wave of ecological collapse and recovery.",,,,,
+sol_luna,CUSTOM,"“Volatiles to Volatiles. Regolith to Regolith.” 
+-graffiti
+
+Once the metaphysical antipode of the sun, Luna was gazed upon with fascination by primordial man, then with science and reason Luna became a lifeless rock, until the end of old Earth and the redesignation of Luna as home. But soon after home meant many worlds, and one of those worlds returned Luna to rock, albeit irreparably altered. What once were rolling hills pock-marked with craters now are warped superstructures, interspersed with a ceramic surface and the remains of petrified vegetation, clinging to the shadows. All is covered in the metallic oxides that comprised Luna’s last snow.",,,,,
+sol_kamooalewa,CUSTOM,"Kamooalewa is a tiny spec of dust only notable for the massive array of surveillance equipment that jankily protrudes from what once was a sleek disguised satellite, and that, as a quasi-moon, it never really gets far from Earth, circling it like it deserves to share a list with Luna.",,,,,
+sol_cruithne,,,,,,,
+sol_earthrelay,,,,,,,
+sol_earthsensors,,,,,,,
+sol_earthnav,,,,,,,
+,,,,,,,
+sol_mars,,,,,,,
+sol_phobos,,,,,,,
+sol_deimos,,,,,,,
+sol_eureka,CUSTOM,"""Look at you, you voyeur, quietly watching from your stable little pocket, I’ve seen you watching for the past billion years, and I’ve had enough of it.
+
+Eureka began spinning faster and faster and faster, at first he was dizzy, then things felt better, until they got blurry and he started vomiting.""
+
+Excerpt of solar radiation casting judgement upon the minor planet, 5261 Eureka in: I Dream of Vulcanoids,  recovered from spacefaring vessel, 2185.
+
+The primordial father of Mars’s Trojans, Eureka was forced, under the duress of YORP, to undergo rotational fission, yet the asteroids spun off by Eureka were small, and the rage of YORP could not be contained so, like a chain of U-235 atoms, these asteroids would fission off smaller asteroids, and those asteroids would, themselves, fission until there was nothing but a now tiny Eureka, endlessly harassed by a fissioned moonlet, and inert rocks, too cohesive to listen to the call of YORP throughout the Mars Trojans.",,,,,Vulcanoid series
+sol_eurekamoon,,,,,,,
+,,,,,,,
+sol_atira,CUSTOM,"As was Domain procedure, Atira should have been blasted into pieces or deorbited into venus as would be done for any other asteroid in any other system. 
+
+It's conceivable that at some point Atira was hollowed out and stripped of resources, left a lifeless husk. Yet at some point Atira was converted by the hardy life-bearing lichen that is humanity into some remote installation for inner Sol. With its domes cracked like an egg, the gantry connecting its moon torn, the halls filled with lifeless bodies, and the life support missing, its service has long since ended.",,,,,
+sol_atiramoon,,,,,,,
+,,,,,,,
+sol_alylochaxnim,CUSTOM,"""This far, and no further."" 
+-Excerpt of solar radiation to the minor planets in: I Dream of Vulcanoids, recovered from spacefaring vessel, 2185.
+
+At Aylochaxnim's distance from Sol, its sunward side is infernally hot. The teachings of Yarkovsky, O'Keefe, Radzievskii, and Paddack decree that such objects will spin their scalding surface into dusk, fire off on the infrared and burn prograde to an icy mediocrity, retrograde to a fiery doom, or raise inclination to become a practitioner of Kozai-Lidov and their bipolar tenets of grazing Mars, then the photosphere. 
+
+Aylochaxnim, however, stands as the exception. Though not for long.",,,,,Vulcanoid series
+,,,,,,,
+sol_apollo,,,,,,,
+,,,,,,,
+sol_phaethon,CUSTOM,"Phaethon walked into the back offices of Kozai-Lidov LLP. It was spartan, three folding chairs and a table at which Kozai and Lidov already sat.
+
+""Come in, Phaethon, please take a seat,"" Kozai said, gesturing to the chair across from him.
+
+""I called earlier, I'm seeing about an inclination problem. You can help with that, right?"" Phaethon said, sitting down.
+
+Kozai's face contorted into a toothless smile, his hands folding together as Lidov answered.
+""You came to the right place, but Phaethon, you must remember that with every debit there must be a credit.""
+""And with every action there must be a reaction,"" Kozai interrupted.
+""Nothing in this world is free, and we exact the most specific of tolls,"" Lidov finished.
+
+""I'm willing to do whatever to treat this inclination,"" Phaethon said.
+
+It was now Kozai's turn to answer.
+""That's what I want to hear, Phaethon, we will make something great of you yet, or more precisely, some great ending. You see, Phaethon, some men want stability - they want circular orbits and are happy if the planetary moons and the irregulars, the planets and the minor planets coexist in harmony.
+We have different tastes in life. Many a minor planet or irregular has sat where you sit now, and they have met myriad fates. At our hands, many an asteroid has died a vulcanoid, and a Jovian irregular has been made a Callistan crater. But not all our work need end in tragedy. Some of your compatriots still live, roaming the infinity between the stars. 
+Knowing that, if you wish to continue, sign here, in Regolith.""
+
+Excerpt of Phaethon and Kozai-Lidov speaking in: I Dream of Vulcanoids, recovered from spacefaring vessel, 2185.",,,,,Vulcanoid series
+,,,,,,,
+sol_touatis,,,,,,,
+,,,,,,,
+sol_icarus,CUSTOM,"Plunging from the frigid void of Mars to the igneous expanse sunwards of Mercury, Icarus is unmarked by cratering, opting instead for the flash-then-freeze cycles that have cracked and warped Icarus into a disfigured spheroid.
+
+Summertime here is probably unpleasant.",,,,,summertime on icarus
+,,,,,,,
+sol_eros,,,,,,,
+,,,,,,,
+sol_ganymed_asteroid,,,,,,,beat europa in the non jovian asteroid society 
+,,,,,,,
+sol_don_quixote,,,,,,,something poetic (dead comet)
+,,,,,,,
+sol_aethra,,,,,,,
+,,,,,,,
+sol_brucia,,,,,,,
+,,,,,,,
+sol_ceres,,,,,,,
+sol_eu16,CUSTOM,"On the Authenticity of the Quasi-Moonad
+Excerpted from the proceedings of the Ceres Colloquium on Hellenic Literature, session LVII.
+CHAIR. We turn now to the Quasi-Moonad. Dr. Hollen.
+HOLLEN. Thank you. The matter is not complicated, though my colleagues have made it so. Every physical test - radioisotope, substrate, ink, palaeography - places the document squarely in the Homeric window. I concede this. I have never contested it. What I contest is the claim that the text is of that age. The poem is about a war fought over the quasi-moon 2000 EU16. It refers to this body by that designation - in the invocation, in the catalogue, and in the closing lament. The designation is provisional, administrative, and postdates Homer by nearly three millennia. I invite the room to sit with that.
+KESTRE. The room has sat with it for thirty years, Hollen.
+HOLLEN. Then perhaps the room might stand up. A poem cannot name a thing before the thing is named. This is not a literary-critical claim, it is a claim about the arrow of time.
+KESTRE. No one disputes the arrow of time. But you are pretending there is only one direction of causation available. Grant, for the sake of argument, that the poem is authentic. Grant that it circulated in narrow circles - a priesthood, a guild, a family - for three thousand years. Now ask yourself what such a custodian would do, three thousand years later, when the relevant body happened to be catalogued. You suppose they would let it be named at random. I suppose they would arrange for the designation to match. A compromised observer at the right bureau, a timed submission, a cooperative half-month, and 2000 EU16 becomes the quasi-moon.
+HOLLEN. So you are asking me to believe in a multimillennia conspiracy?
+KESTRE. Precisely. While improbable, the idea the document is forged to perfection, to fit detection methods yet to exist, is moreso.  
+HOLLEN. What evidence have you of this?
+KESTRE. The document, which all tests prove is real, and the fact 2000 EU16 matches the body described. That is all I need.
+HOLLEN. - Set the designation aside, then. The poem calls 2000 EU16 a quasi-moon. The category is modern. It requires heliocentric mechanics, resonance theory, a definition of ""moon"" strict enough to exclude such bodies. Homer had none of this. Homer did not have a telescope. Homer, so far as we can tell, did not have Ceres.
+KESTRE. The poet describes a body that travels with another without belonging to it. This is phenomenologically available to anyone who watches the sky long enough. You confuse the term with the observation.
+HOLLEN. But observation happened. Canto II gives the body's great circuit around its two masters as sixteen hundred and eighty days. That is the current value, Kestre. Not the value in Homer's day. Over three millennia, the resonance has drifted; the figure that matches the text is the figure an ephemeris returns for the present epoch, propagated forward from the archaic sky. To arrive at it requires observation Homer could not make, physical modeling he did not possess, and computation he could not perform — and having done all three, the poet then reports the answer not for his own century but for ours. 
+KESTRE. The line is damaged, Hollen. You know it is damaged. You read the final character as Pi — eighty. I read it as Gamma- three. The difference between us is a single descending stroke on a fibre that has spent three thousand years being a fibre. Without that stroke the figure is sixteen hundred and three. With it, sixteen hundred and eighty. You have chosen the reading that gives you your miracle and called the other reading negligent.
+HOLLEN. The right leg of the Pi is visible under raking light.
+KESTRE. It is consistent with raking light. So is a crease. So is a thinning of the substrate. So is nothing at all. If you look for a pattern you will find it - this is the oldest result in the discipline, and the one we are most trained to resist. You have trained yourself out of it on this single leg of this single letter.
+HOLLEN. The palaeographers agree with me.
+KESTRE. The palaeographers agree that the stroke is present or absent. They decline to say which. You are the one who decided.
+MORWEN. May I -
+CHAIR. Briefly.
+MORWEN. This debate is treading old ground. It has always been my belief that debating the material of the Quasi-Moonad is moot without a mechanism capable of explaining how it was faked. Is it improbable? Yes. Can we discount the work simply because of its improbability? No.
+KESTRE. The extent of its improbability is important, we have heard theories of its forgery, they all involve legions of bought archaeologists, sabotaged equipment, and replacements in the dead of night. One could suppose the existence of a big enough conspiracy, with all of science implicated; it would then be no trouble to convince everyone else of its legitimacy.
+HOLLEN. You have defined an arbitrarily large conspiracy to refute any large conspiracy; you discount the usage of unknown technologies.
+KESTRE. You say Homer could not have had the technology to place 2000 EU16, yet when I-
+CHAIR. We will break for fifteen minutes.
+The proceedings resumed but were not minuted, the stenographer having resigned during the interval.
+
+",,,,,"FUCKING 1000 words, JESUS CHRIST DID NOT DIE SO YOU COULD WRITE A SCHIZOID EXCHANGE FOR YOUR OWN ENTERTAINMENT"
+,,,,,,,
+sol_vesta,,,,,,,
+,,,,,,,
+sol_pallas,,,,,,,
+,,,,,,,
+sol_hygiea,,,,,,,
+,,,,,,,
+sol_cebele,,,,,,,
+,,,,,,,
+sol_sylvia,,,,,,,
+sol_romulus,CUSTOM,"""In 2011, the combined population of humanity was 7 billion, and at that time if every man, woman, and child stood shoulder to shoulder they would fit on the island of Zanzibar. The year is now 2111, the combined population is 2 billion, just enough to fit shoulder to shoulder on Romulus, Sylvia II. Human society struggles under the pressure of such open spaces; men look to the sky and struggle under the agoric presence of no dome concealing the sun, they breathe the sickly-sweet fresh air, crushed beneath the gentle hand of pronatalist policy. In such a world, where lack of demand has cratered supply, many an urchin is forced to turn from hard drugs to solitary prayer and contemplation. It is no surprise that for some it is too much - some inevitably crack and grab an axe or a gun or a pipe and go into the streets to run antiMuck, spreading Christmas cheer to everyone they meet.""
+- Stand on Romulus, by Rennurb Nhoj, 2168.",,,,,Anti zanzibar
+sol_remus,CUSTOM,"""It has been many decades since time reversal symmetry was disproven in physics, yet, infuriatingly, Rennurb Nhoj, in what he must have thought was a witty criticism of Stand on Zanzibar, creates a never-before-seen fallacy of ""time symmetry"" and proceeds to build three hundred pages on top of it. The premise - that a depopulated world would mirror, beat for beat, the pathologies of an overpopulated one, with every vice and virtue simply inverted - is not an argument but a party trick, and one that collapses the moment one adds a second variable to the equation. Setting aside questions of deeper meaning, the book is painful to read: in what I can only interpret as a quixotic exercise in postirony, Nhoj attempts to rotate the plot of Stand on Zanzibar through 180 degrees, with flashbacks, subflashbacks, and sub-sub-flashbacks. The result is a confused story that doesn't know whether it wants to copy, criticize, or compound Brunner's dystopia. After reading Stand on Romulus, I wish Rennurb Nhoj had printed the book in reverse English, to spare me the duty of reading it.""
+-Excerpt of Socratic dialogue on the execution of Rennurb Nhoj after detention by Sylvian customs authority, 2210.",,,,,Anti Anti Zanzibar
+,,,,,,,
+sol_themis,,,,,,,
+,,,,,,,
+sol_antiope1,,,,,,,
+sol_antiope2,,,,,,,
+,,,,,,,
+sol_flora,,,,,,,
+,,,,,,,
+sol_psyche,,,,,,,
+,,,,,,,
+sol_kleopatra,,,,,,,
+sol_axhelios,,,,,,,
+sol_cleoslene,,,,,,,
+,,,,,,,
+sol_kalliope,,,,,,,
+sol_linus,,,,,,,
+,,,,,,,
+sol_lutetia,,,,,,,
+,,,,,,,
+sol_antigone,,,,,,,
+,,,,,,,
+sol_klotho,,,,,,,
+,,,,,,,
+sol_eunomia,,,,,,,
+,,,,,,,
+sol_ida,,,,,,,
+sol_dactyl,,,,,,,
+,,,,,,,
+sol_euphrosyne,,,,,,,
+sol_euphrosynemoon,,,,,,,
+,,,,,,,
+sol_hungaria,,,,,,,orbital mechanics stuff
+,,,,,,,
+sol_thule,,,,,,,kozai stuff
+,,,,,,,
+sol_griqa,,,,,,,kozai stuff
+,,,,,,,
+sol_alinda,,,,,,,kozai stuff
+,,,,,,,
+sol_juno,,,,,,,
+,,,,,,,
+sol_iris,,,,,,,
+,,,,,,,
+sol_intermania,,,,,,,
+,,,,,,,
+sol_davida,,,,,,,
+,,,,,,,
+sol_europa_asteroid,,,,,,,
+,,,,,,,
+sol_elektra,,,,,,,
+sol_130_1,,,,,,,
+sol_130_2,,,,,,,
+sol_130_3,,,,,,,
+,,,,,,,
+sol_311p,,,,,,,
+sol_vw139_1,,,,,,,
+sol_vw139_2,,,,,,,
+,,,,,,,
+sol_jupiter,,,,,,,
+sol_metis,,,,,,,
+sol_thebe,,,,,,,
+sol_amalthea,,,,,,,
+sol_io,,,,,,,
+sol_europa,,,,,,,
+sol_ganymede,,,,,,,
+sol_callisto,,,,,,,
+sol_himalia,,,,,,,
+sol_pasiphe,,,,,,,
+sol_carme,,,,,,,
+sol_elara,,,,,,,
+sol_leda,CUSTOM,"Leda is a small, unremarkable Jupiter irregular, with an orbit and composition that marks it a fragment of Himalia. 
+
+The only notable thing about Leda is your technology officer's insistence that it would be the perfect candidate to collapse into a black hole.",,,,,
+sol_jupsun_l4,,,,,,,
+sol_jupsun_l5,,,,,,,
+,,,,,,,
+sol_hektor,CUSTOM,"The largest of Sol's trojans, so long as you ignore the unnamed and unnumbered giants that obey Neptune in the blackness of outer Sol. Which, now that you think about it, why aren't they named, numbered, and measured? You can go there right now. It's not like you're, for the most part, stuck on old Earth, looking through mirrors and measuring light curves to estimate rotational periods, deciding based on the vibes whether an object has one peak and a period of 3.5 hours or two and a period of 7.",,,,,
+sol_hektorlobe,CUSTOM,"Once an independent world, orbiting in congress with Hektor, an invisible point, Ultima is now simply a region of Hektor, having long ago collided at a speed gentle enough to preserve the shape of two once separate worlds. ",,,,,
+sol_skamandrios,CUSTOM,"Once a part of Ultima - or Hektor - Skamandrios was spat off in the collision that formed the Hektor-Ultima contact binary. Skamandrios is inexplicably stable in spite of its eccentricity. It ducks byorp by nature of chaotic rotation, weaves through kozai and lidov by precessing fast enough so that it averages out, while at the same time not being too close to hektor to suffer the e-pumping gravitational anomalies of hektor's variable geometry, and evading the exponential fate of tidal dissipation by 30 billion years.",,,,,
+sol_agammemnon,,,,,,,
+sol_patroclus,,,,,,,
+sol_menoetius,,,,,,,
+sol_peleus,,,,,,,
+,,,,,,,
+sol_enceladus,CUSTOM,"Enceladus was the first world to have alien cellular life discovered; for this, it was celebrated. Until the settlement of Saturn, when the spores of life not our own became too dangerous to have gushing into orbit, where a colony could get hopelessly contaminated, or a passing ship could carry a seed to Earth. The risk of competing with some indigestible microbe, plus the accompanying prion vectors, was too great. Unlike standard Domain sterilization procedures, however, Enceladus was botched by a crude series of bioweapons, which, while they successfully resolved Enceladus' wayward life problem, left the subsurface oceans an irreversibly toxic congealed mess.
+
+Automated systems on the southern hemisphere still carry out their duty of venting detoxified water, none the wiser that toxic cryovolcanism is a hazard beneath consideration in post-collapse Sol.",,,,,
+sol_methone,CUSTOM,"For every brief definition, there is an exception. Methone is one of them. When the iconoclast astronomical union surrendered to the Sternists, items 2 and 3 of the antiplutonic decree were dropped. At the later Council of Palomar, planets became anything with a hydrostatic equilibrium shape (so as not to disqualify Mercury) and differentiated layers. 
+
+Then came the revelation that the fluidesque dust pile that comprises most of Methone had a core of rocky dust surrounded by icy dust, and the iconoclast astronomical union, not wanting to cause another schism, quietly slipped the 4km moonlet into the list of planets, though always at the bottom.",,,,,
+sol_kiviuq,,,,,,,
+sol_albiorix,,,,,,,
+sol_siarnaq,,,,,,,
+sol_calypso,,,,,,,
+sol_telesto,,,,,,,
+sol_helene,,,,,,,
+sol_polydeuceus,,,,,,,
+sol_atlas,,,,,,,
+sol_pan,,,,,,,
+sol_epimetheus,,,,,,,
+sol_prometheus,,,,,,,
+sol_janus,,,,,,,
+sol_mimas,,,,,,,
+sol_tethys,,,,,,,
+sol_hyperion,CUSTOM,"By far the most banal and abhorrent object in the solar system, Hyperion carries a loathsome aura of utter uselessness. From its extremely low density to the fact that it's just ice to the bipolar randomness of its rotation to its sad eccentricity, making it an awkward inner irregular, you couldn't imagine a worse object if you tried.
+
+Looking at it makes you want to claw your eyes out and vomit, so you try to consider cooler planets, like ones beyond the orbit of Neptune.
+
+Luckily Hyperion lacks all signs of human influence. You can't imagine living with yourself if it came to touching such a disgusting body - or worse still - living on it. 
+
+You shudder and move on. This time, for good.",,,,,
+sol_dione,,,,,,,
+sol_titan,,,,,,,
+sol_iapetus,,,,,,,
+sol_phoebe,,,,,,,
+sol_saturn,,,,,,,
+,,,,,,,
+sol_uo14,CUSTOM,"A solitary Trojan of Saturn, 2019 UO14 would have been ejected back into the chaos of Trans-Jovian space long ago if not for a tiny thruster diligently keeping it co-orbital with Saturn for thousands of years. 
+
+A resource extraction operation dots the equator, although, judging by the clear evidence of legal arbitration, a land dispute interrupted it long ago.",,,,,
+,,,,,,,
+sol_uranus,,,,,,,
+sol_cordelia,,,,,,,
+sol_ophelia,,,,,,,
+sol_bianca,,,,,,,
+sol_cressida,,,,,,,
+sol_desdemona,,,,,,,
+sol_juliet,,,,,,,
+sol_porta,,,,,,,
+sol_rosalind,,,,,,,
+sol_belinda,,,,,,,
+sol_puck,,,,,,,
+sol_mab,,,,,,,
+sol_miranda,,,,,,,
+sol_ariel,,,,,,,
+sol_umbriel,,,,,,,
+sol_titania,,,,,,,
+sol_oberon,,,,,,,
+sol_caliban,,,,,,,
+sol_sycorax,,,,,,,
+,,,,,,,
+sol_qf99,,,,,,,
+sol_yx49,,,,,,,
+,,,,,,,
+sol_neptune,,,,,,,
+sol_naiad,,,,,,,
+sol_thalassa,,,,,,,
+sol_despina,,,,,,,
+sol_galatea,,,,,,,
+sol_larissa,,,,,,,
+sol_proteus,,,,,,,
+sol_triton,CUSTOM,"Triton once drifted through the Kuiper in eternal matrimony with its binary companion. Such a peaceful life was not for it, however, as with Neptune's migration out, Triton was captured, and its partner - subjected to fates unknown. Ever since, Triton has raged against its captor, tacking against the grain of Neptune and Sol, stripping Neptune of its primary moons, and precessing like a float bobbing up and down.
+ 
+Triton has seen better days. Once a pre-FTL jewel of Sol, the invention of lightspeed travel emptied many of its ancient domes, before the remainder were abandoned post-collapse. Only a few humans, descendants of those left behind in ""the exodus"" call Triton home, sucking on the moisture, slime, and air under the broken domes and wispy clouds of a fading world.	",,,,,
+sol_nereid,,,,,,,
+sol_halimede,,,,,,,
+sol_neso,CUSTOM,"A barren chunk of ice. A solitary crater marks the northern hemisphere. Otherwise, Neso has been untouched over billions of years since its accretion, bar its capture by Neptune.
+
+Were primordial man to somehow emerge on a world such as Neso, the universe to them would be limited to Sol and its two pinpricks of light - Triton, and its eternally bound partner, which brightens and dims over the 26 years as Neso traverses from 0.14 to 0.52 AU on its glacial odyssey around its pinprick.",,,,,
+,,,,,,,
+sol_rw10,,,,,,,
+,,,,,,,l4 trojans
+sol_vx30,CUSTOM,"Bar the emergence of the medical officer, overexcited by the sound of ""VX"", preliminary surveys of 2013 VX30 were uneventful. The only thing of note is a capsule, solitary amid a plain devoid of cratering. Its occupant died before impact.",,,,,
+sol_qo441,CUSTOM,"2014 QO441 is an icy potato slowly drifting through interplanetary space, leading Neptune as it sine  waves above and below the ecliptic with a 19-degree inclination, librating left and right 8 degrees every 10,000 years. It has done this dance since life emerged on Earth, and barring interference, it will dance with Neptune till the collapse of Sol into a white dwarf and their coordinated stage exit from the solar system.",,,,,
+sol_en65,CUSTOM,"""New orders,"" said Neptune, coldly.
+
+""Yessir?"" 2010 EN65 snapped back, straightening into a plank under the sole attention of its commanding officer.
+
+""Rendezvous at L5 in a few thousand years, go via L3, and make the move look sharp. Don't. get distracted and become a horseshoe co-orbital, you hear me?"" Neptune read off, asking to ensure completion. It had enough co-orbital dipshits under its command, and bodies in resonance that merely pretended to follow orders, but the trojans, those were some of its best, and it would be a shame to lose one.
+
+""Aye, sir. L4 to L5, pass through L3, a few thousand years."" 2010 EN65 repeated back, for the comfort of Neptune.
+
+-Excerpt of conversation between Neptune and 2010 EN65 in: The Co-Orbital Crew, magnum opus of the infinite monkey entropic experiment, 5438.",,,,,
+sol_uv177,CUSTOM,2012 UV177 is so interesting that your science officer doesn't know where to start. Your security officer has to exit the bridge to disrupt an impromptu cult that formed in 2012 UV177's honor.,,,,,
+sol_clete,,,,,,,
+sol_ortrera,,,,,,,
+sol_wg157,,,,,,,
+sol_qr322,,,,,,,
+sol_rc158,,,,,,,
+sol_rj103,,,,,,,
+,,,,,,,l5 trojans
+sol_lc18,CUSTOM,"2008 LC18 is an irregularly shaped trojan of Neptune that rebelliously follows the gas giant at high eccentricity and inclination. From afar, the lack of cratering, owing to the low impact speed and infrequent impacts that typify the Kuiper, makes 2008 LC18 look like a bad 3D model.",,,,,
+sol_kv18,CUSTOM,"2004 KV18 may obey the marching orders of Neptune as its L5 trojan for now, but it is too eccentric and inclined to stay with Neptune for long. It will soon lose its co-orbital status and wander the interplanetary void as yet another icy chunk among the thousands like it.
+
+A giant prospecting ship drifts in orbit, its drones dutifully having stripped the surface into giant conical piles. Something went wrong, however, as the drones now cross a mechanically precise sphere, only to take material out of one pile and put it in another with no apparent reason behind their actions.",,,,,
+sol_polyso,,,,,,,
+,,,,,,,
+sol_67p,,,,,,,
+sol_1p,,,,,,,
+sol_109p,,,,,,,
+sol_2p,,,,,,,
+sol_9p,,,,,,,
+sol_81p,,,,,,,
+sol_19p,,,,,,,
+sol_103p,,,,,,,
+,,,,,,,
+sol_chariklo,,,,,,,
+sol_chiron,,,,,,,Astrological cultists
+sol_echeclus,CUSTOM,"Lodged between the giants of Saturn and Jupiter, Echeclus has the high instability and ultimate doom of blazing a brilliant death in inner Sol or the logarithmic marathon to 3k in interstellar space that typifies the centaurs. 
+
+Echeclus seems especially unstable, as unlike many of its centaur bedfellows, which exhibit cometary behavior at perihelion, Echeclus fires off its stocks of volatiles in defiance of square-cube and thermodynamics, at random, near its average distance from Sol.",,,,,
+sol_bienor,,,,,,,
+sol_pholus,,,,,,,
+sol_damocles,,,,,,,
+sol_typhon,,,,,,,
+sol_echidna,,,,,,,
+sol_ceto,CUSTOM,"Some binary rock. You would think Ceto an object of ignorance, yet it bears the scars of some ancient, epic duel between it and it's partner.
+
+Across much of the surface, the words ""Ceto is a Centaur"" have been engraved. In the gaps between immense craters, that is.",,,,,
+sol_phorcys,CUSTOM,"Some binary rock. You would think Phorcys an object of ignorance, yet its partner has been beaten and battered beyond all reason.
+
+A giant fortress, long abandoned, stands tall on Phorcys' ceto-facing antipode. It bears a great flag, somehow waving, that boldly proclaims to all that bear witness that Phorcys is a Trans-Neptunian Object. The sight of it fills your bridge crew with some deep inspiration, even if no-ones entirely sure what its saying.",,,,,
+,,,,,,,
+sol_pluto,,,,,,,
+sol_charon,,,,,,,
+sol_nix,,,,,,,
+sol_styx,,,,,,,
+sol_kerberos,,,,,,,
+sol_hydra,,,,,,,
+sol_arawn,CUSTOM,"A contact binary and a quasi-moon, even if coincidental, Arawn acts as yet another retainer to Pluto's entourage. 
+
+While a quasi-moon is nothing but a fiction, like recognises like, and therefore Arawn was successfully claimed by the administration on Charon, denied its procedural autonomy by the domain. It seems to have boasted a sizeable population prior to the collapse, with the supersized shells of what once was a fuel depot for a domain fleet guarding the Pluto-Charon region from several millennia's worth of exiles and dissidents that accreted in the Oort.
+
+Fortunately for Arawn, the fuel was emptied the slow way, little consolation for the frozen bodies that line its tunnels, however.",,,,,
+,,,,,,,
+sol_orcus,,,,,,,THE ANTIPLUTO
+sol_vanth,,,,,,,
+,,,,,,,
+sol_ixion,,,,,,,
+,,,,,,,
+sol_huya1,,,,,,,
+sol_huya2,CUSTOM,"Huya II orbits a dwarf planet of comparatively regular shape, and makes up roughly a tenth of the Huya system's volume. More responsible binary colleagues have settled down and entered synchronocity and mutual locking with their primaries. Huya II, on the other hand, precesses like an irregular on hard stimulants, never settling on a longitude ascending or an argument of pericenter.
+
+Huya II only bears the marks of surveying equipment, having been passed up by settlement as just another post-collision rubble pile. With hyperspace, however, the status of Huya II probably changed, because Huya II fell so far below what is economical; it likely had its survey data wiped to free up space.",,,,,
+,,,,,,,
+sol_paha,CUSTOM,"The third body of the Lempo-Hiisi system. Highly eccentric and with a short period, its orbit alone is anomalous. When considering the similar-mass, short-period, ecliptic binary that's its parent, Paha becomes improbable.",,,,,
+sol_hiisi,CUSTOM,"The co-parent of Lempo-Hiisi, the system that shouldn't exist, should be unstable in several ways, but isn't. Before its collapse, a cult had claimed Hiisi as home; their teachings - that Lempo-Hiisi-Paha's existence is clear evidence of God - remain in each vacuum-preserved book and speaker silenced by decompression.",,,,,
+sol_lempo,CUSTOM,"The largest body in the improbably unique Lempo-Hiisi-Paha system, Lempo, contains a moderately sized series of settlements belonging to some cult headquartered on Hiisi, along with a post hailing to the domain seemingly intended to keep an eye on activity. Sometime around the collapse, the post and settlements were destroyed, leaving who started a question for god.",,,,,
+,,,,,,,
+sol_achlys,,,,,,,
+,,,,,,,
+sol_haumea,,,,,,,
+sol_namaka,CUSTOM,"Namaka is a moderately sized fragment of ice that spun off from a sundered Haumea as the icy body spun at a speed beyond its Roche limit and spattered pieces across the outer solar system. It has an eccentric orbit, which it has stubbornly held despite eons of orbiting the most oblate of spheroids.
+
+Today, Namaka is notable for the blasted shells of what once comprised the administrative and military heart of the Haumean system. With electronic infrastructure miraculously serviceable, data recovery indicates destruction pre-collapse, which raises the question: how was Namaka hit, why wasn't it recovered, and where are the signs of battle?",, ,,,
+sol_hiiaka,CUSTOM,"Hiiaka is Namaka's more normal twin, spun off from the Trans-Neptunian womb that was proto-Haumea. Despite Hiiaka's size, it isn't in hydrostatic equilibrium, owing to it being almost as detestably porous as Hyperion.",,,,,
+,,,,,,,
+sol_makemake,,,,,,,
+sol_mk2,CUSTOM,"A fairly standard ice potato in orbit of Makemake, bar its dark color. A hulking survey station stands vigil over the Domain's abandoned intentions for MK 2, and the now-silent Makemake. 
+ 
+Your comms officer blurts, ""What happened to the original?""	",,,,,
+,,,,,,,
+sol_quaoar,,,,,,,
+sol_weywot,CUSTOM,"The moon of Quaoar. The only moon. With no other. It is dark and is responsible for resonance with the rings of Quaoar. You try to focus on that, to avoid the insanity at the edge of your mind. 
+
+""There is no second moon of Quaoar with a 2:7 resonance with Weywot, and there never was."" Your science officer states.
+You don't remember asking, but the words are a salve nonetheless.",,,,,
+,,,,,,,
+sol_varda,,,,,,,
+sol_ilmare,,,,,,,
+,,,,,,,
+sol_varuna,CUSTOM,"A nascent Varuna, like many of the Jacobi ellipsoids, avoided the disintegration of Opis by stretching out, slowing its rotational period, and evading the critical ratio. Judging by the many folds in the ice, only concealed by a dusting of organic compounds, the process was immensely energetic.
+
+ Were Opis given a thousand years, it would have joined Varuna. As domain superweapons are more impatient, Opis had no chance.",,,,,
+,,,,,,,
+sol_salacia,,,,,,,
+sol_actea,,,,,,,
+,,,,,,,
+sol_ritona,,,,,,,
+,,,,,,,
+sol_uni,,,,,,,
+sol_tinia,,,,,,,
+,,,,,,,
+sol_aya,,,,,,,
+,,,,,,,
+sol_goibniu,,,,,,,deimos gets a planet and goibniu does not (largest nonmarket)
+,,,,,,,
+sol_mani,CUSTOM,"Mani would be a real planet, in hydrostatic equilibrium and with differentiated layers, if not for the giant impact on its northern hemisphere that gave it the tallest mountain in the solar system. That, however, is only according to the definition of a mountain as any protrusion from a plane. If you care about formation, it isn't. 
+One thing, however, is certain. If you consider Vesta's mountain a mountain, Mani's counts too and is higher.
+If you consider one end of a contact binary a mountain you need therapy, but in that case Chaos or Hektor probably has the highest mountain.",,,,,TODO
+,,,,,,,
+sol_arrokoth,,,,,,,
+,,,,,,,
+sol_sila,,,,,,,
+sol_nunam,,,,,,,
+,,,,,,,
+sol_borasisi,CUSTOM,"A large chunk of ice that would otherwise be unremarkable if it weren't highly eccentric with its binary, Borasisi. However, to remain in the configuration it has, over the billions of years Borasisi and Pabu have been married; Borasisi has a very long orbital period.",,,,,
+sol_pabu,CUSTOM,"A large chunk of ice that would otherwise be unremarkable if it weren't highly eccentric with its binary, Pabu. However, to remain in the configuration it has, over the billions of years Borasisi and Pabu have been married; Pabu has a very long orbital period.",,,,,
+,,,,,,,
+sol_altjira1-3,,,,,,,uncertainty
+,,,,,,,
+sol_albion,CUSTOM,"""Before there were many, there was 1992 QB1. And god saw 1992 QB1 was good. So, on the 42nd day, god said, 'Let there be Cubewanos and let them be hot and let them be cold.' And so there was, and it was great."" 
+-The astronomically comprehensive bible, Firmament Ed., Alhazred et Al., 2243.
+
+1992 QB1 is now Albion, but the random circumstance of the fortnight of its discovery and the resulting QB1 designation now echo whenever someone says cubewano or q-b-1-o.",,,,,
+,,,,,,,
+sol_eris,,,,,,,
+sol_dysnomia,,,,,,,
+,,,,,,,
+sol_gonggong,,,,,,,
+sol_xiangliu,CUSTOM,"A large chunk of ice in orbit of Gonggong, Xiangliu, despite its size, seems to be untouched by humanity, bar a plaque that says: ""on October 17th, 2016, Xiangliu was discovered after researchers noticed an abnormally slow rotational period in Gonggong and theorised that a moon was responsible."" Attached to the plaque are images of Gonggong from 2010 that clearly show a moon. 
+
+A piece of graffiti nearby states: ""I struggle to understand how such a large moon could be missed until measuring something as precise as the rotational period. Shouldn't it burn bright on the very first light curve?""",,,,,revise?
+,,,,,,,
+sol_gkunlhomdima,,,,,,,unpronounceable
+sol_goehu,,,,,,,repreive
+,,,,,,,
+sol_chiminigagua,,,,,,,
+sol_minigagua,,,,,,,
+,,,,,,,
+sol_chaos,,,,,,,
+,,,,,,,
+sol_dziewanna,,,,,,,
+,,,,,,,
+sol_sedna,CUSTOM,"Sedna lies near stationary at the interstitial plane between Sol and the endless Oort. The only evidence that Sedna was ever inhabited being a series of transient surveillance posts and an unnatural amount of cratering in the 10,000-year night of its southern hemisphere. Further investigation of the cratering has revealed debris long since rendered useless, and an insignia that your tri-pad identifies only by its frantic attempts to contact authorities.",,,,,
+,,,,,,,
+sol_the_goblin,,,,,,,
+,,,,,,,
+sol_biden,CUSTOM,"You didn't know you could feel such fear, yet upon sight of Biden, an indescribable terror dating to the racial memory of proto-man on the savanna, long burdened solemnly by your subconscious, resurfaces.
+
+That instinct, that fear of what goes bump in the night, the deep suspicion of what seems human, but isn't, the capability of the mind to forget. You now know why they exist, and wish you didn't.",,,,,lovecraft series
+sol_biden_beacon,CUSTOM,"A fully autonomous warning beacon. It currently broadcasts a garbled, incoherent transmission. Closer inspection yields a maddening suspicion that it has been damaged by bite marks.",,,,,lovecraft series
+,,,,,,,
+sol_farout,,,,,,,
+,,,,,,,
+sol_farfarout,,,,,,,dstance
+,,,,,,,
+sol_deedee,CUSTOM,"DeeDee lies at the very edge of what was once civilized space. It boasts the shell of a military station, presumably built to guard the state that unified humanity and the galaxy from those in the night who would beg to differ.
+
+Its guard thoroughly packed their bags, stripping DeeDee of anything of use before cruising sunwards, or elsewhere, depending on the extent of Sol's deterioration at the time of departure.",,,,,
+,,,,,,,
+sol_buffy,,,,,,,vampires least of worries
+,,,,,,,
+sol_alicanto,CUSTOM,"On approach, Alicanto showed signs of activity, however, now that you're here, it's as dead as a rock can be, with only the radioactive decay of natural isotopes detected. 
+
+Although the landscape lacks structures, your science officer insists that much of the geology can only be explained through human interference.
+
+Someone must've cleaned up quickly.",,,,,
+,,,,,,,
+sol_cashew,CUSTOM,"With the immaterial light that reaches it, Cashew must be observed with the aid of a flashlight. Once  illuminated, Cashew's only notable feature is a graveyard filled with the mutilated husks of a domain detachment. While most of what could be called ships are stripped to the point of being indecernible, the outer hull of a legion rests carefully atop the mass grave. Some unknown insignia appear several times amidst the wreckage, which your tri-pad fails to recognize.
+
+The monument stands as a challenge from some group out there, believing itself beyond the domain's reproach. Whether their cities still lie in the eternal darkness or some expedition resolved their existence long ago remains unknown. ",,,,,
+,,,,,,,
+sol_burns,CUSTOM,"Despite its distance and size, Burns-Caulfield boasts an iron core. Your science officer would think Burns-Caulfield was the remnant of some aborted planet, if not for their strange suspicion that it didn't belong.",,,,,
+sol_zx30,CUSTOM,"For scraping the oort, 1999 ZX30 has a lot of uranium. Your science officer, however, seems more concerned that 1999 ZX30 is not a valid designation.",,,,,
