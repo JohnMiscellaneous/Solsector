@@ -2981,7 +2981,7 @@ if(!uranusShortlist){
     // Francisco
     SectorEntityToken Francisco = calc.spawnIrregularBody2(system, Uranus, "Francisco", "Francisco", "moon", showNameMinor, 22.0f, 0.028581f, 0.144f, 288.4f, 137.6f, 2000.207f, zeroDegGlobal, null, 0.00004366f, "Uranus", true);
     // S/2023 U1
-    SectorEntityToken S2023_U1 = calc.spawnIrregularBody2(system, Uranus, "S2023_U1", "S/2023 U 1", "moon", showNameProv, 8.0f, 0.05332f, 0.25f, 101.8f, 158.7f, 2001.348f, zeroDegGlobal, null, 0.00004366f, "Uranus", true);
+    SectorEntityToken S2023_U1 = calc.spawnIrregularBody2(system, Uranus, "S2023_U1", "S2023_U1", "moon", showNameProv, 8.0f, 0.05332f, 0.25f, 101.8f, 158.7f, 2001.348f, zeroDegGlobal, null, 0.00004366f, "Uranus", true);
 }
 
 // =========================================================================
@@ -3224,18 +3224,14 @@ if(!neptuneShortlist){
 // =========================================================================
 // ========================== NEPTUNE TROJANS ==============================
 // =========================================================================
-float p_Nep_Trojan = p_Neptune; 
-// IRL they librate every 10,000 years or something ridiculous like that. 
-float nep_AU = (calc.getDist(31.07f, star) - dist_Neptune) * 3; 
 
 // -------------------------------------------------------------------------
 // NEPTUNE QUASI-MOON
 // -------------------------------------------------------------------------
 
-// 2007 RW10 | 250 km | Neptune quasi-satellite, largest known co-orbital in the solar system
-// a=30.337 AU, e=0.298, captured object, ~25kyr lifespan as quasi-satellite
-SectorEntityToken RW10 = calc.spawnSPSObject2(system, star, "2007 RW10", "2007 RW10", "asteroid", showNameProv, 250f, 30.3368f, 0.2977f, 187.028f, 96.729f, 1985.29f, zeroDegGlobal, null, 1f, p_Neptune, dist_NeptuneRaw);
-RW10.setCustomDescriptionId("sol_rw10");
+// 2007 RW10 | largest known co-orbital in the solar system
+SectorEntityToken RW10 = calc.spawnSPSObject2(system, star, "2007 RW10", "2007 RW10", "asteroid", showNameProv, 250f, 30.3368f, 0.2977f, 187.028f, 96.729f, 1985.29f, zeroDegGlobal, null, 1f, p_Neptune, dist_NeptuneRaw); // 
+RW10.setCustomDescriptionId("sol_rw10"); 
 
 // -------------------------------------------------------------------------
 // NEPTUNE L4 (Leading +60)
@@ -3298,7 +3294,7 @@ QO441.setCustomDescriptionId("sol_qo441");
 // 2006 RJ103 | 120 km
 SectorEntityToken RJ103 = calc.spawnSPSObject2(system, star, "2006 RJ103", "2006 RJ103", "asteroid", showNameProv, 120f, 30.2174f, 0.0320f, 120.933f, 17.062f, 2060.01f, zeroDegGlobal, null, 1f, p_Neptune, dist_NeptuneRaw);
 SectorEntityToken cryo = system.addCustomEntity(null, null, "derelict_cryosleeper", "neutral");
-cryo.setCircularOrbitWithSpin(RJ103, 150, 1000, p_Nep_Trojan, 0,-50);
+cryo.setCircularOrbitWithSpin(RJ103, 150, 1000, p_Neptune, 0,-50);
 cryo.setDiscoverable(true);
 cryo.setSensorProfile(4000f);
 
@@ -3698,7 +3694,7 @@ float map_1AU_at_Pluto = calc.getDist(40, star) - calc.getDist(39f, star);
 
 // Arawn | 142 km | quasi-satellite of Pluto
 // ignore the lies that say arawn is no quasi moon
-SectorEntityToken Arawn = calc.spawnSPSObject2(system, star, "Arawn", "Arawn", "asteroid", showNameMinor, 142f, 39.2077f, 0.1141f, 144.743f, 101.223f, 1995.58f, zeroDegGlobal, null, 1f, p_Pluto, dist_PlutoRaw);
+SectorEntityToken Arawn = calc.spawnSPSObject2(system, star, "Arawn", "Arawn", "custom_entity", "Arawn", 142f, 39.2077f, 0.1141f, 144.743f, 101.223f, 1995.58f, zeroDegGlobal, null, 1f, p_Pluto, dist_PlutoRaw);
 Arawn.setCustomDescriptionId("sol_arawn");
 
 float p_OrcusVanth = calc.getTime(9.5f);
@@ -4441,19 +4437,44 @@ Albion.setCustomDescriptionId("sol_albion");
 
 
 if(!transNeptuneShortlist){
-    // Logos - Zoe | Eccentric binary | Tiny | Named
+    // Thirouin, Noll, Grundy, Sheppard, Escarzaga, Donnelly (2025, PSJ):
+    // Four ish bodies
+    // Logos binary
+    // Zoe contact binary
     float logosDistDiv = 6f;
-    SectorEntityToken LogosBarycenter = calc.spawnSPSObject(system, star, "logos_barycenter", "Logos System Barycenter", "custom_entity", "empty", 1f, 39.68f, 0.12275f, 132.51f, 336.06f, 1965.88f, zeroDegGlobal, null, 1f);
+    SectorEntityToken LogosBarycenter = calc.spawnSPSObject(system, star,
+        "logos_barycenter", "Logos System Barycenter", "custom_entity", "empty",
+        1f, 39.68f, 0.12275f, 132.51f, 336.06f, 1965.88f, zeroDegGlobal, null, 1f);
 
-    float sz_Logos = calc.getSize(77f);
+    float sz_LogosAa = calc.getSize(80f);
+    float sz_LogosAb = calc.getSize(67f); 
+    float sz_LogosCombined = calc.getSize(77f);
     float sz_Zoe   = calc.getSize(66f);
-    float periodLogsRaw = 309.87f / calc.distDToPeriodD(logosDistDiv); 
 
-    SectorEntityToken[] logosBinary = calc.spawnEllipticalBinary(system, LogosBarycenter,"logos", "Logos", sz_Logos, "asteroid", showNameMinor, "zoe",   "Zoe",   sz_Zoe,   "asteroid", showNameMinor, sz_Logos * 120f / logosDistDiv, 0.5463f, calc.getTime(periodLogsRaw), 0f);
+    float periodLogosRaw = 309.87f / calc.distDToPeriodD(logosDistDiv);
+    float periodLogosInner = calc.getTime(0.5f);
 
-    SectorEntityToken Logos = logosBinary[0];
-    SectorEntityToken Zoe   = logosBinary[1];
+    if (speculativeBodies) {
+        SectorEntityToken[] logosOuter = calc.spawnEllipticalBinary(system, LogosBarycenter,
+            "logos_inner_barycenter", null, sz_LogosCombined, "custom_entity", "empty",
+            "zoe", "Zoe", sz_Zoe, "custom_entity", "Zoe",
+            sz_LogosCombined * 120f / logosDistDiv, 0.5463f, calc.getTime(periodLogosRaw), 0f);
+
+        SectorEntityToken logosInnerBarycenter = logosOuter[0];
+        SectorEntityToken Zoe = logosOuter[1];
+
+        calc.spawnMoon(system, logosInnerBarycenter, "Logos",    sz_LogosAa, sz_LogosAa * 1.5f, periodLogosInner, 0f,   showMinorNames);
+        calc.spawnMoon(system, logosInnerBarycenter, "Logos Beta", sz_LogosAb, sz_LogosAa * 1.5f, periodLogosInner, 180f, showProvisionalNames);
+    } else {
+        SectorEntityToken[] logosBinary = calc.spawnEllipticalBinary(system, LogosBarycenter,
+            "logos", "Logos", sz_LogosCombined, "asteroid",      showNameMinor,
+            "zoe",   "Zoe",   sz_Zoe,           "custom_entity", "Zoe",
+            sz_LogosCombined * 120f / logosDistDiv, 0.5463f, calc.getTime(periodLogosRaw), 0f);
+
+        SectorEntityToken Logos = logosBinary[0];
+        SectorEntityToken Zoe   = logosBinary[1];
     }
+}
 
 // =========================================================================
 // ==================== 8. RESONANT SDOs (High Order) ======================
@@ -4884,15 +4905,16 @@ Cashew.setCustomDescriptionId("sol_cashew");
 // --- Extreme Detached / Oort ---
 
 if(!transNeptuneShortlist){
+    float safeAdjustment = .01f;
     // 2021 RR205 
     SectorEntityToken RR205 = calc.spawnSPSObject(system, star, "RR205", "2021 RR205", "asteroid", showNameProv, 200f, 980.3652f, 0.9433f, 108.455f, 208.709f, 1991.84f, zeroDegGlobal, null, 1f);
     // 2014 FE72
-    SectorEntityToken FE72 = calc.spawnSPSObject(system, star, "FE72", "2014 FE72", "asteroid", showNameProv, 250f, 2506.4550f, 0.9856f, 336.768f, 133.900f, 1965.90f, zeroDegGlobal, null, 1f);
+    SectorEntityToken FE72 = calc.spawnSPSObject(system, star, "FE72", "2014 FE72", "asteroid", showNameProv, 250f, 2506.4550f, 0.9856f -.01f, 336.768f, 133.900f, 1965.90f, zeroDegGlobal, null, 1f);
     // 2010 GB174
     SectorEntityToken GB174 = calc.spawnSPSObject(system, star, "GB174", "2010 GB174", "asteroid", showNameProv, 220f, 356.7212f, 0.8642f, 130.590f, 347.268f, 1951.83f, zeroDegGlobal, null, 1f);
     // 2019 EU5 | 200 km 
     calc.spawnSPSObject(system, star, "2019 EU5", "2019 EU5", "asteroid", showNameProv, 200f, 1281.294f, 0.9633f, 109.140f, 108.911f, 2101.25f, zeroDegGlobal, null, 1f);
-    // 2012 DR30 | (crosses inside Saturn!) <- Damn that's crazy, guess that's why they call them "Damn-ocloids"
+    // 2012 DR30 | <- consider: Long period comet?
     calc.spawnSPSObject(system, star, "2012 DR30", "2012 DR30", "asteroid", showNameProv, 180f, 944.778f, 0.9846f, 341.393f, 195.135f, 2011.19f, zeroDegGlobal, null, 1f);
     // 2015 KG163 | 150 km
     calc.spawnSPSObject(system, star, "2015 KG163", "2015 KG163", "asteroid", showNameProv, 150f, 628.601f, 0.9356f, 219.152f, 31.972f, 2022.43f, zeroDegGlobal, null, 1f);
@@ -4902,6 +4924,19 @@ if(!transNeptuneShortlist){
     calc.spawnSPSObject(system, star, "2013 RF98", "2013 RF98", "asteroid", showNameProv, 120f, 382.658f, 0.9055f, 67.657f, 312.289f, 2010.07f, zeroDegGlobal, null, 1f);
     // 2010 VZ98
     SectorEntityToken VZ98 = calc.spawnSPSObject(system, star, "VZ98", "2010 VZ98", "asteroid", showNameProv, 500f, 159.8368f, 0.7851f, 117.442f, 313.736f, 2027.86f, zeroDegGlobal, null, 1f);
+    calc.spawnSPSObject(system, star, "2013 BL76", "2013 BL76", "asteroid", showNameProv, 40f, 1261.9378f, 0.9933f - safeAdjustment, 180.183f, 166.318f, 2012.819f, zeroDegGlobal, null, 1f);
+    // 2006 SQ372
+    calc.spawnSPSObject(system, star, "2006 SQ372", "2006 SQ372", "asteroid", showNameProv, 140f, 839.2765f, 0.9711f, 197.375f, 122.647f, 2006.640f, zeroDegGlobal, null, 1f);
+    // 2013 SY99
+    calc.spawnSPSObject(system, star, "2013 SY99", "2013 SY99", "asteroid", showNameProv, 250f, 839.9317f, 0.9406f, 29.519f, 32.206f, 2054.973f, zeroDegGlobal, null, 1f);
+    // 2021 DK18
+    calc.spawnSPSObject(system, star, "2021 DK18", "2021 DK18", "asteroid", showNameProv, 170f, 836.2080f, 0.9467f, 322.273f, 234.370f, 2078.633f, zeroDegGlobal, null, 1f);
+    // 2000 OO67
+    calc.spawnSPSObject(system, star, "2000 OO67", "2000 OO67", "asteroid", showNameProv, 64f, 617.9451f, 0.9663f, 142.383f, 212.721f, 2005.351f, zeroDegGlobal, null, 1f);
+    // 2007 TG422
+    calc.spawnSPSObject(system, star, "2007 TG422", "2007 TG422", "asteroid", showNameProv, 222f, 567.7505f, 0.9373f, 112.959f, 285.923f, 2005.929f, zeroDegGlobal, null, 1f);
+    // 2013 RA109 
+    calc.spawnSPSObject(system, star, "2013 RA109", "2013 RA109", "asteroid", showNameProv, 200f, 491.3236f, 0.9062f, 104.901f, 263.143f, 2007.659f, zeroDegGlobal, null, 1f);
 }
 
 // =========================================================================

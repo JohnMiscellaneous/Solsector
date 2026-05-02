@@ -90,7 +90,7 @@ float timeLinMod = 1f; float giantTimeLinMod = 1f;
 float sizeLinMod = 1f; 
 
 float rotMult = 4f;
-float currentYear = 9995f; 
+float currentYear = 2000f; 
 boolean occultOrbitBeta = true;
 float progradeMult = -1f;
 
@@ -6209,15 +6209,16 @@ Cashew.setCustomDescriptionId("sol_cashew");
 // --- Extreme Detached / Oort ---
 
 if(!transNeptuneShortlist){
+    float safeAdjustment = .01f;
     // 2021 RR205 
     SectorEntityToken RR205 = calc.spawnSPSObject(system, star, "RR205", "2021 RR205", "asteroid", showNameProv, 200f, 980.3652f, 0.9433f, 108.455f, 208.709f, 1991.84f, zeroDegGlobal, null, 1f);
     // 2014 FE72
-    SectorEntityToken FE72 = calc.spawnSPSObject(system, star, "FE72", "2014 FE72", "asteroid", showNameProv, 250f, 2506.4550f, 0.9856f, 336.768f, 133.900f, 1965.90f, zeroDegGlobal, null, 1f);
+    SectorEntityToken FE72 = calc.spawnSPSObject(system, star, "FE72", "2014 FE72", "asteroid", showNameProv, 250f, 2506.4550f, 0.9856f -.01f, 336.768f, 133.900f, 1965.90f, zeroDegGlobal, null, 1f);
     // 2010 GB174
     SectorEntityToken GB174 = calc.spawnSPSObject(system, star, "GB174", "2010 GB174", "asteroid", showNameProv, 220f, 356.7212f, 0.8642f, 130.590f, 347.268f, 1951.83f, zeroDegGlobal, null, 1f);
     // 2019 EU5 | 200 km 
     calc.spawnSPSObject(system, star, "2019 EU5", "2019 EU5", "asteroid", showNameProv, 200f, 1281.294f, 0.9633f, 109.140f, 108.911f, 2101.25f, zeroDegGlobal, null, 1f);
-    // 2012 DR30 | (crosses inside Saturn!) <- Damn that's crazy, guess that's why they call them "Damn-ocloids"
+    // 2012 DR30 | <- consider: Long period comet?
     calc.spawnSPSObject(system, star, "2012 DR30", "2012 DR30", "asteroid", showNameProv, 180f, 944.778f, 0.9846f, 341.393f, 195.135f, 2011.19f, zeroDegGlobal, null, 1f);
     // 2015 KG163 | 150 km
     calc.spawnSPSObject(system, star, "2015 KG163", "2015 KG163", "asteroid", showNameProv, 150f, 628.601f, 0.9356f, 219.152f, 31.972f, 2022.43f, zeroDegGlobal, null, 1f);
@@ -6227,6 +6228,19 @@ if(!transNeptuneShortlist){
     calc.spawnSPSObject(system, star, "2013 RF98", "2013 RF98", "asteroid", showNameProv, 120f, 382.658f, 0.9055f, 67.657f, 312.289f, 2010.07f, zeroDegGlobal, null, 1f);
     // 2010 VZ98
     SectorEntityToken VZ98 = calc.spawnSPSObject(system, star, "VZ98", "2010 VZ98", "asteroid", showNameProv, 500f, 159.8368f, 0.7851f, 117.442f, 313.736f, 2027.86f, zeroDegGlobal, null, 1f);
+    calc.spawnSPSObject(system, star, "2013 BL76", "2013 BL76", "asteroid", showNameProv, 40f, 1261.9378f, 0.9933f - safeAdjustment, 180.183f, 166.318f, 2012.819f, zeroDegGlobal, null, 1f);
+    // 2006 SQ372
+    calc.spawnSPSObject(system, star, "2006 SQ372", "2006 SQ372", "asteroid", showNameProv, 140f, 839.2765f, 0.9711f, 197.375f, 122.647f, 2006.640f, zeroDegGlobal, null, 1f);
+    // 2013 SY99
+    calc.spawnSPSObject(system, star, "2013 SY99", "2013 SY99", "asteroid", showNameProv, 250f, 839.9317f, 0.9406f, 29.519f, 32.206f, 2054.973f, zeroDegGlobal, null, 1f);
+    // 2021 DK18
+    calc.spawnSPSObject(system, star, "2021 DK18", "2021 DK18", "asteroid", showNameProv, 170f, 836.2080f, 0.9467f, 322.273f, 234.370f, 2078.633f, zeroDegGlobal, null, 1f);
+    // 2000 OO67
+    calc.spawnSPSObject(system, star, "2000 OO67", "2000 OO67", "asteroid", showNameProv, 64f, 617.9451f, 0.9663f, 142.383f, 212.721f, 2005.351f, zeroDegGlobal, null, 1f);
+    // 2007 TG422
+    calc.spawnSPSObject(system, star, "2007 TG422", "2007 TG422", "asteroid", showNameProv, 222f, 567.7505f, 0.9373f, 112.959f, 285.923f, 2005.929f, zeroDegGlobal, null, 1f);
+    // 2013 RA109 
+    calc.spawnSPSObject(system, star, "2013 RA109", "2013 RA109", "asteroid", showNameProv, 200f, 491.3236f, 0.9062f, 104.901f, 263.143f, 2007.659f, zeroDegGlobal, null, 1f);
 }
 
 // =========================================================================
