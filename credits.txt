@@ -33,9 +33,10 @@ international space science institute - circumstellar
 Wikipedia (unnamed artist) - inter binary elevator
 ESA - Kessler syndrome
 Ruins image (ai_terminators) - The Russian Federation
-brimstone - unexploded ordnance image
 
 Misc:
 NASA, and ESA for their photography work.
-Also a bunch of observatories.
-Thank you Chad Trujillo for discovering and co-discovering like half the TNOs that made it in.
+Micheal Brown, Scott Sheppard, Chad Trujilio for thier contributions to trans-Neptunian astronomy
+JPL for their minor planets database and planetary satellite mean elements
+Johnston archive for the minor planet moons database
+All the other research, observation, and discourse that contributed to this.

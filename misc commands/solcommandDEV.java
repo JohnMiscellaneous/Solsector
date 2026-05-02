@@ -52,7 +52,6 @@ import com.fs.starfarer.api.EveryFrameScript;
 import org.json.JSONObject;
 import java.util.Random;
 
-import data.scripts.world.systems.SolDiscoveryListener;
 import data.scripts.world.systems.RemnantNexusFactory;
 import data.scripts.world.systems.SolEconomies;
 import data.scripts.world.systems.SolHyperspaceGen;
@@ -4529,18 +4528,14 @@ if(!neptuneShortlist){
 // =========================================================================
 // ========================== NEPTUNE TROJANS ==============================
 // =========================================================================
-float p_Nep_Trojan = p_Neptune; 
-// IRL they librate every 10,000 years or something ridiculous like that. 
-float nep_AU = (calc.getDist(31.07f, star) - dist_Neptune) * 3; 
 
 // -------------------------------------------------------------------------
 // NEPTUNE QUASI-MOON
 // -------------------------------------------------------------------------
 
-// 2007 RW10 | 250 km | Neptune quasi-satellite, largest known co-orbital in the solar system
-// a=30.337 AU, e=0.298, captured object, ~25kyr lifespan as quasi-satellite
-SectorEntityToken RW10 = calc.spawnSPSObject2(system, star, "2007 RW10", "2007 RW10", "asteroid", showNameProv, 250f, 30.3368f, 0.2977f, 187.028f, 96.729f, 1985.29f, zeroDegGlobal, null, 1f, p_Neptune, dist_NeptuneRaw);
-RW10.setCustomDescriptionId("sol_rw10");
+// 2007 RW10 | largest known co-orbital in the solar system
+SectorEntityToken RW10 = calc.spawnSPSObject2(system, star, "2007 RW10", "2007 RW10", "asteroid", showNameProv, 250f, 30.3368f, 0.2977f, 187.028f, 96.729f, 1985.29f, zeroDegGlobal, null, 1f, p_Neptune, dist_NeptuneRaw); // 
+RW10.setCustomDescriptionId("sol_rw10"); 
 
 // -------------------------------------------------------------------------
 // NEPTUNE L4 (Leading +60)
@@ -4603,7 +4598,7 @@ QO441.setCustomDescriptionId("sol_qo441");
 // 2006 RJ103 | 120 km
 SectorEntityToken RJ103 = calc.spawnSPSObject2(system, star, "2006 RJ103", "2006 RJ103", "asteroid", showNameProv, 120f, 30.2174f, 0.0320f, 120.933f, 17.062f, 2060.01f, zeroDegGlobal, null, 1f, p_Neptune, dist_NeptuneRaw);
 SectorEntityToken cryo = system.addCustomEntity(null, null, "derelict_cryosleeper", "neutral");
-cryo.setCircularOrbitWithSpin(RJ103, 150, 1000, p_Nep_Trojan, 0,-50);
+cryo.setCircularOrbitWithSpin(RJ103, 150, 1000, p_Neptune, 0,-50);
 cryo.setDiscoverable(true);
 cryo.setSensorProfile(4000f);
 
@@ -5003,7 +4998,7 @@ float map_1AU_at_Pluto = calc.getDist(40, star) - calc.getDist(39f, star);
 
 // Arawn | 142 km | quasi-satellite of Pluto
 // ignore the lies that say arawn is no quasi moon
-SectorEntityToken Arawn = calc.spawnSPSObject2(system, star, "Arawn", "Arawn", "asteroid", showNameMinor, 142f, 39.2077f, 0.1141f, 144.743f, 101.223f, 1995.58f, zeroDegGlobal, null, 1f, p_Pluto, dist_PlutoRaw);
+SectorEntityToken Arawn = calc.spawnSPSObject2(system, star, "Arawn", "Arawn", "custom_entity", "Arawn", 142f, 39.2077f, 0.1141f, 144.743f, 101.223f, 1995.58f, zeroDegGlobal, null, 1f, p_Pluto, dist_PlutoRaw);
 Arawn.setCustomDescriptionId("sol_arawn");
 
 float p_OrcusVanth = calc.getTime(9.5f);
@@ -5746,19 +5741,44 @@ Albion.setCustomDescriptionId("sol_albion");
 
 
 if(!transNeptuneShortlist){
-    // Logos - Zoe | Eccentric binary | Tiny | Named
+    // Thirouin, Noll, Grundy, Sheppard, Escarzaga, Donnelly (2025, PSJ):
+    // Four ish bodies
+    // Logos binary
+    // Zoe contact binary
     float logosDistDiv = 6f;
-    SectorEntityToken LogosBarycenter = calc.spawnSPSObject(system, star, "logos_barycenter", "Logos System Barycenter", "custom_entity", "empty", 1f, 39.68f, 0.12275f, 132.51f, 336.06f, 1965.88f, zeroDegGlobal, null, 1f);
+    SectorEntityToken LogosBarycenter = calc.spawnSPSObject(system, star,
+        "logos_barycenter", "Logos System Barycenter", "custom_entity", "empty",
+        1f, 39.68f, 0.12275f, 132.51f, 336.06f, 1965.88f, zeroDegGlobal, null, 1f);
 
-    float sz_Logos = calc.getSize(77f);
+    float sz_LogosAa = calc.getSize(80f);
+    float sz_LogosAb = calc.getSize(67f); 
+    float sz_LogosCombined = calc.getSize(77f);
     float sz_Zoe   = calc.getSize(66f);
-    float periodLogsRaw = 309.87f / calc.distDToPeriodD(logosDistDiv); 
 
-    SectorEntityToken[] logosBinary = calc.spawnEllipticalBinary(system, LogosBarycenter,"logos", "Logos", sz_Logos, "asteroid", showNameMinor, "zoe",   "Zoe",   sz_Zoe,   "asteroid", showNameMinor, sz_Logos * 120f / logosDistDiv, 0.5463f, calc.getTime(periodLogsRaw), 0f);
+    float periodLogosRaw = 309.87f / calc.distDToPeriodD(logosDistDiv);
+    float periodLogosInner = calc.getTime(0.5f);
 
-    SectorEntityToken Logos = logosBinary[0];
-    SectorEntityToken Zoe   = logosBinary[1];
+    if (speculativeBodies) {
+        SectorEntityToken[] logosOuter = calc.spawnEllipticalBinary(system, LogosBarycenter,
+            "logos_inner_barycenter", null, sz_LogosCombined, "custom_entity", "empty",
+            "zoe", "Zoe", sz_Zoe, "custom_entity", "Zoe",
+            sz_LogosCombined * 120f / logosDistDiv, 0.5463f, calc.getTime(periodLogosRaw), 0f);
+
+        SectorEntityToken logosInnerBarycenter = logosOuter[0];
+        SectorEntityToken Zoe = logosOuter[1];
+
+        calc.spawnMoon(system, logosInnerBarycenter, "Logos",    sz_LogosAa, sz_LogosAa * 1.5f, periodLogosInner, 0f,   showMinorNames);
+        calc.spawnMoon(system, logosInnerBarycenter, "Logos Beta", sz_LogosAb, sz_LogosAa * 1.5f, periodLogosInner, 180f, showProvisionalNames);
+    } else {
+        SectorEntityToken[] logosBinary = calc.spawnEllipticalBinary(system, LogosBarycenter,
+            "logos", "Logos", sz_LogosCombined, "asteroid",      showNameMinor,
+            "zoe",   "Zoe",   sz_Zoe,           "custom_entity", "Zoe",
+            sz_LogosCombined * 120f / logosDistDiv, 0.5463f, calc.getTime(periodLogosRaw), 0f);
+
+        SectorEntityToken Logos = logosBinary[0];
+        SectorEntityToken Zoe   = logosBinary[1];
     }
+}
 
 // =========================================================================
 // ==================== 8. RESONANT SDOs (High Order) ======================
@@ -6650,5 +6670,5 @@ mercuryWreck.setDiscoverable(true);
 SolHyperspaceGen.clearHyperspaceNebulaAroundSystem(system);
 
 if (isSettled) {
-    Global.getSector().getListenerManager().addListener(new SolDiscoveryListener(), true);
+new SolEconomies().generate(system); 
 }
