@@ -1,6 +1,4 @@
-package data.scripts.world.systems;
-
-import com.fs.starfarer.api.campaign.*;
+RunCode import com.fs.starfarer.api.campaign.*;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -56,29 +54,35 @@ import java.util.Random;
 
 import data.scripts.world.systems.RemnantNexusFactory;
 import data.scripts.world.systems.SolEconomies;
-import data.scripts.world.systems.SolDeferredSetupScript;
 import data.scripts.world.systems.SolHyperspaceGen;
 import data.scripts.world.systems.RemnantPatrolFactory;
-import data.scripts.world.systems.AstroCalc;
 import data.scripts.world.systems.GiantMoonsTotal;
 import data.scripts.world.systems.cometsCentaursTNOs;
+import data.scripts.world.systems.AstroCalc;
 
-public class SolTotal {
+StarSystemAPI system = (StarSystemAPI) Global.getSector().getPlayerFleet().getContainingLocation();
+SectorEntityToken player = Global.getSector().getPlayerFleet();
+SectorEntityToken star = system.getStar();
 
-public void generate(SectorAPI sector) {
+class Cleanup {
+    void cleanupSystem(StarSystemAPI system, SectorEntityToken keepStar, SectorEntityToken keepPlayer) {
+        List<SectorEntityToken> entities = new ArrayList<SectorEntityToken>(system.getAllEntities());
+        for (SectorEntityToken entity : entities) {
+            if (!entity.equals(keepStar) && !entity.equals(keepPlayer)) {
+                if (entity.getMarket() != null) {
+                    Global.getSector().getEconomy().removeMarket(entity.getMarket());
+                }
+                system.removeEntity(entity);
+            }
+        }
+    }
+}
 
-StarSystemAPI system = sector.createStarSystem("Sol");
-LocationAPI hyper = Global.getSector().getHyperspace();
-
-// Instantiate the Factory (Empty constructor now)
 RemnantNexusFactory nexusFactory = new RemnantNexusFactory();
-
-// Instantiate the Factory
 RemnantPatrolFactory patrolFactory = new RemnantPatrolFactory();
 
-// 3. INITIALIZE & CLEANUP
 AstroCalc calc = new AstroCalc();
-
+new Cleanup().cleanupSystem(system, star, player);
 
 // =========================================================================
 // ============================ LET THERE BE LIGHT =========================
@@ -86,18 +90,7 @@ AstroCalc calc = new AstroCalc();
 // Suun
 float zeroDegGlobal = 210f;
 
-float solRad = calc.getSize(1392700f);
-
-SectorEntityToken star = system.initStar("Sol", "star_yellow", solRad,  600f,  10f, 0.5f, 3f); 
-system.setLightColor(new Color(255, 245, 230)); 
-system.getLocation().set(75000, 42000);
 // I didn’t bother changing the texture, the yellow_star texture is basically a slightly altered version of a popular sun true color.
-// Tags stolen from suitable star systems
-system.addTag(Tags.THEME_INTERESTING);
-system.addTag(Tags.THEME_UNSAFE);
-system.addTag(Tags.THEME_REMNANT);
-system.addTag(Tags.THEME_REMNANT_MAIN);
-system.addTag(Tags.THEME_REMNANT_RESURGENT);
 
 // =========================================================================
 // ========================  The sun and the stars =========================
@@ -3667,5 +3660,6 @@ mercuryWreck.setDiscoverable(true);
 // Doesn't fix the hyperspace distance problem thorugh :\
 SolHyperspaceGen.clearHyperspaceNebulaAroundSystem(system);
 
-}
+if (isSettled) {
+new SolEconomies().generate(system); 
 }

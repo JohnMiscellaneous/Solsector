@@ -74,6 +74,7 @@ float progradeMult = -1f;
 // Base Radii
 float jupRad, satRad, uraRad, nepRad;
 float jupExt, jupInt, satExt, satInt, uraExt, uraInt, nepExt, nepInt;
+int linearTime ;
 
 public AstroCalc() {
 try {
@@ -102,8 +103,12 @@ try {
     giantTimeLinMod = (float) settings.optDouble("giantTimeLinMod", 1f); 
     sizeLinMod = (float) settings.optDouble("sizeLinMod", 1f); 
 
+    currentYear = (float) settings.optDouble("Current_Year", 9995f); 
+
+    rotMult = (float) settings.optDouble("rotMult", 4f);
+
     boolean linearDistance = settings.optBoolean("Linear_Distance", false);
-    int linearTime     = settings.optInt("Linear_Time", 1);
+    linearTime = settings.optInt("Linear_Time", 1);
     boolean linearSize     = settings.optBoolean("Linear_Size", false);
     boolean toScale        = settings.optBoolean("To_Scale", false);
     boolean toScaleGiant   = settings.optBoolean("To_Scale_Gas_Giant", false);
@@ -909,7 +914,7 @@ public SectorEntityToken spawnSPSObject5(StarSystemAPI system,
 
 // =================================================================================================================
 // SECTION: SPS6 — host-aware (Sol or gas giant) + retrograde-aware core
-// =================================================================================================================
+// =================================================================================================================`
 public SectorEntityToken spawnSPSObject6(StarSystemAPI system,
                     SectorEntityToken primary,
                     String id, String name, String type, String subType,
@@ -929,7 +934,18 @@ public SectorEntityToken spawnSPSObject6(StarSystemAPI system,
     // ---------------------------------------------------------------------
     float safeHostMass = (hostStarMass == null || hostStarMass <= 0f) ? 1.0f : hostStarMass;
     float size = getSize(diameterKM);
-    double rawPeriodYears = Math.sqrt(Math.pow(SMA, 3) / safeHostMass);
+
+    float orbitRadius = getDistGasGiant(hostName, SMA, primaryOffset);
+
+    double rawPeriodYears;
+    if(linearTime == 1 && hostName == "Sol"){
+        float gameDistAtOneAU = getDistGasGiant(hostName, 1, primaryOffset) - primaryOffset.getRadius();
+        float distAU = ( orbitRadius - primaryOffset.getRadius() ) / gameDistAtOneAU;
+        rawPeriodYears = Math.sqrt(Math.pow(distAU, 3) / safeHostMass);
+    } else {
+        rawPeriodYears = Math.sqrt(Math.pow(SMA, 3) / safeHostMass);
+    }
+
     float baseMagPeriod = (overridePeriod != null) ? overridePeriod : getTime((float) rawPeriodYears * 365.25f);
     float signedPeriod = isRetrograde ? -baseMagPeriod : baseMagPeriod;
 
@@ -938,7 +954,6 @@ public SectorEntityToken spawnSPSObject6(StarSystemAPI system,
     if (isRetrograde) meanAnomaly = -meanAnomaly;
 
     float safeE = (ecc == null) ? 0f : ecc;
-
     Float resolvedRot = rotationalPeriod;
     if (resolvedRot == null && (type.equals("custom_entity") || type.equals("asteroid") || type.equals("moon"))) {
         resolvedRot = getRandomRotationPeriod(diameterKM);
@@ -954,7 +969,6 @@ public SectorEntityToken spawnSPSObject6(StarSystemAPI system,
     // BRANCH 1: CIRCULAR ORBIT — legacy fast path (no CompoundOrbit needed)
     // ---------------------------------------------------------------------
     if (safeE < Eccentricity_Cutoff && (!occultOrbitBeta || !hasExtras)) {
-        float orbitRadius = getDistGasGiant(hostName, SMA, primary);
         float currentAngle = meanAnomaly + longPeri + angleOffset;
         SectorEntityToken resultingEntity;
 
@@ -979,7 +993,6 @@ public SectorEntityToken spawnSPSObject6(StarSystemAPI system,
     // BRANCH 2: CIRCULAR + EXTRAS (CompoundOrbit, e.g. binary epicycle)
     // ---------------------------------------------------------------------
     if (safeE < Eccentricity_Cutoff) {
-        float orbitRadius = getDistGasGiant(hostName, SMA, primary);
         float currentAngle = meanAnomaly + longPeri + angleOffset;
         SectorEntityToken resultingEntity;
 
@@ -1028,19 +1041,18 @@ public SectorEntityToken spawnSPSObject6(StarSystemAPI system,
     Orbit o = getOrbitGasGiant(hostName, SMA, safeE, primaryOffset);
 
     if (occultOrbitBeta) {
-        float placeholderRadius = getDistGasGiant(hostName, SMA, primary);
         SectorEntityToken resultingEntity;
 
         if (typeKey.equals("custom_entity")) {
             resultingEntity = system.addCustomEntity(id, name, subType, "neutral");
-            resultingEntity.setCircularOrbit(primary, 0f, placeholderRadius, signedPeriod);
+            resultingEntity.setCircularOrbit(primary, 0f, orbitRadius, signedPeriod);
         } else if (typeKey.equals("asteroid") || typeKey.equals("moon")) {
             resultingEntity = SolAsteroidFactory.createAsteroid(system, size, id, name, !(subType == "no_name"));
             float spinMin = hasCustomSpin ? customSpin : (100f / size);
             float spinMax = hasCustomSpin ? customSpin : (spinMin + 10f);
-            resultingEntity.setCircularOrbitWithSpin(primary, 0f, placeholderRadius, signedPeriod, spinMin, spinMax);
+            resultingEntity.setCircularOrbitWithSpin(primary, 0f, orbitRadius, signedPeriod, spinMin, spinMax);
         } else {
-            resultingEntity = system.addPlanet(id, primary, name, type, 0f, size, placeholderRadius, signedPeriod);
+            resultingEntity = system.addPlanet(id, primary, name, type, 0f, size, orbitRadius, signedPeriod);
         }
 
         int extrasLen = hasExtras ? extraParams.length : 0;

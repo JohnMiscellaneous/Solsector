@@ -20,12 +20,18 @@
     ## probably most interested in Sol, but I don't like the gameplay impact
     "Luddic_Church_Claim_On_Sol": false,
 
+    ## what is the AD start date,
+    ## dictates starting position.
+    "Current_Year": 9995,
+
     ## ======================================================
     ## ======= What entities to generate? ===================
     ## ======================================================
 
     ## disable if you hate the Sol star system, but installed this mod, for purposes unkown.
 	"Generate_Sol": true,   
+
+
 
     ## disables some less interesting NEAs
     "Inner_Sol_Shortlist": true,
@@ -36,11 +42,16 @@
     ## disables some less interesting asteroids
     "Asteroid_Belt_Shortlist": true,
 
+    ## disables some less interesting asteroids
+    "Hilda_Shortlist": true,
+
     ## number of generic asteroid belt asteroids to generate
     "Generic_Asteroids": 10,
 
     ## disables some smaller trojan
     "Jupiter_Trojans_Shortlist": false,
+
+
 
     ## 0 - galilean moons, inner moons, and a few irregulars (default)
     ## 1 - adds some more irregulars
@@ -58,28 +69,30 @@
     ## disables all but a few irregulars, plus some smaller inner bodies
     "Neptune_Shortlist": true,
 
+
+
     ## disables some smaller trojans
     "Neptune_Trojans_Shortlist": false,
 
     ## Disables smaller and unnamed centaurs
-    "Centaur_Shortlist": true,
+    "Centaur_Shortlist": false,
 
     ## Disables smaller and unnamed trans neptunians
-    "Trans_Neptune_Shortlist": true,
+    "Trans_Neptune_Shortlist": false,
 
     ## A few asteroids from science fiction which A, I respect, and B, has the grace to include a minor TNO or Jovian Irreg
     "Fictional_Trans_Neptunian_Objects": true,
-
-    ## 0 is confirmed moons only, (default)
-    ## 1 is convincing speculative moons, 
-    ## 2 is edge-case speculative moons
-    "Speculative_Bodies": 0,
 
     ## 0 is only the confirmed planets (default)
     ## 1 adds planet 9 (the famous pocket ice giant)
     ## 2 adds planet 10 (a mercury-mars sized scattered disk object)
     ## 3 adds Sean N. Raymond's 7% chance oort ice giant 
     "Speculative_Bodies_Big": 0,
+
+    ## 0 is confirmed moons only, (default)
+    ## 1 is convincing speculative moons, 
+    ## 2 is edge-case speculative moons
+    "Speculative_Bodies": 0,
 
     ## 0 is no deep space probes
     ## 1 is a few deep space probes (default)
@@ -106,8 +119,9 @@
     ## 140 / 2^9 = .3
     ## the solar system cannot be relaibly represented linearly
     "Linear_Distance": false,   
+
     ## 0 = false
-    ## 1 = true except inner gas giant moons (default)
+    ## 1 = true with adjustments for log distance and gas giant inners (default)
     ## 2 = true 
     "Linear_Time": 1,   
     "Linear_Size": false,   
@@ -139,4 +153,6 @@
     "sizeDenom": 0.001,
     "sizeConst": 3,
     "sizeLinMod": 0.001,
+
+    "rotDenom":4,
 }
