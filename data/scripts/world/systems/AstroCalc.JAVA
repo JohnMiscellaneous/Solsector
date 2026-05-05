@@ -940,14 +940,20 @@ public SectorEntityToken spawnSPSObject6(StarSystemAPI system,
     double rawPeriodYears;
     if(linearTime == 1 && hostName == "Sol"){
         float gameDistAtOneAU = getDistGasGiant(hostName, 1, primaryOffset) - primaryOffset.getRadius();
-        float distAU = ( orbitRadius - primaryOffset.getRadius() ) / gameDistAtOneAU;
+        float distAU = ( orbitRadius - primaryOffset.getRadius() + 1f) / gameDistAtOneAU;
         rawPeriodYears = Math.sqrt(Math.pow(distAU, 3) / safeHostMass);
     } else {
         rawPeriodYears = Math.sqrt(Math.pow(SMA, 3) / safeHostMass);
     }
 
     float baseMagPeriod = (overridePeriod != null) ? overridePeriod : getTime((float) rawPeriodYears * 365.25f);
-    float signedPeriod = isRetrograde ? -baseMagPeriod : baseMagPeriod;
+    float signedPeriod;
+
+    if(overridePeriod == null){
+        signedPeriod = isRetrograde ? -baseMagPeriod : baseMagPeriod;
+    } else { 
+        signedPeriod = baseMagPeriod;
+    }
 
     float longPeri = longAscNode + argPeri;
     float meanAnomaly = SPSUtils.getMeanAnomalyFromEpoch(currentYear, perihelionYear, SMA, resonantSMA);
@@ -964,6 +970,7 @@ public SectorEntityToken spawnSPSObject6(StarSystemAPI system,
     boolean hasExtras = (extraParams != null && extraParams.length > 0);
     String  typeKey   = type.toLowerCase();
     float   dirSign   = isRetrograde ? -1f : +1f;
+    boolean isRock    = typeKey.equals("asteroid") || typeKey.equals("moon");
 
     // ---------------------------------------------------------------------
     // BRANCH 1: CIRCULAR ORBIT — legacy fast path (no CompoundOrbit needed)
@@ -977,11 +984,9 @@ public SectorEntityToken spawnSPSObject6(StarSystemAPI system,
             if (hasCustomSpin) resultingEntity.setCircularOrbitWithSpin(primary, currentAngle, orbitRadius, signedPeriod, customSpin, customSpin);
             else               resultingEntity.setCircularOrbit(primary, currentAngle, orbitRadius, signedPeriod);
 
-        } else if (typeKey.equals("asteroid") || typeKey.equals("moon")) {
+        } else if (isRock) {
             resultingEntity = SolAsteroidFactory.createAsteroid(system, size, id, name, !(subType == "no_name"));
-            float spinMin = hasCustomSpin ? customSpin : (100f / size);
-            float spinMax = hasCustomSpin ? customSpin : (spinMin + 10f);
-            resultingEntity.setCircularOrbitWithSpin(primary, currentAngle, orbitRadius, signedPeriod, spinMin, spinMax);
+            resultingEntity.setCircularOrbitWithSpin(primary, currentAngle, orbitRadius, signedPeriod, customSpin, customSpin);
 
         } else {
             resultingEntity = system.addPlanet(id, primary, name, type, currentAngle, size, orbitRadius, signedPeriod);
@@ -999,11 +1004,9 @@ public SectorEntityToken spawnSPSObject6(StarSystemAPI system,
         if (typeKey.equals("custom_entity")) {
             resultingEntity = system.addCustomEntity(id, name, subType, "neutral");
             resultingEntity.setCircularOrbit(primary, 0f, orbitRadius, signedPeriod);
-        } else if (typeKey.equals("asteroid") || typeKey.equals("moon")) {
+        } else if (isRock) {
             resultingEntity = SolAsteroidFactory.createAsteroid(system, size, id, name, !(subType == "no_name"));
-            float spinMin = hasCustomSpin ? customSpin : (100f / size);
-            float spinMax = hasCustomSpin ? customSpin : (spinMin + 10f);
-            resultingEntity.setCircularOrbitWithSpin(primary, 0f, orbitRadius, signedPeriod, spinMin, spinMax);
+            resultingEntity.setCircularOrbitWithSpin(primary, 0f, orbitRadius, signedPeriod, customSpin, customSpin);
         } else {
             resultingEntity = system.addPlanet(id, primary, name, type, 0f, size, orbitRadius, signedPeriod);
         }
@@ -1015,19 +1018,9 @@ public SectorEntityToken spawnSPSObject6(StarSystemAPI system,
             comps.add(new KeplerComponent(p[0], p[1], p[2], p[3], p[4], p[5]));
         }
 
-        boolean wantSpin = false;
-        float spinMin = 0f, spinMax = 0f;
-        if (typeKey.equals("asteroid") || typeKey.equals("moon")) {
-            wantSpin = true;
-            spinMin = hasCustomSpin ? customSpin : (100f / size);
-            spinMax = hasCustomSpin ? customSpin : (spinMin + 10f);
-        } else if (typeKey.equals("custom_entity") && hasCustomSpin) {
-            wantSpin = true;
-            spinMin = customSpin; spinMax = customSpin;
-        }
-
+        boolean wantSpin = hasCustomSpin && (isRock || typeKey.equals("custom_entity"));
         CompoundOrbit orbit = wantSpin
-            ? new CompoundOrbit(primary, comps, spinMin, spinMax)
+            ? new CompoundOrbit(primary, comps, customSpin, customSpin)
             : new CompoundOrbit(primary, comps);
         orbit.setEntity(resultingEntity);
         resultingEntity.setOrbit(orbit);
@@ -1046,11 +1039,9 @@ public SectorEntityToken spawnSPSObject6(StarSystemAPI system,
         if (typeKey.equals("custom_entity")) {
             resultingEntity = system.addCustomEntity(id, name, subType, "neutral");
             resultingEntity.setCircularOrbit(primary, 0f, orbitRadius, signedPeriod);
-        } else if (typeKey.equals("asteroid") || typeKey.equals("moon")) {
+        } else if (isRock) {
             resultingEntity = SolAsteroidFactory.createAsteroid(system, size, id, name, !(subType == "no_name"));
-            float spinMin = hasCustomSpin ? customSpin : (100f / size);
-            float spinMax = hasCustomSpin ? customSpin : (spinMin + 10f);
-            resultingEntity.setCircularOrbitWithSpin(primary, 0f, orbitRadius, signedPeriod, spinMin, spinMax);
+            resultingEntity.setCircularOrbitWithSpin(primary, 0f, orbitRadius, signedPeriod, customSpin, customSpin);
         } else {
             resultingEntity = system.addPlanet(id, primary, name, type, 0f, size, orbitRadius, signedPeriod);
         }
@@ -1065,20 +1056,9 @@ public SectorEntityToken spawnSPSObject6(StarSystemAPI system,
             }
         }
 
-        boolean wantSpin = false;
-        float spinMin = 0f, spinMax = 0f;
-        if (typeKey.equals("asteroid") || typeKey.equals("moon")) {
-            wantSpin = true;
-            spinMin = hasCustomSpin ? customSpin : (100f / size);
-            spinMax = hasCustomSpin ? customSpin : (spinMin + 10f);
-        } else if (typeKey.equals("custom_entity") && hasCustomSpin) {
-            wantSpin = true;
-            spinMin = customSpin;
-            spinMax = customSpin;
-        }
-
+        boolean wantSpin = hasCustomSpin && (isRock || typeKey.equals("custom_entity"));
         CompoundOrbit orbit = wantSpin
-            ? new CompoundOrbit(primary, comps, spinMin, spinMax)
+            ? new CompoundOrbit(primary, comps, customSpin, customSpin)
             : new CompoundOrbit(primary, comps);
         orbit.setEntity(resultingEntity);
         resultingEntity.setOrbit(orbit);
@@ -1111,11 +1091,9 @@ public SectorEntityToken spawnSPSObject6(StarSystemAPI system,
         } else {
             resultingEntity.setCircularOrbit(tracer, flatteningAngle, o.E, bodyOrbitPeriod);
         }
-    } else if (typeKey.equals("asteroid") || typeKey.equals("moon")) {
+    } else if (isRock) {
         SectorEntityToken asteroid = SolAsteroidFactory.createAsteroid(system, size, id, name, !(subType == "no_name"));
-        float spinMin = hasCustomSpin ? customSpin : (100f / size);
-        float spinMax = hasCustomSpin ? customSpin : (spinMin + 10f);
-        asteroid.setCircularOrbitWithSpin(tracer, flatteningAngle, o.E, bodyOrbitPeriod, spinMin, spinMax);
+        asteroid.setCircularOrbitWithSpin(tracer, flatteningAngle, o.E, bodyOrbitPeriod, customSpin, customSpin);
         resultingEntity = asteroid;
     } else {
         resultingEntity = system.addPlanet(id, tracer, name, type, flatteningAngle, size, o.E, bodyOrbitPeriod);

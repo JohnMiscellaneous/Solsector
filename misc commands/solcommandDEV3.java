@@ -1895,7 +1895,7 @@ float[][] hektorExtras = new float[][]{
 PlanetAPI Hektor = (PlanetAPI) calc.spawnSPSObject5(system, Jupiter,
     "Hektor", "Hektor", "barren-bombarded", null,
     225f, 5.2763f, 0.0243f, 342.803f, 180.684f, 2025.58f, zeroDegGlobal,
-    null, 1f, null, null,
+    null, 1f, p_Jupiter, dist_JupiterRaw,
     hektorExtras,
     star);
 Hektor.getSpec().setTexture("graphics/planets/hektor_tx.jpg");
