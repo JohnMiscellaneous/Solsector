@@ -88,7 +88,7 @@ new Cleanup().cleanupSystem(system, star, player);
 // ============================ LET THERE BE LIGHT =========================
 // =========================================================================
 // Suun
-float zeroDegGlobal = 210f;
+float zeroDegGlobal = 180f;
 
 // I didn’t bother changing the texture, the yellow_star texture is basically a slightly altered version of a popular sun true color.
 

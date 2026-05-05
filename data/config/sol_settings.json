@@ -2,7 +2,7 @@
     ## 0 disables all minor planet names (bar custom entities), 
     ## 1 disables provisional names, (DEFAULT)
     ## 2 shows all names
-    "Show_Names": 1,
+    "Show_Names": 0,
 
     ## Fills the system with a massive amount of renmnant nexuses and fleets.
     "Remnant_Horde": true,
@@ -10,6 +10,9 @@
     ## Planets will be settled by various factions
     ## the settled planets will appear upon jump into the Sol system
     "Generate_Settled_Planets": true,
+    ## this dictates if the settled planets should intialise on game load or on entry to Sol
+    "Settled_Planets_Spawn_In_Instantly": false,
+
 
     ## Mercury gets poor light and very cold because of its near locking and no heat distribution, venus gets poor light because of its near locking, Eros gets cold and hot because of its 90 degree axial tilt
     "Mercury_And_Venus_Have_Poor_Light": true,
@@ -21,8 +24,17 @@
     "Luddic_Church_Claim_On_Sol": false,
 
     ## what is the AD start date,
-    ## dictates starting position.
+    ## dictates planet starting position.
     "Current_Year": 9995,
+
+    ## ======= Sector Position =======
+
+    "X-coord": 75000,
+    "Y-coord": 42000,
+    ## if settings or wide horizons changes map size, this means it will remain in the same position
+    "Scale_With_Map_Size": true,
+    ## overides the prior settings and makes sol random
+    "Random_Location": false,
 
     ## ======================================================
     ## ======= What entities to generate? ===================
@@ -37,7 +49,7 @@
     "Inner_Sol_Shortlist": true,
 
     ## disables some small Visited Asteroids
-    "Visited_Asteroids_Shortlist": true, ## FUCK YOU BENNU ITOKAWA RYUGU AND DIDYMOS/DIMORPHOS FUCK YOU ANNEFRANK FUCK YYOU DINKATESH/SELAM YOU ARE ALL TOO AVERAGE AND BORING AND THE IDEA THAT SELAM IS THE FIRST CONTACT BINARY MOON CONFIRMED IS A FAT LIE EXPLAIN HOW KERBEROS IS NOT A CONTACT BNARY
+    "Visited_Asteroids_Shortlist": true, 
 
     ## disables some less interesting asteroids
     "Asteroid_Belt_Shortlist": true,
@@ -71,14 +83,14 @@
 
 
 
-    ## disables some smaller trojans
+    ## disables some smaller trojansz
     "Neptune_Trojans_Shortlist": false,
 
     ## Disables smaller and unnamed centaurs
-    "Centaur_Shortlist": false,
+    "Centaur_Shortlist": true,
 
     ## Disables smaller and unnamed trans neptunians
-    "Trans_Neptune_Shortlist": false,
+    "Trans_Neptune_Shortlist": true,
 
     ## A few asteroids from science fiction which A, I respect, and B, has the grace to include a minor TNO or Jovian Irreg
     "Fictional_Trans_Neptunian_Objects": true,
@@ -131,7 +143,7 @@
     "To_Scale": false,
 
     ## extComp(log(intComp * AU + 1)) + Lin * AU
-    "extComp": 10500, "intComp": 0.4, "distLinMod": 10,
+    "extComp": 10500, "intComp": 0.4, "distLinMod": 50,
 
     "distMax": 1000000,
 

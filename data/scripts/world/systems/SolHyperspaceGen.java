@@ -31,7 +31,7 @@ public class SolHyperspaceGen {
         // Clear nebula in hyperspace
         HyperspaceTerrainPlugin plugin = (HyperspaceTerrainPlugin) Misc.getHyperspaceTerrain().getPlugin();
         NebulaEditor editor = new NebulaEditor(plugin);
-        float minRadius = plugin.getTileSize() * 16f;
+        float minRadius = plugin.getTileSize() * 12f;
         float hyperspaceRadius = system.getMaxRadiusInHyperspace();
         editor.clearArc(system.getLocation().x, system.getLocation().y, 0f, hyperspaceRadius + minRadius, 0f, 360f);
         editor.clearArc(system.getLocation().x, system.getLocation().y, 0f, hyperspaceRadius + minRadius, 0f, 360f, 0.25f);

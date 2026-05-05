@@ -79,29 +79,35 @@ public class pre_domain_sapience extends BaseHazardCondition {
 
     @Override
     protected void createTooltipAfterDescription(TooltipMakerAPI tooltip, boolean expanded) {
-        super.createTooltipAfterDescription(tooltip, expanded);
+    super.createTooltipAfterDescription(tooltip, expanded); 
 
-        int size = market.getSize();
-        if (size < 3) return;
+    float pad = 10f;
 
-        float pad = 10f;
-        
-        if (size == 3) {
-            tooltip.addPara("%s stability", pad, Misc.getHighlightColor(), "-3");
-            tooltip.addPara("%s hazard rating", pad, Misc.getHighlightColor(), "+25%");
-        } else if (size == 4) {
-            tooltip.addPara("%s stability", pad, Misc.getHighlightColor(), "-2");
-            tooltip.addPara("%s hazard rating", pad, Misc.getHighlightColor(), "+50%");
-        } else if (size == 5) {
-            tooltip.addPara("%s stability", pad, Misc.getHighlightColor(), "+1");
-            tooltip.addPara("%s accessibility", pad, Misc.getHighlightColor(), "-10%");
-            tooltip.addPara("%s hazard rating", pad, Misc.getHighlightColor(), "-15%");
-        } else if (size >= 6) {
-            tooltip.addPara("%s stability", pad, Misc.getHighlightColor(), "+3");
-            tooltip.addPara("%s accessibility", pad, Misc.getHighlightColor(), "+25%");
-            tooltip.addPara("%s hazard rating", pad, Misc.getHighlightColor(), "-25%");
-            tooltip.addPara("%s drugs production (Population)", pad, Misc.getHighlightColor(), "+1");
-            tooltip.addPara("%s Heavy Armaments production (Heavy Industry)", pad, Misc.getHighlightColor(), "+2");
-        }
+    if (market.isPlanetConditionMarketOnly() || !market.isPlayerOwned()) {
+        tooltip.addPara("Your officers recommend %s.",
+            pad, Misc.getPositiveHighlightColor(), "erecting a shrine to his glorius majesty, the Pre Domain Sapience");
+        return;
     }
+
+    int size = market.getSize();
+    if (size < 3) return;
+
+    if (size == 3) {
+        tooltip.addPara("%s stability", pad, Misc.getHighlightColor(), "-3");
+        tooltip.addPara("%s hazard rating", pad, Misc.getHighlightColor(), "+25%");
+    } else if (size == 4) {
+        tooltip.addPara("%s stability", pad, Misc.getHighlightColor(), "-2");
+        tooltip.addPara("%s hazard rating", pad, Misc.getHighlightColor(), "+50%");
+    } else if (size == 5) {
+        tooltip.addPara("%s stability", pad, Misc.getHighlightColor(), "+1");
+        tooltip.addPara("%s accessibility", pad, Misc.getHighlightColor(), "-10%");
+        tooltip.addPara("%s hazard rating", pad, Misc.getHighlightColor(), "-15%");
+    } else if (size >= 6) {
+        tooltip.addPara("%s stability", pad, Misc.getHighlightColor(), "+3");
+        tooltip.addPara("%s accessibility", pad, Misc.getHighlightColor(), "+25%");
+        tooltip.addPara("%s hazard rating", pad, Misc.getHighlightColor(), "-25%");
+        tooltip.addPara("%s drugs production (Population)", pad, Misc.getHighlightColor(), "+1");
+        tooltip.addPara("%s Heavy Armaments production (Heavy Industry)", pad, Misc.getHighlightColor(), "+2");
+    }
+}
 }

@@ -1,8 +1,9 @@
 package com.fs.starfarer.api.impl.campaign.econ;
 
 import com.fs.starfarer.api.impl.campaign.econ.BaseHazardCondition;
-
 import com.fs.starfarer.api.impl.campaign.econ.sol_remove_replace;
+import com.fs.starfarer.api.ui.TooltipMakerAPI;
+import com.fs.starfarer.api.util.Misc;
 
 public class goblin_world extends BaseHazardCondition {
 
@@ -25,5 +26,15 @@ public class goblin_world extends BaseHazardCondition {
     public void unapply(String id) {
         super.unapply(id);
         market.getMemoryWithoutUpdate().unset(MEM_KEY_SWAP_QUEUED);
+    }
+
+    @Override
+    protected void createTooltipAfterDescription(TooltipMakerAPI tooltip, boolean expanded) {
+        super.createTooltipAfterDescription(tooltip, expanded);
+
+        if (market.isPlanetConditionMarketOnly()) {
+            tooltip.addPara("Your officers estimate that a colony backed by adequate %s and the sheer %s of an established settlement could mitigate most of the danger posed by the native tribes.",
+                10f, Misc.getHighlightColor(), "ground defenses", "size");
+        }
     }
 }

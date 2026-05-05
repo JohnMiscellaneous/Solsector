@@ -1488,7 +1488,7 @@ calc.addConditions(Eris.getMarket(), new String[] {
     "volatiles_plentiful",
     "dark",
     "sol_insurgent_network",
-    "sol_dist_erebal",
+    "sol_dist_abyssal",
     "sol_inter_binary_elevator",
     "sol_degenerate",
     "sol_automated_habitats"
@@ -1517,7 +1517,7 @@ calc.addConditions(Dysnomia.getMarket(), new String[] {
     "volatiles_diffuse",
     "dark",
     "ruins_scattered",
-    "sol_dist_erebal",
+    "sol_dist_abyssal",
     "sol_inter_binary_elevator",
     "sol_degenerate"
 });
@@ -1558,7 +1558,7 @@ calc.addConditions(Gonggong.getMarket(), new String[] {
     "rare_ore_sparse",
     "ruins_widespread",
     "sol_insurgent_network",
-    "sol_dist_erebal",
+    "sol_dist_abyssal",
     "sol_unexploded_ordnance"
 });
 
@@ -1588,7 +1588,7 @@ calc.addConditions(Gkun.getMarket(), new String[] {
     "volatiles_trace",
     "ore_sparse",
     "ruins_widespread",
-    "sol_dist_hadal",
+    "sol_dist_abyssal",
     "sol_unpronounceable",
     "sol_automated_habitats"
 });
@@ -1625,7 +1625,7 @@ calc.addConditions(Chiminigagua.getMarket(), new String[] {
     "no_atmosphere",
     "volatiles_plentiful",
     "ore_sparse",
-    "sol_dist_erebal",
+    "sol_dist_abyssal",
     "ruins_scattered"
 });
 
@@ -1706,7 +1706,7 @@ calc.addConditions(Sedna.getMarket(), new String[] {
     "ore_abundant",
     "rare_ore_sparse",
     "ruins_scattered",
-    "sol_dist_erebal",
+    "sol_dist_abyssal",
     "sol_insurgent_network"
 });
 Sedna.setCustomDescriptionId("sol_sedna");
@@ -1731,7 +1731,7 @@ calc.addConditions(Goblin.getMarket(), new String[] {
     "organics_abundant",
     "inimical_biosphere",
     "sol_goblin_world",
-    "sol_dist_hadal"
+    "sol_dist_abyssal"
 });
 
 // The IAU should lock in this name. To me at least, Biden is a diety.
@@ -1760,7 +1760,7 @@ calc.addConditions(Biden.getMarket(), new String[] {
     "very_cold",
     "dark",
     "sol_pre_domain_sapience", // This reflects my unironic political beliefs.
-    "sol_dist_erebal"
+    "sol_dist_abyssal"
 });
 } else {
     Biden.getMarket().addCondition("sol_porus");
@@ -1793,7 +1793,7 @@ calc.addConditions(Farout.getMarket(), new String[] {
     "volatiles_trace",
     "ore_sparse",
     "ruins_scattered",
-    "sol_dist_tartarean",
+    "sol_dist_abyssal",
     "sol_organ_complex",
     "sol_degenerate",
     "sol_automated_habitats"
@@ -1823,7 +1823,7 @@ calc.addConditions(Farfarout.getMarket(), new String[] {
     "no_atmosphere",
     "volatiles_trace",
     "ore_sparse",
-    "sol_dist_tartarean",
+    "sol_dist_abyssal",
     "sol_circumstellar",
     "ruins_scattered"
 });
@@ -1936,7 +1936,7 @@ if(planetNine){
         "high_gravity",
         "dense_atmosphere",
         "volatiles_plentiful",
-        "sol_dist_tartarean",
+        "sol_dist_abyssal",
         "sol_circumstellar"
     })
 ;}
@@ -1963,10 +1963,9 @@ if(planetTen){
         "ore_sparse",
         "rare_ore_sparse",
         "volatiles_diffuse",
-        "sol_dist_erebal",
         "ruins_scattered",
         "sol_space_elevator",
-        "sol_dist_tartarean",
+        "sol_dist_abyssal",
         "sol_circumstellar"
     });
     if(generateElevators){
@@ -2004,7 +2003,7 @@ if(planetEleven){
         "sol_ai_terminators",
         "sol_ai_freedom_fighters",
         "inimical_biosphere",
-        "sol_dist_tartarean",
+        "sol_dist_abyssal",
         "sol_circumstellar"
     });
 

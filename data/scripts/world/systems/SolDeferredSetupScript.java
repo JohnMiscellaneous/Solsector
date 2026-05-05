@@ -19,7 +19,7 @@ public class SolDeferredSetupScript implements EveryFrameScript {
     private static final String ID_VANERA   = "vanera_station";
     private static final String ID_ISS      = "iss_station";
     private static final String ID_TIANGONG = "tiangong_station";
-    private static final String ID_PELEUS   = "patmen"; 
+    private static final String ID_PELEUS   = "patmen";
 
     private static final String ID_EROS     = "eros";
     private static final String ID_PSYCHE   = "psyche";
@@ -40,6 +40,10 @@ public class SolDeferredSetupScript implements EveryFrameScript {
     private static final String MEM_CHAOS     = "$sol_setup_chaos_done";
 
     private static final String MEM_DISCOVERY = "$sol_discovery_done";
+
+    // latched at world creation by SolTotal so mid-save JSON edits don't desync
+    private static final String MEM_LATCHED_SETTLED       = "$sol_latched_settled";
+    private static final String MEM_INSTANT_INIT_NOTIFIED = "$sol_instant_init_notified";
 
     private boolean isSettled    = true;
     private boolean mercuryCold  = true;
@@ -66,13 +70,21 @@ public class SolDeferredSetupScript implements EveryFrameScript {
         elapsed += amount;
         if (elapsed < CHECK_INTERVAL) return;
         elapsed = 0f;
+
+        MemoryAPI mem = Global.getSector().getMemoryWithoutUpdate();
+
         // gra settings
         if (!settingsLoaded) {
-            try {
-                isSettled = Global.getSettings().loadJSON("data/config/sol_settings.json")
-                        .optBoolean("Generate_Settled_Planets", true);
-            } catch (Exception e) {
-                isSettled = true;
+            // prefer latched, JSON fallback for legacy saves
+            if (mem.contains(MEM_LATCHED_SETTLED)) {
+                isSettled = mem.getBoolean(MEM_LATCHED_SETTLED);
+            } else {
+                try {
+                    isSettled = Global.getSettings().loadJSON("data/config/sol_settings.json")
+                            .optBoolean("Generate_Settled_Planets", true);
+                } catch (Exception e) {
+                    isSettled = true;
+                }
             }
             try {
                 mercuryCold = Global.getSettings().loadJSON("data/config/sol_settings.json")
@@ -83,7 +95,30 @@ public class SolDeferredSetupScript implements EveryFrameScript {
             settingsLoaded = true;
         }
 
-        MemoryAPI mem = Global.getSector().getMemoryWithoutUpdate();
+        // re-read live so mid-save flips work; SolTotal handles the new-game case
+        boolean instantMarkets = false;
+        try {
+            instantMarkets = Global.getSettings().loadJSON("data/config/sol_settings.json")
+                    .optBoolean("Settled_Planets_Spawn_In_Instantly", false);
+        } catch (Exception e) {}
+
+        // mid-save flip path; MEM_DISCOVERY dedupes against SolTotal
+        if (instantMarkets && isSettled) {
+            StarSystemAPI sol = Global.getSector().getStarSystem(TARGET_SYSTEM_ID);
+            if (sol != null) {
+                if (!mem.getBoolean(MEM_DISCOVERY)) {
+                    new SolEconomies().generate(sol);
+                    mem.set(MEM_DISCOVERY, true);
+                }
+                if (!mem.getBoolean(MEM_INSTANT_INIT_NOTIFIED)) {
+                    try {
+                        Global.getSector().getCampaignUI()
+                                .addMessage("Markets for Sol initialized");
+                    } catch (Exception ignore) {}
+                    mem.set(MEM_INSTANT_INIT_NOTIFIED, true);
+                }
+            }
+        }
 
         boolean discoveryDone = mem.getBoolean(MEM_DISCOVERY);
         if (!discoveryDone) {
@@ -94,7 +129,7 @@ public class SolDeferredSetupScript implements EveryFrameScript {
                 discoveryDone = checkDiscovery(mem); // checks if Sol gate discovered for the detonation of soleconomies
             }
         }
-        
+
         boolean doneVulcan   = mem.getBoolean(MEM_VULCAN);
         boolean doneVanera   = mem.getBoolean(MEM_VANERA);
         boolean doneIss      = mem.getBoolean(MEM_ISS);

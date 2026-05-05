@@ -348,27 +348,40 @@ public class sol_world_war extends BaseHazardCondition implements EconomyTickLis
 
     @Override
     protected void createTooltipAfterDescription(TooltipMakerAPI tooltip, boolean expanded) {
-        float pad = 10f;
-        Color h = Misc.getHighlightColor();
-        MemoryAPI mem = market.getMemoryWithoutUpdate();
-        int state = mem.getInt(KEY_STATE);
+    float pad = 10f;
+    Color h = Misc.getHighlightColor();
+    Color neg = Misc.getNegativeHighlightColor();
+    MemoryAPI mem = market.getMemoryWithoutUpdate();
+    int state = mem.getInt(KEY_STATE);
 
-        if (state != STATE_CEASEFIRE) tooltip.addPara("%s hazard rating", pad, h, "+25%");
-        
-        String fuelRate = (state == STATE_WAR) ? "6,000\u00A2" : (state == STATE_PROLIFERATION) ? "4,000\u00A2" : "2,000\u00A2";
-        if (state != STATE_CEASEFIRE) {
-            tooltip.addPara("+%s export income per unit (Marines)", pad, h, "1,000\u00A2");
-            tooltip.addPara("+%s export income per unit (Heavy Weapons)", pad, h, "3,000\u00A2");
-        }
-        tooltip.addPara("+%s export income per unit (Fuel)", pad, h, fuelRate);
+    if (state != STATE_CEASEFIRE) tooltip.addPara("%s hazard rating", pad, h, "+25%");
+    
+    String fuelRate = (state == STATE_WAR) ? "6,000\u00A2" : (state == STATE_PROLIFERATION) ? "4,000\u00A2" : "2,000\u00A2";
+    if (state != STATE_CEASEFIRE) {
+        tooltip.addPara("+%s export income per unit (Marines)", pad, h, "1,000\u00A2");
+        tooltip.addPara("+%s export income per unit (Heavy Weapons)", pad, h, "3,000\u00A2");
+    }
+    tooltip.addPara("+%s export income per unit (Fuel)", pad, h, fuelRate);
 
-        if (state == STATE_PROLIFERATION) {
-            tooltip.addPara("Concerningly, several factions have begun copying our antimatter production technique.", pad, h, "copying our antimatter production technique");
-        }
-        if (state == STATE_CEASEFIRE) {
-            tooltip.addPara("A ceasefire has been reached between all parties brought on by their order of magnitude increase in destructive capability.", pad, h, "ceasefire");
+    if (state == STATE_PROLIFERATION) {
+        tooltip.addPara("Concerningly, several factions have begun copying our antimatter production technique.", pad, h, "copying our antimatter production technique");
+    }
+    if (state == STATE_CEASEFIRE) {
+        tooltip.addPara("A ceasefire has been reached between all parties brought on by their order of magnitude increase in destructive capability.", pad, h, "ceasefire");
+    }
+
+    if (state != STATE_CEASEFIRE) {
+        tooltip.addPara("Given the population of this world your officers are uneasy with the idea of selling antimatter weapons to its subpopulation.",
+            pad, neg,
+            "Given the population of this world your officers are uneasy with the idea of selling antimatter weapons to its subpopulation.");
+
+        if (sol_industry_compat.getFuelProduction(market) != null) {
+            tooltip.addPara("Several officers have resigned in protest as cities get turned to plasma and the atmosphere thins from airbursts energetic enough to vent the planet.",
+                pad, neg,
+                "Several officers have resigned in protest as cities get turned to plasma and the atmosphere thins from airbursts energetic enough to vent the planet.");
         }
     }
+}
 
     public static class CounterProliferationDialog implements InteractionDialogPlugin {
         private InteractionDialogAPI dialog;

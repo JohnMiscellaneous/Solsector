@@ -62,6 +62,7 @@ import data.scripts.world.systems.RemnantPatrolFactory;
 import data.scripts.world.systems.AstroCalc;
 import data.scripts.world.systems.GiantMoonsTotal;
 import data.scripts.world.systems.cometsCentaursTNOs;
+import com.fs.starfarer.api.impl.campaign.econ.other.sol_location_xy;
 
 public class SolTotal {
 
@@ -90,14 +91,60 @@ float solRad = calc.getSize(1392700f);
 
 SectorEntityToken star = system.initStar("Sol", "star_yellow", solRad,  600f,  10f, 0.5f, 3f); 
 system.setLightColor(new Color(255, 245, 230)); 
-system.getLocation().set(75000, 42000);
-// I didn’t bother changing the texture, the yellow_star texture is basically a slightly altered version of a popular sun true color.
-// Tags stolen from suitable star systems
+
 system.addTag(Tags.THEME_INTERESTING);
 system.addTag(Tags.THEME_UNSAFE);
 system.addTag(Tags.THEME_REMNANT);
 system.addTag(Tags.THEME_REMNANT_MAIN);
 system.addTag(Tags.THEME_REMNANT_RESURGENT);
+
+// =========================================================================
+// ========  On the Second Day, God Created the X-Y plane ==================
+// =========================================================================
+
+float xInput = 75000f;
+float yInput = 42000f;
+boolean scaleWithMapSize = true;
+boolean randomPosition = false;
+
+try {
+    JSONObject solSettings = Global.getSettings().loadJSON("data/config/sol_settings.json");
+    xInput           = (float) solSettings.optDouble ("X-coord",            75000d);
+    yInput           = (float) solSettings.optDouble ("Y-coord",            42000d);
+    scaleWithMapSize =         solSettings.optBoolean("Scale_With_Map_Size", true);
+    randomPosition   =         solSettings.optBoolean("Random_Location",    false);
+} catch (Exception e) {}
+
+float vanillaX = randomPosition ? (float) (Math.random() * 164000d) : xInput;
+float vanillaY = randomPosition ? (float) (Math.random() * 104000d) : yInput;
+
+float finalX = vanillaX;
+float finalY = vanillaY;
+
+if (scaleWithMapSize) {
+    if (Global.getSettings().getModManager().isModEnabled("WideHorizons")) {
+        org.lwjgl.util.vector.Vector2f pos = org.widehorizons.api.WideHorizonsAPI.getScaledPosition(vanillaX, vanillaY);
+        if (pos != null) {
+            finalX = pos.x;
+            finalY = pos.y;
+        }
+    } else {
+        float sectorWidth  = 164000f;
+        float sectorHeight = 104000f;
+        try {
+            JSONObject gameSettings = Global.getSettings().loadJSON("data/config/settings.json");
+            sectorWidth  = (float) gameSettings.optDouble("sectorWidth",  164000d);
+            sectorHeight = (float) gameSettings.optDouble("sectorHeight", 104000d);
+        } catch (Exception e) {}
+        finalX = (vanillaX / 164000f) * sectorWidth;
+        finalY = (vanillaY / 104000f) * sectorHeight;
+    }
+}
+
+system.getLocation().set(finalX, finalY);
+
+// I didn’t bother changing the texture, the yellow_star texture is basically a slightly altered version of a popular sun true color.
+// Tags stolen from suitable star systems
 
 // =========================================================================
 // ========================  The sun and the stars =========================
@@ -1905,7 +1952,7 @@ PlanetAPI Hektor = (PlanetAPI) calc.spawnSPSObject5(system, Jupiter,
     null, 1f, p_Jupiter, dist_JupiterRaw,
     hektorExtras,
     star);
-    
+
 Hektor.getSpec().setTexture("graphics/planets/hektor_tx.jpg");
 Hektor.getSpec().setPlanetColor(new Color(210, 160, 140, 255));
 Hektor.getSpec().setAtmosphereThickness(0f);
@@ -3668,5 +3715,12 @@ mercuryWreck.setDiscoverable(true);
 // Doesn't fix the hyperspace distance problem thorugh :\
 SolHyperspaceGen.clearHyperspaceNebulaAroundSystem(system);
 
+boolean instantMarkets = false; 
+try {
+    instantMarkets = Global.getSettings().loadJSON("data/config/sol_settings.json").optBoolean("Settled_Planets_Spawn_In_Instantly", false);
+} catch (Exception e) {}
+if(isSettled && instantMarkets){
+new SolEconomies().generate(system); 
+}
 }
 }
