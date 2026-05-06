@@ -123,12 +123,12 @@
     ## Settings you might edit
 
     ## enables custom orbits, great for performance, if it doesn't make you crash
-    "Occult_Orbit_Beta": true,
+    "Occult_Orbit_Beta": false,
     ## defines if the logic should be circular or eccentric (if Occultorbitbeta should be false ), 1 will force everthing to being circular
-    "Eccentricity_Cutoff": 0.01,
+    "Eccentricity_Cutoff": 1,
     ## if occultOrbitBeta == true, 'pins' some bodies to other bodies so the intel screen doesn't bug out, orbitally they act the same but Vesta registers as a moon of Ceres, etc
     ## causes AOTD's system veiewer to be weird, so its a tradeoff
-    "False_Moons": true,
+    "False_Moons": false,
 
     ## farfarout is 2x sedna which is 2x pluto which is 2x uranus which is 2x saturn which is 2x jupiter which is 2x vesta which is 2x mars which is 2x earth which is 2x mercury (roughly)
     ## 140 / 2^9 = .3
