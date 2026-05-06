@@ -336,7 +336,7 @@ SectorEntityToken barycenterHartley = calc.spawnSPSObject(system, star, "Hartley
 // --- The Ringed Centaurs ---
 
 // Chariklo
-PlanetAPI Chariklo = (PlanetAPI) (falseMoons ? calc.spawnSPSObject4(system, Saturn, "Chariklo", "Chariklo", "rocky_ice", null, 250f, 15.7400f, 0.1702f, 300.475f, 241.224f, 2003.87f, zeroDegGlobal, null, 1f, null, null, true, dist_Saturn, angleSaturn + 180f, p_Saturn, star) : calc.spawnSPSObject(system, star, "Chariklo", "Chariklo", "rocky_ice", null, 250f, 15.7400f, 0.1702f, 300.475f, 241.224f, 2003.87f, zeroDegGlobal, null, 1f));
+PlanetAPI Chariklo = (PlanetAPI) calc.spawnSPSObject7(system, star, "Chariklo", "Chariklo", "rocky_ice", null, 250f, 15.7400f, 0.1702f, 300.475f, 241.224f, 2003.87f, zeroDegGlobal, null, 1f, null, null, null, star, "Sol", false, false);
 
 // Chariklo Rings
 // C1R "Oiapoque": 391 km → 3.3x radius, tripled to 9.9x
@@ -373,7 +373,7 @@ calc.spawnMoon(system, Chariklo, "Chariklo Beta", calc.getSize(5f), r_C2R + 10f,
 }
 
 // Chiron
-PlanetAPI Chiron = (PlanetAPI) (falseMoons ? calc.spawnSPSObject4(system, Saturn, "Chiron", "Chiron", "cryovolcanic", null, 220f, 13.6922f, 0.3790f, 209.298f, 339.254f, 2046.60f, zeroDegGlobal, null, 1f, null, null, true, dist_Saturn, angleSaturn + 180f, p_Saturn, star) : calc.spawnSPSObject(system, star, "Chiron", "Chiron", "cryovolcanic", null, 220f, 13.6922f, 0.3790f, 209.298f, 339.254f, 2046.60f, zeroDegGlobal, null, 1f));
+PlanetAPI Chiron = (PlanetAPI) calc.spawnSPSObject7(system, falseMoons ? Chariklo : star, "Chiron", "Chiron", "cryovolcanic", null, 220f, 13.6922f, 0.3790f, 209.298f, 339.254f, 2046.60f, zeroDegGlobal, null, 1f, null, null, null, star, "Sol", false, falseMoons);
 
 // Chiron Rings (uncertain — likely cryovolcanic debris)
 // Real: ~324 km → 3.0x radius, tripled to 9.0x
@@ -539,7 +539,6 @@ Pluto.applySpecChanges();
 calc.addConditions(Pluto.getMarket(), new String[] {
     "very_cold",
     "dark",
-    "low_gravity",
     "thin_atmosphere",
     "volatiles_plentiful",
     "ore_moderate",
@@ -638,7 +637,6 @@ Orcus.applySpecChanges();
 calc.addConditions(Orcus.getMarket(), new String[] {
     "very_cold",
     "dark",
-    "low_gravity",
     "no_atmosphere",
     "volatiles_plentiful",
     "ore_moderate",
@@ -682,7 +680,7 @@ elevatorov.setCircularOrbitPointingDown(Vanth, 0f, 170, p_OrcusVanth);
 }
 
 // Ixion
-PlanetAPI Ixion = (PlanetAPI) (falseMoons ? calc.spawnSPSObject4(system, Neptune, "Ixion", "Ixion", "frozen", null, 617f, 39.3505f, 0.2442f, 71.0929f, 300.658f, 2071.01f, zeroDegGlobal, null, 1f, null, null, true, dist_Neptune, angleNeptune + 180f, p_Neptune, star) : calc.spawnSPSObject(system, star, "Ixion", "Ixion", "frozen", null, 617f, 39.3505f, 0.2442f, 71.0929f, 300.658f, 2071.01f, zeroDegGlobal, null, 1f));
+PlanetAPI Ixion = (PlanetAPI) calc.spawnSPSObject7(system, falseMoons ? Pluto : star, "Ixion", "Ixion", "frozen", null, 617f, 39.3505f, 0.2442f, 71.0929f, 300.658f, 2071.01f, zeroDegGlobal, null, 1f, null, null, null, star, "Sol", false, falseMoons);
 
 Ixion.getSpec().setTexture("graphics/planets/ixion_tx.jpg");
 Ixion.getSpec().setAtmosphereThickness(0f);
@@ -817,7 +815,7 @@ calc.addConditions(Hiisi.getMarket(), new String[] {
 
 // Achlys
 float sz_Achlys = calc.getSize(772f);
-PlanetAPI Achlys = (PlanetAPI) (falseMoons ? calc.spawnSPSObject4(system, Neptune, "Achlys", "Achlys", "frozen", null, 772f, 39.6275f, 0.1748f, 251.873f, 14.402f, 2107.10f, zeroDegGlobal, 0.283f, 1f, null, null, true, dist_Neptune, angleNeptune + 180f, p_Neptune, star) : calc.spawnSPSObject(system, star, "Achlys", "Achlys", "frozen", null, 772f, 39.6275f, 0.1748f, 251.873f, 14.402f, 2107.10f, zeroDegGlobal, 0.283f, 1f));
+PlanetAPI Achlys = (PlanetAPI) calc.spawnSPSObject7(system, falseMoons ? Pluto : star, "Achlys", "Achlys", "frozen", null, 772f, 39.6275f, 0.1748f, 251.873f, 14.402f, 2107.10f, zeroDegGlobal, 0.283f, 1f, null, null, null, star, "Sol", false, falseMoons);
 
 Achlys.getSpec().setTexture("graphics/planets/achlys_tx.jpg"); 
 Achlys.getSpec().setAtmosphereThickness(0f); 
@@ -897,7 +895,6 @@ Haumea.applySpecChanges();
 calc.addConditions(Haumea.getMarket(), new String[] {
     "very_cold",
     "dark",
-    "low_gravity",
     "thin_atmosphere",
     "volatiles_plentiful",
     "ore_moderate",
@@ -989,7 +986,6 @@ Makemake.applySpecChanges();
 
 calc.addConditions(Makemake.getMarket(), new String[] {
     "very_cold",
-    "low_gravity",
     "thin_atmosphere",
     "volatiles_plentiful",
     "ore_moderate",
@@ -1044,7 +1040,6 @@ Quaoar.applySpecChanges();
 
 calc.addConditions(Quaoar.getMarket(), new String[] {
     "very_cold",
-    "low_gravity",
     "thin_atmosphere",
     "volatiles_trace",
     "ore_moderate",
@@ -1114,8 +1109,9 @@ calc.addConditions(Ilmare.getMarket(), new String[] {
     "ruins_scattered",
     "sol_dist_abyssal"
 });
+
 // Varuna
-PlanetAPI Varuna = (PlanetAPI) calc.spawnSPSObject(system, star, "Varuna", "Varuna", "rocky_ice", null, 670f, 43.1782f, 0.0525f, 97.210f, 273.221f, 1935.23f, zeroDegGlobal, null, 1f);
+PlanetAPI Varuna = (PlanetAPI) calc.spawnSPSObject7(system, falseMoons ? Varda : star, "Varuna", "Varuna", "rocky_ice", null, 670f, 43.1782f, 0.0525f, 97.210f, 273.221f, 1935.23f, zeroDegGlobal, null, 1f, null, null, null, star, "Sol", false, falseMoons);
 
 Varuna.getSpec().setTexture("graphics/planets/varuna_tx.jpg"); 
 Varuna.getSpec().setAtmosphereThickness(0f); 
@@ -1154,7 +1150,10 @@ float sz_Actea = calc.getSize(290f);
 float[] salaciaOffsets = calc.getBinaryOffsetsReal(850f, 290f, 8.0f);
 // Some schizo shit about if Actea dual peaked, then mabye possible mabye it is somehow a binary despite the super strong resonance that would pump that E 
 
-PlanetAPI Salacia = (PlanetAPI) calc.spawnSPSObject3(system, star, "Salacia", "Salacia", "frozen2", null, 850f, 42.1147f, 0.1034f, 280.263f, 309.478f, 1924.56f, zeroDegGlobal, null, 1f, null, null, true, salaciaOffsets[0], 0f, p_SalaciaBinary);
+float[][] salaciaExtras = new float[][]{
+    { salaciaOffsets[0], 0f, 0f, p_SalaciaBinary, 0f, +1f }  // binary wobble
+};
+PlanetAPI Salacia = (PlanetAPI) calc.spawnSPSObject7(system, falseMoons ? Varda : star, "Salacia", "Salacia", "frozen2", null, 850f, 42.1147f, 0.1034f, 280.263f, 309.478f, 1924.56f, zeroDegGlobal, null, 1f, null, null, salaciaExtras, star, "Sol", false, falseMoons);
 
 Salacia.getSpec().setTexture("graphics/planets/salacia_tx.jpg"); 
 Salacia.getSpec().setAtmosphereThickness(0f); 
@@ -1186,22 +1185,10 @@ elevatorSalacia.setCircularOrbitPointingDown(Salacia, 180f, sz_Salacia+50, p_Sal
 // Actea — orbits Salacia
 calc.spawnMoon(system, Salacia, "Actea", sz_Actea, salaciaOffsets[0] + salaciaOffsets[1], p_SalaciaBinary, 180f, showMinorNames);
 
-// Ritona
-SectorEntityToken Ritona = calc.spawnSPSObject(system, star, "Ritona", "Ritona", "asteroid", showNameMinor, 640f, 41.5534f, 0.0239f, 187.003f, 178.794f, 2034.86f, zeroDegGlobal, 0.290f, 1f);
-
-// Uni-Tinia (2002 UX25) | as/rp=14.3 | es=0.17 | Ps=8.309 d
-SectorEntityToken uniBarycenter = calc.spawnSPSObject(system, star, "uni_barycenter", "Uni Barycenter", "custom_entity", "empty", 1f, 42.9742f, 0.1464f, 204.594f, 275.638f, 2065.11f, zeroDegGlobal, 0.367f, 1f);
-
-float sz_Uni = calc.getSize(640f);
-float sz_Tinia = calc.getSize(260f);
-float p_uniTinia = calc.getTime(8.309f);
-
-SectorEntityToken[] uniBinary = calc.spawnEllipticalBinary(system, uniBarycenter, "Uni", "Uni", sz_Uni, "asteroid", showNameMinor, "Tinia", "Tinia", sz_Tinia, "asteroid", showNameMinor, sz_Uni * 14.3f, 0.17f, p_uniTinia, 0f);
-
 // --- Other Hot Classical Planets ---
 
 // Aya (55565 2002 AW197)
-PlanetAPI Aya = (PlanetAPI) (falseMoons ? calc.spawnSPSObject4(system, Neptune, "Aya", "Aya", "frozen", null, 770f, 47.2981f, 0.1277f, 297.374f, 294.587f, 2077.21f, zeroDegGlobal, 0.244f, 1f, null, null, true, dist_Neptune, angleNeptune + 180f, p_Neptune, star) : calc.spawnSPSObject(system, star, "Aya", "Aya", "frozen", null, 770f, 47.2981f, 0.1277f, 297.374f, 294.587f, 2077.21f, zeroDegGlobal, 0.244f, 1f));
+PlanetAPI Aya = (PlanetAPI) calc.spawnSPSObject7(system, falseMoons ? Makemake : star, "Aya", "Aya", "frozen", null, 770f, 47.2981f, 0.1277f, 297.374f, 294.587f, 2077.21f, zeroDegGlobal, 0.244f, 1f, null, null, null, star, "Sol", false, falseMoons);
 
 Aya.getSpec().setTexture("graphics/planets/aya_tx.jpg"); 
 Aya.getSpec().setAtmosphereThickness(0f); 
@@ -1230,13 +1217,8 @@ if (!isSettled) {
     Aya.getMarket().addCondition("sol_porus");
 }
 
-// Goibniu
-SectorEntityToken Goibniu = calc.spawnSPSObject(system, star, "Goibniu", "Goibniu", "asteroid", showNameMinor, 730f, 41.8086f, 0.0760f, 250.576f, 289.667f, 1987.36f, zeroDegGlobal, 0.450f, 1f);
-SectorEntityToken goibnuStation = DerelictThemeGenerator.addSalvageEntity(system, Entities.DERELICT_SURVEY_SHIP, Factions.DERELICT); 
-goibnuStation.setCircularOrbitPointingDown(Goibniu, 90, 200f, calc.getTime(20f));
-
 // Máni
-PlanetAPI Mani = (PlanetAPI) (falseMoons ? calc.spawnSPSObject4(system, Neptune, "Mani", "Máni", "frozen", null, 800f, 41.5953f, 0.1487f, 216.186f, 215.216f, 2122.86f, zeroDegGlobal, null, 1f, null, null, true, dist_Neptune, angleNeptune + 180f, p_Neptune, star) : calc.spawnSPSObject(system, star, "Mani", "Máni", "frozen", null, 800f, 41.5953f, 0.1487f, 216.186f, 215.216f, 2122.86f, zeroDegGlobal, null, 1f));
+PlanetAPI Mani = (PlanetAPI) calc.spawnSPSObject7(system, falseMoons ? Quaoar : star, "Mani", "Máni", "frozen", null, 800f, 41.5953f, 0.1487f, 216.186f, 215.216f, 2122.86f, zeroDegGlobal, null, 1f, null, null, null, star, "Sol", false, falseMoons);
 
 Mani.getSpec().setTexture("graphics/planets/mani_tx.jpg"); 
 Mani.getSpec().setPlanetColor(new Color(230, 220, 210, 255)); 
@@ -1265,7 +1247,48 @@ if(speculativeBodiesExtreme){
     calc.spawnMoon(system, Mani, "Mani II", calc.getSize(40f), calc.getSize(800f) * 6f, calc.getTime(8f), 135f, showProvisionalNames);
 }
 
+// Officially this is named after the Greek primeval state of existence, and not the chaos gods. Do you buy that? This, for sure, made it past IAU because of an embedded Slanesh cult.
+// Chaos
+SectorEntityToken ChaosStation = calc.spawnSPSObject7(system, falseMoons ? Makemake : star, "Chaos", "Chaos", "custom_entity", "Chaos", 1f, 46.1089f, 0.1105f, 49.910f, 56.606f, 2034.25f, zeroDegGlobal, 1.0f, 1f, null, null, null, star, "Sol", false, falseMoons);
+if (!isSettled) {
+    ChaosStation.setInteractionImage("illustrations", "abandoned_station2");
+    Misc.setAbandonedStationMarket("marketChaosPirate", ChaosStation);
+
+    ChaosStation.getMarket().setName("Chaos");
+    ChaosStation.getMarket().addCondition("abandoned_station");
+    ChaosStation.getMarket().addCondition("very_cold");
+    ChaosStation.getMarket().addCondition("dark");
+    ChaosStation.getMarket().addCondition("low_gravity");
+    ChaosStation.getMarket().addCondition("no_atmosphere");
+    ChaosStation.getMarket().addCondition("ore_moderate");
+    ChaosStation.getMarket().addCondition("rare_ore_sparse");
+    ChaosStation.getMarket().addCondition("volatiles_plentiful");
+    ChaosStation.getMarket().addCondition("sol_contact_binary");
+    ChaosStation.getMarket().addCondition("sol_dist_abyssal");
+
+    for (MarketConditionAPI condition : ChaosStation.getMarket().getConditions()) {
+        condition.setSurveyed(true);
+    }
+}
+
+// Goibniu
+SectorEntityToken Goibniu = calc.spawnSPSObject(system, star, "Goibniu", "Goibniu", "asteroid", showNameMinor, 730f, 41.8086f, 0.0760f, 250.576f, 289.667f, 1987.36f, zeroDegGlobal, 0.450f, 1f);
+SectorEntityToken goibnuStation = DerelictThemeGenerator.addSalvageEntity(system, Entities.DERELICT_SURVEY_SHIP, Factions.DERELICT); 
+goibnuStation.setCircularOrbitPointingDown(Goibniu, 90, 200f, calc.getTime(20f));
+
 SectorEntityToken Xewioso = calc.spawnSPSObject(system, star, "Xewioso", "Xewioso", "asteroid", showNameMinor, 565f, 37.6872f, 0.2435f, 46.729f, 248.379f, 1926.52f, zeroDegGlobal, null, 1f);
+
+// Ritona
+SectorEntityToken Ritona = calc.spawnSPSObject(system, star, "Ritona", "Ritona", "asteroid", showNameMinor, 640f, 41.5534f, 0.0239f, 187.003f, 178.794f, 2034.86f, zeroDegGlobal, 0.290f, 1f);
+
+// Uni-Tinia (2002 UX25) | as/rp=14.3 | es=0.17 | Ps=8.309 d
+SectorEntityToken uniBarycenter = calc.spawnSPSObject(system, star, "uni_barycenter", "Uni Barycenter", "custom_entity", "empty", 1f, 42.9742f, 0.1464f, 204.594f, 275.638f, 2065.11f, zeroDegGlobal, 0.367f, 1f);
+
+float sz_Uni = calc.getSize(640f);
+float sz_Tinia = calc.getSize(260f);
+float p_uniTinia = calc.getTime(8.309f);
+
+SectorEntityToken[] uniBinary = calc.spawnEllipticalBinary(system, uniBarycenter, "Uni", "Uni", sz_Uni, "asteroid", showNameMinor, "Tinia", "Tinia", sz_Tinia, "asteroid", showNameMinor, sz_Uni * 14.3f, 0.17f, p_uniTinia, 0f);
 
 if(!transNeptuneShortlist){
     // --- Hot Classical Asteroids ---
@@ -1480,7 +1503,6 @@ Eris.applySpecChanges();
 
 calc.addConditions(Eris.getMarket(), new String[] {
     "very_cold",
-    "low_gravity",
     "thin_atmosphere",
     "ore_abundant",
     "rare_ore_abundant",
@@ -1536,7 +1558,7 @@ if(speculativeBodiesExtreme){
 }
 
 // Gonggong
-PlanetAPI Gonggong = (PlanetAPI) calc.spawnSPSObject(system, star, "Gonggong", "Gonggong", "frozen", null, 1230f, 66.8937f, 0.5032f, 336.840f, 206.642f, 1856.59f, zeroDegGlobal, null, 1f);
+PlanetAPI Gonggong = (PlanetAPI) calc.spawnSPSObject7(system, falseMoons ? Eris : star, "Gonggong", "Gonggong", "frozen", null, 1230f, 66.8937f, 0.5032f, 336.840f, 206.642f, 1856.59f, zeroDegGlobal, null, 1f, null, null, null, star, "Sol", false, falseMoons);
 
 Gonggong.getSpec().setTexture("graphics/planets/gonggong_tx.jpg");
 Gonggong.getSpec().setAtmosphereThickness(0f);
@@ -1569,7 +1591,7 @@ Xiangliu.setCustomDescriptionId("sol_xiangliu");
 // Gkunhomdima (229762)
 float sz_Gkun = calc.getSize(610f); float sz_GoeHu = calc.getSize(100f); 
 
-PlanetAPI Gkun = (PlanetAPI) calc.spawnSPSObject(system, star, "Gkunhomdima", "Gǃkún||hòmdímà", "frozen", null, 610f, 74.5870f, 0.4961f, 131.240f, 345.940f, 2046.02f, zeroDegGlobal, 0.458f, 1f);
+PlanetAPI Gkun = (PlanetAPI) calc.spawnSPSObject7(system, falseMoons ? Eris : star, "Gkunhomdima", "Gǃkún||hòmdímà", "frozen", null, 610f, 74.5870f, 0.4961f, 131.240f, 345.940f, 2046.02f, zeroDegGlobal, 0.458f, 1f, null, null, null, star, "Sol", false, falseMoons);
 
 Gkun.getSpec().setTexture("graphics/planets/gkun_tx.jpg"); 
 Gkun.getSpec().setAtmosphereThickness(0f); 
@@ -1605,7 +1627,7 @@ if(speculativeBodiesExtreme){
 float sz_fy27 = calc.getSize(742f); 
 float sz_fy27_moon = calc.getSize(190f); 
 
-PlanetAPI Chiminigagua = (PlanetAPI) calc.spawnSPSObject(system, star, "Chiminigagua", "Chiminigagua", "frozen", null, 742f, 58.8402f, 0.3918f, 187.031f, 139.457f, 2203.84f, zeroDegGlobal, 0.666f, 1f);
+PlanetAPI Chiminigagua = (PlanetAPI) calc.spawnSPSObject7(system, falseMoons ? Eris : star, "Chiminigagua", "Chiminigagua", "frozen", null, 742f, 58.8402f, 0.3918f, 187.031f, 139.457f, 2203.84f, zeroDegGlobal, 0.666f, 1f, null, null, null, star, "Sol", false, falseMoons);
 
 Chiminigagua.getSpec().setTexture("graphics/planets/chiminigagua_tx.jpg"); 
 Chiminigagua.getSpec().setPlanetColor(new Color(255, 240, 230, 255)); 
@@ -1631,30 +1653,6 @@ calc.addConditions(Chiminigagua.getMarket(), new String[] {
 
 // Minigagua
 calc.spawnMoon(system, Chiminigagua, "Minigagua", sz_fy27_moon, sz_fy27 * 4f, calc.getTime(15f), 180f, showMinorNames);
-
-// Officially this is named after the Greek primeval state of existence, and not the chaos gods. Do you buy that? This, for sure, made it past IAU because of an embedded Slanesh cult.
-// Chaos
-SectorEntityToken ChaosStation = calc.spawnSPSObject(system, star, "Chaos", "Chaos", "custom_entity", "Chaos", 1f, 46.1089f, 0.1105f, 49.910f, 56.606f, 2034.25f, zeroDegGlobal, 1.0f, 1f);
-if (!isSettled) {
-    ChaosStation.setInteractionImage("illustrations", "abandoned_station2");
-    Misc.setAbandonedStationMarket("marketChaosPirate", ChaosStation);
-
-    ChaosStation.getMarket().setName("Chaos");
-    ChaosStation.getMarket().addCondition("abandoned_station");
-    ChaosStation.getMarket().addCondition("very_cold");
-    ChaosStation.getMarket().addCondition("dark");
-    ChaosStation.getMarket().addCondition("low_gravity");
-    ChaosStation.getMarket().addCondition("no_atmosphere");
-    ChaosStation.getMarket().addCondition("ore_moderate");
-    ChaosStation.getMarket().addCondition("rare_ore_sparse");
-    ChaosStation.getMarket().addCondition("volatiles_plentiful");
-    ChaosStation.getMarket().addCondition("sol_contact_binary");
-    ChaosStation.getMarket().addCondition("sol_dist_abyssal");
-
-    for (MarketConditionAPI condition : ChaosStation.getMarket().getConditions()) {
-        condition.setSurveyed(true);
-    }
-}
 
 // Dziewanna
 SectorEntityToken Dziewanna = calc.spawnSPSObject(system, star, "Dziewanna", "Dziewanna", "asteroid", showNameMinor, 470f, 68.7806f, 0.5275f, 346.157f, 284.791f, 2038.94f, zeroDegGlobal, 0.295f, 1f);
@@ -1700,7 +1698,6 @@ Sedna.applySpecChanges();
 calc.addConditions(Sedna.getMarket(), new String[] {
     "very_cold",
     "dark",
-    "low_gravity",
     "no_atmosphere",
     "volatiles_trace",
     "ore_abundant",

@@ -478,7 +478,8 @@ static class KeplerComponent {
 // CompoundOrbit ================= Prominent in HP Lovecraft's work ===========
 // ============================================================================
 class CompoundOrbit implements OrbitAPI {
-    final SectorEntityToken focus;
+    final SectorEntityToken focus;            // math anchor
+    final SectorEntityToken declaredFocus;    // null = honest; non-null = faux (what getFocus reports)
     SectorEntityToken entity;
     final KeplerComponent[] components;
     final boolean singleComponent;
@@ -492,10 +493,11 @@ class CompoundOrbit implements OrbitAPI {
     float spinRate = 0f;
     final boolean hasSpin;
 
-    // ---- Constructors ----
+    // ---- Honest constructors ----
 
     CompoundOrbit(SectorEntityToken focus, List<KeplerComponent> components) {
         this.focus = focus;
+        this.declaredFocus = null;
         int n = components.size();
         KeplerComponent[] arr = new KeplerComponent[n];
         for (int i = 0; i < n; i++) {
@@ -509,6 +511,7 @@ class CompoundOrbit implements OrbitAPI {
 
     CompoundOrbit(SectorEntityToken focus, KeplerComponent... components) {
         this.focus = focus;
+        this.declaredFocus = null;
         this.components = components;
         this.singleComponent = (components.length == 1);
         this.spinRate = 0f;
@@ -516,8 +519,9 @@ class CompoundOrbit implements OrbitAPI {
     }
 
     CompoundOrbit(SectorEntityToken focus, List<KeplerComponent> components,
-                float spinMin, float spinMax) {
+                  float spinMin, float spinMax) {
         this.focus = focus;
+        this.declaredFocus = null;
         int n = components.size();
         KeplerComponent[] arr = new KeplerComponent[n];
         for (int i = 0; i < n; i++) {
@@ -538,10 +542,50 @@ class CompoundOrbit implements OrbitAPI {
 
     CompoundOrbit(SectorEntityToken focus, KeplerComponent[] components, float spinRate) {
         this.focus = focus;
+        this.declaredFocus = null;
         this.components = components;
         this.singleComponent = (components.length == 1);
         this.spinRate = spinRate;
         this.hasSpin = (spinRate != 0f);
+    }
+
+    // ---- Faux constructors (declaredFocus reported by getFocus, anchor used for math) ----
+
+    CompoundOrbit(SectorEntityToken declaredFocus, SectorEntityToken anchor,
+                  List<KeplerComponent> components) {
+        this.focus = anchor;
+        this.declaredFocus = declaredFocus;
+        int n = components.size();
+        KeplerComponent[] arr = new KeplerComponent[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = (KeplerComponent) components.get(i);
+        }
+        this.components = arr;
+        this.singleComponent = (n == 1);
+        this.spinRate = 0f;
+        this.hasSpin = false;
+    }
+
+    CompoundOrbit(SectorEntityToken declaredFocus, SectorEntityToken anchor,
+                  List<KeplerComponent> components, float spinMin, float spinMax) {
+        this.focus = anchor;
+        this.declaredFocus = declaredFocus;
+        int n = components.size();
+        KeplerComponent[] arr = new KeplerComponent[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = (KeplerComponent) components.get(i);
+        }
+        this.components = arr;
+        this.singleComponent = (n == 1);
+
+        float sr;
+        if (spinMin == spinMax) {
+            sr = spinMin;
+        } else {
+            sr = spinMin + (float)(Math.random() * (spinMax - spinMin));
+        }
+        this.spinRate = sr;
+        this.hasSpin = (sr != 0f);
     }
 
     // ---- Core loop ----
@@ -595,7 +639,17 @@ class CompoundOrbit implements OrbitAPI {
         for (int i = 0; i < components.length; i++) {
             copies[i] = components[i].copy();
         }
-        CompoundOrbit c = new CompoundOrbit(focus, copies, spinRate);
+        CompoundOrbit c;
+        if (declaredFocus != null) {
+            // Faux copy: rebuild via faux constructor so declaredFocus and anchor are preserved.
+            // Need a List for the faux constructor; build it explicitly.
+            List<KeplerComponent> copyList = new ArrayList<KeplerComponent>(copies.length);
+            for (int i = 0; i < copies.length; i++) copyList.add(copies[i]);
+            if (hasSpin) c = new CompoundOrbit(declaredFocus, focus, copyList, spinRate, spinRate);
+            else         c = new CompoundOrbit(declaredFocus, focus, copyList);
+        } else {
+            c = new CompoundOrbit(focus, copies, spinRate);
+        }
         c.facing = this.facing;
         return c;
     }
@@ -606,7 +660,9 @@ class CompoundOrbit implements OrbitAPI {
         return reusableVec;
     }
 
-    public SectorEntityToken getFocus() { return focus; }
+    public SectorEntityToken getFocus() {
+        return declaredFocus != null ? declaredFocus : focus;
+    }
 
     public float getOrbitalPeriod() {
         float dps = components[0].degPerSec;
@@ -646,7 +702,7 @@ class CompoundOrbit implements OrbitAPI {
         return getOrbitalPeriod();
     }
 
-    public void setCircularOrbitRadius(float radius) { // SNA
+    public void setCircularOrbitRadius(float radius) { // SMA
         KeplerComponent old = components[0];
         float secondsPerDay = Global.getSector().getClock().getSecondsPerDay();
         float period = old.degPerSec != 0f ? -360f / (old.degPerSec * secondsPerDay) : 1f;
@@ -667,6 +723,7 @@ class CompoundOrbit implements OrbitAPI {
                                             old.meanAnomaly, old.sign);
     }
 }
+
 public class SPSUtils {
 // =================================================================================================================
 // 1. TIME CALCULATOR (Required by new Spawner)
@@ -913,8 +970,8 @@ public SectorEntityToken spawnSPSObject5(StarSystemAPI system,
 }
 
 // =================================================================================================================
-// SECTION: SPS6 — host-aware (Sol or gas giant) + retrograde-aware core
-// =================================================================================================================`
+// SECTION: SPS6 — backwards-compatible forwarder (no faux parenting)
+// =================================================================================================================
 public SectorEntityToken spawnSPSObject6(StarSystemAPI system,
                     SectorEntityToken primary,
                     String id, String name, String type, String subType,
@@ -928,6 +985,34 @@ public SectorEntityToken spawnSPSObject6(StarSystemAPI system,
                     SectorEntityToken primaryOffset,
                     String hostName,
                     boolean isRetrograde) {
+    return spawnSPSObject7(system, primary, id, name, type, subType,
+        diameterKM, SMA, ecc, longAscNode, argPeri,
+        perihelionYear, angleOffset, rotationalPeriod, hostStarMass,
+        overridePeriod, resonantSMA, extraParams, primaryOffset,
+        hostName, isRetrograde, false);
+}
+
+// =================================================================================================================
+// SECTION: SPS7 — host-aware + retrograde-aware + fauxParented (false-moon parentage trick)
+// =================================================================================================================
+// When fauxParented=true (and primary != primaryOffset, and occult path active):
+//   - getFocus() reports `primary` (intel-screen / parentage queries see this as the parent)
+//   - orbit math anchors on `primaryOffset` (the body actually orbits this)
+// Only takes effect on the CompoundOrbit branches (BRANCH 2 circular+extras, BRANCH 3 elliptical occult).
+public SectorEntityToken spawnSPSObject7(StarSystemAPI system,
+                    SectorEntityToken primary,
+                    String id, String name, String type, String subType,
+                    float diameterKM,
+                    float SMA, Float ecc,
+                    float longAscNode, float argPeri,
+                    float perihelionYear, float angleOffset,
+                    Float rotationalPeriod, Float hostStarMass,
+                    Float overridePeriod, Float resonantSMA,
+                    float[][] extraParams,
+                    SectorEntityToken primaryOffset,
+                    String hostName,
+                    boolean isRetrograde,
+                    boolean fauxParented) {
 
     // ---------------------------------------------------------------------
     // Parameter normalisation
@@ -951,7 +1036,7 @@ public SectorEntityToken spawnSPSObject6(StarSystemAPI system,
 
     if(overridePeriod == null){
         signedPeriod = isRetrograde ? -baseMagPeriod : baseMagPeriod;
-    } else { 
+    } else {
         signedPeriod = baseMagPeriod;
     }
 
@@ -972,6 +1057,10 @@ public SectorEntityToken spawnSPSObject6(StarSystemAPI system,
     float   dirSign   = isRetrograde ? -1f : +1f;
     boolean isRock    = typeKey.equals("asteroid") || typeKey.equals("moon");
 
+    boolean useFaux = fauxParented && occultOrbitBeta && (primary != primaryOffset);
+
+    SectorEntityToken initialParent = useFaux ? primaryOffset : primary;
+
     // ---------------------------------------------------------------------
     // BRANCH 1: CIRCULAR ORBIT — legacy fast path (no CompoundOrbit needed)
     // ---------------------------------------------------------------------
@@ -981,15 +1070,15 @@ public SectorEntityToken spawnSPSObject6(StarSystemAPI system,
 
         if (typeKey.equals("custom_entity")) {
             resultingEntity = system.addCustomEntity(id, name, subType, "neutral");
-            if (hasCustomSpin) resultingEntity.setCircularOrbitWithSpin(primary, currentAngle, orbitRadius, signedPeriod, customSpin, customSpin);
-            else               resultingEntity.setCircularOrbit(primary, currentAngle, orbitRadius, signedPeriod);
+            if (hasCustomSpin) resultingEntity.setCircularOrbitWithSpin(initialParent, currentAngle, orbitRadius, signedPeriod, customSpin, customSpin);
+            else               resultingEntity.setCircularOrbit(initialParent, currentAngle, orbitRadius, signedPeriod);
 
         } else if (isRock) {
             resultingEntity = SolAsteroidFactory.createAsteroid(system, size, id, name, !(subType == "no_name"));
-            resultingEntity.setCircularOrbitWithSpin(primary, currentAngle, orbitRadius, signedPeriod, customSpin, customSpin);
+            resultingEntity.setCircularOrbitWithSpin(initialParent, currentAngle, orbitRadius, signedPeriod, customSpin, customSpin);
 
         } else {
-            resultingEntity = system.addPlanet(id, primary, name, type, currentAngle, size, orbitRadius, signedPeriod);
+            resultingEntity = system.addPlanet(id, initialParent, name, type, currentAngle, size, orbitRadius, signedPeriod);
         }
         return resultingEntity;
     }
@@ -1003,12 +1092,12 @@ public SectorEntityToken spawnSPSObject6(StarSystemAPI system,
 
         if (typeKey.equals("custom_entity")) {
             resultingEntity = system.addCustomEntity(id, name, subType, "neutral");
-            resultingEntity.setCircularOrbit(primary, 0f, orbitRadius, signedPeriod);
+            resultingEntity.setCircularOrbit(initialParent, 0f, orbitRadius, signedPeriod);
         } else if (isRock) {
             resultingEntity = SolAsteroidFactory.createAsteroid(system, size, id, name, !(subType == "no_name"));
-            resultingEntity.setCircularOrbitWithSpin(primary, 0f, orbitRadius, signedPeriod, customSpin, customSpin);
+            resultingEntity.setCircularOrbitWithSpin(initialParent, 0f, orbitRadius, signedPeriod, customSpin, customSpin);
         } else {
-            resultingEntity = system.addPlanet(id, primary, name, type, 0f, size, orbitRadius, signedPeriod);
+            resultingEntity = system.addPlanet(id, initialParent, name, type, 0f, size, orbitRadius, signedPeriod);
         }
 
         List<KeplerComponent> comps = new ArrayList<KeplerComponent>(1 + extraParams.length);
@@ -1019,9 +1108,16 @@ public SectorEntityToken spawnSPSObject6(StarSystemAPI system,
         }
 
         boolean wantSpin = hasCustomSpin && (isRock || typeKey.equals("custom_entity"));
-        CompoundOrbit orbit = wantSpin
-            ? new CompoundOrbit(primary, comps, customSpin, customSpin)
-            : new CompoundOrbit(primary, comps);
+        CompoundOrbit orbit;
+        if (useFaux) {
+            orbit = wantSpin
+                ? new CompoundOrbit(primary, primaryOffset, comps, customSpin, customSpin)
+                : new CompoundOrbit(primary, primaryOffset, comps);
+        } else {
+            orbit = wantSpin
+                ? new CompoundOrbit(primary, comps, customSpin, customSpin)
+                : new CompoundOrbit(primary, comps);
+        }
         orbit.setEntity(resultingEntity);
         resultingEntity.setOrbit(orbit);
         orbit.advance(0);
@@ -1038,12 +1134,12 @@ public SectorEntityToken spawnSPSObject6(StarSystemAPI system,
 
         if (typeKey.equals("custom_entity")) {
             resultingEntity = system.addCustomEntity(id, name, subType, "neutral");
-            resultingEntity.setCircularOrbit(primary, 0f, orbitRadius, signedPeriod);
+            resultingEntity.setCircularOrbit(initialParent, 0f, orbitRadius, signedPeriod);
         } else if (isRock) {
             resultingEntity = SolAsteroidFactory.createAsteroid(system, size, id, name, !(subType == "no_name"));
-            resultingEntity.setCircularOrbitWithSpin(primary, 0f, orbitRadius, signedPeriod, customSpin, customSpin);
+            resultingEntity.setCircularOrbitWithSpin(initialParent, 0f, orbitRadius, signedPeriod, customSpin, customSpin);
         } else {
-            resultingEntity = system.addPlanet(id, primary, name, type, 0f, size, orbitRadius, signedPeriod);
+            resultingEntity = system.addPlanet(id, initialParent, name, type, 0f, size, orbitRadius, signedPeriod);
         }
 
         int extrasLen = hasExtras ? extraParams.length : 0;
@@ -1057,9 +1153,16 @@ public SectorEntityToken spawnSPSObject6(StarSystemAPI system,
         }
 
         boolean wantSpin = hasCustomSpin && (isRock || typeKey.equals("custom_entity"));
-        CompoundOrbit orbit = wantSpin
-            ? new CompoundOrbit(primary, comps, customSpin, customSpin)
-            : new CompoundOrbit(primary, comps);
+        CompoundOrbit orbit;
+        if (useFaux) {
+            orbit = wantSpin
+                ? new CompoundOrbit(primary, primaryOffset, comps, customSpin, customSpin)
+                : new CompoundOrbit(primary, primaryOffset, comps);
+        } else {
+            orbit = wantSpin
+                ? new CompoundOrbit(primary, comps, customSpin, customSpin)
+                : new CompoundOrbit(primary, comps);
+        }
         orbit.setEntity(resultingEntity);
         resultingEntity.setOrbit(orbit);
         orbit.advance(0);
@@ -1070,8 +1173,6 @@ public SectorEntityToken spawnSPSObject6(StarSystemAPI system,
     // ---------------------------------------------------------------------
     // BRANCH 4: ELLIPTICAL ORBIT — legacy epicycle (Center + Tracer)
     // ---------------------------------------------------------------------
-    // Tracer carries signedPeriod; body orbits tracer with -signedPeriod. This preserves the
-    // historical "tracer P, body -P" relationship in both prograde and retrograde cases.
     float E_deg = SPSUtils.getEccentricAnomalyFromMean(safeE, meanAnomaly);
 
     SectorEntityToken center = system.addCustomEntity(null, null, "empty", "neutral");
@@ -1100,7 +1201,7 @@ public SectorEntityToken spawnSPSObject6(StarSystemAPI system,
     }
     return resultingEntity;
 }
-
+    
 // Yay spawnbeanentity depreciated
 // YAY NO MORE SPAWN PLANETOID OR SPAWN ASTEROID
 // Yay Binarycomponent - elliptical orbit fusion

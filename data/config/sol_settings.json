@@ -2,7 +2,7 @@
     ## 0 disables all minor planet names (bar custom entities), 
     ## 1 disables provisional names, (DEFAULT)
     ## 2 shows all names
-    "Show_Names": 0,
+    "Show_Names": 2,
 
     ## Fills the system with a massive amount of renmnant nexuses and fleets.
     "Remnant_Horde": true,
@@ -25,7 +25,7 @@
 
     ## what is the AD start date,
     ## dictates planet starting position.
-    "Current_Year": 9995,
+    "Current_Year": 1005,
 
     ## ======= Sector Position =======
 
@@ -42,8 +42,6 @@
 
     ## disable if you hate the Sol star system, but installed this mod, for purposes unkown.
 	"Generate_Sol": true,   
-
-
 
     ## disables some less interesting NEAs
     "Inner_Sol_Shortlist": true,
@@ -91,6 +89,11 @@
 
     ## Disables smaller and unnamed trans neptunians
     "Trans_Neptune_Shortlist": true,
+
+    ## 0 - just major ones (default)
+    ## 1 - adds minor stable langranges
+    ## 2 - add l3
+    "Stable_Points_Detail": 0,
 
     ## A few asteroids from science fiction which A, I respect, and B, has the grace to include a minor TNO or Jovian Irreg
     "Fictional_Trans_Neptunian_Objects": true,

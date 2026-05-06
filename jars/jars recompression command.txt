@@ -1,16 +1,8 @@
 @echo off
-:: 1. Go to the Starsector Game Folder
-cd /d "C:\Program Files (x86)\Fractal Softworks\Starsector"
+set CLASSPATH="starsector-core\starfarer.api.jar;starsector-core\json.jar;starsector-core\log4j-1.2.9.jar;starsector-core\lwjgl_util.jar;mods\Wide Horizons v1.3.1b\jars\WideHorizons.jar"
 
-:: 2. Set Classpath
-:: FIX: Removed 'lib' folder. Libraries are directly in starsector-core.
-:: If your log4j version number is different, check the folder and update the name below.
-set CLASSPATH="starsector-core\starfarer.api.jar;starsector-core\json.jar;starsector-core\log4j-1.2.9.jar"
-
-:: 3. Set where your mod source code is
 set SOURCEPATH="mods\Solsector\jars"
 
-:: 4. List all files to compile
 set FILES=^
 mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\SolIntelHelper.java ^
 mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\sol_industry_compat.java ^
@@ -63,6 +55,7 @@ mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\sol_civilised_subpop
 mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\sol_civilised_world.java ^
 mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\sol_oort_strikes.java ^
 mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\sol_subsurface_aquaponics.java ^
+mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\other\sol_location_xy.java ^
 mods\Solsector\jars\com\fs\starfarer\api\impl\campaign\econ\sol_access_condition.java 
 
 :: 5. Execute Compilation
