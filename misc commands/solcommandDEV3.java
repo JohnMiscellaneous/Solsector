@@ -52,13 +52,14 @@ import com.fs.starfarer.api.EveryFrameScript;
 import org.json.JSONObject;
 import java.util.Random;
 
-import data.scripts.world.systems.RemnantNexusFactory;
-import data.scripts.world.systems.SolEconomies;
-import data.scripts.world.systems.SolHyperspaceGen;
-import data.scripts.world.systems.RemnantPatrolFactory;
-import data.scripts.world.systems.GiantMoonsTotal;
-import data.scripts.world.systems.cometsCentaursTNOs;
-import data.scripts.world.systems.AstroCalc;
+
+import soljars.gen.utils.RemnantNexusFactory;
+import soljars.gen.systems.sol.SolEconomies;
+import soljars.gen.utils.SolHyperspaceGen;
+import soljars.gen.utils.RemnantPatrolFactory;
+import soljars.gen.systems.sol.GiantMoonsTotal;
+import soljars.gen.systems.sol.CometsCentaursTNOs;
+import soljars.gen.utils.AstroCalc;
 
 StarSystemAPI system = (StarSystemAPI) Global.getSector().getPlayerFleet().getContainingLocation();
 SectorEntityToken player = Global.getSector().getPlayerFleet();
@@ -88,7 +89,7 @@ new Cleanup().cleanupSystem(system, star, player);
 // ============================ LET THERE BE LIGHT =========================
 // =========================================================================
 // Suun
-float zeroDegGlobal = 180f;
+float zeroDegGlobal = 146f;
 
 // I didn’t bother changing the texture, the yellow_star texture is basically a slightly altered version of a popular sun true color.
 
@@ -98,7 +99,7 @@ float zeroDegGlobal = 180f;
 
 system.setBackgroundTextureFilename("graphics/backgrounds/background2.jpg"); 
 
-float solMapGridSize = 115000f; 
+float solMapGridSize = 120000f; 
 system.setMapGridWidthOverride(solMapGridSize);
 system.setMapGridHeightOverride(solMapGridSize);
 
@@ -3439,7 +3440,7 @@ if(stablePointDetail >= 2){
     L3_Neptune.setCircularOrbit(star, angleNeptune - 180f, dist_Neptune, p_Neptune);
 }
 
-new cometsCentaursTNOs().spawn(system, star, zeroDegGlobal);
+new CometsCentaursTNOs().spawn(system, star, zeroDegGlobal);
 
 SectorEntityToken SolIX = system.getEntityById("SolIX");
 SectorEntityToken DeeDee = system.getEntityById("DeeDee");

@@ -52,12 +52,12 @@ import com.fs.starfarer.api.EveryFrameScript;
 import org.json.JSONObject;
 import java.util.Random;
 
-import data.scripts.world.systems.RemnantNexusFactory;
-import data.scripts.world.systems.SolEconomies;
-import data.scripts.world.systems.SolHyperspaceGen;
-import data.scripts.world.systems.RemnantPatrolFactory;
-import data.scripts.world.systems.GiantMoonsTotal;
-import data.scripts.world.systems.cometsCentaursTNOs;
+import soljars.gen.utils.RemnantNexusFactory;
+import soljars.gen.systems.sol.SolEconomies;
+import soljars.gen.utils.SolHyperspaceGen;
+import soljars.gen.utils.RemnantPatrolFactory;
+import soljars.gen.systems.sol.GiantMoonsTotal;
+import soljars.gen.systems.sol.CometsCentaursTNOs;
 
 StarSystemAPI system = (StarSystemAPI) Global.getSector().getPlayerFleet().getContainingLocation();
 SectorEntityToken player = Global.getSector().getPlayerFleet();
@@ -1414,7 +1414,7 @@ float zeroDegGlobal = 210f;
 
 system.setBackgroundTextureFilename("graphics/backgrounds/background2.jpg"); 
 
-float solMapGridSize = 115000f; 
+float solMapGridSize = 150000f; 
 system.setMapGridWidthOverride(solMapGridSize);
 system.setMapGridHeightOverride(solMapGridSize);
 
@@ -1688,7 +1688,7 @@ VulcanShunt.setDiscoverable(true);
 VulcanShunt.setSensorProfile(4000f);
 
 // Vulcan Energy | Orbital Station
-float dist_VulcanEnergy = dist_VulcanShunt + 130;
+float dist_VulcanEnergy = dist_VulcanShunt + 200;
 SectorEntityToken VulcanEnergy = system.addCustomEntity("VulcanEnergy", "Vulcan Station", "station_sporeship_derelict", "neutral");
 VulcanEnergy.setCircularOrbitPointingDown(star, 0, dist_VulcanEnergy, calc.getTime(30f));
 
@@ -4684,7 +4684,7 @@ KV18Ship.setCircularOrbitWithSpin(KV18, 90, 40f, calc.getTime(5f), 10, -10);
 // 2013 KY18 | 30 km | a=30.031 AU | e=0.121
 calc.spawnSPSObject2(system, star, "2013 KY18", "2013 KY18", "asteroid", showNameProv, 30f, 30.0310f, 0.1207f, 84.424f, 272.927f, 2056.59f, zeroDegGlobal, null, 1f, p_Neptune, dist_NeptuneRaw);
 
-new cometsCentaursTNOs().spawn(system, star, zeroDegGlobal);
+new CometsCentaursTNOs().spawn(system, star, zeroDegGlobal);
 
 SectorEntityToken SolIX = system.getEntityById("SolIX");
 SectorEntityToken DeeDee = system.getEntityById("DeeDee");

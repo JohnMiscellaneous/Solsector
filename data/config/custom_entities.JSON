@@ -1743,7 +1743,7 @@
 		"renderCircleIndicatorSelectionFlash":false,
 	},
 		"Polyso":{
-		"defaultName":"Polyso", # used if name=null in addCustomEntity()
+		"defaultName":"Polyso Station", # used if name=null in addCustomEntity()
 		"defaultRadius":30, # used if radius<0 in addCustomEntity()
 		"customDescriptionId":"orbital_station_default",
 		"interactionImage":"graphics/illustrations/jangala_station.jpg",
@@ -1753,6 +1753,27 @@
 		"sprite":"graphics/stations/polyso.png",
 		"spriteWidth":44,
 		"spriteHeight":44,
+		"renderShadow":true, #true,
+		"useLightColor":true,
+		"showInCampaign":true,
+		"showIconOnMap":true,
+		"showNameOnMap":false,
+		"scaleNameWithZoom":false,
+		"scaleIconWithZoom":true,
+		"tags":["station"],
+		"layers":[STATIONS], # what layer(s) to render in. See CampaignEngineLayers.java for possible values
+	},
+		"Vulcan":{
+		"defaultName":"Vulcan Station", # used if name=null in addCustomEntity()
+		"defaultRadius":70, # used if radius<0 in addCustomEntity()
+		"customDescriptionId":"orbital_station_default",
+		"interactionImage":"graphics/illustrations/sol_coronal_tap.jpg",
+		"icon":"graphics/icons/station0.png",
+		"iconWidth":24,
+		"iconHeight":24,
+		"sprite":"graphics/stations/sol_vulcan.png",
+		"spriteWidth":60,
+		"spriteHeight":105,
 		"renderShadow":true, #true,
 		"useLightColor":true,
 		"showInCampaign":true,

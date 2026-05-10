@@ -2,7 +2,7 @@
     ## 0 disables all minor planet names (bar custom entities), 
     ## 1 disables provisional names, (DEFAULT)
     ## 2 shows all names
-    "Show_Names": 2,
+    "Show_Names": 0,
 
     ## Fills the system with a massive amount of renmnant nexuses and fleets.
     "Remnant_Horde": true,
@@ -25,7 +25,7 @@
 
     ## what is the AD start date,
     ## dictates planet starting position.
-    "Current_Year": 1005,
+    "Current_Year": 10005,
 
     ## ======= Sector Position =======
 
@@ -88,7 +88,7 @@
     "Centaur_Shortlist": true,
 
     ## Disables smaller and unnamed trans neptunians
-    "Trans_Neptune_Shortlist": true,
+    "Trans_Neptune_Shortlist": false,
 
     ## 0 - just major ones (default)
     ## 1 - adds minor stable langranges
@@ -102,7 +102,7 @@
     ## 1 adds planet 9 (the famous pocket ice giant)
     ## 2 adds planet 10 (a mercury-mars sized scattered disk object)
     ## 3 adds Sean N. Raymond's 7% chance oort ice giant 
-    "Speculative_Bodies_Big": 0,
+    "Speculative_Bodies_Big": 1,
 
     ## 0 is confirmed moons only, (default)
     ## 1 is convincing speculative moons, 
@@ -157,7 +157,6 @@
 
     "giantTimeExt": 10,
     "giantTimeInt": 0.8,
-    "giantTimeLinMod": 1,
 
     "progradeMult": -1, ## in progress
 

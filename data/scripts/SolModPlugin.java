@@ -7,8 +7,9 @@ import com.fs.starfarer.api.impl.campaign.ids.Commodities;
 import org.json.JSONObject;
 
 // Scripts
-import data.scripts.world.systems.SolTotal;
-import data.scripts.world.systems.SolDeferredSetupScript;
+import soljars.gen.systems.sol.SolTotal;
+import soljars.gen.systems.sol.SolDeferredSetupScript;
+import soljars.econ.utils.DistanceConditionManager;
 
 public class SolModPlugin extends BaseModPlugin {
 
@@ -38,5 +39,6 @@ public class SolModPlugin extends BaseModPlugin {
         // Deferred setup script (replaces SolStationListener + SolDiscoveryListener).
         // Transient — re-added every load. Self-removes on first tick if all work is already done.
         Global.getSector().addTransientScript(new SolDeferredSetupScript());
+        DistanceConditionManager.install();
     }
 }
