@@ -169,9 +169,9 @@ try {
     isSettled = Global.getSettings().loadJSON("data/config/sol_settings.json").optBoolean("Generate_Settled_Planets", true);
 } catch (Exception e) {}
 
-boolean remnantHorde = true;
+int remnantHorde = 1;
 try {
-    remnantHorde = Global.getSettings().loadJSON("data/config/sol_settings.json").optBoolean("Remnant_Horde", true);
+    remnantHorde = Global.getSettings().loadJSON("data/config/sol_settings.json").optInt("remnant_difficulty", 1);
 } catch (Exception e) {}
 
 int deepSpaceProbes = 1;
@@ -198,22 +198,50 @@ try {
 
 
 // Object Generation Settings
-boolean innerSolShortlist = true;
+int DetailSetting = 0;
 try {
-    innerSolShortlist = Global.getSettings().loadJSON("data/config/sol_settings.json").optBoolean("Inner_Sol_Shortlist", true);
+    DetailSetting = Global.getSettings().loadJSON("data/config/sol_settings.json").optInt("Inner_Sol_Detail", 0);
+} catch (Exception e) {}
+boolean innerSolShortlist = true;
+if(DetailSetting >= 1){
+    innerSolShortlist = false;  
+}
+
+DetailSetting = 0;
+try {
+    DetailSetting = Global.getSettings().loadJSON("data/config/sol_settings.json").optInt("Visited_Asteroids_Detail", 0);
 } catch (Exception e) {}
 boolean visitedAsteroidsShortlist = true;
+if(DetailSetting >= 1){
+    visitedAsteroidsShortlist = false;  
+}
+
+DetailSetting = 0;
 try {
-    visitedAsteroidsShortlist = Global.getSettings().loadJSON("data/config/sol_settings.json").optBoolean("Visited_Asteroids_Shortlist", true);
+    DetailSetting = Global.getSettings().loadJSON("data/config/sol_settings.json").optInt("Asteroid_Belt_Detail", 0);
 } catch (Exception e) {}
 boolean asteroidBeltShortlist = true;
+if(DetailSetting >= 1){
+    asteroidBeltShortlist = false;  
+}
+
+DetailSetting = 1;
 try {
-    asteroidBeltShortlist = Global.getSettings().loadJSON("data/config/sol_settings.json").optBoolean("Asteroid_Belt_Shortlist", true);
+    DetailSetting = Global.getSettings().loadJSON("data/config/sol_settings.json").optInt("Hilda_Detail", 1);
+} catch (Exception e) {}
+boolean hildaShortlist = true;
+if(DetailSetting >= 1){
+    hildaShortlist = false;  
+}
+
+DetailSetting = 1;
+try {
+    DetailSetting = Global.getSettings().loadJSON("data/config/sol_settings.json").optInt("Jupiter_Trojans_Detail", 1);
 } catch (Exception e) {}
 boolean jupiterTrojansShortlist = true;
-try {
-    jupiterTrojansShortlist = Global.getSettings().loadJSON("data/config/sol_settings.json").optBoolean("Jupiter_Trojans_Shortlist", true);
-} catch (Exception e) {}
+if(DetailSetting >= 1){
+    jupiterTrojansShortlist = false;  
+}
 
 int jupiterDetailSetting = 0;
 try {
@@ -229,26 +257,60 @@ try {
 boolean saturnAll = (saturnDetailSetting >= 2)? true : false;
 boolean saturnShortlist = (saturnDetailSetting >= 1)? false : true;
 
-boolean uranusShortlist = true;
+DetailSetting = 0;
 try {
-    uranusShortlist = Global.getSettings().loadJSON("data/config/sol_settings.json").optBoolean("Uranus_Shortlist", true);
+    DetailSetting = Global.getSettings().loadJSON("data/config/sol_settings.json").optInt("Uranus_Detail", 0);
+} catch (Exception e) {}
+boolean uranusShortlist = true;
+if(DetailSetting >= 1){
+    uranusShortlist = false;  
+}
+
+DetailSetting = 0;
+try {
+    DetailSetting = Global.getSettings().loadJSON("data/config/sol_settings.json").optInt("Neptune_Detail", 0);
 } catch (Exception e) {}
 boolean neptuneShortlist = true;
+if(DetailSetting >= 1){
+    neptuneShortlist = false;  
+}
+
+DetailSetting = 0;
 try {
-    neptuneShortlist = Global.getSettings().loadJSON("data/config/sol_settings.json").optBoolean("Neptune_Shortlist", true);
+    DetailSetting = Global.getSettings().loadJSON("data/config/sol_settings.json").optInt("Neptune_Trojans_Detail", 1);
 } catch (Exception e) {}
 boolean neptuneTrojansShortlist = true;
+if(DetailSetting >= 1){
+    neptuneTrojansShortlist = false;  
+}
+
+DetailSetting = 0;
 try {
-    neptuneTrojansShortlist = Global.getSettings().loadJSON("data/config/sol_settings.json").optBoolean("Neptune_Trojans_Shortlist", true);
+    DetailSetting = Global.getSettings().loadJSON("data/config/sol_settings.json").optInt("Centaur_Detail", 0);
 } catch (Exception e) {}
 boolean centaurShortlist = true;
+if(DetailSetting >= 1){
+    centaurShortlist = false;  
+}
+
+DetailSetting = 1;
 try {
-    centaurShortlist = Global.getSettings().loadJSON("data/config/sol_settings.json").optBoolean("Trans_Neptune_Shortlist", true);
+    DetailSetting = Global.getSettings().loadJSON("data/config/sol_settings.json").optInt("Kuiper_Detail", 1);
 } catch (Exception e) {}
 boolean transNeptuneShortlist = true;
+if(DetailSetting >= 1){
+    transNeptuneShortlist = false;  
+}
+
+DetailSetting = 1;
 try {
-    transNeptuneShortlist = Global.getSettings().loadJSON("data/config/sol_settings.json").optBoolean("Trans_Neptune_Shortlist", true);
+    DetailSetting = Global.getSettings().loadJSON("data/config/sol_settings.json").optInt("Scattered_Disk_Detail", 1);
 } catch (Exception e) {}
+boolean scatteredDiskShortlist = true;
+if(DetailSetting >= 1){
+    scatteredDiskShortlist = false;  
+}
+
 
 // Shit from the respectible end of science fiction
 // no inexplicable 2km moons even closer to Jupiter than Thebe, and no ninth planets, leda, 1999 ZX30, and Burns-Caulfield
@@ -265,31 +327,46 @@ try {
 } catch (Exception e) {}
 
 // Disables unnamed bodies showing up on map
-int showNamesSetting = 1;
+int showNamesSetting = 0;
 try {
-    showNamesSetting = Global.getSettings().loadJSON("data/config/sol_settings.json").optInt("Show_Names", 1);
+    showNamesSetting = Global.getSettings().loadJSON("data/config/sol_settings.json").optInt("Show_Names", 0);
 } catch (Exception e) {}
 
 boolean showMinorNames;
 boolean showProvisionalNames;
+boolean showCustomNames;
 String showNameMinor;
 String showNameProv;
+String showNameCustom;
 
-if (showNamesSetting == 2) {
+if (showNamesSetting == 3) {
     showMinorNames = true;
     showProvisionalNames = true;
-    showNameMinor = null;
-    showNameProv = null;
+    showCustomNames = true;
+    showNameMinor = "w_name";
+    showNameProv = "w_name";
+    showNameCustom = "w_name";
+} else if (showNamesSetting == 2) {
+    showMinorNames = true;
+    showProvisionalNames = false;
+    showCustomNames = true;
+    showNameMinor = "w_name";
+    showNameProv = "no_name";
+    showNameCustom = "w_name";
 } else if (showNamesSetting == 0) {
     showMinorNames = false;
     showProvisionalNames = false;
+    showCustomNames = false;
     showNameMinor = "no_name";
     showNameProv = "no_name";
+    showNameCustom = "no_name";
 } else { // default: 1
-    showMinorNames = true;
+    showMinorNames = false;
     showProvisionalNames = false;
-    showNameMinor = null;
+    showCustomNames = true;
+    showNameMinor = "no_name";
     showNameProv = "no_name";
+    showNameCustom = "w_name";
 }
 
 // Single chord moons, indicated bodies, etc, whatevers too controvertial and not cool enough to send it anyways
@@ -520,7 +597,7 @@ Misc.setAbandonedStationMarket("vanera_market", vanera);
 
 vanera.getMarket().setName("Vanera 4789");
 vanera.getMarket().addCondition("abandoned_station");
-vanera.getMarket().addCondition("decivilized");
+vanera.getMarket().addCondition("sol_degenerate");
 vanera.getMarket().addCondition("very_hot");
 vanera.getMarket().addCondition("sol_megaforges");
 
@@ -824,7 +901,8 @@ calc.addConditions(Mars.getMarket(), new String[] {
     "sol_ancient_orbital_manufactories",
     "sol_dust_storms",
     "sol_space_elevator_nearby",
-    "sol_oort_strikes"
+    "sol_oort_strikes",
+    "sol_frozen_atmosphere_polar"
 });
 
 Mars.getSpec().setTexture("graphics/planets/mars_tx.jpg"); 
@@ -840,12 +918,14 @@ Mars.getSpec().setCloudColor(new Color(255, 200, 150, 50));
 Mars.getSpec().setCloudRotation(-9.0f); 
 Mars.applySpecChanges(); 
 
+Mars.getMarket().getMemoryWithoutUpdate().set("$sol_polar_atmosphere_level", 2);
+
 // =========================================================================
 // ========================== MARS MOONS ===================================
 // =========================================================================
 
 // Phobos
-float p_Phobos = calc.getTime(0.319f);
+float p_Phobos = calc.getTimeGiant(0.319f);
 PlanetAPI Phobos = system.addPlanet("phobos", Mars, "Phobos", "barren", 0f, calc.getSize(22f), sz_Mars * 2f, p_Phobos);
 
 Phobos.getSpec().setTexture("graphics/planets/phobos_tx.jpg");
@@ -876,7 +956,7 @@ if(generateElevators){
 }
 
 // Deimos
-float p_Deimos = calc.getTime(1.262f);
+float p_Deimos = calc.getTimeGiant(1.262f);
 PlanetAPI Deimos = system.addPlanet("deimos", Mars, "Deimos", "barren", 210f, calc.getSize(12f), sz_Mars * 6f, p_Deimos);
 
 Deimos.getSpec().setTexture("graphics/planets/deimos_tx.jpg");
@@ -941,7 +1021,6 @@ float sz_Atira = calc.getSize(4.8f);
 float p_AtiraAlphaBeta =  calc.getTime(.649f);
 SectorEntityToken Atira = calc.spawnSPSObject(system, star, "Atira", "Atira", "asteroid", showNameMinor, 4.8f, 0.7427f, 0.3221f, 104.397f, 252.825f, 2003.05f, zeroDegGlobal, -p_AtiraAlphaBeta / rotMult, 1f);
 Atira.setCustomDescriptionId("sol_atira");
-
 calc.spawnMoon(system, Atira, "163693 Beta", 2f, sz_Atira * 3.25f, p_AtiraAlphaBeta, 45f, showProvisionalNames);
 
 // Aylochaxnim
@@ -974,11 +1053,11 @@ jpPhaethon.setCircularOrbit(Phaethon, 20, 35, 10);
 system.addEntity(jpPhaethon);
 
 // Toutatis
-SectorEntityToken Toutatis = calc.spawnSPSObject(system, star, "Toutatis", "Toutatis", "custom_entity", "Touatis", 5.4f, 2.5321f, 0.6288f, 124.300f, 278.750f, 2012.95f, zeroDegGlobal, 5.410f, 1f);
+SectorEntityToken Toutatis = calc.spawnSPSObject(system, star, "Toutatis", "Toutatis", "custom_entity", "Touatis" + showNameCustom, 5.4f, 2.5321f, 0.6288f, 124.300f, 278.750f, 2012.95f, zeroDegGlobal, 5.410f, 1f);
 
 if(!visitedAsteroidsShortlist){
     // Bennu | just a rock
-    SectorEntityToken Bennu = calc.spawnSPSObject(system, star, "Bennu", "Bennu", "custom_entity", "Bennu", 0.5f, 1.1264f, 0.2037f, 2.061f, 66.223f, 2010.66f, zeroDegGlobal, 0.179f, 1f);
+    SectorEntityToken Bennu = calc.spawnSPSObject(system, star, "Bennu", "Bennu", "custom_entity", "Bennu" + showNameCustom, 0.5f, 1.1264f, 0.2037f, 2.061f, 66.223f, 2010.66f, zeroDegGlobal, 0.179f, 1f);
     // TODO ASTEROID TEXTURE
     // Ryugu | just a rock
     SectorEntityToken Ryugu = calc.spawnSPSObject(system, star, "Ryugu", "Ryugu", "asteroid", showNameMinor, 0.9f, 1.1896f, 0.1902f, 251.620f, 211.430f, 2016.73f, zeroDegGlobal, 0.318f, 1f);
@@ -1309,10 +1388,16 @@ SectorEntityToken Themis = calc.spawnSPSObject(system, star, "Themis", "Themis",
 // Antiope
 float sz_Antiope_Comp = calc.getSize(88f);
 float p_Antiope = calc.getTime(2022f);
-SectorEntityToken antiopeBarycenter = calc.spawnSPSObject(system, star, "AntiopeBarycenter", "Antiope Barycenter", "custom_entity", "empty", 120f, 3.1560f, 0.1560f, 70.200f, 242.400f, 2021.46f, zeroDegGlobal, 0.688f, 1f);
+float p_AntiopeAB = calc.getTime(1f);
 
-SectorEntityToken AntiopeA = calc.spawnMoon(system, antiopeBarycenter, "Antiope A", sz_Antiope_Comp, sz_Antiope_Comp * 3f, 1f, 0f, showMinorNames);
-SectorEntityToken AntiopeB = calc.spawnMoon(system, antiopeBarycenter, "Antiope B", sz_Antiope_Comp, sz_Antiope_Comp * 3f, 1f, 180f, showMinorNames);
+float[][] antiopeExtras = new float[][]{
+    { sz_Antiope_Comp * 3f, 0f,  0f, p_AntiopeAB,  0f, +1f } 
+};
+
+SectorEntityToken AntiopeA = calc.spawnSPSObject7(system, star, "AntiopeA", "AntiopeA", "asteroid", showNameMinor, 88f, 3.1560f, 0.1560f, 70.200f, 242.400f, 2021.46f, zeroDegGlobal, 0.688f, 1f, null, null, antiopeExtras, star, "Sol", false, false);
+
+SectorEntityToken AntiopeB = calc.spawnMoon(system, AntiopeA, "Antiope B", sz_Antiope_Comp, sz_Antiope_Comp * 6f, p_AntiopeAB, 180f, showMinorNames);
+SectorEntityToken ElevatorAB = calc.spawnTransBinaryElevator(system, AntiopeA, "ElevatorAB", "Antiope-Antiope Elevator", sz_Antiope_Comp * 6f, 180f, p_AntiopeAB);
 
 // Antiope Station | Orbital Station 
 // SectorEntityToken antiopeStation = system.addCustomEntity("antiope_station", "Antiope Station", "station_side02", "neutral");
@@ -1347,9 +1432,9 @@ if(!asteroidBeltShortlist){
 // Flora 
 SectorEntityToken Flora = calc.spawnSPSObject(system, star, "Flora", "Flora", "asteroid", showNameMinor, 140f, 2.2014f, 0.1566f, 110.850f, 285.400f, 2024.09f, zeroDegGlobal, 0.536f, 1f);
 
-SectorEntityToken Donaldjohanson = calc.spawnSPSObject(system, star, "Donaldjohanson", "Donaldjohanson", "custom_entity", "Donaldjohanson", 3.9f, 2.3835f, 0.1869f, 262.776f, 212.836f, 2024.92f, zeroDegGlobal, 10.500f, 1f);
+SectorEntityToken Donaldjohanson = calc.spawnSPSObject(system, star, "Donaldjohanson", "Donaldjohanson", "custom_entity", "Donaldjohanson" + showNameCustom, 3.9f, 2.3835f, 0.1869f, 262.776f, 212.836f, 2024.92f, zeroDegGlobal, 10.500f, 1f);
 
-SectorEntityToken Gaspra = calc.spawnSPSObject(system, star, "Gaspra", "Gaspra", "custom_entity", "Gaspra", 12.2f, 2.2102f, 0.1734f, 252.988f, 130.037f, 2025.41f, zeroDegGlobal, 0.293f, 1f);
+SectorEntityToken Gaspra = calc.spawnSPSObject(system, star, "Gaspra", "Gaspra", "custom_entity", "Gaspra" + showNameCustom, 12.2f, 2.2102f, 0.1734f, 252.988f, 130.037f, 2025.41f, zeroDegGlobal, 0.293f, 1f);
 
 // =========================================================================
 // GROUP 5: METALLIC (M-TYPE) & HIGH-DENSITY OBJECTS
@@ -1402,14 +1487,16 @@ glencoreStation.setDiscoverable(true);
 glencoreStation.setSensorProfile(2000f);
 
 // Lutetia 
-SectorEntityToken Lutetia = calc.spawnSPSObject(system, star, "Lutetia", "Lutetia", "custom_entity", "Lutetia", 100f, 2.4349f, 0.1636f, 80.900f, 250.210f, 2022.05f, zeroDegGlobal, 0.340f, 1f);
+SectorEntityToken Lutetia = calc.spawnSPSObject(system, star, "Lutetia", "Lutetia", "custom_entity", "Lutetia" + showNameCustom, 100f, 2.4349f, 0.1636f, 80.900f, 250.210f, 2022.05f, zeroDegGlobal, 0.340f, 1f);
 
+if(remnantHorde < 2){
 // VALE LUTETIA 
 SectorEntityToken valeStation = DerelictThemeGenerator.addSalvageEntity(system, "station_mining_remnant", Factions.DERELICT);
 valeStation.setName("Vale Lutetia");
 valeStation.setCircularOrbitPointingDown(Lutetia, 45, 180, calc.getTime(55f));
 valeStation.setDiscoverable(true);
 valeStation.setSensorProfile(2000f);
+}
 
 // Antigone
 SectorEntityToken Antigone = calc.spawnSPSObject(system, star, "Antigone", "Antigone", "asteroid", showNameMinor, 125f, 2.8670f, 0.2131f, 135.660f, 108.310f, 2022.75f, zeroDegGlobal, 0.206f, 1f);
@@ -1443,10 +1530,10 @@ newmontStation.setSensorProfile(2000f);
 SectorEntityToken Eunomia = calc.spawnSPSObject(system, star, "Eunomia", "Eunomia", "asteroid", showNameMinor, 268f, 2.6430f, 0.1870f, 293.300f, 97.900f, 2024.55f, zeroDegGlobal, 0.254f, 1f);
 
 // Ida
-SectorEntityToken Ida = calc.spawnSPSObject(system, star, "Ida", "Ida", "custom_entity", "Ida", 32f, 2.8610f, 0.0444f, 323.600f, 113.900f, 2025.73f, zeroDegGlobal, 0.193f, 1f);
+SectorEntityToken Ida = calc.spawnSPSObject(system, star, "Ida", "Ida", "custom_entity", "Ida" + showNameCustom, 32f, 2.8610f, 0.0444f, 323.600f, 113.900f, 2025.73f, zeroDegGlobal, 0.193f, 1f);
 
 // Dactyl (Moon)
-SectorEntityToken Dactyl = system.addCustomEntity("Dactyl", "Dactyl", "Dactyl", "neutral"); 
+SectorEntityToken Dactyl = system.addCustomEntity("Dactyl", "Dactyl", "Dactyl" + showNameCustom, "neutral"); 
 Dactyl.setCircularOrbitPointingDown(Ida, 0f, calc.getSize(31.4f) * 5f,  calc.getTime(20f));
 
 // 31 Euphrosyne
@@ -1671,11 +1758,11 @@ magFieldOuter.setCircularOrbit(Jupiter, 0, 0, calc.getTimeGiant(3.55f));
 
 // Metis
 float p_Io = calc.getTimeGiant(1.77f); 
-SectorEntityToken Metis = system.addCustomEntity("Metis", "Metis", "Metis", "neutral"); 
+SectorEntityToken Metis = system.addCustomEntity("Metis", "Metis", "Metis" + showNameCustom, "neutral"); 
 Metis.setCircularOrbitPointingDown(Jupiter, 153f, calc.getDistJupiter(0.00085f), p_Io / 6f);
 
 // Metis
-SectorEntityToken Adrastea = system.addCustomEntity("Adrastea", "Adrastea", "Adrastea", "neutral"); 
+SectorEntityToken Adrastea = system.addCustomEntity("Adrastea", "Adrastea", "Adrastea" + showNameCustom, "neutral"); 
 Adrastea.setCircularOrbitPointingDown(Jupiter, 237f, calc.getDistJupiter(0.00086f), calc.getTimeGiant(0.298f));
 
 // Amalthea
@@ -1707,10 +1794,11 @@ calc.addConditions(Amalthea.getMarket(), new String[] {
     "sol_antimatter_infrastructure",
     "sol_irradiated_extreme",
     "sol_tidal_lock",
+    "sol_tiny_polity",
     "sol_meteoroids"
 });
 // Thebe
-SectorEntityToken Thebe = system.addCustomEntity("Thebe", "Thebe", "Thebe", "neutral"); 
+SectorEntityToken Thebe = system.addCustomEntity("Thebe", "Thebe", "Thebe" + showNameCustom, "neutral"); 
 Thebe.setCircularOrbitPointingDown(Jupiter, 125f, calc.getDistJupiter(0.0015f), calc.getTimeGiant(0.675f));
 
 // ## GALILEAN MOONS--------------------------------------------------------
@@ -1759,6 +1847,7 @@ Europa.getSpec().setAtmosphereThickness(0f);
 Europa.getSpec().setAtmosphereThicknessMin(10f); 
 Europa.getSpec().setAtmosphereColor(new Color(0, 0, 0, 0)); 
 Europa.getSpec().setIconColor(new Color(200, 200, 220, 255)); 
+Europa.getSpec().setCloudColor(new Color(0, 0, 0, 0)); 
 Europa.getSpec().setTilt(3.1f); 
 Europa.getSpec().setPitch(90f); 
 Europa.getSpec().setRotation(-360f / (p_Europa * 10f)); 
@@ -1773,6 +1862,7 @@ calc.addConditions(Europa.getMarket(), new String[] {
     "rare_ore_sparse",
     "sol_tidal_lock",
     "no_atmosphere",
+    "sol_subsurface_ocean",
     "low_gravity"
 });
 // Ganymede
@@ -1841,6 +1931,7 @@ calc.addConditions(Callisto.getMarket(), new String[] {
     "rare_ore_sparse",
     "sol_tidal_lock",
     "ruins_extensive",
+    "sol_subsurface_ocean",
     "sol_degenerate"
 });
 JumpPointAPI lightspeedJump = Global.getFactory().createJumpPoint("lightspeed_jump", "Jovian Jump Point");
@@ -1882,6 +1973,7 @@ calc.addConditions(Himalia.getMarket(), new String[] {
     "volatiles_diffuse",
     "ruins_scattered",
     "poor_light",
+    "sol_tiny_polity",
     "sol_meteoroids"
 });
 
@@ -1987,7 +2079,7 @@ calc.addConditions(Hektor.getMarket(), new String[] {
 calc.spawnMoon(system, Hektor, "Hektor (Lobe)", sz_HektorLobe, hekOffsets[0] + hekOffsets[1], p_HektorBinary, 180f, false);
 
 // Hektor barycenter
-SectorEntityToken hektorBarycenter = system.addCustomEntity("plutoBarycenter", "plutoBarycenter", "empty", "neutral"); 
+SectorEntityToken hektorBarycenter = system.addCustomEntity("hektorBarycenter", "hektorBarycenter", "empty", "neutral"); 
 hektorBarycenter.setCircularOrbitPointingDown(Hektor, 180f, hekOffsets[0], p_HektorBinary);
 
 // Skamandrios (Moon) — orbits Hektor | as/rp=10.4 | es=0.31 | Ps=2.965 d
@@ -2119,14 +2211,13 @@ for (MarketConditionAPI condition : marketPeleus.getConditions()) {
 peleusStation.setDiscoverable(true);
 peleusStation.setSensorProfile(4000f);
 
-SectorEntityToken PatMenLine = system.addCustomEntity("PatMenLine", "PatMenLine", "PatMenLine", "neutral"); 
-PatMenLine.setCircularOrbitPointingDown(peleusStation, 0f, 1, p_patroclusmenoetius);
-
-SectorEntityToken Patroclus = system.addCustomEntity("Patroclus", "Patroclus", "Patroclus", "neutral"); 
+SectorEntityToken Patroclus = system.addCustomEntity("Patroclus", "Patroclus", "Patroclus" + showNameMinor, "neutral"); 
 Patroclus.setCircularOrbitPointingDown(peleusStation, 0f, 75, p_patroclusmenoetius);
 
-SectorEntityToken Menoetius = system.addCustomEntity("Menoetius", "Menoetius", "Menoetius", "neutral"); 
+SectorEntityToken Menoetius = system.addCustomEntity("Menoetius", "Menoetius", "Menoetius" + showNameMinor, "neutral"); 
 Menoetius.setCircularOrbitPointingDown(peleusStation, 180f, 88, p_patroclusmenoetius);
+
+SectorEntityToken ElevatorPM = calc.spawnTransBinaryElevator(system, Patroclus, "ElevatorPM", "Patroclus-Menoetius Elevator", 88f + 75f, 180f, p_patroclusmenoetius);
 
 // Mentor | 126 km
 SectorEntityToken Mentor = calc.spawnSPSObject2(system, star, "Mentor", "Mentor", "asteroid", showNameMinor, 126f, 5.1951f, 0.0746f, 179.479f, 134.727f, 2022.30f, zeroDegGlobal, 0.321f, 1f, p_Jupiter, dist_JupiterRaw);
@@ -2190,16 +2281,77 @@ calc.addConditions(Hilda.getMarket(), new String[] {
     "ore_sparse",
     "cold",
     "ruins_scattered",
+    "sol_tiny_polity",
     "sol_meteoroids"
 });
 // 1911 Schubart | 67 km
 calc.spawnSPSObject2(system, star, "Schubart", "Schubart", "asteroid", showNameMinor, 67f, 3.9807f, 0.1731f, 284.773f, 181.886f, 2022.58f, zeroDegGlobal, 0.496f, 1f, p_Hilda, hildaResonantSMA);
 
-if(!asteroidBeltShortlist){
+if(!hildaShortlist){
     // 190 Ismene | 159 km 
     calc.spawnSPSObject2(system, star, "Ismene", "Ismene", "asteroid", showNameMinor, 159f, 3.9949f, 0.1683f, 175.396f, 271.448f, 2029.54f, zeroDegGlobal, 0.272f, 1f, p_Hilda, hildaResonantSMA);
     // 361 Bononia | 154 km
     calc.spawnSPSObject2(system, star, "Bononia", "Bononia", "asteroid", showNameMinor, 154f, 3.9786f, 0.2107f, 18.557f, 66.823f, 2025.11f, zeroDegGlobal, 0.576f, 1f, p_Hilda, hildaResonantSMA);
+    // 499 Venusia | ~81 km
+    calc.spawnSPSObject2(system, star, "Venusia", "Venusia", "asteroid", showNameMinor, 81f, 4.0086f, 0.2147f, 256.245f, 174.952f, 2013.25f, zeroDegGlobal, 0.562f, 1f, p_Hilda, hildaResonantSMA);
+    // 748 Simeisa | ~104 km
+    calc.spawnSPSObject2(system, star, "Simeisa", "Simeisa", "asteroid", showNameMinor, 104f, 3.9472f, 0.1881f, 265.460f, 177.730f, 2021.19f, zeroDegGlobal, 0.497f, 1f, p_Hilda, hildaResonantSMA);
+    // 958 Asplinda | ~47 km
+    calc.spawnSPSObject2(system, star, "Asplinda", "Asplinda", "asteroid", showNameMinor, 47f, 3.9849f, 0.1846f, 343.120f, 92.950f, 2017.04f, zeroDegGlobal, 0.689f, 1f, p_Hilda, hildaResonantSMA);
+    // 1038 Tuckia | ~58 km
+    calc.spawnSPSObject2(system, star, "Tuckia", "Tuckia", "asteroid", showNameMinor, 58f, 3.9820f, 0.2204f, 57.769f, 305.020f, 2018.10f, zeroDegGlobal, 0.967f, 1f, p_Hilda, hildaResonantSMA);
+    // 1144 Oda | ~58 km
+    calc.spawnSPSObject2(system, star, "Oda", "Oda", "asteroid", showNameMinor, 58f, 3.7489f, 0.0942f, 156.730f, 220.870f, 2015.03f, zeroDegGlobal, 1.834f, 1f, p_Hilda, hildaResonantSMA);
+    // 1162 Larissa | ~44 km (not to be confused with the moon of neptune)
+    calc.spawnSPSObject2(system, star, "LarissaA", "Larissa", "asteroid", showNameMinor, 44f, 3.9393f, 0.1095f, 39.808f, 209.550f, 2018.65f, zeroDegGlobal, 0.272f, 1f, p_Hilda, hildaResonantSMA);
+    // 1180 Rita | ~97 kmnull
+    calc.spawnSPSObject2(system, star, "Rita", "Rita", "asteroid", showNameMinor, 97f, 3.9851f, 0.1575f, 88.336f, 209.120f, 2012.51f, zeroDegGlobal, 0.621f, 1f, p_Hilda, hildaResonantSMA);
+    // 1202 Marina | ~55 km
+    calc.spawnSPSObject2(system, star, "Marina", "Marina", "asteroid", showNameMinor, 55f, 3.9980f, 0.1661f, 49.880f, 307.450f, 2017.99f, zeroDegGlobal, 0.399f, 1f, p_Hilda, hildaResonantSMA);
+    // 1212 Francette | ~82 km
+    calc.spawnSPSObject2(system, star, "Francette", "Francette", "asteroid", showNameMinor, 82f, 3.9541f, 0.1914f, 149.580f, 348.230f, 2019.36f, zeroDegGlobal, 0.935f, 1f, p_Hilda, hildaResonantSMA);
+    // 1256 Normannia | ~69 km
+    calc.spawnSPSObject2(system, star, "Normannia", "Normannia", "asteroid", showNameMinor, 69f, 3.8949f, 0.0782f, 236.940f, 101.060f, 2017.56f, zeroDegGlobal, 0.755f, 1f, p_Hilda, hildaResonantSMA);
+    // 1268 Libya | ~94 km
+    calc.spawnSPSObject2(system, star, "Libya", "Libya", "asteroid", showNameMinor, 94f, 3.9737f, 0.1019f, 351.000f, 119.430f, 2014.21f, zeroDegGlobal, 0.585f, 1f, p_Hilda, hildaResonantSMA);
+    // 1269 Rollandia | ~105 km
+    calc.spawnSPSObject2(system, star, "Rollandia", "Rollandia", "asteroid", showNameMinor, 105f, 3.9023f, 0.0996f, 134.710f, 19.460f, 2019.47f, zeroDegGlobal, 0.723f, 1f, p_Hilda, hildaResonantSMA);
+    // 1345 Potomac | ~72 km
+    calc.spawnSPSObject2(system, star, "Potomac", "Potomac", "asteroid", showNameMinor, 72f, 3.9856f, 0.1818f, 137.430f, 333.120f, 2018.63f, zeroDegGlobal, 0.475f, 1f, p_Hilda, hildaResonantSMA);
+    // 1512 Oulu | ~82 km
+    calc.spawnSPSObject2(system, star, "Oulu", "Oulu", "asteroid", showNameMinor, 82f, 3.9717f, 0.1466f, 10.168f, 238.200f, 2010.34f, zeroDegGlobal, 5.513f, 1f, p_Hilda, hildaResonantSMA);
+    // 1529 Oterma | ~56 km
+    calc.spawnSPSObject2(system, star, "Oterma", "Oterma", "asteroid", showNameMinor, 56f, 3.9924f, 0.2006f, 100.590f, 295.080f, 2016.56f, zeroDegGlobal, 0.656f, 1f, p_Hilda, hildaResonantSMA);
+    // 1578 Kirkwood | ~51 km
+    calc.spawnSPSObject2(system, star, "Kirkwood", "Kirkwood", "asteroid", showNameMinor, 51f, 3.9236f, 0.2391f, 74.002f, 1.773f, 2013.47f, zeroDegGlobal, 0.522f, 1f, p_Hilda, hildaResonantSMA);
+    // 1748 Mauderli | ~44 km
+    calc.spawnSPSObject2(system, star, "Mauderli", "Mauderli", "asteroid", showNameMinor, 44f, 3.9403f, 0.2223f, 125.950f, 199.950f, 2012.82f, zeroDegGlobal, 0.250f, 1f, p_Hilda, hildaResonantSMA);
+    // 1754 Cunningham | ~79 km
+    calc.spawnSPSObject2(system, star, "Cunningham", "Cunningham", "asteroid", showNameMinor, 79f, 3.9422f, 0.1696f, 162.900f, 109.620f, 2015.90f, zeroDegGlobal, 0.322f, 1f, p_Hilda, hildaResonantSMA);
+    // 1877 Marsden | ~35 km
+    calc.spawnSPSObject2(system, star, "Marsden", "Marsden", "asteroid", showNameMinor, 35f, 3.9439f, 0.2076f, 352.860f, 306.870f, 2012.36f, zeroDegGlobal, 0.600f, 1f, p_Hilda, hildaResonantSMA);
+    // 1439 Vogtia | ~47 km
+    calc.spawnSPSObject2(system, star, "Vogtia", "Vogtia", "asteroid", showNameMinor, 47f, 4.0028f, 0.1179f, 35.575f, 101.700f, 2011.55f, zeroDegGlobal, 0.537f, 1f, p_Hilda, hildaResonantSMA);
+    // 1902 Shaposhnikov | ~97 km
+    calc.spawnSPSObject2(system, star, "Shaposhnikov", "Shaposhnikov", "asteroid", showNameMinor, 97f, 3.9651f, 0.2219f, 59.315f, 268.160f, 2013.59f, zeroDegGlobal, 0.874f, 1f, p_Hilda, hildaResonantSMA);
+    // 1941 Wild | ~17 km (not to be confused with the other Wild in this codebase)
+    calc.spawnSPSObject2(system, star, "WildaA", "1941 Wild", "asteroid", showNameMinor, 17f, 3.9520f, 0.2886f, 60.454f, 302.700f, 2011.38f, zeroDegGlobal, 0.377f, 1f, p_Hilda, hildaResonantSMA);
+    // 2067 Aksnes | ~46 km
+    calc.spawnSPSObject2(system, star, "Aksnes", "Aksnes", "asteroid", showNameMinor, 46f, 3.9637f, 0.1816f, 150.240f, 297.330f, 2013.48f, zeroDegGlobal, 0.740f, 1f, p_Hilda, hildaResonantSMA);
+    // 2246 Bowell | ~44 km
+    calc.spawnSPSObject2(system, star, "Bowell", "Bowell", "asteroid", showNameMinor, 44f, 3.9576f, 0.0938f, 155.660f, 21.544f, 2012.33f, zeroDegGlobal, 0.208f, 1f, p_Hilda, hildaResonantSMA);
+    // 2312 Duboshin | ~54 km
+    calc.spawnSPSObject2(system, star, "Duboshin", "Duboshin", "asteroid", showNameMinor, 54f, 3.9613f, 0.1568f, 61.441f, 342.000f, 2012.75f, zeroDegGlobal, 2.116f, 1f, p_Hilda, hildaResonantSMA);
+    // 2483 Guinevere | ~42 km
+    calc.spawnSPSObject2(system, star, "Guinevere", "Guinevere", "asteroid", showNameMinor, 42f, 3.9710f, 0.2776f, 252.040f, 183.360f, 2017.57f, zeroDegGlobal, 0.614f, 1f, p_Hilda, hildaResonantSMA);
+    // 2959 Scholl | ~34 km
+    calc.spawnSPSObject2(system, star, "Scholl", "Scholl", "asteroid", showNameMinor, 34f, 3.9436f, 0.2749f, 121.240f, 285.080f, 2015.94f, zeroDegGlobal, 0.667f, 1f, p_Hilda, hildaResonantSMA);
+    // 3202 Graff | ~36 km
+    calc.spawnSPSObject2(system, star, "Graff", "Graff", "asteroid", showNameMinor, 36f, 3.9363f, 0.1148f, 205.140f, 268.810f, 2011.27f, zeroDegGlobal, 0.722f, 1f, p_Hilda, hildaResonantSMA);
+    // 3254 Bus | ~32 km
+    calc.spawnSPSObject2(system, star, "Bus", "Bus", "asteroid", showNameMinor, 32f, 3.9548f, 0.1643f, 43.479f, 305.670f, 2013.69f, zeroDegGlobal, 0.276f, 1f, p_Hilda, hildaResonantSMA);
+    // 4230 van den Bergh | ~37 km
+    calc.spawnSPSObject2(system, star, "vandenBergh", "van den Bergh", "asteroid", showNameMinor, 37f, 3.9502f, 0.1338f, 160.470f, 20.889f, 2016.80f, zeroDegGlobal, 3.663f, 1f, p_Hilda, hildaResonantSMA);
 }
 
 // =========================================================================
@@ -2273,7 +2425,7 @@ if(!saturnShortlist){
 }
 
 // Pan
-SectorEntityToken Pan = system.addCustomEntity("Pan", "Pan", "Pan", "neutral"); 
+SectorEntityToken Pan = system.addCustomEntity("Pan", "Pan", "Pan" + showNameCustom, "neutral"); 
 Pan.setCircularOrbitPointingDown(Saturn, 45f, calc.getSatRingPos(133584f), calc.getTimeGiant(0.575f));
 
 if(!saturnShortlist){
@@ -2282,7 +2434,7 @@ if(!saturnShortlist){
 }
 
 // Atlas
-SectorEntityToken Atlas = system.addCustomEntity("Atlas", "Atlas", "Atlas", "neutral"); 
+SectorEntityToken Atlas = system.addCustomEntity("Atlas", "Atlas", "Atlas" + showNameCustom, "neutral"); 
 Atlas.setCircularOrbitPointingDown(Saturn, 135f, calc.getSatRingPos(137670f), calc.getTimeGiant(0.601f));
 
 // In a fair and just world Janus with 10x the mass of prometheus and the cool co-moon situation with epimetheus would get to be the planet and prometheus would just be another asteroid, but life isn't fair and prometheus got a good name, while Janus just sounds like some guy.
@@ -2312,12 +2464,14 @@ calc.addConditions(Prometheus.getMarket(), new String[] {
     "irradiated",
     "sol_tidal_lock",
     "sol_antimatter_infrastructure",
+    "sol_tiny_polity",
     "sol_meteoroids"
 });
+
 // END OF SHEPHERD MOONS ===============================================
 
 // Pandora
-SectorEntityToken Pandora = system.addCustomEntity("Pandora", "Pandora", "Pandora", "neutral"); 
+SectorEntityToken Pandora = system.addCustomEntity("Pandora", "Pandora", "Pandora" + showNameCustom, "neutral"); 
 Pandora.setCircularOrbitPointingDown(Saturn, 225f, calc.getDistSaturn(0.000947f), calc.getTimeGiant(0.628f));
 
 // Some Day I will figure out horseshoe orbits with circles, then I will come for janus and epimethius >:|
@@ -2325,11 +2479,11 @@ float p_JanusEpimetheus = calc.getTimeGiant(0.694f);
 float dist_JanusEpimetheus = calc.getDistSaturn(0.001013f);
 
 // Epimetheus
-SectorEntityToken Epimetheus = system.addCustomEntity("Epimetheus", "Epimetheus", "Epimetheus", "neutral"); 
+SectorEntityToken Epimetheus = system.addCustomEntity("Epimetheus", "Epimetheus", "Epimetheus" + showNameCustom, "neutral"); 
 Epimetheus.setCircularOrbitPointingDown(Saturn, 270f, dist_JanusEpimetheus, p_JanusEpimetheus);
 
 // Janus
-SectorEntityToken Janus = system.addCustomEntity("Janus", "Janus", "Janus", "neutral"); 
+SectorEntityToken Janus = system.addCustomEntity("Janus", "Janus", "Janus" + showNameCustom, "neutral"); 
 Janus.setCircularOrbitPointingDown(Saturn, 280f, dist_JanusEpimetheus, p_JanusEpimetheus);
 
 if(!saturnShortlist){
@@ -2363,7 +2517,7 @@ Mimas.getSpec().setRotation(-360f / (p_Mimas * 10f));
 Mimas.applySpecChanges();
 
 calc.addConditions(Mimas.getMarket(), new String[] {
-    "very_cold",
+    "cold", 
     "low_gravity",
     "no_atmosphere",
     "poor_light",
@@ -2372,11 +2526,15 @@ calc.addConditions(Mimas.getMarket(), new String[] {
     "sol_tidal_lock",
     "volatiles_diffuse",
     "ruins_scattered",
+    "sol_subsurface_ocean",
     "irradiated"
 });
+if(!isSettled){
+Mimas.getMarket().addCondition("sol_degenerate");
+}
 // Methone's smaller but better photographed than Pallene, it is the most famous of the hydrostatic equilibrium trolls
 // Methone
-SectorEntityToken Methone = system.addCustomEntity("Methone", "Methone", "Methone", "neutral"); 
+SectorEntityToken Methone = system.addCustomEntity("Methone", "Methone", "Methone" + showNameCustom, "neutral"); 
 Methone.setCircularOrbitPointingDown(Saturn, 60f, calc.getDistSaturn(0.00135f), p_Mimas * (15f/14f));
 
 if(!saturnShortlist){
@@ -2399,21 +2557,20 @@ Enceladus.getSpec().setIconColor(new Color(240, 250, 255, 255));
 Enceladus.getSpec().setTilt(26.7f);
 Enceladus.getSpec().setPitch(90f);
 Enceladus.getSpec().setRotation(-360f / (p_Enceladus * 10f));
-Enceladus.getSpec().setCloudTexture("graphics/planets/clouds_white.png");
-Enceladus.getSpec().setCloudColor(new Color(255, 255, 255, 40));
-Enceladus.getSpec().setCloudRotation(-6.0f);
+Enceladus.getSpec().setCloudColor(new Color(0, 0, 0, 0));
 Enceladus.applySpecChanges();
 
 calc.addConditions(Enceladus.getMarket(), new String[] {
     "volatiles_plentiful",
     "low_gravity",
     "no_atmosphere",
-    "very_cold",
+    "cold",
     "poor_light",
     "tectonic_activity",
     "sol_tidal_lock",
     "sol_degenerate",
     "ruins_widespread",
+    "sol_subsurface_ocean",
     "pollution"
 });
 // ## TETHYS SYSTEM (Trojan Setup)------------------------------------------
@@ -2451,10 +2608,10 @@ calc.addConditions(Tethys.getMarket(), new String[] {
     Tethys.getMarket().addCondition("sol_porus");
 }
 
-SectorEntityToken Telesto = system.addCustomEntity("Telesto", "Telesto", "Telesto", "neutral"); 
+SectorEntityToken Telesto = system.addCustomEntity("Telesto", "Telesto", "Telesto" + showNameCustom, "neutral"); 
 Telesto.setCircularOrbitPointingDown(Saturn, angleTethys + 60f, dist_Tethys, p_Tethys);
 
-SectorEntityToken Calypso = system.addCustomEntity("Calypso", "Calypso", "Calypso", "neutral"); 
+SectorEntityToken Calypso = system.addCustomEntity("Calypso", "Calypso", "Calypso" + showNameCustom, "neutral"); 
 Calypso.setCircularOrbitPointingDown(Saturn, angleTethys - 60f, dist_Tethys, p_Tethys);
 
 // ## DIONE SYSTEM (Trojan Setup)-------------------------------------------
@@ -2487,17 +2644,18 @@ calc.addConditions(Dione.getMarket(), new String[] {
     "volatiles_plentiful",
     "ore_sparse",
     "ruins_scattered",
+    "sol_subsurface_ocean",
     "tectonic_activity"
 });} else {
     Dione.getMarket().addCondition("sol_porus");
 }
 
 // --- L4 Trojan: Helene ---
-SectorEntityToken Helene = system.addCustomEntity("Helene", "Helene", "Helene", "neutral"); 
+SectorEntityToken Helene = system.addCustomEntity("Helene", "Helene", "Helene" + showNameCustom, "neutral"); 
 Helene.setCircularOrbitPointingDown(Saturn, angleDione + 60f, dist_Dione, p_Dione);
 
 // --- L5 Trojan: Polydeuces ---
-SectorEntityToken Polydeuces = system.addCustomEntity("Polydeuces", "Polydeuces", "Polydeuces", "neutral"); 
+SectorEntityToken Polydeuces = system.addCustomEntity("Polydeuces", "Polydeuces", "Polydeuces" + showNameCustom, "neutral"); 
 Polydeuces.setCircularOrbitPointingDown(Saturn, angleDione - 60f, dist_Dione, p_Dione);
 
 // Rhea
@@ -2641,7 +2799,6 @@ Iapetus.getSpec().setPitch(75f);
 Iapetus.getSpec().setRotation(-(360f / (calc.getTime(79.321f) * 10f)));
 Iapetus.applySpecChanges();
 
-if (!isSettled) {
 calc.addConditions(Iapetus.getMarket(), new String[] {
     "no_atmosphere",
     "low_gravity",
@@ -2651,12 +2808,9 @@ calc.addConditions(Iapetus.getMarket(), new String[] {
     "volatiles_trace",
     "organics_common",
     "poor_light",
-    "ruins_extensive"
+    "ruins_extensive",
+    "sol_degenerate"
 });
-
-} else {
-    Iapetus.getMarket().addCondition("sol_porus");
-}
 
 // =========================================================================
 // ===================== SATURN IRREGULAR MOONS ============================
@@ -2700,7 +2854,7 @@ system.addEntity(jp_phoebe);
 SectorEntityToken Siarnaq = calc.spawnIrregularBody2(system, Saturn, "Siarnaq", "Siarnaq", "moon", showNameMinor, 39.3f, 0.119528f, 0.308f, 62.7f, 68.4f, 1999.566f, zeroDegGlobal, null, 0.0002857f, "Saturn", false);
 
 // Kiviuq
-SectorEntityToken Kiviuq = calc.spawnIrregularBody2(system, Saturn, "Kiviuq", "Kiviuq", "custom_entity", "Kiviuq", 17.0f, 0.075585f, 0.275f, 183.2f, 91.8f, 1998.796f, zeroDegGlobal, null, 0.0002857f, "Saturn", false);
+SectorEntityToken Kiviuq = calc.spawnIrregularBody2(system, Saturn, "Kiviuq", "Kiviuq", "custom_entity", "Kiviuq" + showNameMinor, 17.0f, 0.075585f, 0.275f, 183.2f, 91.8f, 1998.796f, zeroDegGlobal, null, 0.0002857f, "Saturn", false);
 
 if(!saturnShortlist){
     // Ijiraq
@@ -2843,12 +2997,12 @@ calc.smartRingTerrain(system, Uranus, "Mu Ring", calc.getDistUranus(0.000575f), 
 
 // Cordelia (inner Epsilon shepherd)
 // Real: 49,771 km → 0.000333 AU | Period: 0.335 days
-SectorEntityToken Cordelia = system.addCustomEntity("Cordelia", "Cordelia", "Cordelia", "neutral"); 
+SectorEntityToken Cordelia = system.addCustomEntity("Cordelia", "Cordelia", "Cordelia" + showNameCustom, "neutral"); 
 Cordelia.setCircularOrbitPointingDown(Uranus, 45f, calc.getDistUranus(0.000333f), calc.getTimeGiant(0.335f));
 
 // Ophelia (outer Epsilon shepherd)
 // Real: 53,764 km → 0.000359 AU | Period: 0.376 days
-SectorEntityToken Ophelia = system.addCustomEntity("Ophelia", "Ophelia", "Ophelia", "neutral"); 
+SectorEntityToken Ophelia = system.addCustomEntity("Ophelia", "Ophelia", "Ophelia" + showNameCustom, "neutral"); 
 Ophelia.setCircularOrbitPointingDown(Uranus, 120f, calc.getDistUranus(0.000359f), calc.getTimeGiant(0.376f));
 
 if(!uranusShortlist){
@@ -2859,32 +3013,32 @@ if(!uranusShortlist){
 
 // Bianca
 // Real: 59,165 km → 0.000395 AU | Period: 0.435 days
-SectorEntityToken Bianca = system.addCustomEntity("Bianca", "Bianca", "Bianca", "neutral"); 
+SectorEntityToken Bianca = system.addCustomEntity("Bianca", "Bianca", "Bianca" + showNameCustom, "neutral"); 
 Bianca.setCircularOrbitPointingDown(Uranus, 315f, calc.getDistUranus(0.000395f), calc.getTimeGiant(0.435f));
 
 // Cressida
 // Real: 61,767 km → 0.000413 AU | Period: 0.464 days
-SectorEntityToken Cressida = system.addCustomEntity("Cressida", "Cressida", "Cressida", "neutral"); 
+SectorEntityToken Cressida = system.addCustomEntity("Cressida", "Cressida", "Cressida" + showNameCustom, "neutral"); 
 Cressida.setCircularOrbitPointingDown(Uranus, 180f, calc.getDistUranus(0.000413f), calc.getTimeGiant(0.464f));
 
 // Desdemona
 // Real: 62,659 km → 0.000419 AU | Period: 0.474 days
-SectorEntityToken Desdemona = system.addCustomEntity("Desdemona", "Desdemona", "Desdemona", "neutral"); 
+SectorEntityToken Desdemona = system.addCustomEntity("Desdemona", "Desdemona", "Desdemona" + showNameCustom, "neutral"); 
 Desdemona.setCircularOrbitPointingDown(Uranus, 270f, calc.getDistUranus(0.000419f), calc.getTimeGiant(0.474f));
 
 // Juliet
 // Real: 64,358 km → 0.000430 AU | Period: 0.493 days
-SectorEntityToken Juliet = system.addCustomEntity("Juliet", "Juliet", "Juliet", "neutral"); 
+SectorEntityToken Juliet = system.addCustomEntity("Juliet", "Juliet", "Juliet" + showNameCustom, "neutral"); 
 Juliet.setCircularOrbitPointingDown(Uranus, 90f, calc.getDistUranus(0.000430f), calc.getTimeGiant(0.493f));
 
 // Portia
 // Real: 66,097 km → 0.000442 AU | Period: 0.513 days
-SectorEntityToken Portia = system.addCustomEntity("Portia", "Portia", "Portia", "neutral"); 
+SectorEntityToken Portia = system.addCustomEntity("Portia", "Portia", "Portia" + showNameCustom, "neutral"); 
 Portia.setCircularOrbitPointingDown(Uranus, 45f, calc.getDistUranus(0.000442f), calc.getTimeGiant(0.513f));
 
 // Rosalind
 // Real: 69,927 km → 0.000467 AU | Period: 0.558 days
-SectorEntityToken Rosalind = system.addCustomEntity("Rosalind", "Rosalind", "Rosalind", "neutral"); 
+SectorEntityToken Rosalind = system.addCustomEntity("Rosalind", "Rosalind", "Rosalind" + showNameCustom, "neutral"); 
 Rosalind.setCircularOrbitPointingDown(Uranus, 225f, calc.getDistUranus(0.000467f), calc.getTimeGiant(0.558f));
 
 if(!uranusShortlist){
@@ -2895,7 +3049,7 @@ if(!uranusShortlist){
 
 // Belinda
 // Real: 75,255 km → 0.000503 AU | Period: 0.624 days
-SectorEntityToken Belinda = system.addCustomEntity("Belinda", "Belinda", "Belinda", "neutral"); 
+SectorEntityToken Belinda = system.addCustomEntity("Belinda", "Belinda", "Belinda" + showNameCustom, "neutral"); 
 Belinda.setCircularOrbitPointingDown(Uranus, 135f, calc.getDistUranus(0.000503f), calc.getTimeGiant(0.624f));
 
 if(!uranusShortlist){
@@ -2934,7 +3088,7 @@ if (!isSettled) {
 
 // Mab
 // Real: 97,736 km → 0.000653 AU | Period: 0.923 days
-SectorEntityToken Mab = system.addCustomEntity("Mab", "Mab", "Mab", "neutral"); 
+SectorEntityToken Mab = system.addCustomEntity("Mab", "Mab", "Mab" + showNameCustom, "neutral"); 
 Mab.setCircularOrbitPointingDown(Uranus, 60f, calc.getDistUranus(0.000653f), calc.getTimeGiant(0.923f));
 
 // ## MAJOR MOONS-----------------------------------------------------------
@@ -2991,6 +3145,7 @@ calc.addConditions(Ariel.getMarket(), new String[] {
     "sol_unexploded_ordnance",
     "sol_loose_bioweapon",
     "sol_tidal_lock",
+    "sol_subsurface_ocean",
     "sol_ai_terminators"
 });
 // Umbriel
@@ -3043,6 +3198,7 @@ calc.addConditions(Titania.getMarket(), new String[] {
     "sol_unexploded_ordnance",
     "sol_lechq",
     "sol_tidal_lock",
+    "sol_subsurface_ocean",
     "sol_insurgent_network_desperate"
 });
 
@@ -3071,6 +3227,7 @@ calc.addConditions(Oberon.getMarket(), new String[] {
     "sol_degenerate",
     "sol_insurgent_network_desperate",
     "sol_tidal_lock",
+    "sol_subsurface_ocean",
     "sol_ai_terminators"
 });
 
@@ -3296,9 +3453,12 @@ calc.addConditions(Triton.getMarket(), new String[] {
     "sol_space_elevator_nearby",
     "sol_automated_habitats",
     "sol_tidal_lock",
-    "sol_degenerate"
+    "sol_subsurface_ocean",
+    "sol_degenerate",
+    "sol_frozen_atmosphere_polar"
 });
 Triton.setCustomDescriptionId("sol_triton");
+Triton.getMarket().getMemoryWithoutUpdate().set("$sol_polar_atmosphere_level", 2);
 
 // =========================================================================
 // ===================== NEPTUNE IRREGULAR MOONS ===========================
@@ -3322,7 +3482,7 @@ calc.addConditions(Nereid.getMarket(), new String[] {
     "low_gravity",
     "ore_sparse",
     "volatiles_diffuse",
-    "ruins_extensive",
+    "ruins_widespread",
     "dark",
     "sol_space_elevator"
 });
@@ -3401,6 +3561,7 @@ if (!isSettled) {
         "ruins_widespread",
         "rare_ore_sparse",
         "dark",
+        "sol_tiny_polity",
         "sol_dist_abyssal"
     });
 } else {
@@ -3530,7 +3691,7 @@ SectorEntityToken Farout = system.getEntityById("Farout");
 
 SectorEntityToken Makemake = system.getEntityById("Makemake");
 SectorEntityToken Sedna = system.getEntityById("Sedna");
-SectorEntityToken Eris = system.getEntityById("Eris");
+SectorEntityToken Eris = system.getEntityById("sol_Eris");
 SectorEntityToken Pluto = system.getEntityById("Pluto");
 SectorEntityToken Quaoar = system.getEntityById("Quaoar");
 SectorEntityToken Orcus = system.getEntityById("Orcus");
@@ -3687,7 +3848,11 @@ if (Global.getSettings().getModManager().isModEnabled("aotd_vok")) {
 // =========================================================================
 // Remnants
 // =========================================================================
-if(remnantHorde){
+int remnantSizeModifier = 0;
+if(remnantHorde == 1){ remnantSizeModifier = -10;}
+if(remnantHorde == 2){ remnantSizeModifier = 0;}
+if(remnantHorde == 3){ remnantSizeModifier = 10;}
+if(remnantHorde >= 1){
     // Small remnant fleets
     // RemnantSeededFleetManager solRemnants = new RemnantSeededFleetManager(system, 5, 5,5, 20, 0.5f );
     // system.addScript(solRemnants);
@@ -3697,13 +3862,13 @@ if(remnantHorde){
     float mercNexusPeriod = calc.getTime(10f);
 
     // 1. First Nexus (0°)
-    CampaignFleetAPI mercNexus1 = RemnantNexusFactory.spawnNexus(system, Mercury, "remnant_station2_Standard", 0f, mercNexusRadius, mercNexusPeriod, 5, 30, 40, null);
+    CampaignFleetAPI mercNexus1 = RemnantNexusFactory.spawnNexus(system, Mercury, "remnant_station2_Standard", 0f, mercNexusRadius, mercNexusPeriod, 5, 30 + remnantSizeModifier, 50 + remnantSizeModifier, null);
 
     // 2. Second Nexus (72°)
-    CampaignFleetAPI mercNexus2 = RemnantNexusFactory.spawnNexus(system, Mercury, "remnant_station2_Standard", 72f, mercNexusRadius, mercNexusPeriod, 5, 30, 40, null);
+    CampaignFleetAPI mercNexus2 = RemnantNexusFactory.spawnNexus(system, Mercury, "remnant_station2_Standard", 72f, mercNexusRadius, mercNexusPeriod, 5, 30 + remnantSizeModifier, 50 + remnantSizeModifier, null);
 
     // 3. Third Nexus (Damaged) (144°)
-    CampaignFleetAPI mercNexus3 = RemnantNexusFactory.spawnNexus(system, Mercury, "remnant_station2_Damaged", 144f, mercNexusRadius, mercNexusPeriod, 2, 5, 25, null);
+    CampaignFleetAPI mercNexus3 = RemnantNexusFactory.spawnNexus(system, Mercury, "remnant_station2_Damaged", 144f, mercNexusRadius, mercNexusPeriod, 5, 5, 35 + remnantSizeModifier, Commodities.BETA_CORE);
 
     // 4. Vambrace Wreck (216°)
     SectorEntityToken nexusWreck = system.addCustomEntity("nexusWreck", "Nexus Wreckage", "derelict_vambrace", "derelict");
@@ -3713,53 +3878,35 @@ if(remnantHorde){
     nexusNav.setCircularOrbitPointingDown(Mercury, 288f, mercNexusRadius, mercNexusPeriod);
     nexusNav.setDiscoverable(true);
 
-    // Titan Nexus
-    CampaignFleetAPI titanNexus = RemnantNexusFactory.spawnNexus(system, Titan, "remnant_station2_Standard", 72f, sz_Titan * 4f, calc.getTime(40f), 5, 30, 40, null);
+    // Mars opposite phobos
+    CampaignFleetAPI marsNexus = RemnantNexusFactory.spawnNexus(system, Mars, "remnant_station2_Standard", 180f, sz_Mars * 2f, p_Phobos, 5, 30 + remnantSizeModifier, 40 + remnantSizeModifier, null);
 
-    // Amalthea Nexus
-    CampaignFleetAPI amaltheaNexus = RemnantNexusFactory.spawnNexus(system, Amalthea, "remnant_station2_Standard", 72f, sz_Amalthea * 4f, calc.getTime(.1f), 5, 30, 40, null);
-
-    // Triton Nexus (Damaged)
-    CampaignFleetAPI tritonNexusDamaged = RemnantNexusFactory.spawnNexus(system, Triton, "remnant_station2_Damaged", 144f, sz_Triton * 4f, calc.getTime(40f), 2, 5, 25, null);
+    CampaignFleetAPI solNexusAlpha = RemnantNexusFactory.spawnNexus(system, star, "remnant_station2_Standard", 45f, dist_VulcanShunt, p_Vulcan, 5, 50 + remnantSizeModifier, 60 + remnantSizeModifier, null);
+    CampaignFleetAPI solNexusBeta = RemnantNexusFactory.spawnNexus(system, star, "remnant_station2_Standard", 135f, dist_VulcanShunt, p_Vulcan, 5, 50 + remnantSizeModifier, 60 + remnantSizeModifier, null);
+    CampaignFleetAPI solNexusGama = RemnantNexusFactory.spawnNexus(system, star, "remnant_station2_Standard", 225f, dist_VulcanShunt, p_Vulcan, 5, 50 + remnantSizeModifier, 60 + remnantSizeModifier, null);
+    CampaignFleetAPI solNexusDelta = RemnantNexusFactory.spawnNexus(system, star, "remnant_station2_Standard", 315f, dist_VulcanShunt, p_Vulcan, 5, 50 + remnantSizeModifier, 60 + remnantSizeModifier, null);
+    if(remnantHorde >= 2){
+    CampaignFleetAPI mercOrdo1 = patrolFactory.spawnPatrol(system, Mercury, 400f);
+    } else {
+    CampaignFleetAPI mercOrdo1 = patrolFactory.spawnPatrol(system, Mercury, 200f);
+    }
+    RemnantThemeGenerator.addBeacon(system, RemnantThemeGenerator.RemnantSystemType.RESURGENT);
+}
+if(remnantHorde >= 2){
+    // Misc inner nexi
+    CampaignFleetAPI vestaNexus = RemnantNexusFactory.spawnNexus(system, Vesta, "remnant_station2_Standard", 180f, 100f, calc.getTime(15f), 3, 20 + remnantSizeModifier, 40 + remnantSizeModifier, null);
+    CampaignFleetAPI pallasNexus = RemnantNexusFactory.spawnNexus(system, Pallas, "remnant_station2_Damaged", 180f, 100f, calc.getTime(15f), 2, 5, 25 + remnantSizeModifier, null);
+    CampaignFleetAPI hygieaNexus = RemnantNexusFactory.spawnNexus(system, Hygiea, "remnant_station2_Damaged", 180f, 100f, calc.getTime(15f), 2, 5, 25 + remnantSizeModifier, null);
+    CampaignFleetAPI lutetiaNexus = RemnantNexusFactory.spawnNexus(system, Vesta, "remnant_station2_Standard", 180f, 100f, calc.getTime(15f), 3, 20 + remnantSizeModifier, 40 + remnantSizeModifier, null);
 
     // Ceres opposite hyperjump
-    CampaignFleetAPI ceresNexus = RemnantNexusFactory.spawnNexus(system, Ceres, "remnant_station2_Damaged", 180f, 100f, calc.getTime(30f), 2, 5, 25, null);
-
-    // Mars opposite phobos
-    CampaignFleetAPI marsNexus = RemnantNexusFactory.spawnNexus(system, Mars, "remnant_station2_Standard", 180f, sz_Mars * 2f, p_Phobos, 5, 30, 40, null);
-
-    // Misc inner nexi
-    CampaignFleetAPI vestaNexus = RemnantNexusFactory.spawnNexus(system, Vesta, "remnant_station2_Standard", 180f, 100f, calc.getTime(15f), 5, 30, 40, null);
-    CampaignFleetAPI pallasNexus = RemnantNexusFactory.spawnNexus(system, Pallas, "remnant_station2_Damaged", 180f, 100f, calc.getTime(15f), 2, 5, 25, null);
-    CampaignFleetAPI hygieaNexus = RemnantNexusFactory.spawnNexus(system, Hygiea, "remnant_station2_Damaged", 180f, 100f, calc.getTime(15f), 2, 5, 25, null);
-
-    CampaignFleetAPI solNexusAlpha = RemnantNexusFactory.spawnNexus(system, star, "remnant_station2_Standard", 45f, dist_VulcanShunt, p_Vulcan, 2, 50, 80, null);
-    CampaignFleetAPI solNexusBeta = RemnantNexusFactory.spawnNexus(system, star, "remnant_station2_Standard", 135f, dist_VulcanShunt, p_Vulcan, 2, 50, 80, null);
-    CampaignFleetAPI solNexusGama = RemnantNexusFactory.spawnNexus(system, star, "remnant_station2_Standard", 225f, dist_VulcanShunt, p_Vulcan, 2, 50, 80, null);
-    CampaignFleetAPI solNexusDelta = RemnantNexusFactory.spawnNexus(system, star, "remnant_station2_Standard", 315f, dist_VulcanShunt, p_Vulcan, 2, 50, 80, null);
-
-    // Agamemnon Weapon Platform
-    CampaignFleetAPI agamemnonNexus = RemnantNexusFactory.spawnNexus(system, Agamemnon, "remnant_weapon_platform1_Standard", 180f, 100f, calc.getTime(5f), 1, 30, 35, Commodities.BETA_CORE);
-
-    // Mentor Weapon Platform
-    CampaignFleetAPI mentorNexus = RemnantNexusFactory.spawnNexus(system, Mentor, "remnant_weapon_platform1_Standard", 180f, 100f, calc.getTime(5f), 1, 30, 35, Commodities.BETA_CORE);
-
-    // Kleopatra Weapon Platform
-    CampaignFleetAPI kleopatraNexus = RemnantNexusFactory.spawnNexus(system, Kleopatra, "station3_Standard", 90f, 200f, calc.getTime(30f), 2, 30, 50, null);
+    CampaignFleetAPI ceresNexus = RemnantNexusFactory.spawnNexus(system, Ceres, "remnant_station2_Damaged", 180f, 100f, calc.getTime(30f), 2, 5, 25 + remnantSizeModifier, null);
 
     // Alexhelios Weapon Platform (antipode of Kleopatra)
-    CampaignFleetAPI alexNexus = RemnantNexusFactory.spawnNexus(system, Alexhelios, "station1_Standard", 90f, 30f, calc.getTime(20f), 1, 30, 40, Commodities.BETA_CORE);
+    CampaignFleetAPI alexNexus = RemnantNexusFactory.spawnNexus(system, Alexhelios, "station1_Standard", 90f, 30f, calc.getTime(20f), 1, 20 + remnantSizeModifier, 30 + remnantSizeModifier, Commodities.BETA_CORE);
 
     // Cleoselene Weapon Platform (antipode of Kleopatra)
-    CampaignFleetAPI cleoNexus = RemnantNexusFactory.spawnNexus(system, Cleoselene, "station1_Standard", 270f, 30f, calc.getTime(10f), 1, 30, 40, Commodities.BETA_CORE);
-    // --- Remnant Patrol Spawns ---
-
-    // Ganymede (300 FP)
-    CampaignFleetAPI ganiOrdo = patrolFactory.spawnPatrol(system, Ganymede, 300f);
-
-    // Triton (200 FP)
-    CampaignFleetAPI tritonOrdo1 = patrolFactory.spawnPatrol(system, Triton, 200f);
-    CampaignFleetAPI tritonOrdo2 = patrolFactory.spawnPatrol(system, Triton, 200f);
+    CampaignFleetAPI cleoNexus = RemnantNexusFactory.spawnNexus(system, Cleoselene, "station1_Standard", 270f, 30f, calc.getTime(10f), 1, 20 + remnantSizeModifier, 30 + remnantSizeModifier, Commodities.BETA_CORE);
 
     // Ceres (120 FP)
     CampaignFleetAPI ceresOrdo = patrolFactory.spawnPatrol(system, Ceres, 120f);
@@ -3768,10 +3915,31 @@ if(remnantHorde){
     CampaignFleetAPI marsOrdo = patrolFactory.spawnPatrol(system, Mars, 220f);
 
     // Mercury bosses
-    CampaignFleetAPI mercOrdo1 = patrolFactory.spawnPatrol(system, Mars, 400f);
-    CampaignFleetAPI mercOrdo2 = patrolFactory.spawnPatrol(system, Mars, 400f);
-    CampaignFleetAPI mercOrdo3 = patrolFactory.spawnPatrol(system, Mars, 400f);
-    RemnantThemeGenerator.addBeacon(system, RemnantThemeGenerator.RemnantSystemType.RESURGENT);
+    CampaignFleetAPI mercOrdo2 = patrolFactory.spawnPatrol(system, Mercury, 400f);
+}
+if(remnantHorde >= 3){
+    // Agamemnon Weapon Platform
+    CampaignFleetAPI agamemnonNexus = RemnantNexusFactory.spawnNexus(system, Agamemnon, "remnant_weapon_platform1_Standard", 180f, 100f, calc.getTime(5f), 1, 30 + remnantSizeModifier, 35 + remnantSizeModifier, Commodities.BETA_CORE);
+
+    // Mentor Weapon Platform
+    CampaignFleetAPI mentorNexus = RemnantNexusFactory.spawnNexus(system, Mentor, "remnant_weapon_platform1_Standard", 180f, 100f, calc.getTime(5f), 1, 30 + remnantSizeModifier, 35 + remnantSizeModifier, Commodities.BETA_CORE);
+
+    // Titan Nexus
+    CampaignFleetAPI titanNexus = RemnantNexusFactory.spawnNexus(system, Titan, "remnant_station2_Standard", 72f, sz_Titan * 4f, calc.getTime(10f), 3, 30 + remnantSizeModifier, 40 + remnantSizeModifier, null);
+
+    // Amalthea Nexus
+    CampaignFleetAPI amaltheaNexus = RemnantNexusFactory.spawnNexus(system, Amalthea, "remnant_station2_Standard", 72f, sz_Amalthea * 4f, calc.getTime(.1f), 3, 30 + remnantSizeModifier, 40 + remnantSizeModifier, null);
+    
+    // Triton Nexus
+    CampaignFleetAPI tritonNexus = RemnantNexusFactory.spawnNexus(system, Titan, "remnant_station2_Standard", 72f, sz_Titan * 1f + 300, calc.getTime(10f), 3, 30 + remnantSizeModifier, 40 + remnantSizeModifier, null);
+
+    // Ganymede (300 FP)
+    CampaignFleetAPI ganiOrdo = patrolFactory.spawnPatrol(system, Ganymede, 300f);
+
+    // Triton (200 FP)
+    CampaignFleetAPI tritonOrdo1 = patrolFactory.spawnPatrol(system, Triton, 200f);
+    CampaignFleetAPI tritonOrdo2 = patrolFactory.spawnPatrol(system, Triton, 200f);
+    CampaignFleetAPI mercOrdo3 = patrolFactory.spawnPatrol(system, Mercury, 800f);
 }
 
 // =============================================================

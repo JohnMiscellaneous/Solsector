@@ -191,18 +191,6 @@ public class OrbitRulerHelper {
     //   100-200  standard (gray) — except 142.5-147.5 negative (irradiated)
     //   200+     negative (red)
     //
-    // We highlight by literal substring; since the same dash pattern recurs,
-    // we use substring counts so addPara picks the Nth occurrence — actually
-    // addPara matches first occurrence only. To work around this, we color
-    // the orbit row using addPara with the highlight overload that takes
-    // multiple distinct substrings. The simplest robust approach: don't try
-    // to colorize per-segment because identical "----" substrings collide.
-    //
-    // Pragmatic compromise: highlight the 'o' (current position) in the band
-    // color, plus highlight the perihelion '\' and aphelion '\' in the colors
-    // of their respective bands. The dashes themselves stay the default color.
-    // This gives a clear visual indication of where the planet sits without
-    // fighting addPara's substring-matching limitations.
     // ------------------------------------------------------------------
 
     private static void buildOrbitHighlights(String orbitRow,
@@ -237,5 +225,84 @@ public class OrbitRulerHelper {
             return Misc.getPositiveHighlightColor();  // abyssal: green
         }
         return Misc.getPositiveHighlightColor();// distant: green
+    }
+
+    // ------------------------------------------------------------------
+    // Seasonal ruler: a second strip for the 40 AU sublimation threshold.
+    // Used by frozen/tenuous atmosphere tooltips for seasonal worlds whose
+    // orbit crosses 40 AU.
+    // ------------------------------------------------------------------
+
+    /** True if the body's orbit_min/max straddles the sublimation threshold. */
+    public static boolean hasSeasonalCrossing(MarketAPI market) {
+        if (market == null) return false;
+        SectorEntityToken primary = market.getPrimaryEntity();
+        if (primary == null) return false;
+        MemoryAPI mem = primary.getMemoryWithoutUpdate();
+        if (mem == null) return false;
+        if (!mem.contains(MEM_ORBIT_MIN) || !mem.contains(MEM_ORBIT_MAX)) return false;
+        float minAu = mem.getFloat(MEM_ORBIT_MIN);
+        float maxAu = mem.getFloat(MEM_ORBIT_MAX);
+        if (minAu > maxAu) { float t = minAu; minAu = maxAu; maxAu = t; }
+        return minAu < DistanceConditionManager.SUBLIMATION_AU
+                && maxAu > DistanceConditionManager.SUBLIMATION_AU;
+    }
+
+    // Called by the frozen/tenous atmosphereconditions (if they qualify)
+    public static void renderSeasonalRuler(TooltipMakerAPI tooltip, MarketAPI market, float pad) {
+        if (tooltip == null || market == null) return;
+        SectorEntityToken primary = market.getPrimaryEntity();
+        if (primary == null) return;
+
+        float currentAu = DistanceCheck.getMarketAU(market);
+        float minAu = currentAu;
+        float maxAu = currentAu;
+        MemoryAPI mem = primary.getMemoryWithoutUpdate();
+        if (mem != null) {
+            if (mem.contains(MEM_ORBIT_MIN)) minAu = mem.getFloat(MEM_ORBIT_MIN);
+            if (mem.contains(MEM_ORBIT_MAX)) maxAu = mem.getFloat(MEM_ORBIT_MAX);
+        }
+        if (minAu > maxAu) { float t = minAu; minAu = maxAu; maxAu = t; }
+
+        tooltip.addSectionHeading(
+                String.format("%s is %.1f AU away from its star",
+                        market.getName(), currentAu),
+                Alignment.MID, pad);
+
+        String topRow    = makeSeasonalTickRow();
+        String orbitRow  = makeOrbitRow(minAu, maxAu, currentAu);
+        String bottomRow = makeSeasonalTickRow();
+
+        tooltip.addPara(topRow, Misc.getGrayColor(), 3f);
+
+        // Color the 'o' by which side of the threshold it sits on:
+        //   above 40 -> frozen (gray/blue)
+        //   below 40 -> tenuous (positive highlight, this is the "alive" zone)
+        Color oColor = currentAu > DistanceConditionManager.SUBLIMATION_AU
+                ? Misc.getBrightPlayerColor()
+                : Misc.getPositiveHighlightColor();
+        tooltip.addPara(orbitRow, 3f,
+                new Color[] { oColor },
+                new String[] { "o" });
+
+        tooltip.addPara(bottomRow, Misc.getGrayColor(), 3f);
+    }
+
+    /** Tick row for the seasonal ruler: a single 'll' at the 40 AU threshold. */
+    private static String makeSeasonalTickRow() {
+        StringBuilder sb = new StringBuilder(" I");
+        int cursorPx = SPACE_PX + 2;
+
+        // ll marker is 2 chars wide, treat as II_PX width
+        int rawCenterPx = SUN_PX + Math.round(
+                DistanceConditionManager.SUBLIMATION_AU * PX_PER_AU);
+        int rawStartPx = rawCenterPx - II_PX / 2;
+        int startPx = snapToGrid(rawStartPx, SPACE_PX);
+
+        int gap = startPx - cursorPx;
+        int nSpaces = Math.max(0, gap / SPACE_PX);
+        for (int i = 0; i < nSpaces; i++) sb.append(' ');
+        sb.append("ll");
+        return sb.toString();
     }
 }

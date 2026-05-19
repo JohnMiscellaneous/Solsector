@@ -32,7 +32,7 @@ public class SolEconomies {
         SectorEntityToken Psyche = system.getEntityById("Psyche");
         SectorEntityToken Tethys = system.getEntityById("Tethys");
         SectorEntityToken Dione = system.getEntityById("Dione");
-        SectorEntityToken Iapetus = system.getEntityById("Iapetus");
+        SectorEntityToken Mimas = system.getEntityById("Mimas");
         SectorEntityToken Puck = system.getEntityById("Puck");
         SectorEntityToken polystation = system.getEntityById("polyso_station"); 
         SectorEntityToken ChaosStation = system.getEntityById("Chaos");
@@ -201,7 +201,7 @@ public class SolEconomies {
             MarketAPI marketTethys = Tethys.getMarket();
             if (marketTethys != null) {
                 marketTethys.setFactionId("independent");
-                marketTethys.setSize(5);
+                marketTethys.setSize(3);
                 marketTethys.setPlanetConditionMarketOnly(false);
                 marketTethys.setSurveyLevel(MarketAPI.SurveyLevel.FULL);
 
@@ -217,12 +217,9 @@ public class SolEconomies {
                 marketTethys.addIndustry(Industries.SPACEPORT);
                 marketTethys.addIndustry(Industries.POPULATION);
                 marketTethys.addIndustry(Industries.GROUNDDEFENSES);
-                marketTethys.addIndustry(Industries.AQUACULTURE);
                 marketTethys.getIndustry(Industries.POPULATION).setAICoreId(Commodities.BETA_CORE);
                 marketTethys.getIndustry(Industries.GROUNDDEFENSES).setAICoreId(Commodities.BETA_CORE);
                 marketTethys.getIndustry(Industries.SPACEPORT).setAICoreId(Commodities.BETA_CORE);
-                marketTethys.getIndustry(Industries.AQUACULTURE).setAICoreId(Commodities.BETA_CORE);
-                marketTethys.getIndustry(Industries.AQUACULTURE).setImproved(true);
 
                 marketTethys.addSubmarket(Submarkets.SUBMARKET_OPEN);
                 marketTethys.addSubmarket(Submarkets.SUBMARKET_BLACK);
@@ -259,18 +256,19 @@ public class SolEconomies {
                 marketDione.addCondition("poor_light");
                 marketDione.addCondition("volatiles_plentiful");
                 marketDione.addCondition("ore_sparse");
+                marketDione.addCondition("sol_subsurface_ocean");
 
                 marketDione.addIndustry(Industries.SPACEPORT);
                 marketDione.addIndustry(Industries.POPULATION);
                 marketDione.addIndustry(Industries.HEAVYBATTERIES);
-                marketDione.addIndustry(Industries.AQUACULTURE);
+                marketDione.addIndustry("sol_subsurface_aquaponics");
                 marketDione.addIndustry(Industries.MINING);
                 marketDione.getIndustry(Industries.POPULATION).setAICoreId(Commodities.GAMMA_CORE);
                 marketDione.getIndustry(Industries.HEAVYBATTERIES).setAICoreId(Commodities.GAMMA_CORE);
                 marketDione.getIndustry(Industries.SPACEPORT).setAICoreId(Commodities.GAMMA_CORE);
-                marketDione.getIndustry(Industries.AQUACULTURE).setAICoreId(Commodities.BETA_CORE);
+                marketDione.getIndustry("sol_subsurface_aquaponics").setAICoreId(Commodities.BETA_CORE);
                 marketDione.getIndustry(Industries.MINING).setAICoreId(Commodities.GAMMA_CORE);
-                marketDione.getIndustry(Industries.AQUACULTURE).setImproved(true);
+                marketDione.getIndustry("sol_subsurface_aquaponics").setImproved(true);
 
                 marketDione.addSubmarket(Submarkets.SUBMARKET_OPEN);
                 marketDione.addSubmarket(Submarkets.SUBMARKET_BLACK);
@@ -289,54 +287,43 @@ public class SolEconomies {
         }
 
         // --------------------------------------------------------
-        // IAPETUS
+        // Mimas
         // --------------------------------------------------------
-        if (Iapetus != null) {
-            MarketAPI marketIapetus = Iapetus.getMarket();
-            if (marketIapetus != null) {
-                marketIapetus.setFactionId("independent");
-                marketIapetus.setSize(7);
-                marketIapetus.setPlanetConditionMarketOnly(false);
-                marketIapetus.setSurveyLevel(MarketAPI.SurveyLevel.FULL);
+        if (Mimas != null) {
+            MarketAPI marketMimas = Mimas.getMarket();
+            if (marketMimas != null) {
+                marketMimas.setFactionId("independent");
+                marketMimas.setSize(4);
+                marketMimas.setPlanetConditionMarketOnly(false);
+                marketMimas.setSurveyLevel(MarketAPI.SurveyLevel.FULL);
 
-                marketIapetus.removeCondition("sol_porus");
-                marketIapetus.addCondition("no_atmosphere");
-                marketIapetus.addCondition("low_gravity");
-                marketIapetus.addCondition("very_cold");
-                marketIapetus.addCondition("ore_moderate");
-                marketIapetus.addCondition("volatiles_trace");
-                marketIapetus.addCondition("organics_common");
-                marketIapetus.addCondition("poor_light");
+                marketMimas.addCondition("organics_trace");
+                marketMimas.addCondition("sol_subsurface_ocean");
 
-                marketIapetus.addIndustry(Industries.MEGAPORT);
-                marketIapetus.addIndustry(Industries.POPULATION);
-                marketIapetus.addIndustry(Industries.HEAVYBATTERIES);
-                marketIapetus.addIndustry(Industries.LIGHTINDUSTRY);
-                marketIapetus.addIndustry(Industries.COMMERCE);
-                marketIapetus.addIndustry(Industries.MINING);
-                marketIapetus.getIndustry(Industries.MINING).setAICoreId(Commodities.GAMMA_CORE);
-                marketIapetus.getIndustry(Industries.POPULATION).setAICoreId(Commodities.GAMMA_CORE);
-                marketIapetus.getIndustry(Industries.HEAVYBATTERIES).setAICoreId(Commodities.GAMMA_CORE);
-                marketIapetus.getIndustry(Industries.MEGAPORT).setAICoreId(Commodities.GAMMA_CORE);
-                marketIapetus.getIndustry(Industries.COMMERCE).setAICoreId(Commodities.BETA_CORE);
-                marketIapetus.getIndustry(Industries.LIGHTINDUSTRY).setAICoreId(Commodities.BETA_CORE);
-                marketIapetus.getIndustry(Industries.COMMERCE).setSpecialItem(new SpecialItemData(Items.DEALMAKER_HOLOSUITE, null));
-                marketIapetus.getIndustry(Industries.COMMERCE).setImproved(true);
-                marketIapetus.getIndustry(Industries.POPULATION).setImproved(true);
+                marketMimas.addIndustry(Industries.SPACEPORT);
+                marketMimas.addIndustry(Industries.POPULATION);
+                marketMimas.addIndustry("sol_subsurface_aquaponics");
+                marketMimas.addIndustry(Industries.MINING);
+                marketMimas.getIndustry(Industries.MINING).setAICoreId(Commodities.GAMMA_CORE);
+                marketMimas.getIndustry(Industries.POPULATION).setAICoreId(Commodities.GAMMA_CORE);
+                marketMimas.getIndustry(Industries.SPACEPORT).setAICoreId(Commodities.GAMMA_CORE);
+                marketMimas.getIndustry(Industries.SPACEPORT).setImproved(true);
+                marketMimas.getIndustry("sol_subsurface_aquaponics").setImproved(true);
+                marketMimas.getIndustry("sol_subsurface_aquaponics").setAICoreId(Commodities.BETA_CORE);
 
-                marketIapetus.addSubmarket(Submarkets.SUBMARKET_OPEN);
-                marketIapetus.addSubmarket(Submarkets.SUBMARKET_BLACK);
-                marketIapetus.addSubmarket(Submarkets.SUBMARKET_STORAGE);
+                marketMimas.addSubmarket(Submarkets.SUBMARKET_OPEN);
+                marketMimas.addSubmarket(Submarkets.SUBMARKET_BLACK);
+                marketMimas.addSubmarket(Submarkets.SUBMARKET_STORAGE);
 
-                Global.getSector().getEconomy().addMarket(marketIapetus, true);
-                generateSystemContacts(marketIapetus);
+                Global.getSector().getEconomy().addMarket(marketMimas, true);
+                generateSystemContacts(marketMimas);
                 
                 // HARDCODED TARIFF (18%)
-                marketIapetus.getTariff().setBaseValue(0.18f);
+                marketMimas.getTariff().setBaseValue(0.18f);
 
-                Iapetus.setFaction("independent");
-                for (MarketConditionAPI condition : marketIapetus.getConditions()) condition.setSurveyed(true);
-                Iapetus.setDiscoverable(true);
+                Mimas.setFaction("independent");
+                for (MarketConditionAPI condition : marketMimas.getConditions()) condition.setSurveyed(true);
+                Mimas.setDiscoverable(true);
             }
         }
 
@@ -358,7 +345,6 @@ public class SolEconomies {
             marketPuck.addCondition("irradiated");
             marketPuck.addCondition("sol_no_atmosphere_bodgejob");
             marketPuck.addCondition("sol_improvised_hydroponics");
-            marketPuck.addCondition("sol_meteoroids");
 
             if (Global.getSettings().getModManager().isModEnabled("Terraforming & Station Construction")) {marketPuck.addCondition("pollution");}
 
@@ -439,6 +425,7 @@ public class SolEconomies {
             marketChaosPirate.addCondition("ore_abundant");
             marketChaosPirate.addCondition("rare_ore_moderate");
             marketChaosPirate.addCondition("volatiles_plentiful");
+            marketChaosPirate.addCondition("sol_dist_abyssal");
             marketChaosPirate.addCondition("sol_contact_binary");
             if (Global.getSettings().getModManager().isModEnabled("Terraforming & Station Construction")) {marketChaosPirate.addCondition("pollution");}
             
@@ -492,17 +479,6 @@ public class SolEconomies {
                 marketBiden.setPlanetConditionMarketOnly(false);
                 marketBiden.setSurveyLevel(MarketAPI.SurveyLevel.FULL);
 
-                marketBiden.removeCondition("sol_porus");
-                marketBiden.addCondition("no_atmosphere");
-                marketBiden.addCondition("low_gravity");
-                marketBiden.addCondition("volatiles_diffuse"); 
-                marketBiden.addCondition("ruins_scattered"); 
-                marketBiden.addCondition("rare_ore_rich"); 
-                marketBiden.addCondition("ore_sparse");
-                marketBiden.addCondition("very_cold");
-                marketBiden.addCondition("dark");
-                marketBiden.addCondition("sol_pre_domain_sapience");
-
                 marketBiden.addIndustry(Industries.SPACEPORT);
                 marketBiden.addIndustry(Industries.POPULATION);
                 marketBiden.addIndustry(Industries.TECHMINING);
@@ -532,16 +508,6 @@ public class SolEconomies {
                 marketAya.setSize(3);
                 marketAya.setPlanetConditionMarketOnly(false);
                 marketAya.setSurveyLevel(MarketAPI.SurveyLevel.FULL);
-
-                marketAya.removeCondition("sol_porus");
-                marketAya.addCondition("very_cold");
-                marketAya.addCondition("dark");
-                marketAya.addCondition("low_gravity");
-                marketAya.addCondition("no_atmosphere");
-                marketAya.addCondition("volatiles_trace");
-                marketAya.addCondition("ore_moderate");
-                marketAya.addCondition("sol_ancient_drug_lab");
-                marketAya.addCondition("sol_fast_rotator");
 
                 marketAya.addIndustry(Industries.SPACEPORT);
                 marketAya.addIndustry(Industries.POPULATION);
@@ -578,14 +544,6 @@ public class SolEconomies {
                 marketFarfarout.setSize(3);
                 marketFarfarout.setPlanetConditionMarketOnly(false);
                 marketFarfarout.setSurveyLevel(MarketAPI.SurveyLevel.FULL);
-
-                marketFarfarout.removeCondition("sol_porus");
-                marketFarfarout.addCondition("very_cold");
-                marketFarfarout.addCondition("dark");
-                marketFarfarout.addCondition("low_gravity");
-                marketFarfarout.addCondition("no_atmosphere");
-                marketFarfarout.addCondition("volatiles_trace");
-                marketFarfarout.addCondition("ore_sparse");
 
                 marketFarfarout.addIndustry(Industries.SPACEPORT);
                 marketFarfarout.addIndustry(Industries.POPULATION);

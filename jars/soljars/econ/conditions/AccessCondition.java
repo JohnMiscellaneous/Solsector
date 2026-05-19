@@ -9,31 +9,19 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.fs.starfarer.api.Global;
-import com.fs.starfarer.api.campaign.PlayerMarketTransaction;
 import com.fs.starfarer.api.campaign.econ.Industry;
-import com.fs.starfarer.api.campaign.econ.MarketAPI;
 import com.fs.starfarer.api.campaign.SpecialItemData;
-import com.fs.starfarer.api.campaign.listeners.ColonyInteractionListener;
-import com.fs.starfarer.api.campaign.listeners.ListenerManagerAPI;
 import com.fs.starfarer.api.impl.campaign.econ.BaseMarketConditionPlugin;
 import com.fs.starfarer.api.impl.campaign.ids.Industries;
 import com.fs.starfarer.api.impl.campaign.ids.Items;
 import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.util.Misc;
 
-public class AccessCondition extends BaseMarketConditionPlugin implements ColonyInteractionListener {
+public class AccessCondition extends BaseMarketConditionPlugin {
 
     private static Map<String, Float> ACCESS_DATA = new HashMap<String, Float>();
     private static Map<String, Float> ELEVATOR_DATA = new HashMap<String, Float>();
     private static boolean dataLoaded = false;
-
-    private static Map<String, AccessCondition> ACTIVE_LISTENERS = new HashMap<String, AccessCondition>();
-
-    private String applyId = null;
-
-    private String getListenerKey() {
-        return market.getId() + "::" + condition.getId();
-    }
 
     private static void loadData() {
         if (dataLoaded) return;
@@ -70,7 +58,6 @@ public class AccessCondition extends BaseMarketConditionPlugin implements Colony
     public void apply(String id) {
         loadData();
 
-        this.applyId = id;
         String condId = condition.getId();
 
         Float access = ACCESS_DATA.get(condId);
@@ -78,21 +65,13 @@ public class AccessCondition extends BaseMarketConditionPlugin implements Colony
             market.getAccessibilityMod().modifyFlat(id, access, condition.getName());
         }
 
-        if (ELEVATOR_DATA.containsKey(condId)) {
-            updateElevatorModifier(id);
-
-            ListenerManagerAPI lm = Global.getSector().getListenerManager();
-            String key = getListenerKey();
-
-            AccessCondition prior = ACTIVE_LISTENERS.get(key);
-            if (prior != null && prior != this) {
-                lm.removeListener(prior);
-            }
-
-            lm.removeListener(this);
-            lm.addListener(this);
-
-            ACTIVE_LISTENERS.put(key, this);
+        String modId = id + "_elevator";
+        Float modifier = ELEVATOR_DATA.get(condId);
+        if (modifier != null && hasFullereneSpoolAtPort()) {
+            market.getAccessibilityMod().modifyFlat(modId, modifier,
+                    condition.getName() + " (Fullerene Tether)");
+        } else {
+            market.getAccessibilityMod().unmodifyFlat(modId);
         }
     }
 
@@ -100,17 +79,6 @@ public class AccessCondition extends BaseMarketConditionPlugin implements Colony
     public void unapply(String id) {
         market.getAccessibilityMod().unmodifyFlat(id);
         market.getAccessibilityMod().unmodifyFlat(id + "_elevator");
-
-        ListenerManagerAPI lm = Global.getSector().getListenerManager();
-        String key = getListenerKey();
-
-        AccessCondition tracked = ACTIVE_LISTENERS.remove(key);
-        if (tracked != null) {
-            lm.removeListener(tracked);
-        }
-        lm.removeListener(this);
-
-        this.applyId = null;
     }
 
     @Override
@@ -130,43 +98,6 @@ public class AccessCondition extends BaseMarketConditionPlugin implements Colony
 
         return Items.FULLERENE_SPOOL.equals(sid.getId());
     }
-
-    private void updateElevatorModifier(String id) {
-        String modId = id + "_elevator";
-        Float modifier = ELEVATOR_DATA.get(condition.getId());
-
-        if (modifier != null && hasFullereneSpoolAtPort()) {
-            market.getAccessibilityMod().modifyFlat(modId, modifier,
-                    condition.getName() + " (Fullerene Tether)");
-        } else {
-            market.getAccessibilityMod().unmodifyFlat(modId);
-        }
-    }
-
-    // ----- ColonyInteractionListener -----
-    // for the tethers
-
-    @Override
-    public void reportPlayerOpenedMarket(MarketAPI market) {
-    }
-
-    @Override
-    public void reportPlayerClosedMarket(MarketAPI closedMarket) {
-        if (closedMarket == null || this.market == null) return;
-        if (closedMarket != this.market) return;
-        if (applyId == null) return;
-
-        updateElevatorModifier(applyId);
-    }
-
-    @Override
-    public void reportPlayerOpenedMarketAndCargoUpdated(MarketAPI market) {
-    }
-
-    @Override
-    public void reportPlayerMarketTransaction(PlayerMarketTransaction transaction) {
-    }
-
 
     @Override
     protected void createTooltipAfterDescription(TooltipMakerAPI tooltip, boolean expanded) {

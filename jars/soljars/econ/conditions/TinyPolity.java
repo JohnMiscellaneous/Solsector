@@ -43,6 +43,8 @@ public class TinyPolity extends BaseHazardCondition {
                 unapplyPenalties(id);
             }
         }
+
+        Global.getSector().addScript(new StripAtmosphereScript(market));
     }
 
     @Override
@@ -77,6 +79,8 @@ public class TinyPolity extends BaseHazardCondition {
             tooltip.addPara("%s Rare Ore production (Mining)", pad, Misc.getHighlightColor(), "-1");
             tooltip.addPara("%s Volatiles production (Mining)", pad, Misc.getHighlightColor(), "-1");
         }
+
+        tooltip.addPara("%s", pad, Misc.getHighlightColor(), "Cannot hold atmosphere");
     }
 
     private static class StripPolityScript implements EveryFrameScript {
@@ -112,9 +116,6 @@ public class TinyPolity extends BaseHazardCondition {
                     + "What remains is more station than asteroid.",
                     marketName)
                 .summary("Natural resources depleted.")
-                .bulletNeg("Ore deposits exhausted", "exhausted")
-                .bulletNeg("Rare ore deposits exhausted", "exhausted")
-                .bulletNeg("Volatile deposits exhausted", "exhausted")
                 .send();
 
             market.removeCondition(Conditions.ORE_SPARSE);
@@ -135,6 +136,49 @@ public class TinyPolity extends BaseHazardCondition {
             market.removeCondition(Conditions.VOLATILES_PLENTIFUL);
 
             RemoveReplace.execute(market, "sol_tiny_polity", "sol_tiny_stripped");
+
+            done = true;
+        }
+    }
+
+    private static class StripAtmosphereScript implements EveryFrameScript {
+        private final MarketAPI market;
+        private boolean done = false;
+
+        public StripAtmosphereScript(MarketAPI market) {
+            this.market = market;
+        }
+
+        @Override
+        public boolean isDone() {
+            return done;
+        }
+
+        @Override
+        public boolean runWhilePaused() {
+            return false;
+        }
+
+        @Override
+        public void advance(float amount) {
+            if (done) return;
+
+            if (market.hasCondition("no_atmosphere")) {
+                done = true;
+                return;
+            }
+
+            if (market.hasCondition("thin_atmosphere")) market.removeCondition("thin_atmosphere");
+            if (market.hasCondition("toxic_atmosphere")) market.removeCondition("toxic_atmosphere");
+            if (market.hasCondition("dense_atmosphere")) market.removeCondition("dense_atmosphere");
+            if (market.hasCondition("extreme_weather")) market.removeCondition("extreme_weather");
+            if (market.hasCondition("habitable")) market.removeCondition("habitable");
+
+            market.addCondition("no_atmosphere");
+
+            if (market.isPlayerOwned()) {
+                Global.getSector().getCampaignUI().addMessage(market.getName() + " shines like a comet as its atmosphere bleeds into infinite void.", Misc.getHighlightColor());
+            }
 
             done = true;
         }

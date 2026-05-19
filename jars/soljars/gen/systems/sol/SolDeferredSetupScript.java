@@ -95,31 +95,6 @@ public class SolDeferredSetupScript implements EveryFrameScript {
             settingsLoaded = true;
         }
 
-        // re-read live so mid-save flips work; SolTotal handles the new-game case
-        boolean instantMarkets = false;
-        try {
-            instantMarkets = Global.getSettings().loadJSON("data/config/sol_settings.json")
-                    .optBoolean("Settled_Planets_Spawn_In_Instantly", false);
-        } catch (Exception e) {}
-
-        // mid-save flip path; MEM_DISCOVERY dedupes against SolTotal
-        if (instantMarkets && isSettled) {
-            StarSystemAPI sol = Global.getSector().getStarSystem(TARGET_SYSTEM_ID);
-            if (sol != null) {
-                if (!mem.getBoolean(MEM_DISCOVERY)) {
-                    new SolEconomies().generate(sol);
-                    mem.set(MEM_DISCOVERY, true);
-                }
-                if (!mem.getBoolean(MEM_INSTANT_INIT_NOTIFIED)) {
-                    try {
-                        Global.getSector().getCampaignUI()
-                                .addMessage("Markets for Sol initialized");
-                    } catch (Exception ignore) {}
-                    mem.set(MEM_INSTANT_INIT_NOTIFIED, true);
-                }
-            }
-        }
-
         boolean discoveryDone = mem.getBoolean(MEM_DISCOVERY);
         if (!discoveryDone) {
             if (!isSettled) {
@@ -228,7 +203,7 @@ public class SolDeferredSetupScript implements EveryFrameScript {
 
             // Vanera
             if (!doneVanera && matches(mId, eId, ID_VANERA, "vanera")) {
-                safeAdd(market, "decivilized");
+                safeAdd(market, "sol_degenerate");
                 safeAdd(market, "very_hot");
                 safeAdd(market, "sol_megaforges");
                 markConditionsSurveyed(market);
@@ -264,6 +239,7 @@ public class SolDeferredSetupScript implements EveryFrameScript {
                 safeAdd(market, "poor_light");
                 safeAdd(market, "ruins_widespread");
                 safeAdd(market, "sol_no_atmosphere_bodgejob");
+                safeAdd(market, "sol_inter_binary_elevator");
                 markConditionsSurveyed(market);
                 mem.set(MEM_PELEUS, true);
                 donePeleus = true;
@@ -317,7 +293,6 @@ public class SolDeferredSetupScript implements EveryFrameScript {
                 if (!donePolyso && matches(mId, eId, ID_POLYSO, "polyso")) {
                     safeAdd(market, "very_cold");
                     safeAdd(market, "dark");
-                    safeAdd(market, "sol_dist_abyssal");
                     markConditionsSurveyed(market);
                     mem.set(MEM_POLYSO, true);
                     donePolyso = true;
@@ -333,7 +308,6 @@ public class SolDeferredSetupScript implements EveryFrameScript {
                     safeAdd(market, "rare_ore_sparse");
                     safeAdd(market, "volatiles_plentiful");
                     safeAdd(market, "sol_contact_binary");
-                    safeAdd(market, "sol_dist_abyssal");
                     markConditionsSurveyed(market);
                     mem.set(MEM_CHAOS, true);
                     doneChaos = true;

@@ -405,10 +405,37 @@ public static class SolAsteroidFactory {
 }
 
 // =================================================================================================================
+// TRANS-BINARY ELEVATOR FACTORY & SPAWNER
+// =================================================================================================================
+
+public static class TransBinaryElevatorFactory {
+    
+    public static SectorEntityToken createElevator(StarSystemAPI system, String uniqueEntityId, String displayName, float distance) {
+        int index = Math.round(distance / 10f);
+        
+        if (index < 1) index = 1;
+        if (index > 40) index = 40;
+
+        String configId = "t_elevator_" + index;
+
+        return system.addCustomEntity(uniqueEntityId, displayName, configId, "neutral");
+    }
+}
+
+public SectorEntityToken spawnTransBinaryElevator(StarSystemAPI system, SectorEntityToken primary, String id, String name, float distance, float angle, float orbitPeriod) {
+    SectorEntityToken elevator = TransBinaryElevatorFactory.createElevator(system, id, name, distance);
+    
+    float orbitRadius = distance / 2f;
+    
+    elevator.setCircularOrbitPointingDown(primary, angle, orbitRadius, orbitPeriod);
+    
+    return elevator;
+}
+// =================================================================================================================
 // KeplerComponent — Optimized
 // =================================================================================================================
 
-static class KeplerComponent {
+public static class KeplerComponent {
     // --- Mutable state ---
     float meanAnomaly;
 
@@ -421,8 +448,8 @@ static class KeplerComponent {
     final float signA;
     final boolean isCircular;
 
-    KeplerComponent(float a, float ecc, float longPeri, float period,
-                    float startAnomaly, float sign) {
+    public KeplerComponent(float a, float ecc, float longPeri, float period,
+                       float startAnomaly, float sign) {
         this.a = a;
         this.ecc = ecc;
         this.longPeri = longPeri;
@@ -496,7 +523,7 @@ static class KeplerComponent {
 // ============================================================================
 // CompoundOrbit ================= Prominent in HP Lovecraft's work ===========
 // ============================================================================
-public class CompoundOrbit implements OrbitAPI {
+public static class CompoundOrbit implements OrbitAPI {
     final SectorEntityToken focus;            // math anchor
     final SectorEntityToken declaredFocus;    // null = honest; non-null = faux (what getFocus reports)
     SectorEntityToken entity;
@@ -1013,8 +1040,8 @@ public SectorEntityToken spawnSPSObject7(StarSystemAPI system,
 
     double rawPeriodYears;
     if(linearTime == 1 && hostName == "Sol"){
-        float gameDistAtOneAU = getDistGasGiant(hostName, 1, primaryOffset) - primaryOffset.getRadius();
-        float distAU = ( orbitRadius - primaryOffset.getRadius() + 1f) / gameDistAtOneAU;
+        float gameDistAtOneAU = getDistGasGiant(hostName, 1f, primaryOffset) - primaryOffset.getRadius() - 1f;
+        float distAU = (orbitRadius - primaryOffset.getRadius() - 1f) / gameDistAtOneAU;
         rawPeriodYears = Math.sqrt(Math.pow(distAU, 3) / safeHostMass);
     } else {
         rawPeriodYears = Math.sqrt(Math.pow(SMA, 3) / safeHostMass);
@@ -1319,77 +1346,6 @@ public SectorEntityToken spawnWithEllipticalOrbit(
     return spawnEllipticalComponent(system, primary,
         id, name, size, type, subType,
         SMA, ecc, period, longPeri, startAnomaly, rotationalPeriod); 
-}
-
-public SectorEntityToken[] spawnLempo(StarSystemAPI system, SectorEntityToken star, float zeroDegGlobal) {
-// consider : not.
-    float sz_Lempo = getSize(272f);
-    float sz_Hiisi = getSize(251f);
-    float sz_Paha  = getSize(132f);
-
-    float funMult = 3.14159f;
-    float p_Inner = getTime(1.9f) / funMult;
-    float p_Outer = getTime(50f)  / funMult;
-
-    double mL   = Math.pow(sz_Lempo, 3);
-    double mH   = Math.pow(sz_Hiisi, 3);
-    double mP   = Math.pow(sz_Paha,  3);
-    double mLH  = mL + mH;
-    double mAll = mLH + mP;
-
-    float helio_SMA = 39.7192f;
-    float helio_e   = 0.2298f;
-    Orbit oHelio    = getOrbit(helio_SMA, helio_e, star);
-    float helio_a   = oHelio.A;
-    float helio_ge  = oHelio.C / oHelio.A;
-    float helio_lp  = 97.167f + 295.825f + zeroDegGlobal;
-    float helio_M   = SPSUtils.getMeanAnomalyFromEpoch(currentYear, 2015.73f, helio_SMA, null);
-    float helio_p   = getTime((float)(Math.sqrt(Math.pow(helio_SMA, 3)) * 365.25f));
-
-    float outer_sma = 292f;
-    float outer_e   = 0.29f;
-    float outer_lp  = 180f;
-    float a_IB      = outer_sma * (float)(mP / mAll);
-
-    float inner_sma = 80f;
-    float inner_e   = 0.15f;
-    float inner_lp  = 0f;
-    float a_L       = inner_sma * (float)(mH / mLH);
-
-    // =====================================================================
-
-    PlanetAPI Lempo = (PlanetAPI) system.addPlanet("Lempo", star, "Lempo", "rocky_ice",
-        0f, sz_Lempo, helio_a, helio_p);
-
-    CompoundOrbit oL = new CompoundOrbit(star,
-        new KeplerComponent(helio_a, helio_ge, helio_lp, helio_p, helio_M, +1f),
-        new KeplerComponent(a_IB,    outer_e,  outer_lp, p_Outer, 0f,     +1f),
-        new KeplerComponent(a_L,     inner_e,  inner_lp, p_Inner, 0f,     +1f)
-    );
-    oL.setEntity(Lempo); Lempo.setOrbit(oL); oL.advance(0);
-
-    PlanetAPI Hiisi = (PlanetAPI) system.addPlanet("Hiisi", Lempo, "Hiisi", "rocky_ice",
-        180f, sz_Hiisi, inner_sma, p_Inner);
-
-    CompoundOrbit oH = new CompoundOrbit(Lempo,
-        new KeplerComponent(inner_sma, inner_e, inner_lp, p_Inner, 0f, -1f)
-    );
-    oH.setEntity(Hiisi); Hiisi.setOrbit(oH); oH.advance(0);
-
-    float pahaSpin = 100f / sz_Paha;
-    SectorEntityToken Paha = SolAsteroidFactory.createAsteroid(system, sz_Paha, "Paha", "Paha", true);
-    Paha.setCircularOrbit(Lempo, 0f, outer_sma, p_Outer);
-
-    List<KeplerComponent> pahaComps = new ArrayList<KeplerComponent>(2);
-    pahaComps.add(new KeplerComponent(outer_sma, outer_e, outer_lp, p_Outer, 0f, -1f));
-    pahaComps.add(new KeplerComponent(a_L,       inner_e, inner_lp, p_Inner, 0f, -1f));
-
-    CompoundOrbit oP = new CompoundOrbit(Lempo, pahaComps, pahaSpin, pahaSpin + 10f);
-    oP.setEntity(Paha);
-    Paha.setOrbit(oP);
-    oP.advance(0);
-
-    return new SectorEntityToken[]{ Lempo, Hiisi, Paha };
 }
 
 // =========================================================================

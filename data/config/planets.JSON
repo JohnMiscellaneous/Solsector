@@ -191,20 +191,6 @@
 		"iconColor":[80,80,90,255], 
 		"isStar":false,
 	},
-	"psyche":{
-		"name":"Rocky Metallic", 
-		"tilt":3.1, 
-		"pitch":0, 
-		"rotation":-51.4, 
-		"planetColor":[180,180,190,255],
-		"atmosphereThickness":0, 
-		"atmosphereThicknessMin":10, 
-		"atmosphereColor":[0,0,0,0],
-		"texture":"graphics/planets/psyche_tx.jpg",
-		"icon":"graphics/warroom/icon_planet.png",
-		"iconColor":[150,150,160,255], 
-		"isStar":false,
-	},
 	"jupiter":{
 		"name":"Gas Giant",
 		"tilt":3.1, 
@@ -347,34 +333,6 @@
 		"texture":"graphics/planets/hektor_tx.jpg",
 		"icon":"graphics/warroom/icon_planet.png",
 		"iconColor":[160,100,80,255], 
-		"isStar":false,
-	},
-	"patroclus":{
-		"name":"Barren", 
-		"tilt":22.0, 
-		"pitch":90, 
-		"rotation":-2.1,
-		"planetColor":[190,180,180,255],
-		"atmosphereThickness":0, 
-		"atmosphereThicknessMin":10, 
-		"atmosphereColor":[0,0,0,0],
-		"texture":"graphics/planets/patroclus_tx.jpg",
-		"icon":"graphics/warroom/icon_planet.png",
-		"iconColor":[130,120,120,255], 
-		"isStar":false,
-	},
-	"menoetius":{
-		"name":"Barren",
-		"tilt":22.0, 
-		"pitch":90, 
-		"rotation":-2.1, 
-		"planetColor":[190,180,180,255], 
-		"atmosphereThickness":0, 
-		"atmosphereThicknessMin":10, 
-		"atmosphereColor":[0,0,0,0],
-		"texture":"graphics/planets/menoetius_tx.jpg",
-		"icon":"graphics/warroom/icon_planet.png",
-		"iconColor":[130,120,120,255], 
 		"isStar":false,
 	},
 	"saturn":{
@@ -821,20 +779,6 @@
 		"iconColor":[160,140,130,255], 
 		"isStar":false,
 	},
-	"hydra":{
-		"name":"Ice Splinter",
-		"tilt":17, 
-		"pitch":30, 
-		"rotation":-1.0, 
-		"planetColor":[255,255,255,255],
-		"atmosphereThickness":0, 
-		"atmosphereThicknessMin":10, 
-		"atmosphereColor":[0,0,0,0],
-		"texture":"graphics/planets/hydra_tx.jpg",
-		"icon":"graphics/warroom/icon_planet.png",
-		"iconColor":[200,200,200,255], 
-		"isStar":false,
-	},
 	"orcus":{
 		"name":"Cryovolcanic",
 		"tilt":20.6, 
@@ -864,20 +808,6 @@
 		"texture":"graphics/planets/vanth_tx.jpg",
 		"icon":"graphics/warroom/icon_planet.png",
 		"iconColor":[200,140,130,255], 
-		"isStar":false,
-	},
-	"huya":{
-		"name":"Barren",
-		"tilt":15.5, 
-		"pitch":90, 
-		"rotation":-41, 
-		"planetColor":[255,255,255,255],
-		"atmosphereThickness":0, 
-		"atmosphereThicknessMin":10, 
-		"atmosphereColor":[0,0,0,0],
-		"texture":"graphics/planets/huya_tx.jpg",
-		"icon":"graphics/warroom/icon_planet.png",
-		"iconColor":[220,100,80,255], 
 		"isStar":false,
 	},
 	"lempo":{
@@ -992,20 +922,6 @@
 		"iconColor":[160,80,60,255], 
 		"isStar":false,
 	},
-	"uni":{
-		"name":"Frozen",
-		"tilt":19.5, 
-		"pitch":70, 
-		"rotation":-15, 
-		"planetColor":[255,240,230,255],
-		"atmosphereThickness":0, 
-		"atmosphereThicknessMin":10, 
-		"atmosphereColor":[0,0,0,0],
-		"texture":"graphics/planets/uni_tx.jpg",
-		"icon":"graphics/warroom/icon_planet.png",
-		"iconColor":[200,100,80,255], 
-		"isStar":false,
-	},
 	"gonggong":{
 		"name":"Frozen",
 		"tilt":30.7, 
@@ -1053,9 +969,9 @@
 	},
     "dysnomia":{
 		"name":"Primordial Frozen",
-		"tilt":44, # Shares inclination with Eris
-		"pitch":90, # Locked (Pole North)
-		"rotation":-0.57, # ~15.8 days
+		"tilt":44,
+		"pitch":90,
+		"rotation":-0.57,
 		"planetColor":[240,240,245,255],
 		"atmosphereThickness":0, 
 		"atmosphereThicknessMin":10, 
@@ -1065,25 +981,11 @@
 		"iconColor":[200,200,210,255], 
 		"isStar":false,
 	},
-	"chaos":{
-		"name":"Primordial Frozen",
-		"tilt":12, 
-		"pitch":50, 
-		"rotation":-2.26, # ~3.98 days
-		"planetColor":[255,220,200,255],
-		"atmosphereThickness":0, 
-		"atmosphereThicknessMin":10, 
-		"atmosphereColor":[0,0,0,0],
-		"texture":"graphics/planets/chaos_tx.jpg",
-		"icon":"graphics/warroom/icon_planet.png",
-		"iconColor":[180,90,70,255], 
-		"isStar":false,
-	},
 	"gkun":{
 		"name":"Primordial Frozen",
 		"tilt":23.3, 
 		"pitch":65, 
-		"rotation":-19.5, # ~11 hours
+		"rotation":-19.5,
 		"planetColor":[255,230,210,255],
 		"atmosphereThickness":0, 
 		"atmosphereThicknessMin":10, 
@@ -1096,8 +998,8 @@
 	"chiminigagua":{
 		"name":"Primordial Frozen",
 		"tilt":33.1, 
-		"pitch":40, # Stochastic pitch
-		"rotation":-10.8, # ~20 hours (Estimate/Unknown)
+		"pitch":40,
+		"rotation":-10.8,
 		"planetColor":[255,220,200,255],
 		"atmosphereThickness":0, 
 		"atmosphereThicknessMin":10, 
@@ -1109,16 +1011,16 @@
 	},
     "goblin":{
 		"name":"Abyssal",
-		"tilt":11.6, # 2015 TG387 Inclination
-		"pitch":55, # Stochastic axial tilt
-		"rotation":-22, # Stochastic (~10h period)
+		"tilt":11.6,
+		"pitch":55,
+		"rotation":-22,
 		"planetColor":[255,220,210,255],
 		"atmosphereThickness":0, 
 		"atmosphereThicknessMin":10, 
 		"atmosphereColor":[0,0,0,0],
 		"texture":"graphics/planets/goblin_tx.jpg",
 		"icon":"graphics/warroom/icon_planet.png",
-		"iconColor":[180,90,70,255], # Reddish
+		"iconColor":[180,90,70,255],
 		"isStar":false,
 	},
 	"salacia":{
@@ -1126,7 +1028,7 @@
 		"tilt":23.9, 
 		"pitch":60, 
 		"rotation":-35.5, 
-		"planetColor":[110,105,100,255], # Very low albedo (4%), dark surface
+		"planetColor":[110,105,100,255],
 		"atmosphereThickness":0, 
 		"atmosphereThicknessMin":0, 
 		"atmosphereColor":[0,0,0,0],
@@ -1137,58 +1039,44 @@
 	},
 	"biden":{
 		"name":"Abyssal",
-		"tilt":24.1, # 2012 VP113 Inclination
-		"pitch":35, # Stochastic axial tilt
-		"rotation":-18, # Stochastic (~12h period)
-		"planetColor":[255,200,190,255], # Pinkish
+		"tilt":24.1,
+		"pitch":35,
+		"rotation":-18,
+		"planetColor":[255,200,190,255],
 		"atmosphereThickness":0, 
 		"atmosphereThicknessMin":10, 
 		"atmosphereColor":[0,0,0,0],
 		"texture":"graphics/planets/biden_tx.jpg",
 		"icon":"graphics/warroom/icon_planet.png",
-		"iconColor":[200,120,100,255], # Pink/Red
-		"isStar":false,
-	},
-	"deedee":{
-		"name":"Abyssal",
-		"tilt":26.8, # 2014 UZ224 Inclination
-		"pitch":70, # Stochastic axial tilt
-		"rotation":-14, # Stochastic (~15h period)
-		"planetColor":[230,200,200,255], # Dark/Reddish
-		"atmosphereThickness":0, 
-		"atmosphereThicknessMin":10, 
-		"atmosphereColor":[0,0,0,0],
-		"texture":"graphics/planets/deedee_tx.jpg",
-		"icon":"graphics/warroom/icon_planet.png",
-		"iconColor":[160,80,80,255], # Dark Red
+		"iconColor":[200,120,100,255],
 		"isStar":false,
 	},
 	"farout":{
 		"name":"Abyssal",
-		"tilt":24.4, # 2018 VG18 Inclination
-		"pitch":45, # Stochastic axial tilt
-		"rotation":-25, # Stochastic (~8.5h period)
-		"planetColor":[255,210,220,255], # Pinkish (Ice-rich)
+		"tilt":24.4,
+		"pitch":45,
+		"rotation":-25,
+		"planetColor":[255,210,220,255],
 		"atmosphereThickness":0, 
 		"atmosphereThicknessMin":10, 
 		"atmosphereColor":[0,0,0,0],
 		"texture":"graphics/planets/farout_tx.jpg",
 		"icon":"graphics/warroom/icon_planet.png",
-		"iconColor":[210,140,150,255], # Pink
+		"iconColor":[210,140,150,255],
 		"isStar":false,
 	},
 	"farfarout":{
 		"name":"Abyssal",
-		"tilt":18.7, # 2018 AG37 Inclination
-		"pitch":60, # Stochastic axial tilt
-		"rotation":-20, # Stochastic (~11h period)
-		"planetColor":[240,230,240,255], # Faint/Ice-rich
+		"tilt":18.7,
+		"pitch":60,
+		"rotation":-20,
+		"planetColor":[240,230,240,255],
 		"atmosphereThickness":0, 
 		"atmosphereThicknessMin":10, 
 		"atmosphereColor":[0,0,0,0],
 		"texture":"graphics/planets/farfarout_tx.jpg",
 		"icon":"graphics/warroom/icon_planet.png",
-		"iconColor":[190,180,200,255], # Pale
+		"iconColor":[190,180,200,255],
 		"isStar":false,
 	},
 	"achlys":{

@@ -5,11 +5,14 @@ import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.impl.campaign.econ.ResourceDepositsCondition;
 import com.fs.starfarer.api.impl.campaign.ids.Commodities;
 import org.json.JSONObject;
+import com.fs.starfarer.api.campaign.rules.MemoryAPI;
+import com.fs.starfarer.api.campaign.StarSystemAPI;
 
 // Scripts
 import soljars.gen.systems.sol.SolTotal;
 import soljars.gen.systems.sol.SolDeferredSetupScript;
 import soljars.econ.utils.DistanceConditionManager;
+import soljars.gen.systems.sol.SolEconomies;
 
 public class SolModPlugin extends BaseModPlugin {
 
@@ -36,8 +39,30 @@ public class SolModPlugin extends BaseModPlugin {
     
     @Override
     public void onGameLoad(boolean newGame) {
-        // Deferred setup script (replaces SolStationListener + SolDiscoveryListener).
-        // Transient — re-added every load. Self-removes on first tick if all work is already done.
+        boolean isSettled = true;
+        boolean instantMarkets = false;
+        try {
+            JSONObject settings = Global.getSettings().loadJSON("data/config/sol_settings.json");
+            isSettled = settings.optBoolean("Generate_Settled_Planets", true);
+            instantMarkets = settings.optBoolean("Settled_Planets_Spawn_In_Instantly", false);
+        } catch (Exception e) {
+            Global.getLogger(this.getClass()).error("SolMod: Failed to load settings", e);
+        }
+
+        MemoryAPI mem = Global.getSector().getMemoryWithoutUpdate();
+        StarSystemAPI sol = Global.getSector().getStarSystem("sol");
+
+        if (sol != null && isSettled && instantMarkets && !mem.getBoolean("$sol_discovery_done")) {
+            new SolEconomies().generate(sol);
+            mem.set("$sol_discovery_done", true);
+            if (!mem.getBoolean("$sol_instant_init_notified")) {
+                try {
+                    Global.getSector().getCampaignUI().addMessage("Markets for Sol initialized");
+                } catch (Exception ignore) {}
+                mem.set("$sol_instant_init_notified", true);
+            }
+        }
+
         Global.getSector().addTransientScript(new SolDeferredSetupScript());
         DistanceConditionManager.install();
     }

@@ -61,6 +61,9 @@ import soljars.gen.utils.RemnantPatrolFactory;
 import soljars.gen.utils.AstroCalc;
 import soljars.econ.utils.DistanceConditionManager;
 import soljars.gen.utils.AstroCalc.CompoundOrbit;
+import soljars.gen.utils.AstroCalc.KeplerComponent;
+import soljars.gen.utils.CompoundOrbitTool;
+import soljars.gen.utils.AstroCalc.SolAsteroidFactory;
 
 // =========================================================================
 // ========================= Initialisation ================================
@@ -107,9 +110,9 @@ try {
     isSettled = Global.getSettings().loadJSON("data/config/sol_settings.json").optBoolean("Generate_Settled_Planets", true);
 } catch (Exception e) {}
 
-boolean remnantHorde = true;
+int remnantHorde = 1;
 try {
-    remnantHorde = Global.getSettings().loadJSON("data/config/sol_settings.json").optBoolean("Remnant_Horde", true);
+    remnantHorde = Global.getSettings().loadJSON("data/config/sol_settings.json").optInt("remnant_difficulty", 1);
 } catch (Exception e) {}
 
 int deepSpaceProbes = 1;
@@ -136,22 +139,41 @@ try {
 
 
 // Object Generation Settings
-boolean innerSolShortlist = true;
+int DetailSetting = 0;
 try {
-    innerSolShortlist = Global.getSettings().loadJSON("data/config/sol_settings.json").optBoolean("Inner_Sol_Shortlist", true);
+    DetailSetting = Global.getSettings().loadJSON("data/config/sol_settings.json").optInt("Inner_Sol_Detail", 0);
+} catch (Exception e) {}
+boolean innerSolShortlist = true;
+if(DetailSetting >= 1){
+    innerSolShortlist = false;  
+}
+
+DetailSetting = 0;
+try {
+    DetailSetting = Global.getSettings().loadJSON("data/config/sol_settings.json").optInt("Visited_Asteroids_Detail", 0);
 } catch (Exception e) {}
 boolean visitedAsteroidsShortlist = true;
+if(DetailSetting >= 1){
+    visitedAsteroidsShortlist = false;  
+}
+
+DetailSetting = 0;
 try {
-    visitedAsteroidsShortlist = Global.getSettings().loadJSON("data/config/sol_settings.json").optBoolean("Visited_Asteroids_Shortlist", true);
+    DetailSetting = Global.getSettings().loadJSON("data/config/sol_settings.json").optInt("Asteroid_Belt_Detail", 0);
 } catch (Exception e) {}
 boolean asteroidBeltShortlist = true;
+if(DetailSetting >= 1){
+    asteroidBeltShortlist = false;  
+}
+
+DetailSetting = 1;
 try {
-    asteroidBeltShortlist = Global.getSettings().loadJSON("data/config/sol_settings.json").optBoolean("Asteroid_Belt_Shortlist", true);
+    DetailSetting = Global.getSettings().loadJSON("data/config/sol_settings.json").optInt("Jupiter_Trojans_Detail", 1);
 } catch (Exception e) {}
 boolean jupiterTrojansShortlist = true;
-try {
-    jupiterTrojansShortlist = Global.getSettings().loadJSON("data/config/sol_settings.json").optBoolean("Jupiter_Trojans_Shortlist", true);
-} catch (Exception e) {}
+if(DetailSetting >= 1){
+    asteroidBeltShortlist = false;  
+}
 
 int jupiterDetailSetting = 0;
 try {
@@ -167,26 +189,60 @@ try {
 boolean saturnAll = (saturnDetailSetting >= 2)? true : false;
 boolean saturnShortlist = (saturnDetailSetting >= 1)? false : true;
 
-boolean uranusShortlist = true;
+DetailSetting = 0;
 try {
-    uranusShortlist = Global.getSettings().loadJSON("data/config/sol_settings.json").optBoolean("Uranus_Shortlist", true);
+    DetailSetting = Global.getSettings().loadJSON("data/config/sol_settings.json").optInt("Uranus_Detail", 0);
+} catch (Exception e) {}
+boolean uranusShortlist = true;
+if(DetailSetting >= 1){
+    uranusShortlist = false;  
+}
+
+DetailSetting = 0;
+try {
+    DetailSetting = Global.getSettings().loadJSON("data/config/sol_settings.json").optInt("Neptune_Detail", 0);
 } catch (Exception e) {}
 boolean neptuneShortlist = true;
+if(DetailSetting >= 1){
+    neptuneShortlist = false;  
+}
+
+DetailSetting = 0;
 try {
-    neptuneShortlist = Global.getSettings().loadJSON("data/config/sol_settings.json").optBoolean("Neptune_Shortlist", true);
+    DetailSetting = Global.getSettings().loadJSON("data/config/sol_settings.json").optInt("Neptune_Trojans_Detail", 1);
 } catch (Exception e) {}
 boolean neptuneTrojansShortlist = true;
+if(DetailSetting >= 1){
+    neptuneTrojansShortlist = false;  
+}
+
+DetailSetting = 0;
 try {
-    neptuneTrojansShortlist = Global.getSettings().loadJSON("data/config/sol_settings.json").optBoolean("Neptune_Trojans_Shortlist", true);
+    DetailSetting = Global.getSettings().loadJSON("data/config/sol_settings.json").optInt("Centaur_Detail", 0);
 } catch (Exception e) {}
 boolean centaurShortlist = true;
+if(DetailSetting >= 1){
+    centaurShortlist = false;  
+}
+
+DetailSetting = 1;
 try {
-    centaurShortlist = Global.getSettings().loadJSON("data/config/sol_settings.json").optBoolean("Trans_Neptune_Shortlist", true);
+    DetailSetting = Global.getSettings().loadJSON("data/config/sol_settings.json").optInt("Kuiper_Detail", 1);
 } catch (Exception e) {}
 boolean transNeptuneShortlist = true;
+if(DetailSetting >= 1){
+    transNeptuneShortlist = false;  
+}
+
+DetailSetting = 1;
 try {
-    transNeptuneShortlist = Global.getSettings().loadJSON("data/config/sol_settings.json").optBoolean("Trans_Neptune_Shortlist", true);
+    DetailSetting = Global.getSettings().loadJSON("data/config/sol_settings.json").optInt("Scattered_Disk_Detail", 1);
 } catch (Exception e) {}
+boolean scatteredDiskShortlist = true;
+if(DetailSetting >= 1){
+    scatteredDiskShortlist = false;  
+}
+
 
 // Shit from the respectible end of science fiction
 // no inexplicable 2km moons even closer to Jupiter than Thebe, and no ninth planets, leda, 1999 ZX30, and Burns-Caulfield
@@ -203,31 +259,46 @@ try {
 } catch (Exception e) {}
 
 // Disables unnamed bodies showing up on map
-int showNamesSetting = 1;
+int showNamesSetting = 0;
 try {
-    showNamesSetting = Global.getSettings().loadJSON("data/config/sol_settings.json").optInt("Show_Names", 1);
+    showNamesSetting = Global.getSettings().loadJSON("data/config/sol_settings.json").optInt("Show_Names", 0);
 } catch (Exception e) {}
 
 boolean showMinorNames;
 boolean showProvisionalNames;
+boolean showCustomNames;
 String showNameMinor;
 String showNameProv;
+String showNameCustom;
 
-if (showNamesSetting == 2) {
+if (showNamesSetting == 3) {
     showMinorNames = true;
     showProvisionalNames = true;
-    showNameMinor = null;
-    showNameProv = null;
+    showCustomNames = true;
+    showNameMinor = "w_name";
+    showNameProv = "w_name";
+    showNameCustom = "w_name";
+} else if (showNamesSetting == 2) {
+    showMinorNames = true;
+    showProvisionalNames = false;
+    showCustomNames = true;
+    showNameMinor = "w_name";
+    showNameProv = "no_name";
+    showNameCustom = "w_name";
 } else if (showNamesSetting == 0) {
     showMinorNames = false;
     showProvisionalNames = false;
+    showCustomNames = false;
     showNameMinor = "no_name";
     showNameProv = "no_name";
+    showNameCustom = "no_name";
 } else { // default: 1
-    showMinorNames = true;
+    showMinorNames = false;
     showProvisionalNames = false;
-    showNameMinor = null;
+    showCustomNames = true;
+    showNameMinor = "no_name";
     showNameProv = "no_name";
+    showNameCustom = "w_name";
 }
 
 // Single chord moons, indicated bodies, etc, whatevers too controvertial and not cool enough to send it anyways
@@ -316,28 +387,28 @@ try {
 // --- Short Period Comets ---
 
 // 67P Churyumov-Gerasimenko
-SectorEntityToken Churymov = calc.spawnSPSObject(system, star, "Churyumov-Gerasimenko", "Churyumov-Gerasimenko", "custom_entity", "Churymov", 1f, 3.4622f, 0.6409f, 50.136f, 12.798f, 2015.616f, zeroDegGlobal, -.529f, 1f);
+SectorEntityToken Churymov = calc.spawnSPSObject(system, star, "Churyumov-Gerasimenko", "Churyumov-Gerasimenko", "custom_entity", "Churymov" + showNameCustom, 1f, 3.4622f, 0.6409f, 50.136f, 12.798f, 2015.616f, zeroDegGlobal, -.529f, 1f);
 
 // 1P/Halley | Retrograde
-SectorEntityToken Halley = calc.spawnSPSObject6(system, star, "Halley", "Halley", "custom_entity", "Halley", 11f, 17.9286f, 0.9679f, 59.099f, 112.241f, 1986.11f, zeroDegGlobal, 2.2f, 1f, null, null, null, star, "Sol", true);
+SectorEntityToken Halley = calc.spawnSPSObject6(system, star, "Halley", "Halley", "custom_entity", "Halley" + showNameCustom, 11f, 17.9286f, 0.9679f, 59.099f, 112.241f, 1986.11f, zeroDegGlobal, 2.2f, 1f, null, null, null, star, "Sol", true);
 
 // 109P/Swift-Tuttle | Retrograde
-SectorEntityToken barycenterSwift = calc.spawnSPSObject6(system, star, "Swift-Tuttle", "Swift-Tuttle", "custom_entity", "Swift", 1f, 26.0921f, 0.9632f, 139.381f, 152.982f, 1992.945f, zeroDegGlobal, null, 1f, null, null, null, star, "Sol", true);
+SectorEntityToken barycenterSwift = calc.spawnSPSObject6(system, star, "Swift-Tuttle", "Swift-Tuttle", "custom_entity", "Swift" + showNameMinor, 1f, 26.0921f, 0.9632f, 139.381f, 152.982f, 1992.945f, zeroDegGlobal, null, 1f, null, null, null, star, "Sol", true);
 
 // 2P/Encke
 SectorEntityToken Encke = calc.spawnSPSObject(system, star, "Encke", "Encke", "asteroid", showNameMinor, 4.8f, 2.2197f, 0.8477f, 334.194f, 187.134f, 2023.81f, zeroDegGlobal, 0.458f, 1f);
 
 // 9P/Tempel 1
-SectorEntityToken Tempel1 = calc.spawnSPSObject(system, star, "Tempel", "Tempel", "custom_entity", "Tempel", 6.0f, 3.1461f, 0.5097f, 68.754f, 179.197f, 2016.59f, zeroDegGlobal, 1.696f, 1f);
+SectorEntityToken Tempel1 = calc.spawnSPSObject(system, star, "Tempel", "Tempel", "custom_entity", "Tempel" + showNameCustom, 6.0f, 3.1461f, 0.5097f, 68.754f, 179.197f, 2016.59f, zeroDegGlobal, 1.696f, 1f);
 
 // 81P/Wild 2
-SectorEntityToken Wild = calc.spawnSPSObject(system, star, "Wild", "Wild", "custom_entity", "Wild", 4.0f, 3.4497f, 0.5374f, 136.110f, 41.725f, 2022.96f, zeroDegGlobal, 0.562f, 1f);
+SectorEntityToken Wild = calc.spawnSPSObject(system, star, "Wild", "Wild", "custom_entity", "Wild" + showNameCustom, 4.0f, 3.4497f, 0.5374f, 136.110f, 41.725f, 2022.96f, zeroDegGlobal, 0.562f, 1f);
 
 // 19P/Borrelly
-SectorEntityToken barycenterBorrelly = calc.spawnSPSObject(system, star, "Borrelly", "Borrelly", "custom_entity", "Borelly", 1f, 3.6070f, 0.6379f, 74.301f, 351.862f, 2022.088f, zeroDegGlobal, 1.04f, 1f);
+SectorEntityToken barycenterBorrelly = calc.spawnSPSObject(system, star, "Borrelly", "Borrelly", "custom_entity", "Borelly" + showNameCustom, 1f, 3.6070f, 0.6379f, 74.301f, 351.862f, 2022.088f, zeroDegGlobal, 1.04f, 1f);
 
 // 103P/Hartley 2
-SectorEntityToken barycenterHartley = calc.spawnSPSObject(system, star, "Hartley", "Hartley", "custom_entity", "Hartley", 1f, 3.4757f, 0.6936f, 219.742f, 181.322f, 2017.301f, zeroDegGlobal, 0.68f, 1f);
+SectorEntityToken barycenterHartley = calc.spawnSPSObject(system, star, "Hartley", "Hartley", "custom_entity", "Hartley" + showNameCustom, 1f, 3.4757f, 0.6936f, 219.742f, 181.322f, 2017.301f, zeroDegGlobal, 0.68f, 1f);
 
 // =========================================================================
 // ======================= LONG PERIOD COMETS ==============================
@@ -465,10 +536,16 @@ if(speculativeBodies){
 SectorEntityToken Pholus = calc.spawnSPSObject(system, star, "Pholus", "Pholus", "asteroid", showNameMinor, 90f, 20.2834f, 0.5747f, 119.290f, 354.730f, 1991.77f, zeroDegGlobal, 0.416f, 1f);
 
 // 65489 Ceto-Phorcys
-SectorEntityToken cetoBarycenter = calc.spawnSPSObject(system, star, "ceto_barycenter", "Ceto Barycenter", "custom_entity", "empty", 1f, 100.4780f, 0.8238f, 171.954f, 319.464f, 1989.59f, zeroDegGlobal, null, 1f);
-float sz_Ceto = calc.getSize(223f); float sz_Phorcys = calc.getSize(171f); float[] cetoOffsets = calc.getBinaryOffsetsReal(223f, 171f, 12f);
-SectorEntityToken Ceto = calc.spawnMoon(system, cetoBarycenter, "Ceto", sz_Ceto, cetoOffsets[0], calc.getTime(9.55f), 0f, showMinorNames);
-SectorEntityToken Phorcys = calc.spawnMoon(system, cetoBarycenter, "Phorcys", sz_Phorcys, cetoOffsets[1], calc.getTime(9.55f), 180f, showMinorNames);
+float sz_Ceto = calc.getSize(223f); 
+float sz_Phorcys = calc.getSize(171f); 
+float[] cetoOffsets = calc.getBinaryOffsetsReal(223f, 171f, 12f);
+float p_CetoPhorcys = calc.getTime(9.55f);
+float[][] cetoExtras = new float[][]{
+    { cetoOffsets[0], 0f,  0f, p_CetoPhorcys,  0f, +1f } 
+};
+SectorEntityToken Ceto = calc.spawnSPSObject5(system, star, "Ceto", "Ceto", "asteroid", showNameMinor, sz_Ceto, 100.4780f, 0.8238f, 171.954f, 319.464f, 1989.59f, zeroDegGlobal, null, 1f, null, null, cetoExtras, star);
+
+SectorEntityToken Phorcys = calc.spawnMoon(system, Ceto, "Phorcys", sz_Phorcys, cetoOffsets[0]+cetoOffsets[1], p_CetoPhorcys, 180f, showMinorNames);
 Ceto.setCustomDescriptionId("sol_ceto");
 Phorcys.setCustomDescriptionId("sol_phorcys");
 
@@ -536,14 +613,12 @@ float dist_PlutoRaw = 39.5886f;
 float _pluRad = calc.getSize(2376f);
 float _pluMoonExt = _pluRad * 5.0f;
 float _pluMoonInt = _pluMoonExt * 0.5f;
-float p_PlutoCharon = calc.getTime(1.387f);
+float p_PlutoCharon = calc.getTime(6.387f);
 float rot_PlutoCharon = 360f / (p_PlutoCharon * 10f);
 float[] pluOffsets = calc.getBinaryOffsetsReal(2376f, 1212f, 9f);
 
 // Pluto
 PlanetAPI Pluto = (PlanetAPI) calc.spawnSPSObject3(system, star, "Pluto", "Pluto", "cryovolcanic", null, 2376f, 39.5886f, 0.2518f, 110.292f, 113.709f, 1989.78f, zeroDegGlobal, null, 1f, null, null, true, pluOffsets[0], 0f, p_PlutoCharon);
-SectorEntityToken plutoBarycenter = system.addCustomEntity("plutoBarycenter", "plutoBarycenter", "empty", "neutral"); 
-plutoBarycenter.setCircularOrbitPointingDown(Pluto, 180f, pluOffsets[0], p_PlutoCharon);
 float p_Pluto = ((CompoundOrbit) Pluto.getOrbit()).getCircularOrbitPeriod();
 
 float anglePluto = Pluto.getCircularOrbitAngle(); // will be garbage if occultOrbitBeta is on, hardcode if needed
@@ -571,6 +646,8 @@ calc.addConditions(Pluto.getMarket(), new String[] {
     "ruins_extensive",
     "sol_inter_binary_elevator",
     "sol_degenerate",
+    "sol_subsurface_ocean",
+    "sol_frozen_atmosphere_polar",
     "sol_automated_habitats"
 });
 
@@ -604,27 +681,31 @@ calc.addConditions(Charon.getMarket(), new String[] {
     "sol_degenerate",
     "sol_automated_habitats"
 });
-
-if(generateElevators){
-SectorEntityToken elevatorpc = system.addCustomEntity("elevatorpc", "Pluto-Charon Elevator", "elevatorov", "neutral"); 
-elevatorpc.setCircularOrbitPointingDown(Charon, 0f, 200, p_PlutoCharon);
+SectorEntityToken plutoBarycenter;
+if (generateElevators) {
+    SectorEntityToken elevatorpc = calc.spawnTransBinaryElevator(system, Pluto, "ElevatorPC", "Pluto-Charon Elevator", pluOffsets[0] + pluOffsets[1], 180f, p_PlutoCharon);
+    plutoBarycenter = system.addCustomEntity("PCcenter", "Pluto-Charon Elevator", "CenterpointStation", "neutral"); 
+    plutoBarycenter.setCircularOrbitPointingDown(Pluto, 180f, pluOffsets[0], p_PlutoCharon);
+} else {
+    plutoBarycenter = system.addCustomEntity("plutoBarycenter", "plutoBarycenter", "empty", "neutral"); 
+    plutoBarycenter.setCircularOrbitPointingDown(Pluto, 180f, pluOffsets[0], p_PlutoCharon);
 }
 
 // Minor Moons (Styx, Nix, Kerberos, Hydra) ALL CHAOTIC ROTATORS
 float spinStyx = calc.getRot(calc.getRandomRotationPeriod(16f));
-SectorEntityToken Styx = system.addCustomEntity("Styx", "Styx", "Styx", "neutral"); 
+SectorEntityToken Styx = system.addCustomEntity("Styx", "Styx", "Styx" + showNameCustom, "neutral"); 
 Styx.setCircularOrbitWithSpin(plutoBarycenter, 123f, dist_Charon_Local + sz_Charon + (_pluMoonExt * (float) Math.log(_pluMoonInt * 0.007f + 1)), p_PlutoCharon * 3f, spinStyx, spinStyx);
 
 float spinNix = calc.getRot(calc.getRandomRotationPeriod(50f));
-SectorEntityToken Nix = system.addCustomEntity("Nix", "Nix", "Nix", "neutral"); 
+SectorEntityToken Nix = system.addCustomEntity("Nix", "Nix", "Nix" + showNameCustom, "neutral"); 
 Nix.setCircularOrbitWithSpin(plutoBarycenter, 89f, dist_Charon_Local + sz_Charon + (_pluMoonExt * (float) Math.log(_pluMoonInt * 0.010f + 1)), p_PlutoCharon * 4f, spinNix, spinNix);
 
 float spinKerberos = calc.getRot(calc.getRandomRotationPeriod(19f));
-SectorEntityToken Kerberos = system.addCustomEntity("Kerberos", "Kerberos", "Kerberos", "neutral"); 
+SectorEntityToken Kerberos = system.addCustomEntity("Kerberos", "Kerberos", "Kerberos" + showNameCustom, "neutral"); 
 Kerberos.setCircularOrbitWithSpin(plutoBarycenter, 123f, dist_Charon_Local + sz_Charon + (_pluMoonExt * (float) Math.log(_pluMoonInt * 0.014f + 1)), p_PlutoCharon * 5f, spinKerberos, spinKerberos);
 
 float spinHydra = calc.getRot(calc.getRandomRotationPeriod(51f));
-SectorEntityToken Hydra = system.addCustomEntity("Hydra", "Hydra", "Hydra", "neutral"); 
+SectorEntityToken Hydra = system.addCustomEntity("Hydra", "Hydra", "Hydra" + showNameCustom, "neutral"); 
 Hydra.setCircularOrbitWithSpin(plutoBarycenter, 306f, dist_Charon_Local + sz_Charon + (_pluMoonExt * (float) Math.log(_pluMoonInt * 0.020f + 1)), p_PlutoCharon * 6f, spinHydra, spinHydra);
 
 JumpPointAPI HydraJump = Global.getFactory().createJumpPoint("jp_hydra", "Pluto Jump Point");
@@ -641,9 +722,11 @@ Pluto.getMemoryWithoutUpdate().set("$sol_orbit_max_au", 49.3f);
 Charon.getMemoryWithoutUpdate().set("$sol_orbit_min_au", 29.5f);
 Charon.getMemoryWithoutUpdate().set("$sol_orbit_max_au", 49.3f);
 
+Pluto.getMarket().getMemoryWithoutUpdate().set("$sol_polar_atmosphere_level", 2);
+
 // Arawn | 142 km | quasi-satellite of Pluto
 // ignore the lies that say arawn is no quasi moon
-SectorEntityToken Arawn = calc.spawnSPSObject2(system, star, "Arawn", "Arawn", "custom_entity", "Arawn", 142f, 39.2077f, 0.1141f, 144.743f, 101.223f, 1995.58f, zeroDegGlobal, null, 1f, p_Pluto, dist_PlutoRaw);
+SectorEntityToken Arawn = calc.spawnSPSObject2(system, star, "Arawn", "Arawn", "custom_entity", "Arawn" + showNameMinor, 142f, 39.2077f, 0.1141f, 144.743f, 101.223f, 1995.58f, zeroDegGlobal, null, 1f, p_Pluto, dist_PlutoRaw);
 Arawn.setCustomDescriptionId("sol_arawn");
 
 float p_OrcusVanth = calc.getTime(9.5f);
@@ -703,9 +786,10 @@ calc.addConditions(Vanth.getMarket(), new String[] {
     "sol_inter_binary_elevator"
 });
 
-if(generateElevators){
-SectorEntityToken elevatorov = system.addCustomEntity("elevatorov", "Orcus-Vanth Elevator", "elevatorov", "neutral"); 
-elevatorov.setCircularOrbitPointingDown(Vanth, 0f, 170, p_OrcusVanth);
+if (generateElevators) {
+    SectorEntityToken elevatorOV = calc.spawnTransBinaryElevator(system, Orcus, "ElevatorOV", "Orcus-Vanth Elevator", orcOffsets[0] + orcOffsets[1], 180f, p_OrcusVanth);
+    SectorEntityToken orcusBarycenter = system.addCustomEntity("OVcenter", "Orcus-Vanth Elevator", "CenterpointStation", "neutral"); 
+    orcusBarycenter.setCircularOrbitPointingDown(Orcus, 180f, orcOffsets[0], p_OrcusVanth);
 }
 
 DistanceConditionManager.track(Orcus.getMarket());
@@ -760,21 +844,64 @@ calc.spawnMoon(system, huyaAnchor, "Huya II", sz_HuyaMoon, huyaOffsets[1], p_Huy
 PlanetAPI Lempo;
 PlanetAPI Hiisi;
 SectorEntityToken Paha;
+float funMult = 3.14159f;
 
 if (occultOrbitBeta) {
-    SectorEntityToken[] lempoTriple = calc.spawnLempo(system, star, zeroDegGlobal);
-    Lempo = (PlanetAPI) lempoTriple[0];
-    Hiisi = (PlanetAPI) lempoTriple[1];
-    Paha  = lempoTriple[2];
+    // this is three body and its a problem
+
+    float sz_Lempo = calc.getSize(272f);
+    float sz_Hiisi = calc.getSize(251f);
+    float sz_Paha  = calc.getSize(132f);
+
+    
+    float p_Inner = calc.getTime(1.9f) / funMult;
+    float p_Outer = calc.getTime(50f)  / funMult;
+
+    double mL   = Math.pow(sz_Lempo, 3);
+    double mH   = Math.pow(sz_Hiisi, 3);
+    double mP   = Math.pow(sz_Paha,  3);
+    double mLH  = mL + mH;
+    double mAll = mLH + mP;
+
+    float outer_sma = 292f;
+    float outer_e   = 0.29f;
+    float outer_lp  = 180f;
+    float a_IB      = outer_sma * (float)(mP / mAll);
+
+    float inner_sma = 80f;
+    float inner_e   = 0.15f;
+    float inner_lp  = 0f;
+    float a_L       = inner_sma * (float)(mH / mLH);
+
+    // Lempo -> barycenter -> barycenter -> Sol
+    float[][] lempoExtras = new float[][] {
+        { a_IB, outer_e, outer_lp, p_Outer, 0f, +1f },
+        { a_L,  inner_e, inner_lp, p_Inner, 0f, +1f }
+    };
+    Lempo = (PlanetAPI) calc.spawnSPSObject7(system, star, "Lempo", "Lempo", "rocky_ice", null, 272f, 39.7192f, 0.2298f, 97.167f, 295.825f, 2015.73f, zeroDegGlobal, null, 1f, null, null, lempoExtras, star, "Sol", false, false);         
+    // Hiisi -> barycenter -> lempo
+    Hiisi = (PlanetAPI) system.addPlanet("Hiisi", Lempo, "Hiisi", "rocky_ice",
+        180f, sz_Hiisi, inner_sma, p_Inner);
+    CompoundOrbitTool.attach(Hiisi, Lempo, new KeplerComponent[] {
+        CompoundOrbitTool.kc(inner_sma, inner_e, inner_lp, p_Inner, 0f, -1f)
+    });
+
+    // Paha -> barycenter -> barycenter -> lempo
+    float pahaSpin = 100f / sz_Paha;
+    Paha = SolAsteroidFactory.createAsteroid(system, sz_Paha, "Paha", "Paha", showMinorNames);
+    Paha.setCircularOrbit(Lempo, 0f, outer_sma, p_Outer);
+    CompoundOrbitTool.attachWithSpin(Paha, Lempo, new KeplerComponent[] {
+        CompoundOrbitTool.kc(outer_sma, outer_e, outer_lp, p_Outer, 0f, -1f),
+        CompoundOrbitTool.kc(a_L,       inner_e, inner_lp, p_Inner, 0f, -1f)
+    }, pahaSpin, pahaSpin + 10f);
 
 } else {
         
     float sz_Lempo = calc.getSize(272f);
     float sz_Hiisi = calc.getSize(251f);
     float sz_Paha  = calc.getSize(132f);
-    float lempoFunMult = 5f;
-    float p_LempoHiisi = calc.getTime(1.9f) / lempoFunMult;
-    float p_LempoPaha  = calc.getTime(50f)  / lempoFunMult;
+    float p_LempoHiisi = calc.getTime(1.9f) / funMult;
+    float p_LempoPaha  = calc.getTime(50f)  / funMult;
 
     // Barycenter-based fallback (existing code)
     SectorEntityToken lempoBarycenter = calc.spawnSPSObject(system, star,
@@ -798,7 +925,7 @@ if (occultOrbitBeta) {
     Hiisi = (PlanetAPI) lempoInner[1];
 }
 
-float rot_LempoHiisi = (-360f / (calc.getTime(1.9f / 3.1459f) * 10f));
+float rot_LempoHiisi = (-360f / (calc.getTime(1.9f / funMult) * 10f));
 
 // === Shared post-spawn: descriptions, visuals, conditions ===
 Lempo.setCustomDescriptionId("sol_lempo");
@@ -970,7 +1097,7 @@ Haumea.applySpecChanges();
 calc.addConditions(Haumea.getMarket(), new String[] {
     "very_cold",
     "dark",
-    "thin_atmosphere",
+    "no_atmosphere",
     "volatiles_plentiful",
     "ore_moderate",
     "ruins_extensive",
@@ -1063,6 +1190,7 @@ Makemake.getSpec().setIconColor(new Color(180, 100, 80, 255));
 Makemake.getSpec().setTilt(29f); 
 Makemake.getSpec().setPitch(35f); 
 Makemake.getSpec().setRotation(calc.getRot(.321f)); 
+Makemake.getSpec().setCloudColor(new Color(0, 0, 0, 0));
 Makemake.applySpecChanges();
 
 calc.addConditions(Makemake.getMarket(), new String[] {
@@ -1071,8 +1199,12 @@ calc.addConditions(Makemake.getMarket(), new String[] {
     "volatiles_plentiful",
     "ore_moderate",
     "ruins_widespread",
+    "sol_subsurface_ocean",
+    "sol_degenerate",
+    "sol_automated_habitats",
     "dark"
 });
+Makemake.getMarket().getMemoryWithoutUpdate().set("$sol_polar_atmosphere_level", 2);
 
 float _makMoonExt = sz_Makemake * 8.0f; float _makMoonInt = _makMoonExt * 0.5f; float sz_Mk2 = calc.getSize(175f); float dist_Mk2 = sz_Makemake + (_makMoonExt * (float) Math.log(_makMoonInt * 0.015f + 1));
 
@@ -1124,11 +1256,12 @@ Quaoar.applySpecChanges();
 
 calc.addConditions(Quaoar.getMarket(), new String[] {
     "very_cold",
-    "thin_atmosphere",
     "volatiles_trace",
-    "ore_moderate",
+    "ore_rich",
+    "rare_ore_sparse",
     "ruins_scattered",
-    "dark"
+    "dark",
+    "thin_atmosphere"
 });
 
 // Weywot
@@ -1271,12 +1404,11 @@ calc.addConditions(Salacia.getMarket(), new String[] {
     "volatiles_trace",
     "ore_moderate",
     "ruins_widespread",
-    "sol_space_ladder"
+    "sol_inter_binary_elevator"
 });
 
 if(generateElevators){
-SectorEntityToken elevatorSalacia = system.addCustomEntity("elevator2", "Salacia Elevator", "elevator2", "neutral"); 
-elevatorSalacia.setCircularOrbitPointingDown(Salacia, 180f, sz_Salacia+50, p_SalaciaBinary);
+SectorEntityToken ElevatorSA = calc.spawnTransBinaryElevator(system, Salacia, "ElevatorSA", "Salacia-Actea Elevator", salaciaOffsets[0] + salaciaOffsets[1], 180f, p_SalaciaBinary);
 }
 
 // Actea — orbits Salacia
@@ -1301,20 +1433,18 @@ Aya.getSpec().setPitch(50.6f);
 Aya.getSpec().setRotation(calc.getRot(0.244f)); 
 Aya.applySpecChanges();
 
-if (!isSettled) {
-    calc.addConditions(Aya.getMarket(), new String[] {
-        "very_cold",
-        "dark",
-        "low_gravity",
-        "no_atmosphere",
-        "volatiles_trace",
-        "ore_moderate",
-        "ruins_widespread",
-        "sol_ancient_drug_lab",
-        "sol_fast_rotator"
-    });
-} else {
-    Aya.getMarket().addCondition("sol_porus");
+calc.addConditions(Aya.getMarket(), new String[] {
+    "very_cold",
+    "dark",
+    "low_gravity",
+    "no_atmosphere",
+    "volatiles_trace",
+    "ore_moderate",
+    "sol_ancient_drug_lab",
+    "sol_fast_rotator"
+});
+if(!isSettled){
+Aya.getMarket().addCondition("ruins_scattered");
 }
 
 DistanceConditionManager.track(Aya.getMarket());
@@ -1371,13 +1501,13 @@ if (!isSettled) {
     ChaosStation.getMarket().addCondition("rare_ore_sparse");
     ChaosStation.getMarket().addCondition("volatiles_plentiful");
     ChaosStation.getMarket().addCondition("sol_contact_binary");
+    ChaosStation.getMarket().addCondition("sol_dist_abyssal");
 
     for (MarketConditionAPI condition : ChaosStation.getMarket().getConditions()) {
         condition.setSurveyed(true);
     }
 }
 
-DistanceConditionManager.track(ChaosStation.getMarket());
 ChaosStation.getMemoryWithoutUpdate().set("$sol_orbit_min_au", 35.677f);
 ChaosStation.getMemoryWithoutUpdate().set("$sol_orbit_max_au", 47.801f);
 
@@ -1481,18 +1611,24 @@ if(!transNeptuneShortlist){
 // =========================================================================
 
 // Arrokoth
-SectorEntityToken arrokothBarycenter = calc.spawnSPSObject(system, star, "arrokoth", "Arrokoth", "custom_entity", "Arrokoth", 1f, 44.0615f, 0.0363f, 159.062f, 189.384f, 2066.64f, zeroDegGlobal, 0.664f, 1f);
+SectorEntityToken arrokothBarycenter = calc.spawnSPSObject(system, star, "arrokoth", "Arrokoth", "custom_entity", "Arrokoth" + showNameCustom, 1f, 44.0615f, 0.0363f, 159.062f, 189.384f, 2066.64f, zeroDegGlobal, 0.664f, 1f);
 
 // Sila-Nunam (79360)
-SectorEntityToken silaBarycenter = calc.spawnSPSObject(system, star, "sila_barycenter", "Sila-Nunam Barycenter", "custom_entity", "empty", 1f, 44.0366f, 0.0141f, 304.256f, 214.867f, 2032.81f, zeroDegGlobal, null, 1f);
 float sz_Sila = calc.getSize(249f);
 float sz_Nunam = calc.getSize(236f);
-float[] silaOffsets = calc.getBinaryOffsetsReal(249f, 236f, 11.0f);        float p_SilaNunam = calc.getTime(12.8f);
-calc.spawnMoon(system, silaBarycenter, "Sila", sz_Sila, silaOffsets[0], p_SilaNunam, 0f, showMinorNames);
-calc.spawnMoon(system, silaBarycenter, "Nunam", sz_Nunam, silaOffsets[1], p_SilaNunam, 180f, showMinorNames);
+float[] silaOffsets = calc.getBinaryOffsetsReal(249f, 236f, 11.0f);        
+float p_SilaNunam = calc.getTime(12.8f);
+
+float[][] silaExtras = new float[][]{
+    { silaOffsets[0], 0f,  0f, p_SilaNunam,  0f, +1f } 
+};
+
+SectorEntityToken Sila = calc.spawnSPSObject5(system, star, "Sila", "Sila", "asteroid", showNameMinor, 1f, 44.0366f, 0.0141f, 304.256f, 214.867f, 2032.81f, zeroDegGlobal, null, 1f, null, null, silaExtras, star);
+
+calc.spawnMoon(system, Sila, "Nunam", sz_Nunam, silaOffsets[1]+silaOffsets[0], p_SilaNunam, 180f, showMinorNames);
 
 SectorEntityToken silaHabitat = DerelictThemeGenerator.addSalvageEntity(system, Entities.ORBITAL_HABITAT_REMNANT, Factions.DERELICT); silaHabitat.setId("sila_habitat"); 
-silaHabitat.setCircularOrbitPointingDown(silaBarycenter, 0, 1, p_SilaNunam);
+silaHabitat.setCircularOrbitPointingDown(Sila, 0, 1, p_SilaNunam);
 
 // Borasisi-Pabu (66652)
 
@@ -1564,7 +1700,7 @@ if(!transNeptuneShortlist){
     if (speculativeBodies) {
         SectorEntityToken[] logosOuter = calc.spawnEllipticalBinary(system, LogosBarycenter,
             "logos_inner_barycenter", null, sz_LogosCombined, "custom_entity", "empty",
-            "zoe", "Zoe", sz_Zoe, "custom_entity", "Zoe",
+            "zoe", "Zoe", sz_Zoe, "custom_entity", "Zoe" + showNameMinor,
             sz_LogosCombined * 120f / logosDistDiv, 0.5463f, calc.getTime(periodLogosRaw), 0f);
 
         SectorEntityToken logosInnerBarycenter = logosOuter[0];
@@ -1575,7 +1711,7 @@ if(!transNeptuneShortlist){
     } else {
         SectorEntityToken[] logosBinary = calc.spawnEllipticalBinary(system, LogosBarycenter,
             "logos", "Logos", sz_LogosCombined, "asteroid",      showNameMinor,
-            "zoe",   "Zoe",   sz_Zoe,           "custom_entity", "Zoe",
+            "zoe",   "Zoe",   sz_Zoe,           "custom_entity", "Zoe" + showNameMinor,
             sz_LogosCombined * 120f / logosDistDiv, 0.5463f, calc.getTime(periodLogosRaw), 0f);
 
         SectorEntityToken Logos = logosBinary[0];
@@ -1627,7 +1763,7 @@ float[] erisOffsets = calc.getBinaryOffsetsReal(2326f, 700f, 16f / 2f);
 
 // Eris
 // Allegedly dysonomia is super low density, as it apparently does not make Eris wobble around a barycenter, which I'm ignoring.
-PlanetAPI Eris = (PlanetAPI) calc.spawnSPSObject3(system, star, "Eris", "Eris", "frozen", null, 2326f, 67.9964f, 0.4370f, 36.027f, 150.732f, 2257.27f, zeroDegGlobal, null, 1f, null, null, true, erisOffsets[0], 0f, p_ErisDysnomia);
+PlanetAPI Eris = (PlanetAPI) calc.spawnSPSObject3(system, star, "sol_Eris", "Eris", "frozen", null, 2326f, 67.9964f, 0.4370f, 36.027f, 150.732f, 2257.27f, zeroDegGlobal, null, 1f, null, null, true, erisOffsets[0], 0f, p_ErisDysnomia);
 
 // Eris Exception: Retaining atmosphere 
 Eris.getSpec().setTexture("graphics/planets/eris_tx.jpg"); 
@@ -1642,7 +1778,6 @@ Eris.applySpecChanges();
 
 calc.addConditions(Eris.getMarket(), new String[] {
     "very_cold",
-    "thin_atmosphere",
     "ore_abundant",
     "rare_ore_abundant",
     "ruins_widespread",
@@ -1651,6 +1786,7 @@ calc.addConditions(Eris.getMarket(), new String[] {
     "sol_insurgent_network",
     "sol_inter_binary_elevator",
     "sol_degenerate",
+    "sol_subsurface_ocean",
     "sol_automated_habitats"
 });
 
@@ -1682,8 +1818,7 @@ calc.addConditions(Dysnomia.getMarket(), new String[] {
 });
 // Oops, ED stands for Erectile Dysfunction not Eris-Dysnomia.
 if(generateElevators){
-    SectorEntityToken elevatored = system.addCustomEntity("elevatored", "Eris-Dysnomia Elevator", "elevatored", "neutral"); 
-    elevatored.setCircularOrbitPointingDown(Dysnomia, 0f, 165, p_ErisDysnomia);
+    SectorEntityToken elevatorED = calc.spawnTransBinaryElevator(system, Eris, "ElevatorED", "Eris-Dysnomia Elevator", erisOffsets[0] + erisOffsets[1], 180f, p_ErisDysnomia);
 }
 
 // "Eris III" — hypothetical inner resonant companion
@@ -1718,7 +1853,7 @@ calc.addConditions(Gonggong.getMarket(), new String[] {
     "very_cold",
     "dark",
     "low_gravity",
-    "no_atmosphere",
+    "thin_atmosphere",
     "volatiles_diffuse",
     "ore_moderate",
     "rare_ore_sparse",
@@ -1816,7 +1951,7 @@ dziewannaProbe.setCircularOrbitPointingDown(Dziewanna, 90, 40f, calc.getTime(5f)
 
 SectorEntityToken Rumina = calc.spawnSPSObject(system, star, "Rumina", "Rumina", "asteroid", showNameMinor, 644f, 92.2746f, 0.6190f, 84.630f, 318.731f, 2005.06f, zeroDegGlobal, null, 1f);
 
-if(!transNeptuneShortlist){
+if(!scatteredDiskShortlist){
     // 2003 UY117
     SectorEntityToken UY117 = calc.spawnSPSObject(system, star, "UY117", "2003 UY117", "asteroid", showNameProv, 170f, 56.1198f, 0.4202f, 265.250f, 113.035f, 2005.03f, zeroDegGlobal, 0.516f, 1f);
     // 1996 TL66
@@ -1852,7 +1987,6 @@ Sedna.applySpecChanges();
 calc.addConditions(Sedna.getMarket(), new String[] {
     "very_cold",
     "dark",
-    "no_atmosphere",
     "volatiles_trace",
     "ore_abundant",
     "rare_ore_sparse",
@@ -1887,6 +2021,8 @@ calc.addConditions(Goblin.getMarket(), new String[] {
     "sol_goblin_world",
 });
 
+Goblin.getMarket().getMemoryWithoutUpdate().set("$sol_no_freeze", true);
+
 DistanceConditionManager.track(Goblin.getMarket());
 Goblin.getMemoryWithoutUpdate().set("$sol_orbit_min_au", 64.7f);
 Goblin.getMemoryWithoutUpdate().set("$sol_orbit_max_au", 2714f);
@@ -1906,9 +2042,7 @@ Biden.getSpec().setPitch(45f);
 Biden.getSpec().setRotation(calc.getRot(calc.getRandomRotationPeriod(1000f))); 
 Biden.applySpecChanges();
 
-if (!isSettled) {
 calc.addConditions(Biden.getMarket(), new String[] {
-    "no_atmosphere",
     "low_gravity",
     "volatiles_diffuse",
     "ruins_scattered",
@@ -1916,11 +2050,9 @@ calc.addConditions(Biden.getMarket(), new String[] {
     "ore_sparse",
     "very_cold",
     "dark",
-    "sol_pre_domain_sapience", // This reflects my unironic political beliefs.
+    "sol_pre_domain_sapience", // This reflects my unironic political beliefs.\
+    "thin_atmosphere"
 });
-} else {
-    Biden.getMarket().addCondition("sol_porus");
-}
 
 Biden.setCustomDescriptionId("sol_biden");
 
@@ -1978,7 +2110,6 @@ Farfarout.getSpec().setPitch(30f);
 Farfarout.getSpec().setRotation(calc.getRot(calc.getRandomRotationPeriod(400f))); 
 Farfarout.applySpecChanges();
 
-if (!isSettled) {
 calc.addConditions(Farfarout.getMarket(), new String[] {
     "very_cold",
     "dark",
@@ -1986,10 +2117,9 @@ calc.addConditions(Farfarout.getMarket(), new String[] {
     "no_atmosphere",
     "volatiles_trace",
     "ore_sparse",
-    "ruins_scattered"
 });
-} else {
-    Farfarout.getMarket().addCondition("sol_porus");
+if(!isSettled){
+Farfarout.getMarket().addCondition("ruins_scattered");
 }
 
 DistanceConditionManager.track(Farfarout.getMarket());
@@ -2011,13 +2141,13 @@ SectorEntityToken Alicanto = calc.spawnSPSObject(system, star, "Alicanto", "Alic
 Alicanto.setCustomDescriptionId("sol_alicanto");
 
 // Cashew (2015 BP519)
-SectorEntityToken Cashew = calc.spawnSPSObject(system, star, "Cashew", "Cashew", "custom_entity", "Caju", 543f, 491.3315f, 0.9281f, 135.298f, 347.682f, 2058.63f, zeroDegGlobal, 2f, 1f);
+SectorEntityToken Cashew = calc.spawnSPSObject(system, star, "Cashew", "Cashew", "custom_entity", "Caju" + showNameMinor, 543f, 491.3315f, 0.9281f, 135.298f, 347.682f, 2058.63f, zeroDegGlobal, 2f, 1f);
 Cashew.setCustomDescriptionId("sol_cashew");
 
 // Ammonite (2023 KQ14)
 calc.spawnSPSObject(system, star, "Ammonite", "Ammonite", "asteroid", showNameMinor, 380f, 246.0777f, 0.7322f, 72.073f, 198.830f, 2063.660f, zeroDegGlobal, null, 1f);
 
-if(!transNeptuneShortlist){
+if(!scatteredDiskShortlist){
     float safeAdjustment = .01f;
     // 2021 RR205 
     SectorEntityToken RR205 = calc.spawnSPSObject(system, star, "RR205", "2021 RR205", "asteroid", showNameProv, 200f, 980.3652f, 0.9433f, 108.455f, 208.709f, 1991.84f, zeroDegGlobal, null, 1f);
@@ -2101,10 +2231,12 @@ if(planetNine){
         "dense_atmosphere",
         "volatiles_plentiful"
     });
+    SolIX.getMarket().getMemoryWithoutUpdate().set("$sol_no_freeze", true);
 
     DistanceConditionManager.track(SolIX.getMarket());
     SolIX.getMemoryWithoutUpdate().set("$sol_orbit_min_au", 200f);
     SolIX.getMemoryWithoutUpdate().set("$sol_orbit_max_au", 370f);
+
 }
 
 if(planetTen){
@@ -2145,7 +2277,7 @@ if(planetTen){
 float sz_SolXI;
 if(planetEleven){
     // Sol XI (Oort Cloud Planet) — Raymond, Izidoro & Kaib 2023, MNRAS Letters
-    // Sims showed there is ~7% chance an ice giant is chilling deep into the oort.
+    // Sims showed there is ~7% chance a giant is chilling deep into the oort.
     PlanetAPI SolXI = (PlanetAPI) calc.spawnSPSObject(system, star, "SolXI", "Sol XI", "ice_giant", null, 95000f, 5000f, 0.72f, 215f, 87f, 1450f, zeroDegGlobal, null, 1f);
 
     SolXI.getSpec().setPlanetColor(new Color(255, 25, 25, 255));
@@ -2179,9 +2311,12 @@ if(planetEleven){
     SolXIStation.setCircularOrbitPointingDown(SolXI, 90, sz_SolXI + 100f, calc.getTime(5f));
     SolXIStation.setName("Isolation");
 
+    SolXI.getMarket().getMemoryWithoutUpdate().set("$sol_no_freeze", true);
+
     DistanceConditionManager.track(SolXI.getMarket());
     SolXI.getMemoryWithoutUpdate().set("$sol_orbit_min_au", 1400f);
     SolXI.getMemoryWithoutUpdate().set("$sol_orbit_max_au", 8600f);
+
 }
 
 SectorEntityToken SolIX = system.getEntityById("SolIX");

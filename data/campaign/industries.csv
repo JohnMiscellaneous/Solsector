@@ -1,0 +1,2 @@
+id,name,cost mult,build time,income,upkeep,downgrade,upgrade,tags,data,image,plugin,desc,order,disruptDanger
+sol_subsurface_aquaponics,Subsurface Aquaponics,100,120,,12,,,"farming, industry, rural",,graphics/icons/industry/subsurface_aquaculture.png,soljars.econ.industries.SubsurfaceAquaponicsIndustry,"Below the icy shell of $market an artificial ecosystem thrives, producing food for the otherwise barren world, albeit at high cost and terrible productivity.",220,

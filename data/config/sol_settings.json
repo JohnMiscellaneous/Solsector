@@ -1,36 +1,32 @@
 {
-    ## 0 disables all minor planet names (bar custom entities), 
-    ## 1 disables provisional names, (DEFAULT)
-    ## 2 shows all names
-    "Show_Names": 0,
-
-    ## Fills the system with a massive amount of renmnant nexuses and fleets.
-    "Remnant_Horde": true,
+    ## 0 disables the remnants entirely
+    ## 1 Fills the inner system with weak remnants
+    ## 2 Fills the inner system with remnants
+    ## 3 Fills the system with a massive amount of renmnant nexuses and death fleets.
+    "remnant_difficulty": 1,
 
     ## Planets will be settled by various factions
     ## the settled planets will appear upon jump into the Sol system
     "Generate_Settled_Planets": true,
+
     ## this dictates if the settled planets should intialise on game load or on entry to Sol
     "Settled_Planets_Spawn_In_Instantly": false,
 
-
-    ## Mercury gets poor light and very cold because of its near locking and no heat distribution, venus gets poor light because of its near locking, Eros gets cold and hot because of its 90 degree axial tilt
-    "Mercury_And_Venus_Have_Poor_Light": true,
-
-    ## Uranus and Neptune's 'surface gravity' is earth like, and throughout their 3d geometry remains close to earth, removes high gravity after hyperspace so that the gravity wells exist but not the hazard.
-    "Uranus_And_Neptune_Have_Normal_Gravity": true,
-
-    ## probably most interested in Sol, but I don't like the gameplay impact
-    "Luddic_Church_Claim_On_Sol": false,
+    ## 0 disables all minor planet names
+    ## 1 disables all minor planet names (bar textured custom entities), (DEFAULT)
+    ## 2 disables provisional names, 
+    ## 3 shows all names
+    "Show_Names": 1,
 
     ## what is the AD start date,
     ## dictates planet starting position.
     "Current_Year": 10005,
 
-    ## ======= Sector Position =======
+    ## ======= Sector Position =============================
 
     "X-coord": 75000,
     "Y-coord": 42000,
+
     ## if settings or wide horizons changes map size, this means it will remain in the same position
     "Scale_With_Map_Size": true,
     ## overides the prior settings and makes sol random
@@ -40,28 +36,29 @@
     ## ======= What entities to generate? ===================
     ## ======================================================
 
-    ## disable if you hate the Sol star system, but installed this mod, for purposes unkown.
 	"Generate_Sol": true,   
 
-    ## disables some less interesting NEAs
-    "Inner_Sol_Shortlist": true,
+    ## enables or disables some less interesting NEAs
+    ## accepted values 0, 1    
+    "Inner_Sol_Detail": 0,
 
-    ## disables some small Visited Asteroids
-    "Visited_Asteroids_Shortlist": true, 
+    ## enables or disables some small Visited Asteroids
+    ## accepted values 0, 1
+    "Visited_Asteroids_Detail": 0, 
 
-    ## disables some less interesting asteroids
-    "Asteroid_Belt_Shortlist": true,
+    ## enables or disables some less important/interesting asteroids
+    ## accepted values 0, 1
+    "Asteroid_Detail": 0,
 
-    ## disables some less interesting asteroids
-    "Hilda_Shortlist": true,
+    ## you get the point
+    ## accepted values 0, 1
+    "Hilda_Detail": 1,
 
     ## number of generic asteroid belt asteroids to generate
     "Generic_Asteroids": 10,
 
-    ## disables some smaller trojan
-    "Jupiter_Trojans_Shortlist": false,
-
-
+    ## accepted values 0, 1, 2
+    "Jupiter_Trojans_Detail": 1,
 
     ## 0 - galilean moons, inner moons, and a few irregulars (default)
     ## 1 - adds some more irregulars
@@ -73,22 +70,23 @@
     ## 2 - adds EVERY irregular (VERY not recommended)
     "Saturn_Detail": 0,
 
-    ## disables all but a few irregulars, plus some smaller inner bodies
-    "Uranus_Shortlist": true,
+    ## accepted values 0, 1,   
+    "Uranus_Detail": 0,
 
-    ## disables all but a few irregulars, plus some smaller inner bodies
-    "Neptune_Shortlist": true,
+    ## accepted values 0, 1       
+    "Neptune_Detail": 0,
 
+    ## accepted values 0, 1,      
+    "Neptune_Trojans_Shortlist": 1,
 
+    ## accepted values 0, 1,      
+    "Centaur_Shortlist": 0,
 
-    ## disables some smaller trojansz
-    "Neptune_Trojans_Shortlist": false,
-
-    ## Disables smaller and unnamed centaurs
-    "Centaur_Shortlist": true,
-
-    ## Disables smaller and unnamed trans neptunians
-    "Trans_Neptune_Shortlist": false,
+    ## accepted values 0, 1,  
+    "Kuiper_Detail": 1,
+    
+    ## accepted values 0, 1,  
+    "Scattered_Disk_Detail": 1,
 
     ## 0 - just major ones (default)
     ## 1 - adds minor stable langranges
@@ -114,8 +112,19 @@
     ## 2 is pretty much every probe that could last thousands of years and is not on a bassically earth orbit
     "Generate_Probes": 1,
 
+    ## MISC ===============================================
+
     ## disable if you dont like the elevator custom entities
     "Generate_Space_Elevators": true,
+
+    ## probably most interested in Sol, but I don't like the gameplay impact
+    "Luddic_Church_Claim_On_Sol": false,
+
+    ## Mercury gets poor light and very cold because of its near locking and no heat distribution, venus gets poor light because of its near locking, Eros gets cold and hot because of its 90 degree axial tilt
+    "Mercury_And_Venus_Have_Poor_Light": true,
+
+    ## Uranus and Neptune's 'surface gravity' is earth like, and throughout their 3d geometry remains close to earth, removes high gravity after hyperspace so that the gravity wells exist but not the hazard.
+    "Uranus_And_Neptune_Have_Normal_Gravity": true,
 
     ## ======================================================
     ## =============== ORBIT & SIZE STUFF ===================
@@ -146,7 +155,7 @@
     "To_Scale": false,
 
     ## extComp(log(intComp * AU + 1)) + Lin * AU
-    "extComp": 10500, "intComp": 0.4, "distLinMod": 50,
+    "extComp": 10000, "intComp": 0.5, "distLinMod": 50,
 
     "distMax": 1000000,
 
@@ -162,10 +171,10 @@
 
     ## Bad math warning
     ## ext(log(int * km + 1)) + (sqrt(km) / 1 + (sizeDenom * km)) + sizeConst + Lin * Km
-    "sizeExt": 220,
+    "sizeExt": 200,
     "sizeInt": 0.00005,
-    "sizeDenom": 0.001,
-    "sizeConst": 3,
+    "sizeDenom": 0.0005,
+    "sizeConst": 5 ,
     "sizeLinMod": 0.001,
 
     "rotDenom":4,
