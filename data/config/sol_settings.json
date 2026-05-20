@@ -52,7 +52,7 @@
 
     ## you get the point
     ## accepted values 0, 1
-    "Hilda_Detail": 1,
+    "Hilda_Detail": 0,
 
     ## number of generic asteroid belt asteroids to generate
     "Generic_Asteroids": 10,
