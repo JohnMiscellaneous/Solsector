@@ -543,7 +543,7 @@ float p_CetoPhorcys = calc.getTime(9.55f);
 float[][] cetoExtras = new float[][]{
     { cetoOffsets[0], 0f,  0f, p_CetoPhorcys,  0f, +1f } 
 };
-SectorEntityToken Ceto = calc.spawnSPSObject5(system, star, "Ceto", "Ceto", "asteroid", showNameMinor, sz_Ceto, 100.4780f, 0.8238f, 171.954f, 319.464f, 1989.59f, zeroDegGlobal, null, 1f, null, null, cetoExtras, star);
+SectorEntityToken Ceto = calc.spawnSPSObject5(system, star, "Ceto", "Ceto", "asteroid", showNameMinor, 223f, 100.4780f, 0.8238f, 171.954f, 319.464f, 1989.59f, zeroDegGlobal, null, 1f, null, null, cetoExtras, star);
 
 SectorEntityToken Phorcys = calc.spawnMoon(system, Ceto, "Phorcys", sz_Phorcys, cetoOffsets[0]+cetoOffsets[1], p_CetoPhorcys, 180f, showMinorNames);
 Ceto.setCustomDescriptionId("sol_ceto");
@@ -1623,7 +1623,7 @@ float[][] silaExtras = new float[][]{
     { silaOffsets[0], 0f,  0f, p_SilaNunam,  0f, +1f } 
 };
 
-SectorEntityToken Sila = calc.spawnSPSObject5(system, star, "Sila", "Sila", "asteroid", showNameMinor, 1f, 44.0366f, 0.0141f, 304.256f, 214.867f, 2032.81f, zeroDegGlobal, null, 1f, null, null, silaExtras, star);
+SectorEntityToken Sila = calc.spawnSPSObject5(system, star, "Sila", "Sila", "asteroid", showNameMinor, 249f, 44.0366f, 0.0141f, 304.256f, 214.867f, 2032.81f, zeroDegGlobal, null, 1f, null, null, silaExtras, star);
 
 calc.spawnMoon(system, Sila, "Nunam", sz_Nunam, silaOffsets[1]+silaOffsets[0], p_SilaNunam, 180f, showMinorNames);
 

@@ -1125,7 +1125,7 @@ if (!isSettled) {
 }
 
 // Ganymed
-SectorEntityToken Ganymed = calc.spawnSPSObject(system, star, "Ganymed", "Ganymed", "asteroid", showNameMinor, 35, 2.6650f, 0.5332f, 215.441f, 132.503f, 2024.71f, zeroDegGlobal, 0.429f, 1f);
+SectorEntityToken GanymedAS = calc.spawnSPSObject(system, star, "GanymedA", "GanymedA", "asteroid", showNameMinor, 35, 2.6650f, 0.5332f, 215.441f, 132.503f, 2024.71f, zeroDegGlobal, 0.429f, 1f);
 
 // Don Quixote
 SectorEntityToken DonQuixote = calc.spawnSPSObject(system, star, "Don Quixote", "Don Quixote", "asteroid", showNameMinor, 19, 4.2572f, 0.7087f, 350.013f, 316.432f, 2018.33f, zeroDegGlobal, 0.321f, 1f);
@@ -1617,7 +1617,7 @@ SectorEntityToken Interamnia = calc.spawnSPSObject(system, star, "Interamnia", "
 SectorEntityToken Davida = calc.spawnSPSObject(system, star, "Davida", "Davida", "asteroid", showNameMinor, 289f, 3.1660f, 0.1880f, 117.800f, 299.700f, 2024.80f, zeroDegGlobal, 0.214f, 1f);
 
 // Europa
-SectorEntityToken EuropaA = calc.spawnSPSObject(system, star, "Europa", "Europa", "asteroid", showNameMinor, 304f, 3.0930f, 0.1110f, 128.580f, 342.910f, 2021.20f, zeroDegGlobal, 0.235f, 1f);
+SectorEntityToken EuropaA = calc.spawnSPSObject(system, star, "EuropaA", "EuropaA", "asteroid", showNameMinor, 304f, 3.0930f, 0.1110f, 128.580f, 342.910f, 2021.20f, zeroDegGlobal, 0.235f, 1f);
 
 // Elektra
 SectorEntityToken Elektra = calc.spawnSPSObject(system, star, "Elektra", "Elektra", "asteroid", showNameMinor, 199f, 3.1260f, 0.2100f, 144.990f, 237.750f, 2020.10f, zeroDegGlobal, 0.218f, 1f);

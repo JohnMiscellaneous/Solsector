@@ -203,7 +203,7 @@
 		"texture":"graphics/planets/jupiter_tx.jpg",
 		"icon":"graphics/warroom/icon_planet.png",
 		"iconColor":[200,160,120,255], 
-		"isStar":true,
+		"isStar":false,
 		"isGasGiant":true,
 		"cloudTexture":"graphics/planets/clouds_banded01.png", 
 		"cloudColor":[255,250,240,80], 
