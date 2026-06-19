@@ -420,7 +420,7 @@ if (speculativeBodiesBigSetting == 3) {
 
 boolean occultOrbitBeta = true;
 try {
-    occultOrbitBeta = Global.getSettings().loadJSON("data/config/sol_settings.json").optBoolean("Occult_Orit_Beta", true);
+    occultOrbitBeta = Global.getSettings().loadJSON("data/config/sol_settings.json").optBoolean("Occult_Orbit_Beta", true);
 } catch (Exception e) {}
 if(!occultOrbitBeta){falseMoons = false;}
 

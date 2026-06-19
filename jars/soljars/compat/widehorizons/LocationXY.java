@@ -8,7 +8,7 @@ import org.widehorizons.api.WideHorizonsAPI;
 public class LocationXY {
 
     public static float[] getScaledCoords(float vanillaX, float vanillaY) {
-        if (!Global.getSettings().getModManager().isModEnabled("WideHorizons")) {
+        if (!(Global.getSettings().getModManager().isModEnabled("WideHorizons") || Global.getSettings().getModManager().isModEnabled("WideHorizonsBasic")) ) {
             return null;
         }
         Vector2f pos = WideHorizonsAPI.getScaledPosition(vanillaX, vanillaY);
