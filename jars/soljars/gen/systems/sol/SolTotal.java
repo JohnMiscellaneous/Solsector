@@ -62,7 +62,11 @@ import soljars.gen.utils.RemnantPatrolFactory;
 import soljars.gen.utils.AstroCalc;
 import soljars.gen.systems.sol.GiantMoonsTotal;
 import soljars.gen.systems.sol.CometsCentaursTNOs;
+
 import soljars.compat.widehorizons.LocationXY;
+
+
+import com.fs.starfarer.api.campaign.CampaignTerrainPlugin;
 
 public class SolTotal {
 
@@ -496,6 +500,8 @@ if(mercuryCold){
 }
 // Mercury is cold and has poor light, despite being very close because mercury is nearly tidally locked. Nearly being very important. Because of that, days on mercury are extremely long and being on the surface of mercury means an extreme temperature variation which is represented by mercury being cold and having poor light.
 
+Mercury.setSkipForJumpPointAutoGen(true);
+
 // Mercury Mirror
 // TODO repair
 // SectorEntityToken mercuryShade = system.addCustomEntity("mercury_shade", "Mercury Mirror Alpha", "stellar_mirror", "neutral");
@@ -510,6 +516,11 @@ if(stablePointDetail >= 1){
 if(stablePointDetail >= 2){
     SectorEntityToken L3_Mercury = calc.spawnSPSObject(system, star, "L3_Mercury", "Mercury L3 Stable Location", "custom_entity", "stable_location", 4880f, 0.3871f, 0.2056f, 48.331f, 29.124f + 180f, 2026.06f, zeroDegGlobal, 58.646f, 1f);
 }
+
+// too weak
+// SectorEntityToken mercuryField = system.addTerrain(Terrain.MAGNETIC_FIELD, new MagneticFieldTerrainPlugin.MagneticFieldParams(sz_Mercury * 0.2f, sz_Mercury * 1.1f, Mercury, sz_Mercury * 1f, sz_Mercury * 1.4f, new Color(50, 20, 100, 20), 0.01f));
+// mercuryField.setCircularOrbit(Mercury, 0, 0, calc.getTime(10f));
+// ((CampaignTerrainAPI) mercuryField).getPlugin().setTerrainName("Mercurian Magnetic Field");
 
 // ==========================================
 // VULCAN INFRASTRUCTURE
@@ -607,7 +618,6 @@ for (MarketConditionAPI condition : vanera.getMarket().getConditions()) {
 
 vanera.setDiscoverable(true);
 vanera.setSensorProfile(4000f);
-
 
 // =========================================================================
 // ==================== VENUS TROJANS & COMPANIONS =========================
@@ -710,6 +720,8 @@ marketLuna.addCondition("sol_megaforges");
 marketLuna.addCondition("sol_space_ladder");
 marketLuna.addCondition("solar_array");
 
+Luna.setSkipForJumpPointAutoGen(true);
+
 if(generateElevators){
     SectorEntityToken elevatorluna = system.addCustomEntity("luna_ladder", "Luna ladder", "elevator1", "neutral");
     elevatorluna.setCircularOrbitPointingDown(Luna, lunaAngle - 180f, sz_Luna + 33f , p_Luna);
@@ -719,14 +731,25 @@ Luna.setCustomDescriptionId("sol_luna");
 
 // ## EARTH LOCAL ENVIRONMENT-----------------------------------------------
 
-// Van Allen Belts 
-float vanAllenInner = sz_Earth + (_earthMoonExt * (float) Math.log(_earthMoonInt * 0.0003f + 1));
-float vanAllenOuter = sz_Earth + (_earthMoonExt * (float) Math.log(_earthMoonInt * 0.0015f + 1));
+// Van Allen Belts — 2 visual belts (inner + outer, slot between), 1 terrain zone
+float vaA = sz_Earth + (_earthMoonExt * (float) Math.log(_earthMoonInt * 0.0003f + 1)); // inner belt, inner edge
+float vaB = sz_Earth + (_earthMoonExt * (float) Math.log(_earthMoonInt * 0.0006f + 1)); // inner belt, outer edge
+float vaC = sz_Earth + (_earthMoonExt * (float) Math.log(_earthMoonInt * 0.0009f + 1)); // outer belt, inner edge
+float vaD = sz_Earth + (_earthMoonExt * (float) Math.log(_earthMoonInt * 0.0015f + 1)); // outer belt, outer edge
 
-SectorEntityToken earthField = system.addTerrain(Terrain.MAGNETIC_FIELD, new MagneticFieldTerrainPlugin.MagneticFieldParams(200f, 350f, Earth, vanAllenInner, vanAllenOuter, new Color(50, 20, 100, 50), .3f));
-earthField.setName("Van Allen Belts");
-earthField.setCircularOrbit(Earth, 0, 0, calc.getTime(10f));
+// Inner belt — carries the single terrain zone (spanning the whole region), drawn as the inner band
+calc.smartMagField(system, Earth, "Van Allen Belts",
+    vaA, vaD,                       // terrain band = whole region (the 1 terrain feature)
+    vaA, vaB,                       // visual = inner belt
+    new Color(50, 20, 100, 55), 0f,
+    calc.getTime(10f));
 
+// Outer belt — pure visual, no terrain
+calc.smartMagField(system, Earth, null,
+    vaC, vaD,
+    0, 0,                       // visual = outer belt
+    new Color(50, 20, 100, 40), 0f,
+    calc.getTime(10f));
 
 // GEO Comm Relay
 float geoCommRelayDist = sz_Earth + 80f;
@@ -918,6 +941,8 @@ Mars.getSpec().setCloudColor(new Color(255, 200, 150, 50));
 Mars.getSpec().setCloudRotation(-9.0f); 
 Mars.applySpecChanges(); 
 
+Mars.setSkipForJumpPointAutoGen(true);
+
 Mars.getMarket().getMemoryWithoutUpdate().set("$sol_polar_atmosphere_level", 2);
 
 // =========================================================================
@@ -947,6 +972,9 @@ calc.addConditions(Phobos.getMarket(), new String[] {
     "sol_tidal_lock",
     "sol_tiny_stripped"
 });
+
+Phobos.setSkipForJumpPointAutoGen(true);
+
 if(generateElevators){
     SectorEntityToken elevatorPhobos1 = system.addCustomEntity("elevator2", " Phobos elevator system", "elevator2", "neutral"); 
     elevatorPhobos1.setCircularOrbitPointingDown(Phobos, 0f, calc.getSize(22f)+45f, p_Phobos);
@@ -980,6 +1008,8 @@ calc.addConditions(Deimos.getMarket(), new String[] {
     "sol_tidal_lock",
     "sol_space_elevator_nearby"
 });
+
+Deimos.setSkipForJumpPointAutoGen(true);
 
 // =========================================================================
 // ========================= MARS TROJANS ==================================
@@ -1124,6 +1154,8 @@ if (!isSettled) {
     Eros.setSensorProfile(4000f);
 }
 
+Mars.setSkipForJumpPointAutoGen(true);
+
 // Ganymed
 SectorEntityToken GanymedAS = calc.spawnSPSObject(system, star, "GanymedA", "GanymedA", "asteroid", showNameMinor, 35, 2.6650f, 0.5332f, 215.441f, 132.503f, 2024.71f, zeroDegGlobal, 0.429f, 1f);
 
@@ -1212,7 +1244,7 @@ calc.smartRingTex(system, star, "sol_rings", "rings_alpha1", 256, 0, calc.getDis
 // GROUP 1: THE BIG FOUR (Major Protoplanets)
 // =========================================================================
 
-// Ceres system
+// Ceres system | Dwarf planet
 float dist_CeresRaw = 2.7656f;
 PlanetAPI Ceres = (PlanetAPI) calc.spawnSPSObject(system, star, "Ceres", "Ceres", "rocky_ice", null, 940f, dist_CeresRaw,  0f, 80.250f, 73.300f, 2027.53f, zeroDegGlobal, 0.378f, 1f);
 float angleCeres = Ceres.getCircularOrbitAngle();
@@ -1242,6 +1274,7 @@ calc.addConditions(Ceres.getMarket(), new String[] {
     "sol_orbital_ring",
     "sol_jump_point_nearby"
 });
+
 // Ceres Jump Point
 JumpPointAPI _jp1 = Global.getFactory().createJumpPoint("jp_ceres", "Ceres Jump Point");
 _jp1.setStandardWormholeToHyperspaceVisual();
@@ -1287,6 +1320,8 @@ calc.addConditions(Vesta.getMarket(), new String[] {
     Vesta.getMarket().addCondition("sol_porus");
 }
 
+Vesta.setSkipForJumpPointAutoGen(true);
+
 if(generateElevators){
     SectorEntityToken ringVesta = system.addCustomEntity("ring1", "Vesta ring", "ring1", "neutral"); 
     ringVesta.setCircularOrbitPointingDown(Vesta, 0f, 1, calc.getOrbRot(0.222f));
@@ -1314,6 +1349,9 @@ calc.addConditions(Pallas.getMarket(), new String[] {
     "sol_meteoroids",
     "sol_space_elevator"
 });
+
+Pallas.setSkipForJumpPointAutoGen(true);
+
 if(generateElevators){
     SectorEntityToken elevatorPallas = system.addCustomEntity("elevator1", "Pallas Elevator", "elevator1", "neutral"); 
     elevatorPallas.setCircularOrbitPointingDown(Pallas, 0f, calc.getSize(510f)+33f, calc.getOrbRot(0.326f));
@@ -1343,6 +1381,9 @@ calc.addConditions(Hygiea.getMarket(), new String[] {
     "sol_space_elevator",
     "sol_degenerate"
 });
+
+Hygiea.setSkipForJumpPointAutoGen(true);
+
 if(generateElevators){
     SectorEntityToken elevatorHygiea = system.addCustomEntity("elevator1", "Hygiea Elevator", "elevator1", "neutral"); 
     elevatorHygiea.setCircularOrbitPointingDown(Hygiea, 0f, calc.getSize(430f)+33f, calc.getOrbRot(0.576f));
@@ -1733,24 +1774,15 @@ calc.smartRingTex(system, Jupiter, "sol_rings", "rings_alpha2", 128, 1, calc.get
 
 // Thebe Gossamer Ring (faintest, diffuses outward from main ring)
 calc.smartRingTex(system, Jupiter, "sol_rings", "rings_alpha0", 128, 1, calc.getDistJupiter(0.000840f), calc.getDistJupiter(0.001511f), calc.getTimeGiant(32f));
+// --- JOVIAN MAGNETIC FIELD ---
 
-// Inner Magnetic Field
-float magInnerLimit = distJupRingOuter - jupGapClearance;
-float magInnerWidth = magInnerLimit;
-float magInnerMid   = magInnerLimit / 2f;
-
-SectorEntityToken magFieldInner = system.addTerrain(Terrain.MAGNETIC_FIELD,
-new MagneticFieldTerrainPlugin.MagneticFieldParams(magInnerWidth, magInnerMid, Jupiter, sz_Jupiter * 0.9f, sz_Jupiter * 2f, new Color(40, 10, 60, 80), 1f));
-magFieldInner.setCircularOrbit(Jupiter, 0, 0, calc.getTimeGiant(3.55f));
-
-// Outer Magnetic Field (invisible terrain effect only)
-float magOuterStart = distJupRingOuter + jupGapClearance;
-float magOuterWidth = distJupEuropa - magOuterStart;
-float magOuterMid   = magOuterStart + (magOuterWidth / 2f);
-
-SectorEntityToken magFieldOuter = system.addTerrain(Terrain.MAGNETIC_FIELD,
-new MagneticFieldTerrainPlugin.MagneticFieldParams(magOuterWidth, magOuterMid, Jupiter, magOuterStart, distJupEuropa, new Color(0, 0, 0, 0), 0f));
-magFieldOuter.setCircularOrbit(Jupiter, 0, 0, calc.getTimeGiant(3.55f));
+// Inner field: radiation belt, hugs the surface, tapers off before Io
+float beltTaper = calc.getDistJupiter(0.0018f);
+calc.smartMagField(system, Jupiter, "Jovian Magnetic Field",
+    0, beltTaper,            // terrain band: surface -> taper
+    sz_Jupiter * 0.9f, beltTaper,     // visual band
+    new Color(40, 10, 60, 80), 2.5f,
+    calc.getTime(10));
 
 // =========================================================================
 // ========================= JUPITER INNER MOONS ===========================
@@ -1797,6 +1829,9 @@ calc.addConditions(Amalthea.getMarket(), new String[] {
     "sol_tiny_polity",
     "sol_meteoroids"
 });
+
+Amalthea.setSkipForJumpPointAutoGen(true);
+
 // Thebe
 SectorEntityToken Thebe = system.addCustomEntity("Thebe", "Thebe", "Thebe" + showNameCustom, "neutral"); 
 Thebe.setCircularOrbitPointingDown(Jupiter, 125f, calc.getDistJupiter(0.0015f), calc.getTimeGiant(0.675f));
@@ -1832,9 +1867,15 @@ calc.addConditions(Io.getMarket(), new String[] {
     "sol_tidal_lock",
     "no_atmosphere"
 });
-SectorEntityToken ioField = system.addTerrain(Terrain.MAGNETIC_FIELD, new MagneticFieldTerrainPlugin.MagneticFieldParams(sz_Io * .6f, sz_Io * 1.2f, Io, sz_Io *.9f, sz_Io *1.5f, new Color(30, 4, 44, 23), .01f)); 
-ioField.setCircularOrbit(Io, 0, 0, -10);
 
+Io.setSkipForJumpPointAutoGen(true);
+
+// Io plasma torus
+float torusInner = calc.getDistJupiter(0.0024f);
+float torusOuter = calc.getDistJupiter(0.0045f);
+calc.smartMagField(system, Jupiter, "Io Plasma Torus", torusInner, torusOuter, torusInner - 60f, torusOuter + 40f, new Color(180, 40, 30, 30), 0f,p_Io);
+// Io texture
+calc.smartMagField(system, Io, null, 0, 0, sz_Io * 0.9f, sz_Io * 1.5f, new Color(200, 50, 30, 50), 0f, -10);
 
 // Europa
 float sz_Europa = calc.getSize(3121f);
@@ -1865,6 +1906,9 @@ calc.addConditions(Europa.getMarket(), new String[] {
     "sol_subsurface_ocean",
     "low_gravity"
 });
+
+Europa.setSkipForJumpPointAutoGen(true);
+
 // Ganymede
 float p_Ganymede = p_Europa * 2f; 
 float sz_Ganymede = calc.getSize(5268f);
@@ -1891,13 +1935,17 @@ calc.addConditions(Ganymede.getMarket(), new String[] {
     "extreme_weather",
     "sol_pond_scum"
 });
-// Ganymede's magnetosphere
-float ganyFieldLimit = sz_Ganymede * 2.5f;
-SectorEntityToken ganymedeField = system.addTerrain(Terrain.MAGNETIC_FIELD, new MagneticFieldTerrainPlugin.MagneticFieldParams(ganyFieldLimit, ganyFieldLimit / 2f, Ganymede, sz_Ganymede * 0.9f, sz_Ganymede * 1.7f, new Color(180, 200, 255, 10), .3f));
-ganymedeField.setCircularOrbit(Ganymede, 0, 0, p_Ganymede);
 
+Ganymede.setSkipForJumpPointAutoGen(true);
+
+// Ganymede's magnetosphere
+// float ganyFieldLimit = sz_Ganymede * 2.5f;
+// SectorEntityToken ganymedeField = system.addTerrain(Terrain.MAGNETIC_FIELD, new MagneticFieldTerrainPlugin.MagneticFieldParams(ganyFieldLimit, ganyFieldLimit / 2f, Ganymede, sz_Ganymede * 0.9f, sz_Ganymede * 1.7f, new Color(180, 200, 255, 10), .3f));
+// ganymedeField.setCircularOrbit(Ganymede, 0, 0, p_Ganymede);
+// ((CampaignTerrainAPI) ganymedeField).getPlugin().setTerrainName("Ganymedean Magnetic Field");
+// Too weak
 // Cuz melting Ice be energetic
-system.addRingBand(Ganymede, "sol_rings", "rings_alpha1", 256, 1, Color.RED, 40, 100, 30);
+// system.addRingBand(Ganymede, "sol_rings", "rings_alpha1", 256, 1, Color.RED, 40, 100, 30);
 
 // Ganymede L4 Fusion Lamp 
 SectorEntityToken ganymedeL4Lamp = system.addCustomEntity(null, "Ganymede L4 Lamp", "fusion_lamp", "neutral");
@@ -1934,6 +1982,9 @@ calc.addConditions(Callisto.getMarket(), new String[] {
     "sol_subsurface_ocean",
     "sol_degenerate"
 });
+
+Callisto.setSkipForJumpPointAutoGen(true);
+
 JumpPointAPI lightspeedJump = Global.getFactory().createJumpPoint("lightspeed_jump", "Jovian Jump Point");
 lightspeedJump.setCircularOrbitPointingDown(Jupiter, angleJupiter, calc.getDistJupiter(0.35f), p_Jupiter);
 lightspeedJump.setStandardWormholeToHyperspaceVisual();
@@ -1976,6 +2027,8 @@ calc.addConditions(Himalia.getMarket(), new String[] {
     "sol_tiny_polity",
     "sol_meteoroids"
 });
+
+Himalia.setSkipForJumpPointAutoGen(true);
 
 // Elara
 SectorEntityToken Elara = calc.spawnIrregularBody2(system, Jupiter, "Elara", "Elara", "moon", showNameMinor, 79.9f, 0.078281f, 0.212f, 346.9f, 129.9f, 1999.778f, zeroDegGlobal, null, 0.0009546f, "Jupiter", false);
@@ -2075,6 +2128,9 @@ calc.addConditions(Hektor.getMarket(), new String[] {
     "sol_contact_binary",
     "sol_fast_rotator"
 });
+
+Hektor.setSkipForJumpPointAutoGen(true);
+
 // Secondary Lobe — orbits Hektor
 calc.spawnMoon(system, Hektor, "Hektor (Lobe)", sz_HektorLobe, hekOffsets[0] + hekOffsets[1], p_HektorBinary, 180f, false);
 
@@ -2113,6 +2169,9 @@ calc.addConditions(Agamemnon.getMarket(), new String[] {
     "ruins_scattered",
     "sol_degenerate"
 });
+
+Agamemnon.setSkipForJumpPointAutoGen(true);
+
 // "Agamemnon Beta" — single chord occultation evidence (Timerson et al. 2013)
 // ~5 km satellite at ~278 km separation; unconfirmed, single-event detection
 if(speculativeBodies){
@@ -2284,6 +2343,9 @@ calc.addConditions(Hilda.getMarket(), new String[] {
     "sol_tiny_polity",
     "sol_meteoroids"
 });
+
+Hilda.setSkipForJumpPointAutoGen(true);
+
 // 1911 Schubart | 67 km
 calc.spawnSPSObject2(system, star, "Schubart", "Schubart", "asteroid", showNameMinor, 67f, 3.9807f, 0.1731f, 284.773f, 181.886f, 2022.58f, zeroDegGlobal, 0.496f, 1f, p_Hilda, hildaResonantSMA);
 
@@ -2380,7 +2442,6 @@ Saturn.getSpec().setCloudRotation(calc.getRot(.445f));
 Saturn.applySpecChanges();
 
 calc.addConditions(Saturn.getMarket(), new String[] {
-    "irradiated",
     "high_gravity",
     "dense_atmosphere",
     "poor_light",
@@ -2388,6 +2449,7 @@ calc.addConditions(Saturn.getMarket(), new String[] {
     "cold",
     "extreme_weather"
 });
+
 // =========================================================================
 // SATURN RINGS
 // =========================================================================
@@ -2402,18 +2464,30 @@ float r_satRings = (satRingGameStart + satRingGameEnd) / 2f;
 calc.smartRingTex(system, Saturn, "sol_rings", "saturn_rings0", 8389, 0, satRingGameStart, satRingGameEnd, -10);
 calc.setSatRingScale(satRingGameStart, w_satRings);
 
-// SATURN MAGNETOSPHERE
-float satMagOuter = calc.getSatRingPos(66900f) - 60f;
-SectorEntityToken saturnField = system.addTerrain(Terrain.MAGNETIC_FIELD, new MagneticFieldTerrainPlugin.MagneticFieldParams(
-    satMagOuter, satMagOuter / 2f, Saturn, sz_Saturn * 0.9f, sz_Saturn * 1.7f, new Color(230, 200, 120, 10), .5f));
-saturnField.setCircularOrbit(Saturn, 0, 0, -30);
-saturnField.setName("Saturn's Magnetosphere");
-
 // Ring System terrain (D Ring → F Ring)
-calc.smartRingTerrain(system, Saturn, "Saturn Ring System", calc.getSatRingPos(66900f), calc.getSatRingPos(140180f), -0.40f);
+calc.smartRingTerrain(system, Saturn, "Saturnine Ring System", calc.getSatRingPos(66900f), calc.getSatRingPos(140180f), -0.40f);
 
 // F Ring visual boost
 calc.smartRingTex(system, Saturn, "sol_rings", "rings_alpha3", 256, 3, calc.getSatRingPos(140180f) - 3.5f, calc.getSatRingPos(140180f) + 3.5f, -10);
+
+// SATURN MAGNETOSPHERE — Van Allen–like belts, segmented by moon sweeping.
+// Starts past the rings near Janus (not at the cloud tops); broken into belts by Mimas, Enceladus, Tethys.
+float satBeltSpin = calc.getTime(30);
+float satBeltGap  = 40f;   // moon-swept clearance between belts
+
+float beltJanus     = calc.getDistSaturn(0.001013f);   // inner edge (Janus)
+float beltMimas     = calc.getDistSaturn(0.001243f);
+float beltEnceladus = calc.getDistSaturn(0.0016f);
+float beltTethys    = calc.getDistSaturn(0.0019f);     // outer edge (Tethys)
+
+// Inner belt: Janus -> Mimas (most intense)
+calc.smartMagField(system, Saturn, "Saturnine Radiation Belts", beltJanus + 5f, beltMimas - 10f, beltJanus, beltMimas, new Color(210, 180, 120, 20), 0f, satBeltSpin);
+
+// Middle belt: Mimas -> Enceladus
+calc.smartMagField(system, Saturn, "Saturnine Radiation Belts", beltMimas + 10f, beltEnceladus - 15f, beltMimas, beltEnceladus, new Color(210, 180, 120, 15), 0f, satBeltSpin);
+
+// Outer belt: Enceladus -> Tethys (faintest, E-ring plasma)
+calc.smartMagField(system, Saturn, "Saturnine Radiation Belts", beltEnceladus + 15f, beltTethys - 30f, beltEnceladus, beltTethys - 15f, new Color(210, 180, 120, 10), 0f, satBeltSpin);
 
 // =========================================================================
 // INNER MOONS
@@ -2467,6 +2541,8 @@ calc.addConditions(Prometheus.getMarket(), new String[] {
     "sol_tiny_polity",
     "sol_meteoroids"
 });
+
+Prometheus.setSkipForJumpPointAutoGen(true);
 
 // END OF SHEPHERD MOONS ===============================================
 
@@ -2532,6 +2608,9 @@ calc.addConditions(Mimas.getMarket(), new String[] {
 if(!isSettled){
 Mimas.getMarket().addCondition("sol_degenerate");
 }
+
+Mimas.setSkipForJumpPointAutoGen(true);
+
 // Methone's smaller but better photographed than Pallene, it is the most famous of the hydrostatic equilibrium trolls
 // Methone
 SectorEntityToken Methone = system.addCustomEntity("Methone", "Methone", "Methone" + showNameCustom, "neutral"); 
@@ -2573,6 +2652,9 @@ calc.addConditions(Enceladus.getMarket(), new String[] {
     "sol_subsurface_ocean",
     "pollution"
 });
+
+Enceladus.setSkipForJumpPointAutoGen(true);
+
 // ## TETHYS SYSTEM (Trojan Setup)------------------------------------------
 // Tethys
 float angleTethys = 30f;
@@ -2607,6 +2689,8 @@ calc.addConditions(Tethys.getMarket(), new String[] {
 });} else {
     Tethys.getMarket().addCondition("sol_porus");
 }
+
+Tethys.setSkipForJumpPointAutoGen(true);
 
 SectorEntityToken Telesto = system.addCustomEntity("Telesto", "Telesto", "Telesto" + showNameCustom, "neutral"); 
 Telesto.setCircularOrbitPointingDown(Saturn, angleTethys + 60f, dist_Tethys, p_Tethys);
@@ -2650,6 +2734,8 @@ calc.addConditions(Dione.getMarket(), new String[] {
     Dione.getMarket().addCondition("sol_porus");
 }
 
+Dione.setSkipForJumpPointAutoGen(true);
+
 // --- L4 Trojan: Helene ---
 SectorEntityToken Helene = system.addCustomEntity("Helene", "Helene", "Helene" + showNameCustom, "neutral"); 
 Helene.setCircularOrbitPointingDown(Saturn, angleDione + 60f, dist_Dione, p_Dione);
@@ -2684,6 +2770,9 @@ calc.addConditions(Rhea.getMarket(), new String[] {
     "sol_loose_bioweapon",
     "sol_insurgent_network_desperate"
 });
+
+Rhea.setSkipForJumpPointAutoGen(true);
+
 // ## TITAN SYSTEM----------------------------------------------------------
 // Titan
 float sz_Titan = calc.getSize(5150f);
@@ -2717,6 +2806,9 @@ calc.addConditions(Titan.getMarket(), new String[] {
     "sol_space_ladder",
     "habitable"
 });
+
+Titan.setSkipForJumpPointAutoGen(true);
+
 if(generateElevators){
     SectorEntityToken titanelevator = system.addCustomEntity("titan_elevator", "Titan elevator", "elevator3", "neutral");
     titanelevator .setCircularOrbitPointingDown(Titan, 120 - 180, sz_Titan + 140, p_Titan);
@@ -2766,7 +2858,8 @@ TitanMirrorEpsilon.setSensorProfile(1000f);
 // Hyperion
 // Hyperion might not have the most hazard, but it is the most useless
 // Fucking useless piece of shit that zapped Cassini.
-PlanetAPI Hyperion = (PlanetAPI) calc.spawnIrregularBody3(system, Saturn, "Hyperion", "Hyperion", "barren", null, 266f, 0.009903f, 0.105f, 122.9f, 214.0f, 1999.986f, zeroDegGlobal, null, 0.0002857f,  p_Titan * (4f/3f), "Saturn", false);
+float p_Hyperion = p_Titan * (4f/3f);
+PlanetAPI Hyperion = (PlanetAPI) calc.spawnIrregularBody3(system, Saturn, "Hyperion", "Hyperion", "barren", null, 266f, 0.009903f,  0.123f, 122.9f, 214.0f, 1999.986f, zeroDegGlobal, null, 0.0002857f,  p_Hyperion, "Saturn", false);
  
 Hyperion.getSpec().setTexture("graphics/planets/hyperion_tx.jpg");
 Hyperion.getSpec().setAtmosphereThickness(0f);
@@ -2783,8 +2876,12 @@ calc.addConditions(Hyperion.getMarket(), new String[] {
     "very_cold",
     "poor_light",
     "sol_porus",
-    "sol_static_charge"
+    "sol_static_charge",
+    "sol_chaotic_rotator"
 });
+
+Hyperion.setSkipForJumpPointAutoGen(true);
+
 Hyperion.setCustomDescriptionId("sol_hyperion");
 
 // Iapetus
@@ -2811,6 +2908,8 @@ calc.addConditions(Iapetus.getMarket(), new String[] {
     "ruins_extensive",
     "sol_degenerate"
 });
+
+Iapetus.setSkipForJumpPointAutoGen(true);
 
 // =========================================================================
 // ===================== SATURN IRREGULAR MOONS ============================
@@ -2842,7 +2941,9 @@ calc.addConditions(Phoebe.getMarket(), new String[] {
     "sol_jump_point_nearby",
     "sol_meteoroids"
 });
- 
+
+Phoebe.setSkipForJumpPointAutoGen(true);
+
 JumpPointAPI jp_phoebe = Global.getFactory().createJumpPoint("jp_phoebe", "Phoebe Jump Point");
 jp_phoebe.setStandardWormholeToHyperspaceVisual();
 jp_phoebe.setCircularOrbit(Phoebe, 0, 100, 10);
@@ -2864,7 +2965,6 @@ if(!saturnShortlist){
     // Tarvos
     SectorEntityToken Tarvos = calc.spawnIrregularBody2(system, Saturn, "Tarvos", "Tarvos", "moon", showNameMinor, 15.0f, 0.12177f, 0.522f, 64.5f, 282.9f, 1999.332f, zeroDegGlobal, null, 0.0002857f, "Saturn", false);
 }
-
 
 // Norse Group ------------------------------------------------------------
 
@@ -2891,6 +2991,7 @@ if(!saturnShortlist){
 if(saturnAll){
     new GiantMoonsTotal().spawn(system, Saturn,  "saturn",  zeroDegGlobal);
 }
+
 // =========================================================================
 // ## SATURN TROJAN
 // =========================================================================
@@ -2944,15 +3045,8 @@ calc.addConditions(Uranus.getMarket(), new String[] {
     "very_cold",
     "volatiles_abundant",
     "dark",
-    "irradiated",
     "ruins_scattered"
 });
-
-// Magnetosphere
-float uraMagLimit = calc.getDistUranus(0.000247f) - 60f;
-SectorEntityToken uranusInnerField = system.addTerrain(Terrain.MAGNETIC_FIELD, new MagneticFieldTerrainPlugin.MagneticFieldParams(uraMagLimit, uraMagLimit / 2f, Uranus, sz_Uranus * .9f, sz_Uranus * 1.5f, new Color(150, 200, 230, 5), .3f));
-uranusInnerField.setCircularOrbit(Uranus, 0, 0, -30);
-uranusInnerField.setName("Uranus' Magnetosphere");
 
 // ## URANUS RINGS----------------------------------------------------------
 
@@ -2976,7 +3070,7 @@ calc.smartRingTex(system, Uranus, "sol_rings", "rings_alpha2", 256, 1, calc.getD
 calc.smartRingTex(system, Uranus, "sol_rings", "rings_alpha2", 256, 1, calc.getDistUranus(0.000332f), calc.getDistUranus(0.000336f), -30);
 
 // Terrain: Dense Zeta through Lambda
-calc.smartRingTerrain(system, Uranus, "Inner Ring System", calc.getDistUranus(0.000247f), calc.getDistUranus(0.000336f), -0.25f);
+calc.smartRingTerrain(system, Uranus, "Uranian Inner Ring Set", calc.getDistUranus(0.000247f), calc.getDistUranus(0.000336f), -0.25f);
 
 // Epsilon Ring — Real: ~51,149 km → 0.000342 AU
 calc.smartRingTex(system, Uranus, "misc", "rings_dust0", 256, 1, calc.getDistUranus(0.000336f), calc.getDistUranus(0.000341f), -30);
@@ -2990,6 +3084,28 @@ calc.smartRingTerrain(system, Uranus, "Nu Ring", calc.getDistUranus(0.000442f), 
 // Mu Ring — Real: 86,000–103,000 km → 0.000575–0.000689 AU
 calc.smartRingTex(system, Uranus, "sol_rings", "rings_alpha1", 256, 0, calc.getDistUranus(0.000575f), calc.getDistUranus(0.000689f), -30);
 calc.smartRingTerrain(system, Uranus, "Mu Ring", calc.getDistUranus(0.000575f), calc.getDistUranus(0.000689f), -0.40f);
+
+// Magnetosphere — radiation belts (intense inner electron belt + Miranda→Ariel segment)
+float uraBeltSpin = calc.getTime(30);
+float uraBeltGap  = 40f;
+
+float beltRingEdge = calc.getDistUranus(0.000342f);  // ~2 R_U (Epsilon ring) — belts overlap and darken the rings
+float beltMiranda  = calc.getDistUranus(0.000865f);
+float beltAriel    = calc.getDistUranus(0.001276f);
+
+// Inner belt: ring zone -> Miranda (intense; this is the one that grays out the rings and inner moons)
+calc.smartMagField(system, Uranus, "Uranian Radiation Belts",
+    beltRingEdge, beltMiranda - uraBeltGap,
+    beltRingEdge, beltMiranda - uraBeltGap,
+    new Color(150, 200, 230, 15), 0f,
+    uraBeltSpin);
+
+// Outer belt: Miranda -> Ariel (fainter)
+calc.smartMagField(system, Uranus, "Uranian Radiation Belts",
+    beltMiranda + 20f, beltAriel - 20f,
+    beltMiranda, beltAriel,
+    new Color(150, 200, 230, 10), 0f,
+    uraBeltSpin);
 
 // =========================================================================
 // ========================= URANUS INNER MOONS ============================
@@ -3121,6 +3237,8 @@ calc.addConditions(Miranda.getMarket(), new String[] {
     "sol_insurgent_network_desperate"
 });
 
+Miranda.setSkipForJumpPointAutoGen(true);
+
 // Ariel
 PlanetAPI Ariel = system.addPlanet("Ariel", Uranus, "Ariel", "frozen", 89, 
 calc.getSize(1158f), calc.getDistUranus(0.001276f), calc.getTimeGiant(2.520f));
@@ -3148,6 +3266,9 @@ calc.addConditions(Ariel.getMarket(), new String[] {
     "sol_subsurface_ocean",
     "sol_ai_terminators"
 });
+
+Ariel.setSkipForJumpPointAutoGen(true);
+
 // Umbriel
 PlanetAPI Umbriel = system.addPlanet("Umbriel", Uranus, "Umbriel", "frozen", 345, 
 calc.getSize(1169f), calc.getDistUranus(0.001778f), calc.getTimeGiant(4.144f));
@@ -3173,6 +3294,8 @@ calc.addConditions(Umbriel.getMarket(), new String[] {
     "sol_tidal_lock",
     "ruins_widespread"
 });
+
+Umbriel.setSkipForJumpPointAutoGen(true);
 
 // Titania
 PlanetAPI Titania = system.addPlanet("Titania", Uranus, "Titania", "frozen", 233, 
@@ -3202,6 +3325,8 @@ calc.addConditions(Titania.getMarket(), new String[] {
     "sol_insurgent_network_desperate"
 });
 
+Titania.setSkipForJumpPointAutoGen(true);
+
 // Oberon
 float dist_Oberon = calc.getDistUranus(0.003901f); 
 PlanetAPI Oberon = system.addPlanet("Oberon", Uranus, "Oberon", "frozen", 23, 
@@ -3230,6 +3355,8 @@ calc.addConditions(Oberon.getMarket(), new String[] {
     "sol_subsurface_ocean",
     "sol_ai_terminators"
 });
+
+Oberon.setSkipForJumpPointAutoGen(true);
 
 // =========================================================================
 // ===================== URANUS IRREGULAR MOONS ============================
@@ -3320,10 +3447,10 @@ calc.addConditions(Neptune.getMarket(), new String[] {
 
 // NEPTUNE MAGNETOSPHERE
 // Cutoff at Galle Ring inner edge (0.00025f) minus 60 units gap
-float nepMagLimit = calc.getDistNeptune(0.00025f) - 60f;
-SectorEntityToken neptuneInnerField = system.addTerrain(Terrain.MAGNETIC_FIELD, new MagneticFieldTerrainPlugin.MagneticFieldParams(nepMagLimit, nepMagLimit / 2f, Neptune, sz_Neptune * 0.9f, sz_Neptune * 1.5f, new Color(150, 200, 230, 5), .2f));
-neptuneInnerField.setCircularOrbit(Neptune, 0, 0, -100);
-neptuneInnerField.setName("Neptune's Magnetosphere");
+// float nepMagLimit = calc.getDistNeptune(0.00025f) - 60f;
+// SectorEntityToken neptuneInnerField = system.addTerrain(Terrain.MAGNETIC_FIELD, new MagneticFieldTerrainPlugin.MagneticFieldParams(nepMagLimit, nepMagLimit / 2f, Neptune, sz_Neptune * 0.9f, sz_Neptune * 1.5f, new Color(150, 200, 230, 5), .2f));
+// neptuneInnerField.setCircularOrbit(Neptune, 0, 0, -100);
+// ((CampaignTerrainAPI) neptuneInnerField).getPlugin().setTerrainName("Neptunial Magnetic Field");
 
 // =========================================================================
 // NEPTUNE RINGS
@@ -3396,6 +3523,10 @@ calc.addConditions(Larissa.getMarket(), new String[] {
     "ruins_scattered"
 });
 
+Larissa.setSkipForJumpPointAutoGen(true);
+
+// TODO new moon?
+
 // Proteus
 PlanetAPI Proteus = system.addPlanet("Proteus", Neptune, "Proteus", "rocky_ice", 318, 
 calc.getSize(420f), calc.getDistNeptune(0.00078f), calc.getTimeGiant(1.122f));
@@ -3419,6 +3550,8 @@ calc.addConditions(Proteus.getMarket(), new String[] {
     "sol_tidal_lock",
     "ruins_widespread"
 });
+
+Proteus.setSkipForJumpPointAutoGen(true);
 
 // Triton
 float sz_Triton = calc.getSize(2706f);
@@ -3460,6 +3593,8 @@ calc.addConditions(Triton.getMarket(), new String[] {
 Triton.setCustomDescriptionId("sol_triton");
 Triton.getMarket().getMemoryWithoutUpdate().set("$sol_polar_atmosphere_level", 2);
 
+Triton.setSkipForJumpPointAutoGen(true);
+
 // =========================================================================
 // ===================== NEPTUNE IRREGULAR MOONS ===========================
 // =========================================================================
@@ -3486,6 +3621,8 @@ calc.addConditions(Nereid.getMarket(), new String[] {
     "dark",
     "sol_space_elevator"
 });
+
+Nereid.setSkipForJumpPointAutoGen(true);
 
 if(generateElevators){
     SectorEntityToken elevatorNereid = system.addCustomEntity("elevator1", "Nereid Elevator", "elevator1", "neutral"); 
@@ -3567,6 +3704,8 @@ if (!isSettled) {
 } else {
     Clete.getMarket().addCondition("sol_porus");
 }
+
+Clete.setSkipForJumpPointAutoGen(true);
 
 // --- L4 NAMED TROJANS ---
 
@@ -3708,7 +3847,7 @@ if(!Uranus_And_Neptune_Have_Normal_Gravity){
 }
 
 system.updateAllOrbits();
-system.autogenerateHyperspaceJumpPoints(true, false);
+system.autogenerateHyperspaceJumpPoints(true, false, false);
 
 // They are small, and low density
 if(Uranus_And_Neptune_Have_Normal_Gravity){

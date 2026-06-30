@@ -72,6 +72,7 @@ Automated anti-sabotage nanoware prevents safe despooling of the cable.",graphic
 Nearby Space Elevator,sol_space_elevator_nearby,,,,soljars.econ.conditions.AccessCondition,"A space elevator operates on a nearby world. The resulting concentration of shipping and infrastructure benefits the economy of the entire local planetary system, including $market.",graphics/icons/markets/space_elevator_nearby.png,3050
 Nearby Jump Point,sol_jump_point_nearby,,,,soljars.econ.conditions.AccessCondition,"$market is located in close proximity to a stable jump point. This grants the colony exceptional access to the hyperspace network, facilitating rapid trade and logistics.",graphics/icons/campaign/slipstream_fuel.png,3051
 Tidally Locked,sol_tidal_lock,,TRUE,,soljars.econ.conditions.AccessCondition,"$market is tidally locked to its parent, limiting the benefit a fullerene spool can provide.",graphics/icons/markets/sol_tidal_lock.png,3052
+Chaotic Rotator,sol_chaotic_rotator,,TRUE,,soljars.econ.conditions.AccessCondition,"The axial tilt and rotational period of $market is forever uncertain, dependant on the chaos of three body and  non-point-mass mechanics.",,3053
 ,,,,,,,,
 Circumstellar,sol_circumstellar,,TRUE,,com.fs.starfarer.api.impl.campaign.econ.BaseHazardCondition,"$market is beyond the heliopause of Sol, exposing it to interstellar radiation and making it - according to the Galatian definition - not in any system.",graphics/icons/markets/circumstellar.png,29
 Extreme Radiation,sol_irradiated_extreme,,TRUE,,com.fs.starfarer.api.impl.campaign.econ.BaseHazardCondition,"$market is regularly autoclaved by the EM spectrum and high energy particles. While shielding can help, there must always be a hole for sensors. 
@@ -106,3 +107,7 @@ Statically Charged,sol_static_charge,,TRUE,,com.fs.starfarer.api.impl.campaign.e
 Frozen Atmosphere,sol_frozen_atmosphere,,TRUE,,soljars.econ.conditions.FrozenAtmosphere,,graphics/icons/markets/sol_frozen_atmosphere.png,28
 Tenous Atmosphere,sol_tenous_atmosphere,,TRUE,,soljars.econ.conditions.TenousAtmosphere,,graphics/icons/markets/sol_warm_atmosphere.png,28
 Polar Atmospheric Ice,sol_frozen_atmosphere_polar,,TRUE,,soljars.econ.conditions.FrozenAtmospherePolar,,graphics/icons/markets/sol_polar_atmosphere.png,29
+,,,,,,,,
+Extreme Comet,sol_comet_extreme,,TRUE,,soljars.econ.conditions.CometExtreme,,graphics/icons/markets/sol_comet_extreme.png,9999
+Active Comet,sol_comet_active,,TRUE,,soljars.econ.conditions.CometActive,,graphics/icons/markets/sol_comet_active.png,9999
+Inactive Comet,sol_comet_inactive,,TRUE,,soljars.econ.conditions.CometInactive,,graphics/icons/markets/sol_comet_inactive.png,9999

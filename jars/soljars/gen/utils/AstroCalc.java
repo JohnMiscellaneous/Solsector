@@ -1,5 +1,7 @@
 package soljars.gen.utils;
 
+import java.awt.Color;
+
 import com.fs.starfarer.api.campaign.*;
 import java.util.*;
 
@@ -255,6 +257,20 @@ public SectorEntityToken smartBelt(StarSystemAPI system, SectorEntityToken paren
     float width = outer - inner;
     float radius = (inner + outer) / 2f;
     return system.addAsteroidBelt(parent, count, radius, width, minOrbitDays, maxOrbitDays, Terrain.ASTEROID_BELT, name);
+}
+
+// --- SMART MAGNETIC FIELD ---
+public SectorEntityToken smartMagField(StarSystemAPI system, SectorEntityToken parent,
+        String name, float terrainInner, float terrainOuter,
+        float visualInner, float visualOuter,
+        Color color, float auroraProb, float orbitDays) {
+    SectorEntityToken field = system.addTerrain(Terrain.MAGNETIC_FIELD,
+        new MagneticFieldTerrainPlugin.MagneticFieldParams(
+            terrainOuter - terrainInner, (terrainInner + terrainOuter) / 2f,
+            parent, visualInner, visualOuter, color, auroraProb));
+    if (name != null) ((CampaignTerrainAPI) field).getPlugin().setTerrainName(name);
+    field.setCircularOrbit(parent, 0, 0, orbitDays);
+    return field;
 }
 
 // --- ORBIT MATH ---
@@ -1393,4 +1409,5 @@ public float getRandomRotationPeriod(float diameterKM, Random rng) {
 
     return sign * (float) (sampledHours / 24.0);
 }
+
 }
