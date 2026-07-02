@@ -7,7 +7,6 @@ import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.SectorEntityToken;
 import com.fs.starfarer.api.campaign.econ.Industry;
 import com.fs.starfarer.api.campaign.econ.MarketAPI;
-import com.fs.starfarer.api.campaign.listeners.ColonySizeChangeListener;
 import com.fs.starfarer.api.campaign.listeners.EconomyTickListener;
 import com.fs.starfarer.api.campaign.rules.MemoryAPI;
 import com.fs.starfarer.api.impl.campaign.ids.Conditions;
@@ -21,7 +20,7 @@ import com.fs.starfarer.api.impl.campaign.econ.BaseMarketConditionPlugin;
 
 import soljars.econ.utils.RemoveReplace;
 
-public class CivilisedSubpop extends BaseMarketConditionPlugin implements ColonySizeChangeListener, EconomyTickListener {
+public class CivilisedSubpop extends BaseMarketConditionPlugin implements EconomyTickListener {
 
     public static final String ID = "sol_civilised_subpop";
 
@@ -44,7 +43,7 @@ public class CivilisedSubpop extends BaseMarketConditionPlugin implements Colony
     private static final float DURATION_SMALL_UNION = 48f; // 2 -> 3
     private static final float DURATION_CONTINENTAL = 96f; // 3 -> 4
 
-    // what were you thinking with listeners?
+    // Registered as EconomyTickListener for the monthly countdown only.
     public void apply(String id) {
         super.apply(id);
 
@@ -99,12 +98,23 @@ public class CivilisedSubpop extends BaseMarketConditionPlugin implements Colony
         if (maxIndMod != 0) {
             market.getStats().getDynamic().getMod(Stats.MAX_INDUSTRIES).modifyFlat(id, maxIndMod, desc);
         }
+        
+        // --- ABANDONED / PRE-COLONIZATION CHECK ---
+        if (market.isPlanetConditionMarketOnly()) {
+            if (market.getSize() < 3) {
+                market.removeCondition(Conditions.DECIVILIZED);
+                market.removeCondition(Conditions.DECIVILIZED_SUBPOP);
+                RemoveReplace.execute(market, ID, "sol_civilised_world");
+                Global.getSector().getListenerManager().removeListener(this);
+                return;
+            }
+        }
     }
 
     public void unapply(String id) {
         super.unapply(id);
         
-        // Remove Listener (Removes BOTH listeners)
+        // Remove Listener
         Global.getSector().getListenerManager().removeListener(this);
 
         market.getIncoming().getWeight().unmodify(id);
@@ -113,32 +123,6 @@ public class CivilisedSubpop extends BaseMarketConditionPlugin implements Colony
         for (Industry ind : market.getIndustries()) {
             ind.getUpkeep().unmodify(id);
             ind.getIncome().unmodify(id);
-        }
-    }
-
-    @Override
-    public void reportColonySizeChanged(MarketAPI market, int prevSize) {
-        if (market != this.market) return;
-        
-        if (!market.hasCondition(ID)) {
-            Global.getSector().getListenerManager().removeListener(this);
-            return;
-        }
-
-        // Force re-application of conditions to update Income/Upkeep stats immediately
-        market.reapplyCondition(ID);
-
-        MemoryAPI mem = market.getMemoryWithoutUpdate();
-        int stage = STAGE_INITIAL;
-        if (mem.contains(KEY_STAGE)) stage = mem.getInt(KEY_STAGE);
-
-        // --- ABANDONED / PRE-COLONIZATION CHECK ---
-        if (stage == STAGE_INITIAL && market.getSize() < 3) {
-            market.removeCondition(Conditions.DECIVILIZED);
-            market.removeCondition(Conditions.DECIVILIZED_SUBPOP);
-            RemoveReplace.execute(market, ID, "sol_civilised_world");
-            
-            Global.getSector().getListenerManager().removeListener(this);
         }
     }
 

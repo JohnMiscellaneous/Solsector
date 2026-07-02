@@ -62,7 +62,7 @@ public class SolDeferredSetupScript implements EveryFrameScript {
 
     @Override
     public boolean runWhilePaused() {
-        return false;
+        return true;
     }
 
     @Override
@@ -339,5 +339,8 @@ public class SolDeferredSetupScript implements EveryFrameScript {
         for (MarketConditionAPI condition : market.getConditions()) {
             condition.setSurveyed(true);
         }
+        market.reapplyConditions();
+        Global.getSector().getEconomy().removeMarket(market);
+        Global.getSector().getEconomy().addMarket(market, true);
     }
 }

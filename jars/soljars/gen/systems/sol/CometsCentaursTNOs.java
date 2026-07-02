@@ -432,9 +432,9 @@ float sz_Chariklo = Chariklo.getRadius();
 float r_C1R = sz_Chariklo * 9.9f;
 float r_C2R = sz_Chariklo * 10.2f;
 
-system.addRingBand(Chariklo, "sol_rings", "rings_alpha2", 256, 3, Color.RED, 8f, r_C1R, 40f);
-system.addRingBand(Chariklo, "sol_rings", "rings_alpha1", 256, 2, Color.RED, 5f, r_C2R, 40f);
-system.addTerrain(Terrain.RING, new RingSystemTerrainPlugin.RingParams(15f, (r_C1R + r_C2R) / 2f, Chariklo, "Chariklo Rings")).setCircularOrbit(Chariklo, 0, 0, -100);
+system.addRingBand(Chariklo, "sol_rings", "rings_alpha2", 256, 3, Color.RED, 8f, r_C1R, (progradeMult * 10));
+system.addRingBand(Chariklo, "sol_rings", "rings_alpha1", 256, 2, Color.RED, 5f, r_C2R, (progradeMult * 13));
+system.addTerrain(Terrain.RING, new RingSystemTerrainPlugin.RingParams(15f, (r_C1R + r_C2R) / 2f, Chariklo, "Oiapoque e Chui rings")).setCircularOrbit(Chariklo, 0, 0, (progradeMult * 60));
 
 Chariklo.getSpec().setTexture("graphics/planets/chariklo_tx.jpg"); 
 Chariklo.getSpec().setAtmosphereThickness(0f); 
@@ -460,6 +460,8 @@ if(speculativeBodies){
 calc.spawnMoon(system, Chariklo, "Chariklo Beta", calc.getSize(5f), r_C2R + 10f, calc.getTime(12f), 180f, showProvisionalNames);
 }
 
+Chariklo.setSkipForJumpPointAutoGen(true);
+
 Chariklo.getMemoryWithoutUpdate().set("$sol_orbit_min_au", 13.077f);
 Chariklo.getMemoryWithoutUpdate().set("$sol_orbit_max_au", 18.420f);
 
@@ -471,9 +473,9 @@ PlanetAPI Chiron = (PlanetAPI) calc.spawnSPSObject7(system, falseMoons ? Charikl
 float sz_Chiron = Chiron.getRadius();
 float r_ChironRing = sz_Chiron * 9.0f;
 
-system.addRingBand(Chiron, "sol_rings", "rings_alpha0", 256, 1, Color.RED, 15f, r_ChironRing, 40f);
-system.addRingBand(Chiron, "sol_rings", "rings_alpha1", 256, 2, Color.RED, 5f, r_ChironRing + 8f, 40f);
-system.addTerrain(Terrain.RING, new RingSystemTerrainPlugin.RingParams(20f, r_ChironRing, Chiron, "Chiron Ring")).setCircularOrbit(Chiron, 0, 0, -100);
+system.addRingBand(Chiron, "sol_rings", "rings_alpha0", 256, 1, Color.RED, 15f, r_ChironRing, (progradeMult * 10));
+system.addRingBand(Chiron, "sol_rings", "rings_alpha1", 256, 2, Color.RED, 5f, r_ChironRing + 8f, (progradeMult * 15));
+system.addTerrain(Terrain.RING, new RingSystemTerrainPlugin.RingParams(20f, r_ChironRing, Chiron, "Chiron Ring")).setCircularOrbit(Chiron, 0, 0, (progradeMult * 60));
 
 Chiron.getSpec().setTexture("graphics/planets/chiron_tx.jpg"); 
 Chiron.getSpec().setAtmosphereThickness(0f); 
@@ -491,9 +493,15 @@ calc.addConditions(Chiron.getMarket(), new String[] {
     "low_gravity",
     "no_atmosphere",
     "volatiles_plentiful",
+    "ore_moderate",
+    "rare_ore_sparse",
     "sol_fast_rotator",
-    "sol_dist_distant"
+    "sol_dist_distant",
+    "poor_light",
+    "sol_comet_active"
 });
+
+Chiron.setSkipForJumpPointAutoGen(true);
 
 // "Chiron II" — ring-shepherd inferred from ring gap structure
 // Same basis as chariklo II
@@ -501,6 +509,8 @@ if(speculativeBodies){
 calc.spawnMoon(system, Chiron, "Chiron II", calc.getSize(5f), r_ChironRing + 10f, calc.getTime(10f), 45f, showProvisionalNames);
 }
 
+DistanceConditionManager.track(Chiron.getMarket());
+Chiron.getMarket().getMemoryWithoutUpdate().set("$sol_comet_distance", 12.5f);
 Chiron.getMemoryWithoutUpdate().set("$sol_orbit_min_au", 8.533f);
 Chiron.getMemoryWithoutUpdate().set("$sol_orbit_max_au", 18.87f);
 
@@ -613,7 +623,7 @@ float dist_PlutoRaw = 39.5886f;
 float _pluRad = calc.getSize(2376f);
 float _pluMoonExt = _pluRad * 5.0f;
 float _pluMoonInt = _pluMoonExt * 0.5f;
-float p_PlutoCharon = calc.getTime(6.387f);
+float p_PlutoCharon = -calc.getTime(6.387f);
 float rot_PlutoCharon = 360f / (p_PlutoCharon * 10f);
 float[] pluOffsets = calc.getBinaryOffsetsReal(2376f, 1212f, 9f);
 
@@ -651,6 +661,8 @@ calc.addConditions(Pluto.getMarket(), new String[] {
     "sol_automated_habitats"
 });
 
+Pluto.setSkipForJumpPointAutoGen(true);
+
 // Charon
 float sz_Charon = calc.getSize(1212f);
 float dist_Charon_Local = pluOffsets[0] + pluOffsets[1];
@@ -681,6 +693,9 @@ calc.addConditions(Charon.getMarket(), new String[] {
     "sol_degenerate",
     "sol_automated_habitats"
 });
+
+Charon.setSkipForJumpPointAutoGen(true);
+
 SectorEntityToken plutoBarycenter;
 if (generateElevators) {
     SectorEntityToken elevatorpc = calc.spawnTransBinaryElevator(system, Pluto, "ElevatorPC", "Pluto-Charon Elevator", pluOffsets[0] + pluOffsets[1], 180f, p_PlutoCharon);
@@ -729,15 +744,15 @@ Pluto.getMarket().getMemoryWithoutUpdate().set("$sol_polar_atmosphere_level", 2)
 SectorEntityToken Arawn = calc.spawnSPSObject2(system, star, "Arawn", "Arawn", "custom_entity", "Arawn" + showNameMinor, 142f, 39.2077f, 0.1141f, 144.743f, 101.223f, 1995.58f, zeroDegGlobal, null, 1f, p_Pluto, dist_PlutoRaw);
 Arawn.setCustomDescriptionId("sol_arawn");
 
-float p_OrcusVanth = calc.getTime(9.5f);
+float p_OrcusVanth = -calc.getTime(9.5f);
 float rot_OrcusVanth = (360f / (p_OrcusVanth * 10f));  
 
 float sz_Orcus = calc.getSize(910f);
 float sz_Vanth = calc.getSize(442f);
 float[] orcOffsets = calc.getBinaryOffsetsReal(910f, 442f, 12f);
 
-// Orcus
-PlanetAPI Orcus = (PlanetAPI) calc.spawnSPSObject3(system, star, "Orcus", "Orcus", "frozen", null, 910f, 39.3358f, 0.2217f, 268.385f, 73.722f, 2143.69f, zeroDegGlobal, null, 1f, null, null, true, orcOffsets[0], 0f, p_OrcusVanth);
+// Orcus | THE ANTIPLUTO
+PlanetAPI Orcus = (PlanetAPI) calc.spawnSPSObject3(system, star, "Orcus", "Orcus", "cryovolcanic", null, 910f, 39.3358f, 0.2217f, 268.385f, 73.722f, 2143.69f, zeroDegGlobal, null, 1f, null, null, true, orcOffsets[0], 0f, p_OrcusVanth);
 
 Orcus.getSpec().setTexture("graphics/planets/orcus_tx.jpg"); 
 Orcus.getSpec().setAtmosphereThickness(0f); 
@@ -746,6 +761,7 @@ Orcus.getSpec().setAtmosphereColor(new Color(0, 0, 0, 0));
 Orcus.getSpec().setIconColor(new Color(160, 160, 170, 255)); 
 Orcus.getSpec().setTilt(0f); 
 Orcus.getSpec().setPitch(90f); 
+Orcus.getSpec().setCloudColor(new Color(255, 240, 200, 0)); 
 Orcus.getSpec().setRotation(-rot_OrcusVanth); 
 Orcus.applySpecChanges(); 
 
@@ -762,7 +778,9 @@ calc.addConditions(Orcus.getMarket(), new String[] {
     "sol_ai_freedom_fighters"
 });
 
-// Vanth — orbits Orcus directly, 180° opposite
+Orcus.setSkipForJumpPointAutoGen(true);
+
+// Vanth 
 PlanetAPI Vanth = system.addPlanet("Vanth", Orcus, "Vanth", "rocky_ice", 180, sz_Vanth, orcOffsets[0] + orcOffsets[1], p_OrcusVanth);
 
 Vanth.getSpec().setTexture("graphics/planets/vanth_tx.jpg"); 
@@ -785,6 +803,8 @@ calc.addConditions(Vanth.getMarket(), new String[] {
     "ruins_scattered",
     "sol_inter_binary_elevator"
 });
+
+Vanth.setSkipForJumpPointAutoGen(true);
 
 if (generateElevators) {
     SectorEntityToken elevatorOV = calc.spawnTransBinaryElevator(system, Orcus, "ElevatorOV", "Orcus-Vanth Elevator", orcOffsets[0] + orcOffsets[1], 180f, p_OrcusVanth);
@@ -820,6 +840,8 @@ calc.addConditions(Ixion.getMarket(), new String[] {
     "volatiles_diffuse",
     "ruins_scattered"
 });
+
+Ixion.setSkipForJumpPointAutoGen(true);
 
 DistanceConditionManager.track(Ixion.getMarket());
 Ixion.getMemoryWithoutUpdate().set("$sol_orbit_min_au", 29.730f);
@@ -950,9 +972,11 @@ calc.addConditions(Lempo.getMarket(), new String[] {
     "no_atmosphere",
     "volatiles_plentiful", 
     "ore_sparse", 
-    "sol_tidal_lock",
+    "sol_chaotic_rotator",
     "ruins_widespread"
 });
+
+Lempo.setSkipForJumpPointAutoGen(true);
 
 // --- Hiisi Visuals ---
 Hiisi.getSpec().setTexture("graphics/planets/hiisi_tx.jpg");
@@ -972,9 +996,11 @@ calc.addConditions(Hiisi.getMarket(), new String[] {
     "no_atmosphere",
     "volatiles_plentiful", 
     "ore_sparse",
-    "sol_tidal_lock",
+    "sol_chaotic_rotator",
     "ruins_scattered"
 });
+
+Hiisi.setSkipForJumpPointAutoGen(true);
 
 DistanceConditionManager.track(Lempo.getMarket());
 Lempo.getMemoryWithoutUpdate().set("$sol_orbit_min_au", 30.542f);
@@ -1014,6 +1040,8 @@ calc.addConditions(Achlys.getMarket(), new String[] {
     "ruins_widespread",
     "sol_fast_rotator"
 });
+
+Achlys.setSkipForJumpPointAutoGen(true);
 
 calc.spawnMoon(system, Achlys, "Achlys II", calc.getSize(72f), sz_Achlys * 4f, calc.getTime(5f), 100f, showProvisionalNames);
 
@@ -1106,15 +1134,17 @@ calc.addConditions(Haumea.getMarket(), new String[] {
     "sol_automated_habitats"
 });
 
+Haumea.setSkipForJumpPointAutoGen(true);
+
 // Haumea Rings
 // Real: ~2,287 km radius, ~70 km wide, ratio ~2.8x
 // Doubled to ~5.6x to avoid low-poly triangle rendering at small radii
 float sz_Haumea = Haumea.getRadius();
 float r_HaumeaRing = sz_Haumea * 5.6f;
 
-system.addRingBand(Haumea, "sol_rings", "rings_alpha1", 256, 3, new Color(200, 100, 100, 150), 20f, r_HaumeaRing, 4f);
-system.addRingBand(Haumea, "sol_rings", "rings_alpha1", 256, 2, new Color(200, 100, 100, 150), 10f, r_HaumeaRing + 10f, 4f);
-system.addTerrain(Terrain.RING, new RingSystemTerrainPlugin.RingParams(20f, r_HaumeaRing, Haumea, "Haumea Ring")).setCircularOrbit(Haumea, 0, 0, -100);
+system.addRingBand(Haumea, "sol_rings", "rings_alpha1", 256, 3, new Color(200, 100, 100, 150), 20f, r_HaumeaRing, (progradeMult * 4));
+system.addRingBand(Haumea, "sol_rings", "rings_alpha1", 256, 2, new Color(200, 100, 100, 150), 10f, r_HaumeaRing + 10f, (progradeMult * 5));
+system.addTerrain(Terrain.RING, new RingSystemTerrainPlugin.RingParams(20f, r_HaumeaRing, Haumea, "Haumea Ring")).setCircularOrbit(Haumea, 0, 0, (progradeMult * 60));
 
 if(generateElevators){
     SectorEntityToken ringHaumea = system.addCustomEntity("ring1", "Haumea ring", "ring1", "neutral"); 
@@ -1148,6 +1178,9 @@ calc.addConditions(Hiiaka.getMarket(), new String[] {
     "ruins_scattered",
     "sol_porus"
 });
+
+Hiiaka.setSkipForJumpPointAutoGen(true);
+
 Hiiaka.setCustomDescriptionId("sol_hiiaka");
 
 DistanceConditionManager.track(Haumea.getMarket());
@@ -1204,6 +1237,9 @@ calc.addConditions(Makemake.getMarket(), new String[] {
     "sol_automated_habitats",
     "dark"
 });
+
+Makemake.setSkipForJumpPointAutoGen(true);
+
 Makemake.getMarket().getMemoryWithoutUpdate().set("$sol_polar_atmosphere_level", 2);
 
 float _makMoonExt = sz_Makemake * 8.0f; float _makMoonInt = _makMoonExt * 0.5f; float sz_Mk2 = calc.getSize(175f); float dist_Mk2 = sz_Makemake + (_makMoonExt * (float) Math.log(_makMoonInt * 0.015f + 1));
@@ -1236,13 +1272,13 @@ float r_Q2R = sz_Quaoar * 7.4f;
 
 // Q1R (inner, denser)
 system.addRingBand(Quaoar, "sol_rings", "rings_alpha2", 256, 3, new Color(200, 100, 100, 150), 10f, r_Q1R, calc.getTime(10f));
-system.addTerrain(Terrain.RING, new RingSystemTerrainPlugin.RingParams(10f, r_Q1R, Quaoar, "Quaoar Ring")).setCircularOrbit(Quaoar, 0, 0, -100f);
+system.addTerrain(Terrain.RING, new RingSystemTerrainPlugin.RingParams(10f, r_Q1R, Quaoar, "Quaoar Ring")).setCircularOrbit(Quaoar, 0, 0, (progradeMult * 60));
 
 // Q2R (outer, diffuse OR MOON?!?!?!?!??!?!?!!?!!"???!?!?!?!!?!!?!?!!!?!?!?!?!?!?!?!)
 system.addRingBand(Quaoar, "sol_rings", "rings_alpha0", 256, 1, new Color(200, 100, 100, 120), 15f, r_Q2R, calc.getTime(10f));
 if(!speculativeBodies){
     system.addRingBand(Quaoar, "sol_rings", "rings_alpha1", 256, 2, new Color(200, 100, 100, 100), 5f, r_Q2R, calc.getTime(10f));
-    system.addTerrain(Terrain.RING, new RingSystemTerrainPlugin.RingParams(15f, r_Q2R, Quaoar, "Quaoar III Remnants")).setCircularOrbit(Quaoar, 0, 0, -100f);
+    system.addTerrain(Terrain.RING, new RingSystemTerrainPlugin.RingParams(15f, r_Q2R, Quaoar, "Quaoar III Remnants")).setCircularOrbit(Quaoar, 0, 0, (progradeMult * 60));
 }
 
 Quaoar.getSpec().setTexture("graphics/planets/quaoar_tx.jpg"); 
@@ -1263,6 +1299,8 @@ calc.addConditions(Quaoar.getMarket(), new String[] {
     "dark",
     "thin_atmosphere"
 });
+
+Quaoar.setSkipForJumpPointAutoGen(true);
 
 // Weywot
 SectorEntityToken Weywot = calc.spawnMoon(system, Quaoar, "Weywot", calc.getSize(80f), sz_Quaoar * 12f, calc.getTime(12.4f), 180f, showMinorNames);
@@ -1306,6 +1344,8 @@ calc.addConditions(Varda.getMarket(), new String[] {
     "sol_fast_rotator"
 });
 
+Varda.setSkipForJumpPointAutoGen(true);
+
 // Ilmare — orbits Varda
 PlanetAPI Ilmare = system.addPlanet("Ilmare", Varda, "Ilmare", "rocky_ice", 180, sz_Ilmare, vardaOffsets[0] + vardaOffsets[1], p_VardaIlmare);
 
@@ -1329,6 +1369,8 @@ calc.addConditions(Ilmare.getMarket(), new String[] {
     "sol_tidal_lock",
     "ruins_scattered"
 });
+
+Ilmare.setSkipForJumpPointAutoGen(true);
 
 DistanceConditionManager.track(Varda.getMarket());
 Varda.getMemoryWithoutUpdate().set("$sol_orbit_min_au", 39.510f);
@@ -1362,6 +1404,8 @@ calc.addConditions(Varuna.getMarket(), new String[] {
     "sol_fast_rotator",
     "sol_ancient_drug_lab"
 });
+
+Varuna.setSkipForJumpPointAutoGen(true);
 
 if(speculativeBodies){
 // S/2019 (20000) 1 | Photometric indication only (Fernández-Valenzuela et al. 2019)
@@ -1407,6 +1451,8 @@ calc.addConditions(Salacia.getMarket(), new String[] {
     "sol_inter_binary_elevator"
 });
 
+Salacia.setSkipForJumpPointAutoGen(true);
+
 if(generateElevators){
 SectorEntityToken ElevatorSA = calc.spawnTransBinaryElevator(system, Salacia, "ElevatorSA", "Salacia-Actea Elevator", salaciaOffsets[0] + salaciaOffsets[1], 180f, p_SalaciaBinary);
 }
@@ -1443,6 +1489,9 @@ calc.addConditions(Aya.getMarket(), new String[] {
     "sol_ancient_drug_lab",
     "sol_fast_rotator"
 });
+
+Aya.setSkipForJumpPointAutoGen(true);
+
 if(!isSettled){
 Aya.getMarket().addCondition("ruins_scattered");
 }
@@ -1474,6 +1523,8 @@ calc.addConditions(Mani.getMarket(), new String[] {
     "dark",
     "tectonic_activity"
 });
+
+Mani.setSkipForJumpPointAutoGen(true);
 
 // "Mani II" — f*ckin 1 in 100 chance, a chord was too long, now this is here
 if(speculativeBodiesExtreme){
@@ -1790,6 +1841,8 @@ calc.addConditions(Eris.getMarket(), new String[] {
     "sol_automated_habitats"
 });
 
+Eris.setSkipForJumpPointAutoGen(true);
+
 // Dysnomia — orbits Eris directly
 // Giant NEA - low albedo, rubble pile
 PlanetAPI Dysnomia = system.addPlanet("Dysnomia", Eris, "Dysnomia", "rocky_ice", 180, sz_Dysnomia, erisOffsets[0] + erisOffsets[1], p_ErisDysnomia);
@@ -1816,6 +1869,9 @@ calc.addConditions(Dysnomia.getMarket(), new String[] {
     "sol_inter_binary_elevator",
     "sol_degenerate"
 });
+
+Dysnomia.setSkipForJumpPointAutoGen(true);
+
 // Oops, ED stands for Erectile Dysfunction not Eris-Dysnomia.
 if(generateElevators){
     SectorEntityToken elevatorED = calc.spawnTransBinaryElevator(system, Eris, "ElevatorED", "Eris-Dysnomia Elevator", erisOffsets[0] + erisOffsets[1], 180f, p_ErisDysnomia);
@@ -1862,6 +1918,8 @@ calc.addConditions(Gonggong.getMarket(), new String[] {
     "sol_unexploded_ordnance"
 });
 
+Gonggong.setSkipForJumpPointAutoGen(true);
+
 SectorEntityToken Xiangliu = calc.spawnWithEllipticalOrbit(system, Gonggong, "xiangliu", "Xiangliu", "asteroid", showNameMinor, calc.getSize(100f), calc.getSize(1230f) * 10.0f, 0.29f, 0f, calc.getTime(25f), 180f, calc.getTime(25f) / rotMult);
 Xiangliu.setCustomDescriptionId("sol_xiangliu");
 
@@ -1896,6 +1954,8 @@ calc.addConditions(Gkun.getMarket(), new String[] {
     "sol_unpronounceable",
     "sol_automated_habitats"
 });
+
+Gkun.setSkipForJumpPointAutoGen(true);
 
 // Goehu
 SectorEntityToken Goehu = calc.spawnMoon(system, Gkun, "Goehu", sz_GoeHu, sz_Gkun * 4f, calc.getTime(11f), 180f, showMinorNames);
@@ -1935,6 +1995,8 @@ calc.addConditions(Chiminigagua.getMarket(), new String[] {
     "ore_sparse",
     "ruins_scattered"
 });
+
+Chiminigagua.setSkipForJumpPointAutoGen(true);
 
 // Minigagua
 calc.spawnMoon(system, Chiminigagua, "Minigagua", sz_fy27_moon, sz_fy27 * 4f, calc.getTime(15f), 180f, showMinorNames);
@@ -1995,6 +2057,8 @@ calc.addConditions(Sedna.getMarket(), new String[] {
 });
 Sedna.setCustomDescriptionId("sol_sedna");
 
+Sedna.setSkipForJumpPointAutoGen(true);
+
 DistanceConditionManager.track(Sedna.getMarket());
 Sedna.getMemoryWithoutUpdate().set("$sol_orbit_min_au", 76.19f);
 Sedna.getMemoryWithoutUpdate().set("$sol_orbit_max_au", 937f);
@@ -2020,6 +2084,8 @@ calc.addConditions(Goblin.getMarket(), new String[] {
     "inimical_biosphere",
     "sol_goblin_world",
 });
+
+Goblin.setSkipForJumpPointAutoGen(true);
 
 Goblin.getMarket().getMemoryWithoutUpdate().set("$sol_no_freeze", true);
 
@@ -2053,6 +2119,8 @@ calc.addConditions(Biden.getMarket(), new String[] {
     "sol_pre_domain_sapience", // This reflects my unironic political beliefs.\
     "thin_atmosphere"
 });
+
+Biden.setSkipForJumpPointAutoGen(true);
 
 Biden.setCustomDescriptionId("sol_biden");
 
@@ -2090,6 +2158,8 @@ calc.addConditions(Farout.getMarket(), new String[] {
     "sol_automated_habitats"
 });
 
+Farout.setSkipForJumpPointAutoGen(true);
+
 SectorEntityToken faroutStation = DerelictThemeGenerator.addSalvageEntity(system, Entities.STATION_RESEARCH_REMNANT, Factions.DERELICT);
 faroutStation.setCircularOrbitPointingDown(Farout, 90, 50f, calc.getTime(30f));
 
@@ -2118,6 +2188,9 @@ calc.addConditions(Farfarout.getMarket(), new String[] {
     "volatiles_trace",
     "ore_sparse",
 });
+
+Farfarout.setSkipForJumpPointAutoGen(true);
+
 if(!isSettled){
 Farfarout.getMarket().addCondition("ruins_scattered");
 }
@@ -2231,6 +2304,9 @@ if(planetNine){
         "dense_atmosphere",
         "volatiles_plentiful"
     });
+
+    SolIX.setSkipForJumpPointAutoGen(true);
+
     SolIX.getMarket().getMemoryWithoutUpdate().set("$sol_no_freeze", true);
 
     DistanceConditionManager.track(SolIX.getMarket());
@@ -2264,6 +2340,9 @@ if(planetTen){
         "ruins_scattered",
         "sol_space_elevator"
     });
+
+    SolX.setSkipForJumpPointAutoGen(true);
+
     if(generateElevators){
         SectorEntityToken xelevator = system.addCustomEntity("titan_elevator", "Titan elevator", "elevator3", "neutral");
         xelevator.setCircularOrbitPointingDown(SolX, 0, sz_x + 140, calc.getOrbRot(.8f));
@@ -2306,6 +2385,8 @@ if(planetEleven){
         "inimical_biosphere"
     });
 
+    SolXI.setSkipForJumpPointAutoGen(true);
+
     sz_SolXI = SolXI.getRadius();
     SectorEntityToken SolXIStation = DerelictThemeGenerator.addSalvageEntity(system, Entities.STATION_RESEARCH_REMNANT, Factions.DERELICT);
     SolXIStation.setCircularOrbitPointingDown(SolXI, 90, sz_SolXI + 100f, calc.getTime(5f));
@@ -2332,8 +2413,8 @@ float heliopauseOuter = calc.getDist(132.5f, star);
 
 SectorEntityToken solHeliopause = system.addTerrain(Terrain.MAGNETIC_FIELD, 
 new MagneticFieldTerrainPlugin.MagneticFieldParams( heliopauseOuter - heliopauseInner, heliopauseInner + ((heliopauseOuter - heliopauseInner) / 2f), star,heliopauseInner, heliopauseOuter, new Color(30, 20, 100, 30), 0.01f));
-solHeliopause.setName("Heliopause");
 solHeliopause.setCircularOrbit(star, 0, 0, -1000);
+((CampaignTerrainAPI) solHeliopause).getPlugin().setTerrainName("Heliopause");
 
 if (Global.getSettings().getModManager().isModEnabled("IndEvo")) { 
 

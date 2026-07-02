@@ -305,4 +305,71 @@ public class OrbitRulerHelper {
         sb.append("ll");
         return sb.toString();
     }
+
+    // ------------------------------------------------------------------
+    // Comet ruler: orbit position plus the comet's freeze/transition line.
+    // The single 'II' tick marks the comet transition distance stored in
+    // market memory ($sol_comet_distance). Called by the sol_comet_*
+    // conditions (extreme / active / inactive).
+    // ------------------------------------------------------------------
+
+    public static void renderCometRuler(TooltipMakerAPI tooltip, MarketAPI market, float pad) {
+        if (tooltip == null || market == null) return;
+        SectorEntityToken primary = market.getPrimaryEntity();
+        if (primary == null) return;
+
+        MemoryAPI marketMem = market.getMemoryWithoutUpdate();
+        if (marketMem == null
+                || !marketMem.contains(DistanceConditionManager.MEM_COMET_DISTANCE)) return;
+        float transitionAu = marketMem.getFloat(DistanceConditionManager.MEM_COMET_DISTANCE);
+
+        float currentAu = DistanceCheck.getMarketAU(market);
+        float minAu = currentAu;
+        float maxAu = currentAu;
+        MemoryAPI mem = primary.getMemoryWithoutUpdate();
+        if (mem != null) {
+            if (mem.contains(MEM_ORBIT_MIN)) minAu = mem.getFloat(MEM_ORBIT_MIN);
+            if (mem.contains(MEM_ORBIT_MAX)) maxAu = mem.getFloat(MEM_ORBIT_MAX);
+        }
+        if (minAu > maxAu) { float t = minAu; minAu = maxAu; maxAu = t; }
+
+        tooltip.addSectionHeading(
+                String.format("%s is %.1f AU away from its star",
+                        market.getName(), currentAu),
+                Alignment.MID, pad);
+
+        String topRow    = makeCometTickRow(transitionAu);
+        String orbitRow  = makeOrbitRow(minAu, maxAu, currentAu);
+        String bottomRow = makeCometTickRow(transitionAu);
+
+        tooltip.addPara(topRow, Misc.getGrayColor(), 3f);
+
+        // Color the 'o' by which side of the transition the comet sits on:
+        //   inside transition  -> blue
+        //   outside transition -> gray
+        Color oColor = currentAu < transitionAu
+                ? Misc.getBrightPlayerColor()
+                : Misc.getGrayColor();
+        tooltip.addPara(orbitRow, 3f,
+                new Color[] { oColor },
+                new String[] { "o" });
+
+        tooltip.addPara(bottomRow, Misc.getGrayColor(), 3f);
+    }
+
+    /** Tick row for the comet ruler: a single 'II' at the comet transition AU. */
+    private static String makeCometTickRow(float transitionAu) {
+        StringBuilder sb = new StringBuilder(" I");
+        int cursorPx = SPACE_PX + 2;
+
+        int rawCenterPx = SUN_PX + Math.round(transitionAu * PX_PER_AU);
+        int rawStartPx = rawCenterPx - II_PX / 2;
+        int startPx = snapToGrid(rawStartPx, SPACE_PX);
+
+        int gap = startPx - cursorPx;
+        int nSpaces = Math.max(0, gap / SPACE_PX);
+        for (int i = 0; i < nSpaces; i++) sb.append(' ');
+        sb.append("II");
+        return sb.toString();
+    }
 }

@@ -25,7 +25,7 @@ Ancient Drug Lab,sol_ancient_drug_lab,,,,soljars.econ.conditions.AncientDrugLab,
 Domain Orbital Manufactories,sol_ancient_orbital_manufactories,,,,soljars.econ.conditions.AncientOrbitalManufactories,"A standard-issue Domain production node orbits $market. Even after centuries of cannibalism and desperate refits, the core variable-g assembly systems remain superior to anything in the modern Sector.",graphics/icons/markets/sol_ancient_orbital_manufactories.png,3020
 Penal Colony,sol_penal_world,,,,soljars.econ.conditions.PenalWorld," Deep below the crushing Venusian skies lies a re-education and training camp that, should the records be believed, prided itself on a sub-single digit survival rate. This facility functioned as a crucible for the condemned, designed to forge elite shock troops through a curriculum so harrowing that it was indistinguishable from systematic execution.",graphics/icons/markets/mercenaries.png,3021
 Domain Organ Cloning Complex,sol_organ_complex,,,,soljars.econ.conditions.OrganComplex,"Deep beneath the surface of $market lies a hidden Domain facility, its existence scrubbed from all public registries. Intended as a black-site for organ replication and genetic research, the complex remained dark and sealed throughout the collapse of the gates and the chaos of the system's government.",graphics/icons/markets/organ_complex.png,3022
-Orbital Fleetworks,sol_orbital_fleetworks,,,,soljars.econ.conditions.OrbitalFleetworks," A routine maintenance depot converted into a production facility. While large sections of the gantry are irrecoverable, the core modules still function, capable of churning out ships en masse.",,3023
+Orbital Fleetworks,sol_orbital_fleetworks,,,,soljars.econ.conditions.OrbitalFleetworks," A routine maintenance depot converted into a production facility. While large sections of the gantry are irrecoverable, the core modules still function, capable of churning out ships en masse.",graphics/icons/markets/orbital_fleetworks.png,3023
 ,,,,,,,,
 Meteoroid Impacts,sol_meteoroids,,TRUE,,soljars.econ.conditions.Meteoroids,"This world is peppered by sporadic meteoroid impacts. While far from a constant bombardment, any human inhabitant would do well to respect the orbital tracking data. Permanent installations need not be buried, but hardened superstructures and point-defense batteries are highly recommended.",graphics/icons/markets/meteoroids.png,34
 Distant,sol_dist_distant,,,,soljars.econ.conditions.DistDistant,"$market is off the beaten path.
@@ -72,6 +72,7 @@ Automated anti-sabotage nanoware prevents safe despooling of the cable.",graphic
 Nearby Space Elevator,sol_space_elevator_nearby,,,,soljars.econ.conditions.AccessCondition,"A space elevator operates on a nearby world. The resulting concentration of shipping and infrastructure benefits the economy of the entire local planetary system, including $market.",graphics/icons/markets/space_elevator_nearby.png,3050
 Nearby Jump Point,sol_jump_point_nearby,,,,soljars.econ.conditions.AccessCondition,"$market is located in close proximity to a stable jump point. This grants the colony exceptional access to the hyperspace network, facilitating rapid trade and logistics.",graphics/icons/campaign/slipstream_fuel.png,3051
 Tidally Locked,sol_tidal_lock,,TRUE,,soljars.econ.conditions.AccessCondition,"$market is tidally locked to its parent, limiting the benefit a fullerene spool can provide.",graphics/icons/markets/sol_tidal_lock.png,3052
+Chaotic Rotator,sol_chaotic_rotator,,TRUE,,soljars.econ.conditions.AccessCondition,"The axial tilt and rotational period of $market is forever uncertain, dependant on the chaos of three-body and non point-mass mechanics.",graphics/icons/markets/chaotic_rotator.png,3053
 ,,,,,,,,
 Circumstellar,sol_circumstellar,,TRUE,,com.fs.starfarer.api.impl.campaign.econ.BaseHazardCondition,"$market is beyond the heliopause of Sol, exposing it to interstellar radiation and making it - according to the Galatian definition - not in any system.",graphics/icons/markets/circumstellar.png,29
 Extreme Radiation,sol_irradiated_extreme,,TRUE,,com.fs.starfarer.api.impl.campaign.econ.BaseHazardCondition,"$market is regularly autoclaved by the EM spectrum and high energy particles. While shielding can help, there must always be a hole for sensors. 
@@ -95,7 +96,7 @@ Antimatter Nonproliferation Treaty Signatory,sol_antimatter_nonproliferation_tre
 Antimatter Arms Race,sol_antimatter_nonproliferation_treaty_breacher,,,,soljars.econ.conditions.AntimatterNonproliferationTreatyBreacher,,graphics/icons/markets/am_fuel_facility.png,3058
 Cradle of Ash,sol_cradle_of_ash,,,,soljars.econ.conditions.CradleOfAsh,,graphics/icons/markets/uninhabitable.png,3059
 Civilised World,sol_civilised_world,,,,soljars.econ.conditions.CivilisedWorld,,graphics/icons/markets/capital.png,3060
-Civilised Subpopulation,sol_civilised_subpop,,,,soljars.econ.conditions.CivilisedSubpop,,graphics/icons/markets/capital.png,3061
+Civilised Subpopulation,sol_civilised_subpop,,,,soljars.econ.conditions.CivilisedSubpop,,graphics/icons/markets/capital.png,3060
 ,,,,,,,,
 Oort Strikes,sol_oort_strikes,,,,soljars.econ.conditions.OortStrikes,"Centuries - or millennia - ago, an unknown entity spent their time deep in the black, nudging comets deep in the Oort onto a trajectory towards the $market. 
 Their investment is also in the black as $market was rendered bare by a doom delivered on thoughtless Keplerian trajectories.",graphics/icons/markets/sol_oort_strike.png,3062
@@ -106,3 +107,7 @@ Statically Charged,sol_static_charge,,TRUE,,com.fs.starfarer.api.impl.campaign.e
 Frozen Atmosphere,sol_frozen_atmosphere,,TRUE,,soljars.econ.conditions.FrozenAtmosphere,,graphics/icons/markets/sol_frozen_atmosphere.png,28
 Tenous Atmosphere,sol_tenous_atmosphere,,TRUE,,soljars.econ.conditions.TenousAtmosphere,,graphics/icons/markets/sol_warm_atmosphere.png,28
 Polar Atmospheric Ice,sol_frozen_atmosphere_polar,,TRUE,,soljars.econ.conditions.FrozenAtmospherePolar,,graphics/icons/markets/sol_polar_atmosphere.png,29
+,,,,,,,,
+Extreme Comet,sol_comet_extreme,,TRUE,,soljars.econ.conditions.CometExtreme,,graphics/icons/markets/sol_comet_extreme.png,9999
+Active Comet,sol_comet_active,,TRUE,,soljars.econ.conditions.CometActive,,graphics/icons/markets/sol_comet_active.png,9999
+Inactive Comet,sol_comet_inactive,,TRUE,,soljars.econ.conditions.CometInactive,,graphics/icons/markets/sol_comet_inactive.png,9999

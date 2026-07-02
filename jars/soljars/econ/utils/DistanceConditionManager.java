@@ -31,29 +31,11 @@ public class DistanceConditionManager implements EconomyTickListener {
 
     public static final String MEM_REGISTRY = "$sol_dcm_registry";  // List<String>
 
-    public static final String ID_DISTANT   = "sol_dist_distant";
-    public static final String ID_ABYSSAL   = "sol_dist_abyssal";
-    public static final String ID_HADAL     = "sol_dist_hadal";
-    public static final String ID_EREBAL    = "sol_dist_erebal";
-    public static final String ID_TARTAREAN = "sol_dist_tartarean";
-    public static final String ID_OORTAL    = "sol_dist_oortal";
-
-    public static final String ID_IRRADIATED    = "irradiated";
-    public static final String ID_CIRCUMSTELLAR = "sol_circumstellar";
-
-    public static final String ID_FROZEN_ATM  = "sol_frozen_atmosphere";
-    public static final String ID_TENOUS_ATM  = "sol_tenous_atmosphere";
-
-    public static final String THIN_ATM       = "thin_atmosphere";
-    public static final String DENSE_ATM      = "dense_atmosphere";
-    public static final String NO_ATM         = "no_atmosphere";
-    public static final String HABITABLE      = "habitable";
-    public static final String TOXIC_ATM      = "toxic_atmosphere";
-    public static final String EXTREME_WEATH  = "extreme_weather";
-
     public static final String MEM_ATM_LEVEL  = "$sol_atmosphere_level";
     public static final String MEM_LAST_APPLIED = "$sol_atmosphere_last_applied";
     public static final String MEM_NO_FREEZE  = "$sol_no_freeze";
+
+    public static final String MEM_COMET_DISTANCE = "$sol_comet_distance";
 
     public static final float SUBLIMATION_AU = 40f;
 
@@ -133,9 +115,10 @@ public class DistanceConditionManager implements EconomyTickListener {
                 + ". Registry now has " + registry().size() + " entries.");
 
         String[] toRemove = {
-                ID_DISTANT, ID_ABYSSAL, ID_HADAL, ID_EREBAL, ID_TARTAREAN, ID_OORTAL,
-                ID_IRRADIATED, ID_CIRCUMSTELLAR,
-                ID_FROZEN_ATM, ID_TENOUS_ATM,
+                "sol_dist_distant", "sol_dist_abyssal", "sol_dist_hadal", "sol_dist_erebal", "sol_dist_tartarean", "sol_dist_oortal",
+                "irradiated", "sol_circumstellar",
+                "sol_frozen_atmosphere", "sol_tenous_atmosphere",
+                "sol_comet_extreme", "sol_comet_active", "sol_comet_inactive",
         };
         for (String id : toRemove) {
             if (market.hasCondition(id)) market.removeCondition(id);
@@ -218,13 +201,13 @@ public class DistanceConditionManager implements EconomyTickListener {
     private static String stateSnapshot(MarketAPI m) {
         StringBuilder sb = new StringBuilder();
         sb.append(currentBand(m));
-        if (m.hasCondition(ID_IRRADIATED))    sb.append("+irr");
-        if (m.hasCondition(ID_CIRCUMSTELLAR)) sb.append("+crc");
-        if (m.hasCondition(ID_FROZEN_ATM))    sb.append("+frozen");
-        if (m.hasCondition(ID_TENOUS_ATM))    sb.append("+tenous");
-        if (m.hasCondition(NO_ATM))           sb.append("+noatm");
-        if (m.hasCondition(THIN_ATM))         sb.append("+thin");
-        if (m.hasCondition(DENSE_ATM))        sb.append("+dense");
+        if (m.hasCondition("irradiated"))    sb.append("+irr");
+        if (m.hasCondition("sol_circumstellar")) sb.append("+crc");
+        if (m.hasCondition("sol_frozen_atmosphere"))    sb.append("+frozen");
+        if (m.hasCondition("sol_tenous_atmosphere"))    sb.append("+tenous");
+        if (m.hasCondition("no_atmosphere"))           sb.append("+noatm");
+        if (m.hasCondition("thin_atmosphere"))         sb.append("+thin");
+        if (m.hasCondition("dense_atmosphere"))        sb.append("+dense");
         if (m.getMemoryWithoutUpdate().contains(MEM_ATM_LEVEL)) {
             sb.append("(lvl=").append(m.getMemoryWithoutUpdate().getInt(MEM_ATM_LEVEL));
             if (m.getMemoryWithoutUpdate().contains(MEM_LAST_APPLIED)) {
@@ -259,28 +242,70 @@ public class DistanceConditionManager implements EconomyTickListener {
 
         // Irradiated overlay.
         boolean shouldIrradiate = au >= IRRADIATED_MIN_AU && au < IRRADIATED_MAX_AU;
-        boolean hasIrradiated = market.hasCondition(ID_IRRADIATED);
+        boolean hasIrradiated = market.hasCondition("irradiated");
         if (shouldIrradiate && !hasIrradiated) {
-            market.addCondition(ID_IRRADIATED);
+            market.addCondition("irradiated");
             notify(market, market.getName()
                     + " has entered a turbulent area of the heliosheath and become irradiated.");
         } else if (!shouldIrradiate && hasIrradiated) {
-            market.removeCondition(ID_IRRADIATED);
+            market.removeCondition("irradiated");
             notify(market, market.getName()
                     + " has left a turbulent area of the heliosheath and is no longer irradiated.");
         }
 
         // Circumstellar overlay.
         boolean shouldCircumstellar = au >= CIRCUMSTELLAR_MIN_AU;
-        boolean hasCircumstellar = market.hasCondition(ID_CIRCUMSTELLAR);
+        boolean hasCircumstellar = market.hasCondition("sol_circumstellar");
         if (shouldCircumstellar && !hasCircumstellar) {
-            market.addCondition(ID_CIRCUMSTELLAR);
+            market.addCondition("sol_circumstellar");
             notify(market, market.getName()
                     + " has passed beyond the heliopause and become circumstellar.");
         } else if (!shouldCircumstellar && hasCircumstellar) {
-            market.removeCondition(ID_CIRCUMSTELLAR);
+            market.removeCondition("sol_circumstellar");
             notify(market, market.getName()
                     + " has reentered the heliosphere and is no longer circumstellar.");
+        }
+
+        // Comet stages - only on bodies flagged with a transition distance.
+        // Must sit before the atmosphere early-return below, since comets
+        // carry no MEM_ATM_LEVEL.
+        MemoryAPI cmem = market.getMemoryWithoutUpdate();
+        if (cmem.contains(MEM_COMET_DISTANCE)) {
+            float cometDist = cmem.getFloat(MEM_COMET_DISTANCE);
+
+            // Pick the desired stage and its paired tectonic condition:
+            //   fusion lamp     -> extreme  (sol_comet_extreme + extreme_tectonic_activity)
+            //   au <  cometDist -> active   (sol_comet_active  + tectonic_activity)
+            //   au >= cometDist -> inactive (sol_comet_inactive, no tectonics)
+            String wantComet;
+            String wantTectonic;
+            if (hasFusionLamp(market)) {
+                wantComet = "sol_comet_extreme";
+                wantTectonic = "extreme_tectonic_activity";
+            } else if (au < cometDist) {
+                wantComet = "sol_comet_active";
+                wantTectonic = "tectonic_activity";
+            } else {
+                wantComet = "sol_comet_inactive";
+                wantTectonic = null;
+            }
+
+            // Strip comet/tectonic conditions that don't belong to this stage.
+            if (!"sol_comet_extreme".equals(wantComet) && market.hasCondition("sol_comet_extreme"))
+                market.removeCondition("sol_comet_extreme");
+            if (!"sol_comet_active".equals(wantComet) && market.hasCondition("sol_comet_active"))
+                market.removeCondition("sol_comet_active");
+            if (!"sol_comet_inactive".equals(wantComet) && market.hasCondition("sol_comet_inactive"))
+                market.removeCondition("sol_comet_inactive");
+            if (!"extreme_tectonic_activity".equals(wantTectonic) && market.hasCondition("extreme_tectonic_activity"))
+                market.removeCondition("extreme_tectonic_activity");
+            if (!"tectonic_activity".equals(wantTectonic) && market.hasCondition("tectonic_activity"))
+                market.removeCondition("tectonic_activity");
+
+            // Add the desired conditions if not already present.
+            if (!market.hasCondition(wantComet)) market.addCondition(wantComet);
+            if (wantTectonic != null && !market.hasCondition(wantTectonic))
+                market.addCondition(wantTectonic);
         }
 
         // Atmosphere freeze/thaw - only flagged, non-overridden bodies.
@@ -303,8 +328,8 @@ public class DistanceConditionManager implements EconomyTickListener {
             if (observed == 0) {
                 // Total loss. Atmosphere is gone for good - tear down all
                 // atmosphere state. Body is no longer managed by freeze/thaw.
-                if (market.hasCondition(ID_FROZEN_ATM)) market.removeCondition(ID_FROZEN_ATM);
-                if (market.hasCondition(ID_TENOUS_ATM)) market.removeCondition(ID_TENOUS_ATM);
+                if (market.hasCondition("sol_frozen_atmosphere")) market.removeCondition("sol_frozen_atmosphere");
+                if (market.hasCondition("sol_tenous_atmosphere")) market.removeCondition("sol_tenous_atmosphere");
                 mem.unset(MEM_ATM_LEVEL);
                 mem.unset(MEM_LAST_APPLIED);
                 Global.getLogger(DistanceConditionManager.class).info(
@@ -358,19 +383,19 @@ public class DistanceConditionManager implements EconomyTickListener {
         // Strip habitable/toxic/weather whenever the body is below its true
         // atmosphere level - those vanilla conditions depend on full pressure.
         if (observed < atmLevel) {
-            if (market.hasCondition(HABITABLE))     market.removeCondition(HABITABLE);
-            if (market.hasCondition(TOXIC_ATM))     market.removeCondition(TOXIC_ATM);
-            if (market.hasCondition(EXTREME_WEATH)) market.removeCondition(EXTREME_WEATH);
+            if (market.hasCondition("habitable"))     market.removeCondition("habitable");
+            if (market.hasCondition("toxic_atmosphere"))     market.removeCondition("toxic_atmosphere");
+            if (market.hasCondition("extreme_weather")) market.removeCondition("extreme_weather");
         }
 
         boolean wantFrozen = observed < atmLevel;
         boolean wantTenous = observed > 0;
 
-        if (wantFrozen && !market.hasCondition(ID_FROZEN_ATM)) market.addCondition(ID_FROZEN_ATM);
-        if (!wantFrozen && market.hasCondition(ID_FROZEN_ATM)) market.removeCondition(ID_FROZEN_ATM);
+        if (wantFrozen && !market.hasCondition("sol_frozen_atmosphere")) market.addCondition("sol_frozen_atmosphere");
+        if (!wantFrozen && market.hasCondition("sol_frozen_atmosphere")) market.removeCondition("sol_frozen_atmosphere");
 
-        if (wantTenous && !market.hasCondition(ID_TENOUS_ATM)) market.addCondition(ID_TENOUS_ATM);
-        if (!wantTenous && market.hasCondition(ID_TENOUS_ATM)) market.removeCondition(ID_TENOUS_ATM);
+        if (wantTenous && !market.hasCondition("sol_tenous_atmosphere")) market.addCondition("sol_tenous_atmosphere");
+        if (!wantTenous && market.hasCondition("sol_tenous_atmosphere")) market.removeCondition("sol_tenous_atmosphere");
     }
 
     /** Set the visible atmosphere conditions to match a given level (0/1/2/3).
@@ -378,16 +403,16 @@ public class DistanceConditionManager implements EconomyTickListener {
      *  the target level. Level 2 has no condition (vanilla "normal atmosphere"
      *  is the absence of thin/dense/none). */
     private static void applyAtmosphereLevel(MarketAPI market, int level) {
-        if (market.hasCondition(NO_ATM))    market.removeCondition(NO_ATM);
-        if (market.hasCondition(THIN_ATM))  market.removeCondition(THIN_ATM);
-        if (market.hasCondition(DENSE_ATM)) market.removeCondition(DENSE_ATM);
+        if (market.hasCondition("no_atmosphere"))    market.removeCondition("no_atmosphere");
+        if (market.hasCondition("thin_atmosphere"))  market.removeCondition("thin_atmosphere");
+        if (market.hasCondition("dense_atmosphere")) market.removeCondition("dense_atmosphere");
 
         if (level == 0) {
-            market.addCondition(NO_ATM);
+            market.addCondition("no_atmosphere");
         } else if (level == 1) {
-            market.addCondition(THIN_ATM);
+            market.addCondition("thin_atmosphere");
         } else if (level == 3) {
-            market.addCondition(DENSE_ATM);
+            market.addCondition("dense_atmosphere");
         }
         // level == 2: absence of conditions = normal atmosphere.
     }
@@ -403,12 +428,12 @@ public class DistanceConditionManager implements EconomyTickListener {
     /** Human-readable name for a band condition ID. */
     private static String bandWord(String bandId) {
         if (bandId == null)              return "unbanded";
-        if (ID_DISTANT.equals(bandId))   return "distant";
-        if (ID_ABYSSAL.equals(bandId))   return "abyssal";
-        if (ID_HADAL.equals(bandId))     return "hadal";
-        if (ID_EREBAL.equals(bandId))    return "erebal";
-        if (ID_TARTAREAN.equals(bandId)) return "tartarean";
-        if (ID_OORTAL.equals(bandId))    return "oortal";
+        if ("sol_dist_distant".equals(bandId))   return "distant";
+        if ("sol_dist_abyssal".equals(bandId))   return "abyssal";
+        if ("sol_dist_hadal".equals(bandId))     return "hadal";
+        if ("sol_dist_erebal".equals(bandId))    return "erebal";
+        if ("sol_dist_tartarean".equals(bandId)) return "tartarean";
+        if ("sol_dist_oortal".equals(bandId))    return "oortal";
         return bandId;
     }
 
@@ -428,14 +453,14 @@ public class DistanceConditionManager implements EconomyTickListener {
         if (market.getMemoryWithoutUpdate().getBoolean(MEM_NO_FREEZE)) return;
 
         if (market.getMemoryWithoutUpdate().contains(MEM_ATM_LEVEL)) {
-            boolean hasFrozenCondition = market.hasCondition(ID_FROZEN_ATM);
-            boolean hasOverridingAtm = market.hasCondition(THIN_ATM)
-                    || market.hasCondition(DENSE_ATM);
+            boolean hasFrozenCondition = market.hasCondition("sol_frozen_atmosphere");
+            boolean hasOverridingAtm = market.hasCondition("thin_atmosphere")
+                    || market.hasCondition("dense_atmosphere");
 
             if (hasFrozenCondition && !hasOverridingAtm) return;
             if (hasFrozenCondition && hasOverridingAtm) {
-                market.removeCondition(ID_FROZEN_ATM);
-                if (market.hasCondition(NO_ATM)) market.removeCondition(NO_ATM);
+                market.removeCondition("sol_frozen_atmosphere");
+                if (market.hasCondition("no_atmosphere")) market.removeCondition("no_atmosphere");
             }
 
             int observed = observedLevel(market);
@@ -444,7 +469,7 @@ public class DistanceConditionManager implements EconomyTickListener {
                 market.getMemoryWithoutUpdate().set(MEM_ATM_LEVEL, observed);
             }
         } else {
-            if (market.hasCondition(NO_ATM)) return;
+            if (market.hasCondition("no_atmosphere")) return;
             int observed = observedLevel(market);
             if (observed >= 1) {
                 market.getMemoryWithoutUpdate().set(MEM_ATM_LEVEL, observed);
@@ -455,9 +480,9 @@ public class DistanceConditionManager implements EconomyTickListener {
     /** Read what atmosphere level the body's current conditions correspond to.
      *  Returns 0 if no_atmosphere present, otherwise 1/2/3 based on thin/none/dense. */
     public static int observedLevel(MarketAPI market) {
-        if (market.hasCondition(NO_ATM))    return 0;
-        if (market.hasCondition(DENSE_ATM)) return 3;
-        if (market.hasCondition(THIN_ATM))  return 1;
+        if (market.hasCondition("no_atmosphere"))    return 0;
+        if (market.hasCondition("dense_atmosphere")) return 3;
+        if (market.hasCondition("thin_atmosphere"))  return 1;
         return 2;
     }
 
@@ -483,21 +508,21 @@ public class DistanceConditionManager implements EconomyTickListener {
     }
 
     public static String bandFor(float au) {
-        if (au < DISTANT_MAX_AU)   return ID_DISTANT;
-        if (au < ABYSSAL_MAX_AU)   return ID_ABYSSAL;
-        if (au < HADAL_MAX_AU)     return ID_HADAL;
-        if (au < EREBAL_MAX_AU)    return ID_EREBAL;
-        if (au < TARTAREAN_MAX_AU) return ID_TARTAREAN;
-        return ID_OORTAL;
+        if (au < DISTANT_MAX_AU)   return "sol_dist_distant";
+        if (au < ABYSSAL_MAX_AU)   return "sol_dist_abyssal";
+        if (au < HADAL_MAX_AU)     return "sol_dist_hadal";
+        if (au < EREBAL_MAX_AU)    return "sol_dist_erebal";
+        if (au < TARTAREAN_MAX_AU) return "sol_dist_tartarean";
+        return "sol_dist_oortal";
     }
 
     private static String currentBand(MarketAPI market) {
-        if (market.hasCondition(ID_OORTAL))    return ID_OORTAL;
-        if (market.hasCondition(ID_TARTAREAN)) return ID_TARTAREAN;
-        if (market.hasCondition(ID_EREBAL))    return ID_EREBAL;
-        if (market.hasCondition(ID_HADAL))     return ID_HADAL;
-        if (market.hasCondition(ID_ABYSSAL))   return ID_ABYSSAL;
-        if (market.hasCondition(ID_DISTANT))   return ID_DISTANT;
+        if (market.hasCondition("sol_dist_oortal"))    return "sol_dist_oortal";
+        if (market.hasCondition("sol_dist_tartarean")) return "sol_dist_tartarean";
+        if (market.hasCondition("sol_dist_erebal"))    return "sol_dist_erebal";
+        if (market.hasCondition("sol_dist_hadal"))     return "sol_dist_hadal";
+        if (market.hasCondition("sol_dist_abyssal"))   return "sol_dist_abyssal";
+        if (market.hasCondition("sol_dist_distant"))   return "sol_dist_distant";
         return null;
     }
 
@@ -530,9 +555,9 @@ public class DistanceConditionManager implements EconomyTickListener {
             String mismatch = desired.equals(current) ? "" : "  <-- BAND MISMATCH";
 
             boolean shouldIrradiate = au >= IRRADIATED_MIN_AU && au < IRRADIATED_MAX_AU;
-            boolean hasIrradiated = m.hasCondition(ID_IRRADIATED);
+            boolean hasIrradiated = m.hasCondition("irradiated");
             boolean shouldCirc = au >= CIRCUMSTELLAR_MIN_AU;
-            boolean hasCirc = m.hasCondition(ID_CIRCUMSTELLAR);
+            boolean hasCirc = m.hasCondition("sol_circumstellar");
 
             String overlayState =
                     (hasIrradiated ? "[irr]" : "     ") +
@@ -546,8 +571,8 @@ public class DistanceConditionManager implements EconomyTickListener {
                 int lvl = m.getMemoryWithoutUpdate().getInt(MEM_ATM_LEVEL);
                 boolean lampWarm = hasFusionLamp(m);
                 boolean noFreeze = m.getMemoryWithoutUpdate().getBoolean(MEM_NO_FREEZE);
-                String mark = m.hasCondition(ID_FROZEN_ATM) ? "FROZEN"
-                        : m.hasCondition(ID_TENOUS_ATM) ? "TENOUS"
+                String mark = m.hasCondition("sol_frozen_atmosphere") ? "FROZEN"
+                        : m.hasCondition("sol_tenous_atmosphere") ? "TENOUS"
                         : "      ";
                 atmState = String.format(" [atm%d %s%s%s]", lvl, mark,
                         lampWarm ? " L" : "  ",

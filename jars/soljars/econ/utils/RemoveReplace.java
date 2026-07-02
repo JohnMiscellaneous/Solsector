@@ -33,6 +33,8 @@ public class RemoveReplace {
                         
                         if (!market.hasCondition(replaceId)) {
                             market.addCondition(replaceId);
+                            MarketConditionAPI addedCondition = market.getSpecificCondition(replaceId);
+                            if (addedCondition != null) addedCondition.setSurveyed(true);
                             added = true;
                         }
                         

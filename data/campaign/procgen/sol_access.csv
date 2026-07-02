@@ -8,3 +8,4 @@ sol_space_ladder,0.1,-0.3
 sol_space_elevator_nearby,0.1,-0.1
 sol_jump_point_nearby,0.1,
 sol_tidal_lock,,-0.2
+sol_chaotic_rotator,-0.05,-0.3
