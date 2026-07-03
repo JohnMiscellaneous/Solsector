@@ -1,7 +1,6 @@
 {
     "masterVersionFile": "https://raw.githubusercontent.com/JohnMiscellaneous/Solsector/refs/heads/main/Solsector.version",
     "modName": "Solsector",
-    "modThreadId": 4106,
     "modVersion": {
         "major": 0,
         "minor": 81,

@@ -1,3 +1,21 @@
 Version 0.81.3
 
-various compatability changes
+Gameplay:
+    Added comet condition which gives volatiles when active, applied to charon
+    Added chaotic rotator, applied to Hyperion, Lempo, and Hiisi
+
+Misc:
+    Pluto and Orcus are now retrograde
+    Added icon texture for orbital shipyards
+    Modified grav well generation
+    Redid and named the magnetic fields
+    ProgradeMult now fully changes the system from counterclockwise to clockwise
+
+Compatability and bug fixes:
+    Added integrations for Version checker and TriOS
+    Fixed WideHorizons generation issue
+    Scripting removing and replacing conditions will now survey the condition Added
+    TASC station condition reapplication will now run while paused and update the economy immediatly
+    Addded a few conditions from Random Assortment of Things and Unkown Skies
+    Fixed syntax error where disabling Occult Orbit Beta setting would do nothing
+    Industrial evolution artillery station will now always spawn at Venus.

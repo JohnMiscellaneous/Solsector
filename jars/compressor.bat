@@ -7,7 +7,7 @@ set "SRCROOT=%MOD%\jars"
 set "SRCROOT_FWD=%SRCROOT:\=/%"
 set "JAR_OUT=%SRCROOT%\solsector.jar"
 
-set "CLASSPATH=%STARSECTOR%\starsector-core\starfarer.api.jar;%STARSECTOR%\starsector-core\json.jar;%STARSECTOR%\starsector-core\log4j-1.2.9.jar;%STARSECTOR%\starsector-core\lwjgl_util.jar;%STARSECTOR%\mods\Wide Horizons v1.3.1b\jars\WideHorizons.jar"
+set "CLASSPATH=%STARSECTOR%\starsector-core\starfarer.api.jar;%STARSECTOR%\starsector-core\json.jar;%STARSECTOR%\starsector-core\log4j-1.2.9.jar;%STARSECTOR%\starsector-core\lwjgl_util.jar;%STARSECTOR%\mods\Wide Horizons v1.4.0\jars\WideHorizons.jar"
 
 REM --- Locate 7-Zip ---
 set "SEVENZIP="
@@ -48,7 +48,7 @@ set "ARGFILE=%TEMP%\soljars_files.txt"
     echo "%SRCROOT_FWD%/soljars/econ/conditions/DistOortal.java"
     echo "%SRCROOT_FWD%/soljars/econ/conditions/FrozenAtmosphere.java"
     echo "%SRCROOT_FWD%/soljars/econ/conditions/TenousAtmosphere.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/FrozenAtmospherePolar.java
+    echo "%SRCROOT_FWD%/soljars/econ/conditions/FrozenAtmospherePolar.java"
     echo "%SRCROOT_FWD%/soljars/econ/conditions/FastRotator.java"
     echo "%SRCROOT_FWD%/soljars/econ/conditions/GoblinWorld.java"
     echo "%SRCROOT_FWD%/soljars/econ/conditions/GoblinSubpop.java"
