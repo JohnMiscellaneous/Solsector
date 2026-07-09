@@ -3,7 +3,7 @@ whothflukeisUranus, - planet textures basically everything further than neptune 
 dhtcl4h - farout, 
 qwertygghehlhog - dysonomia, Helene (actually methone)
 Digital Hourglass - vanth, mani
-solarsystemscope.com - eris, makemake, Haumea, Uranus, mercury
+solarsystemscope.com - eris, makemake, Uranus, mercury
 bob3studios - pluto
 trappist1e - charon
 R8.ee - aya
@@ -23,6 +23,8 @@ FarGetaNix - Io, Iapetus
 wdawdawdwdaw - Titan
 Nasa/JPL - Dione
 Kale4Good - Enceladus 
+Astra-Planetshine - Haumea
+MapperPro - Hiiaka (secretly namaka)
 
 Icons:
 Lot of touch ups but I usually work off a base image:

@@ -1051,6 +1051,7 @@ public class CometsCentaursTNOs {
 
         //2002 XV93 | tiny TNO with atmosphere
         SectorEntityToken XV93 = calc.spawnSPSObject(system, star, "2002 XV93", "2002 XV93", "asteroid", showNameProv, 549f, 39.5762f, 0.1261f, 19.0026f, 161.7632f, 2068.73f, zeroDegGlobal, null, 1f);
+        float sz_XV93 = calc.getSize(549f);
 
         if(!transNeptuneShortlist){
             // 2003 UZ413
@@ -1521,7 +1522,9 @@ public class CometsCentaursTNOs {
             "ore_rich",
             "ruins_scattered",
             "dark",
-            "tectonic_activity"
+            "rare_ore_moderate",
+            "volatiles_trace",
+            "sol_jagged_terrain"
         });
 
         Mani.setSkipForJumpPointAutoGen(true);
@@ -2305,7 +2308,7 @@ public class CometsCentaursTNOs {
                 "volatiles_plentiful"
             });
 
-            SolIX.setSkipForJumpPointAutoGen(true);
+            SolIX.setSkipForJumpPointAutoGen(false);
 
             SolIX.getMarket().getMemoryWithoutUpdate().set("$sol_no_freeze", true);
 

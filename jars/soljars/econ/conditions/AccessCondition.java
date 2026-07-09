@@ -11,13 +11,13 @@ import org.json.JSONObject;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.econ.Industry;
 import com.fs.starfarer.api.campaign.SpecialItemData;
-import com.fs.starfarer.api.impl.campaign.econ.BaseMarketConditionPlugin;
+import com.fs.starfarer.api.impl.campaign.econ.BaseHazardCondition;
 import com.fs.starfarer.api.impl.campaign.ids.Industries;
 import com.fs.starfarer.api.impl.campaign.ids.Items;
 import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.util.Misc;
 
-public class AccessCondition extends BaseMarketConditionPlugin {
+public class AccessCondition extends BaseHazardCondition {
 
     private static Map<String, Float> ACCESS_DATA = new HashMap<String, Float>();
     private static Map<String, Float> ELEVATOR_DATA = new HashMap<String, Float>();
@@ -56,6 +56,7 @@ public class AccessCondition extends BaseMarketConditionPlugin {
 
     @Override
     public void apply(String id) {
+        super.apply(id);
         loadData();
 
         String condId = condition.getId();
@@ -65,18 +66,21 @@ public class AccessCondition extends BaseMarketConditionPlugin {
             market.getAccessibilityMod().modifyFlat(id, access, condition.getName());
         }
 
-        String modId = id + "_elevator";
-        Float modifier = ELEVATOR_DATA.get(condId);
-        if (modifier != null && hasFullereneSpoolAtPort()) {
-            market.getAccessibilityMod().modifyFlat(modId, modifier,
-                    condition.getName() + " (Fullerene Tether)");
-        } else {
-            market.getAccessibilityMod().unmodifyFlat(modId);
+        if (!market.isPlanetConditionMarketOnly()) {
+            String modId = id + "_elevator";
+            Float modifier = ELEVATOR_DATA.get(condId);
+            if (modifier != null && hasFullereneSpoolAtPort()) {
+                market.getAccessibilityMod().modifyFlat(modId, modifier,
+                        condition.getName() + " (Fullerene Tether)");
+            } else {
+                market.getAccessibilityMod().unmodifyFlat(modId);
+            }
         }
     }
 
     @Override
     public void unapply(String id) {
+        super.unapply(id);
         market.getAccessibilityMod().unmodifyFlat(id);
         market.getAccessibilityMod().unmodifyFlat(id + "_elevator");
     }
@@ -88,10 +92,12 @@ public class AccessCondition extends BaseMarketConditionPlugin {
 
     private boolean hasFullereneSpoolAtPort() {
         if (market == null) return false;
+        if (market.isPlanetConditionMarketOnly()) return false;
 
         Industry port = market.getIndustry(Industries.SPACEPORT);
         if (port == null) port = market.getIndustry(Industries.MEGAPORT);
         if (port == null) return false;
+        if (!port.isFunctional()) return false;
 
         SpecialItemData sid = port.getSpecialItem();
         if (sid == null) return false;

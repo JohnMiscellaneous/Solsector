@@ -463,7 +463,7 @@ public class CivilisedSubpop extends BaseMarketConditionPlugin implements Econom
         tooltip.addPara("%s Population growth", pad, h, growthStr);
 
         if (stage < STAGE_SMALL_UNION) {
-            tooltip.addPara("%s Upkeep (Diplomatic Burden)", pad, h, "3x");
+            tooltip.addPara("%s Upkeep", pad, h, "3x");
             
             if (size == 6) {
                 tooltip.addPara("%s Population income", pad, h, "1.5x");
@@ -471,13 +471,13 @@ public class CivilisedSubpop extends BaseMarketConditionPlugin implements Econom
                 tooltip.addPara("%s Population income", pad, h, "2x");
             }
         } else {
-            tooltip.addPara("%s Upkeep (Administrative Overhead)", pad, h, "2x");
+            tooltip.addPara("%s Upkeep", pad, h, "2x");
         }
 
         if (stage < STAGE_CONTINENTAL) {
             tooltip.addPara("%s Maximum industries", pad, h, "-1");
         } else if (stage >= STAGE_GLOBAL) {
-            tooltip.addPara("%s Maximum industries (Global Dominance)", pad, h, "+1");
+            tooltip.addPara("%s Maximum industries", pad, h, "+1");
         }
     }
 }

@@ -65,6 +65,7 @@ import soljars.gen.systems.sol.CometsCentaursTNOs;
 import soljars.gen.systems.sol.SolInnit;
 
 import soljars.compat.widehorizons.LocationXY;
+import soljars.compat.industrialevolution.ArtillerySpawnTool;
 
 
 import com.fs.starfarer.api.campaign.CampaignTerrainPlugin;
@@ -465,19 +466,8 @@ public class SolTotal {
         jpPhaethon.setCircularOrbit(Phaethon, 20, 35, 10);
         system.addEntity(jpPhaethon);
 
-        float dist_VenusRaw = 0.7233f;
-        PlanetAPI Venus = (PlanetAPI) calc.spawnSPSObject(system, star, "Venus", "Venus", "toxic", null, 12104f, dist_VenusRaw, 0.0068f, 76.680f, 54.884f, 2025.14f, zeroDegGlobal, null, 1f);
-        Venus.setSkipForJumpPointAutoGen(true);
-        float sz_Venus = Venus.getRadius();
         system.autogenerateHyperspaceJumpPoints(true, false, false);
 
         Global.getSector().addScript(new SolInnit(system, star));
-
-        if (Global.getSettings().getModManager().isModEnabled("IndEvo")) { 
-            Venus.getMarket().addCondition("IndEvo_ArtilleryStationCondition");
-            if(!(remnantHorde==0)){
-                CampaignFleetAPI venusNexus = RemnantNexusFactory.spawnNexus(system, Venus, "remnant_station2_Standard", 72f, sz_Venus * 4f, calc.getTime(10f), 3, 30, 40, null);
-            }
-        }
     }
 }

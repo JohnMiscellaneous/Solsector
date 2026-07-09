@@ -5,7 +5,7 @@ import com.fs.starfarer.api.campaign.PlanetAPI;
 import com.fs.starfarer.api.campaign.SectorEntityToken;
 import com.fs.starfarer.api.campaign.StarSystemAPI;
 
-import soljars.gen.systems.sol.SolInner;
+import soljars.gen.systems.sol.MercuryToNeptune;
 
 public class SolInnit implements EveryFrameScript {
     // Delay the start to avoid cross mod interactions on game start (widehorizons planet orbit changes) (texture changes)
@@ -34,7 +34,7 @@ public class SolInnit implements EveryFrameScript {
         if (done) return;
 
         if (system != null && star != null) {
-            new SolInner().generate(system, (PlanetAPI) star);
+            new MercuryToNeptune().generate(system, (PlanetAPI) star);
         }
 
         done = true;

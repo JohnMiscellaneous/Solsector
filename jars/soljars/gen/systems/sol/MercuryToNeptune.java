@@ -64,11 +64,11 @@ import soljars.gen.systems.sol.GiantMoonsTotal;
 import soljars.gen.systems.sol.CometsCentaursTNOs;
 
 import soljars.compat.widehorizons.LocationXY;
-
+import soljars.compat.industrialevolution.ArtillerySpawnTool;
 
 import com.fs.starfarer.api.campaign.CampaignTerrainPlugin;
 
-public class SolInner {
+public class MercuryToNeptune {
 
     public void generate(StarSystemAPI system, SectorEntityToken star) {
 
@@ -397,6 +397,11 @@ public class SolInner {
             stablePointDetail = Global.getSettings().loadJSON("data/config/sol_settings.json").optInt("Stable_Points_Detail", 0);
         } catch (Exception e) {}
 
+        boolean severalArtilleryStations = true;
+        try {
+            severalArtilleryStations = Global.getSettings().loadJSON("data/config/sol_settings.json").optBoolean("Several_Artillery_Stations", true);
+        } catch (Exception e) {}
+
         // =========================================================================
         // ========================== MERCURY SYSTEM ===============================
         // =========================================================================
@@ -507,7 +512,7 @@ public class SolInner {
         // =========================================================================
         // Venus
         float dist_VenusRaw = 0.7233f;
-        PlanetAPI Venus = (PlanetAPI) system.getEntityById("Venus");
+        PlanetAPI Venus = (PlanetAPI) calc.spawnSPSObject(system, star, "Venus", "Venus", "toxic", null, 12104f, dist_VenusRaw, 0.0068f, 76.680f, 54.884f, 2025.14f, zeroDegGlobal, null, 1f);
         float a_Venus = Venus.getCircularOrbitAngle();
         float sz_Venus = Venus.getRadius();
         float dist_Venus = Venus.getCircularOrbitRadius();
@@ -609,7 +614,7 @@ public class SolInner {
         Earth.getSpec().setRotation(calc.getRot(1f)); 
         Earth.getSpec().setCloudTexture("graphics/planets/clouds_terran03.png"); 
         Earth.getSpec().setCloudColor(new Color(255, 255, 255, 50));
-        Earth.getSpec().setCloudRotation(progradeMult * 10); 
+        Earth.getSpec().setCloudRotation(-progradeMult * 10); 
         Earth.applySpecChanges();
 
         MarketAPI marketEarth = Earth.getMarket();
@@ -750,18 +755,19 @@ public class SolInner {
         lunaL3.setDiscoverable(true);
 
         // Luna Mirrors
+        float LunaMirrorPeriod = calc.getTime(5f);
         SectorEntityToken LunaAlpha = system.addCustomEntity(null, "Luna Mirror Alpha", "stellar_mirror", "neutral");
-        LunaAlpha.setCircularOrbitPointingDown(Luna, 0, sz_Luna * 1.5f, 5);
+        LunaAlpha.setCircularOrbitPointingDown(Luna, 0, sz_Luna * 1.5f, LunaMirrorPeriod);
         LunaAlpha.setDiscoverable(true);
         LunaAlpha.setSensorProfile(1000f);
 
         SectorEntityToken LunaBeta = system.addCustomEntity(null, "Luna Mirror Beta", "stellar_mirror", "neutral");
-        LunaBeta.setCircularOrbitPointingDown(Luna, 120, sz_Luna * 1.5f, 5);
+        LunaBeta.setCircularOrbitPointingDown(Luna, 120, sz_Luna * 1.5f, LunaMirrorPeriod);
         LunaBeta.setDiscoverable(true);
         LunaBeta.setSensorProfile(1000f);
 
         SectorEntityToken LunaGamma = system.addCustomEntity(null, "Luna Mirror Gamma", "stellar_mirror", "neutral");
-        LunaGamma.setCircularOrbitPointingDown(Luna, 240, sz_Luna * 1.5f, 5);
+        LunaGamma.setCircularOrbitPointingDown(Luna, 240, sz_Luna * 1.5f, LunaMirrorPeriod);
         LunaGamma.setDiscoverable(true);
         LunaGamma.setSensorProfile(1000f);
 
@@ -884,7 +890,7 @@ public class SolInner {
         Mars.getSpec().setRotation(calc.getRot(1.027f)); 
         Mars.getSpec().setCloudTexture("graphics/planets/clouds_mars.png"); 
         Mars.getSpec().setCloudColor(new Color(255, 200, 150, 50)); 
-        Mars.getSpec().setCloudRotation(progradeMult * 9); 
+        Mars.getSpec().setCloudRotation(-progradeMult * 9); 
         Mars.applySpecChanges(); 
 
         Mars.setSkipForJumpPointAutoGen(true);
@@ -1127,7 +1133,7 @@ public class SolInner {
         // =========================================================================
 
         // --- Terrain ---
-        calc.smartBelt(system, star, "Hungarians",     gen_Hungarians, calc.getDist(1.84f, star), calc.getDist(1.95f, star), calc.getTime(950f),  calc.getTime(1150f));
+        calc.smartBelt(system, star, "Hungarians",     gen_Hungarians, calc.getDist(1.84f, star), calc.getDist(1.95f, star), calc.getTime(950f), calc.getTime(1150f));
         calc.smartBelt(system, star, "Inner Belt",     gen_InnerBelt,  calc.getDist(2.15f, star), calc.getDist(2.40f, star), calc.getTime(1150f), calc.getTime(1350f));
         calc.smartBelt(system, star, "Main Belt Core", gen_CoreBelt,   calc.getDist(2.55f, star), calc.getDist(2.80f, star), calc.getTime(1550f), calc.getTime(1750f));
         calc.smartBelt(system, star, "Outer Belt",     gen_OuterBelt,  calc.getDist(2.9f, star),  calc.getDist(3.2f, star),  calc.getTime(1950f), calc.getTime(2200f));
@@ -1678,7 +1684,7 @@ public class SolInner {
         Jupiter.getSpec().setRotation(calc.getRot(.416f)); 
         Jupiter.getSpec().setCloudTexture("graphics/planets/clouds_banded01.png"); 
         Jupiter.getSpec().setCloudColor(new Color(255, 250, 240, 80)); 
-        Jupiter.getSpec().setCloudRotation(progradeMult * 20.0f); 
+        Jupiter.getSpec().setCloudRotation(-progradeMult * 20.0f); 
         Jupiter.applySpecChanges(); 
 
         calc.addConditions(Jupiter.getMarket(), new String[] {
@@ -2514,7 +2520,7 @@ public class SolInner {
 
         // Mimas
         float p_Mimas = calc.getTimeGiant(0.942f);
-        PlanetAPI Mimas = (PlanetAPI) calc.spawnIrregularBody3(system, Saturn, "Mimas", "Mimas", "barren-bombarded", null, 396f, 0.001243f, 0.02f, 275.3f, 160.4f, 2000.0f, zeroDegGlobal, null, 0.0002857f, p_Mimas, "Saturn", false);
+        PlanetAPI Mimas = (PlanetAPI) calc.spawnIrregularBody3(system, Saturn, "Mimas", "Mimas", "rocky_ice", null, 396f, 0.001243f, 0.02f, 275.3f, 160.4f, 2000.0f, zeroDegGlobal, null, 0.0002857f, p_Mimas, "Saturn", false);
 
         Mimas.getSpec().setTexture("graphics/planets/mimas_tx.jpg");
         Mimas.getSpec().setAtmosphereThickness(0f);
@@ -3168,7 +3174,8 @@ public class SolInner {
             "sol_loose_bioweapon",
             "sol_ai_terminators",
             "sol_tidal_lock",
-            "sol_insurgent_network_desperate"
+            "sol_insurgent_network_desperate",
+            "sol_jagged_terrain"
         });
 
         Miranda.setSkipForJumpPointAutoGen(true);
@@ -3497,9 +3504,9 @@ public class SolInner {
         Triton.getSpec().setTexture("graphics/planets/triton_tx.jpg");
         Triton.getSpec().setAtmosphereThickness(0.05f);
         Triton.getSpec().setAtmosphereColor(new Color(255, 230, 230, 40));
-        Triton.getSpec().setCloudTexture("graphics/planets/clouds_white.png");
-        Triton.getSpec().setCloudColor(new Color(255, 255, 255, 20));
-        Triton.getSpec().setCloudRotation(-0.5f);
+        Triton.getSpec().setCloudTexture("graphics/planets/clouds_mars.png");
+        Triton.getSpec().setCloudColor(new Color(255, 255, 255, 100));
+        Triton.getSpec().setCloudRotation(progradeMult * 0.5f);
         Triton.getSpec().setIconColor(new Color(137, 184, 218, 255));
         Triton.getSpec().setTilt(28.3f);
         Triton.getSpec().setPitch(90f);
@@ -3770,6 +3777,9 @@ public class SolInner {
         SectorEntityToken Orcus = system.getEntityById("Orcus");
         SectorEntityToken Haumea = system.getEntityById("Haumea");
 
+        SectorEntityToken jpPhaethon = system.getEntityById("jp_phaethon");
+        jpPhaethon.setSkipForJumpPointAutoGen(true);
+
         if(!Uranus_And_Neptune_Have_Normal_Gravity){
             Makemake.getMarket().addCondition("low_gravity");
             Sedna.getMarket().addCondition("low_gravity");
@@ -3843,9 +3853,14 @@ public class SolInner {
             SunYards.setDiscoverable(true); 
             SunYards.setSensorProfile(4000f);
 
-            Mercury.getMarket().addCondition("IndEvo_ArtilleryStationCondition");
-            Luna.getMarket().addCondition("IndEvo_ArtilleryStationCondition");
-            Mars.getMarket().addCondition("IndEvo_ArtilleryStationCondition");
+            ArtillerySpawnTool.spawnArtilleryStation(Luna.getMarket(), "remnant", "mortar");
+            if(severalArtilleryStations){ // kinda buggy?
+                ArtillerySpawnTool.spawnArtilleryStation(Callisto.getMarket(), "pirates", "railgun");
+                ArtillerySpawnTool.spawnArtilleryStation(Mercury.getMarket(), "remnant", "missile");
+            } else {
+                Luna.getMarket().addCondition("IndEvo_ArtilleryStationCondition");
+                Callisto.getMarket().addCondition("IndEvo_ArtilleryStationCondition");
+            }
 
             SectorEntityToken watchtowerZoozve= system.addCustomEntity(null , null, "IndEvo_Watchtower", "remnant");
             watchtowerZoozve.setCircularOrbitPointingDown(Zoozve, 0, 50, calc.getTime(10f));

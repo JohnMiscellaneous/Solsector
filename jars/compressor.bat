@@ -5,9 +5,10 @@ set "STARSECTOR=C:\Program Files (x86)\Fractal Softworks\Starsector"
 set "MOD=%STARSECTOR%\mods\Solsector"
 set "SRCROOT=%MOD%\jars"
 set "SRCROOT_FWD=%SRCROOT:\=/%"
+set "CLSROOT=%SRCROOT%\classes"
 set "JAR_OUT=%SRCROOT%\solsector.jar"
 
-set "CLASSPATH=%STARSECTOR%\starsector-core\starfarer.api.jar;%STARSECTOR%\starsector-core\json.jar;%STARSECTOR%\starsector-core\log4j-1.2.9.jar;%STARSECTOR%\starsector-core\lwjgl_util.jar;%STARSECTOR%\mods\Wide Horizons v1.4.0\jars\WideHorizons.jar"
+set "CLASSPATH=%STARSECTOR%\starsector-core\starfarer.api.jar;%STARSECTOR%\starsector-core\json.jar;%STARSECTOR%\starsector-core\log4j-1.2.9.jar;%STARSECTOR%\starsector-core\lwjgl_util.jar;%STARSECTOR%\mods\Wide Horizons v1.4.0\jars\WideHorizons.jar;%STARSECTOR%\mods\Industrial.Evolution-4.1.b\jars\IndEvo.jar"
 
 REM --- Locate 7-Zip ---
 set "SEVENZIP="
@@ -21,6 +22,8 @@ if not defined SEVENZIP (
 set "ARGFILE=%TEMP%\soljars_files.txt"
 > "%ARGFILE%" (
     echo "%SRCROOT_FWD%/soljars/compat/widehorizons/LocationXY.java"
+    echo "%SRCROOT_FWD%/soljars/compat/industrialevolution/ArtilleryFactionScript.java"
+    echo "%SRCROOT_FWD%/soljars/compat/industrialevolution/ArtillerySpawnTool.java"
     echo "%SRCROOT_FWD%/soljars/econ/utils/IntelHelper.java"
     echo "%SRCROOT_FWD%/soljars/econ/utils/IndustryCompat.java"
     echo "%SRCROOT_FWD%/soljars/econ/utils/Apocalypse.java"
@@ -50,6 +53,7 @@ set "ARGFILE=%TEMP%\soljars_files.txt"
     echo "%SRCROOT_FWD%/soljars/econ/conditions/TenousAtmosphere.java"
     echo "%SRCROOT_FWD%/soljars/econ/conditions/FrozenAtmospherePolar.java"
     echo "%SRCROOT_FWD%/soljars/econ/conditions/FastRotator.java"
+    echo "%SRCROOT_FWD%/soljars/econ/conditions/JaggedTerrain.java"
     echo "%SRCROOT_FWD%/soljars/econ/conditions/GoblinWorld.java"
     echo "%SRCROOT_FWD%/soljars/econ/conditions/GoblinSubpop.java"
     echo "%SRCROOT_FWD%/soljars/econ/conditions/InsurgentNetwork.java"
@@ -95,14 +99,29 @@ set "ARGFILE=%TEMP%\soljars_files.txt"
     echo "%SRCROOT_FWD%/soljars/gen/systems/sol/GiantMoonsTotal.java"
     echo "%SRCROOT_FWD%/soljars/gen/systems/sol/SolTotal.java"
     echo "%SRCROOT_FWD%/soljars/gen/systems/sol/SolInnit.java"
-    echo "%SRCROOT_FWD%/soljars/gen/systems/sol/SolInner.java"
+    echo "%SRCROOT_FWD%/soljars/gen/systems/sol/MercuryToNeptune.java"
 )
 
 echo.
+echo === Cleaning classes dir ===
+echo.
+
+REM Wipe and recreate so no stale .class files ever survive a build
+if exist "%CLSROOT%" rmdir /s /q "%CLSROOT%"
+if exist "%CLSROOT%" (
+    echo.
+    echo ERROR: could not clear "%CLSROOT%" - a file is locked or in use.
+    echo Close anything holding it open ^(Starsector, an editor^) and retry.
+    echo.
+    pause
+    endlocal & exit /b 1
+)
+mkdir "%CLSROOT%"
+
 echo === Compiling ===
 echo.
 
-javac -d "%SRCROOT%" -classpath "%CLASSPATH%" -sourcepath "%SRCROOT%" "@%ARGFILE%"
+javac -d "%CLSROOT%" -classpath "%CLASSPATH%" -sourcepath "%SRCROOT%" "@%ARGFILE%"
 set "JAVAC_ERR=%ERRORLEVEL%"
 
 del "%ARGFILE%"
@@ -129,9 +148,10 @@ if not defined SEVENZIP (
 REM Delete existing jar so we get a fresh archive instead of an update-merge
 if exist "%JAR_OUT%" del /q "%JAR_OUT%"
 
-REM Zip the CONTENTS of the soljars folder (note the \soljars\* pattern) so
-REM package paths sit at the jar root. -tzip = ZIP format (jar is a zip).
-pushd "%SRCROOT%"
+REM Zip the CONTENTS of the classes\soljars folder so package paths sit at the
+REM jar root. Sourcing from classes\ means only .class files are packaged;
+REM .java sources never leak into the jar. -tzip = ZIP format (jar is a zip).
+pushd "%CLSROOT%"
 "%SEVENZIP%" a -tzip -mx=9 -r "%JAR_OUT%" "soljars\*"
 set "ZIP_ERR=%ERRORLEVEL%"
 popd

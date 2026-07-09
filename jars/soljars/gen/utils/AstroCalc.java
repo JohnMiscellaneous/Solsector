@@ -256,7 +256,9 @@ public SectorEntityToken smartBelt(StarSystemAPI system, SectorEntityToken paren
         String name, int count, float inner, float outer, float minOrbitDays, float maxOrbitDays) {
     float width = outer - inner;
     float radius = (inner + outer) / 2f;
-    return system.addAsteroidBelt(parent, count, radius, width, minOrbitDays, maxOrbitDays, Terrain.ASTEROID_BELT, name);
+    float lo = Math.min(minOrbitDays, maxOrbitDays);
+    float hi = Math.max(minOrbitDays, maxOrbitDays);
+    return system.addAsteroidBelt(parent, count, radius, width, lo, hi, Terrain.ASTEROID_BELT, name);
 }
 
 // --- SMART MAGNETIC FIELD ---

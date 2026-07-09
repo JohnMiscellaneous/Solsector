@@ -31,6 +31,8 @@
     "Scale_With_Map_Size": true,
     ## overides the prior settings and makes sol random
     "Random_Location": false,
+    ## with industrial evolution spawns several artillery stations, even if the eye bugs out
+    "Several_Artillery_Stations": true,
 
     ## ======================================================
     ## ======= What entities to generate? ===================
