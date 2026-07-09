@@ -170,7 +170,7 @@
     "giantTimeExt": 10,
     "giantTimeInt": 0.8,
 
-    "progradeMult": -1, ## in progress
+    "progradeMult": -1,
 
     ## Bad math warning
     ## ext(log(int * km + 1)) + (sqrt(km) / 1 + (sizeDenom * km)) + sizeConst + Lin * Km

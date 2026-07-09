@@ -112,4 +112,4 @@ Extreme Comet,sol_comet_extreme,,TRUE,,soljars.econ.conditions.CometExtreme,,gra
 Active Comet,sol_comet_active,,TRUE,,soljars.econ.conditions.CometActive,,graphics/icons/markets/sol_comet_active.png,9999
 Inactive Comet,sol_comet_inactive,,TRUE,,soljars.econ.conditions.CometInactive,,graphics/icons/markets/sol_comet_inactive.png,9999
 ,,,,,,,,
-Jagged Terrain,sol_jagged_terrain,,TRUE,,soljars.econ.conditions.JaggedTerrain,"The surface of $market is exceptionally rough, complicating surface transportation to a near infeasable degree.",graphics/icons/markets/sol_jagged_terrain.png,26
+Rough Terrain,sol_jagged_terrain,,TRUE,,soljars.econ.conditions.JaggedTerrain,"The surface of $market is exceptionally rough, complicating surface transportation to a near infeasable degree.",graphics/icons/markets/sol_jagged_terrain.png,26
