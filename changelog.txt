@@ -1,9 +1,10 @@
 Version 0.81.4
 Misc:
-    Added a setting to disable some of the more memey things like Biden and the Goblin.
+    Added a setting to disable some of the more memey things.
+    Fixed Phoebe jump point period
+    Changed Haumea's texture
 
 Version 0.81.3
-
 Gameplay:
     Added comet condition which gives volatiles when active, applied to charon
     Added chaotic rotator and rough terrain conditions
