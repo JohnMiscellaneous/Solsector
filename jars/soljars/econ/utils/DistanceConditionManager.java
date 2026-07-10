@@ -17,16 +17,7 @@ import com.fs.starfarer.api.impl.campaign.ids.Industries;
 import com.fs.starfarer.api.impl.campaign.ids.Items;
 import com.fs.starfarer.api.util.Misc;
 
-/**
- * Manages distance-based market conditions and atmosphere freeze/thaw.
- *
- * Registry storage: a List<String> of market IDs kept in sector memory under
- * MEM_REGISTRY. Single source of truth, persisted across saves natively by
- * sector memory. No transient state, no tag scans, no init-order fragility.
- *
- * track(market) appends the ID. The monthly listener reads the list,
- * resolves each via Economy.getMarket(id), and acts.
- */
+// Manages atmosphere freezing, comets, and the distance conditions
 public class DistanceConditionManager implements EconomyTickListener {
 
     public static final String MEM_REGISTRY = "$sol_dcm_registry";  // List<String>
@@ -125,11 +116,6 @@ public class DistanceConditionManager implements EconomyTickListener {
         }
     }
 
-    /** Resolve registry IDs to actual market objects. Economy.getMarket(id)
-     *  only finds COLONIZED markets - uncolonized PCMs (Pluto, Eris, etc.)
-     *  live on PlanetAPI.getMarket() but aren't in the economy. So we build
-     *  a full id->market map by walking both sources, then look up each
-     *  registry ID against it. */
     private static List<MarketAPI> resolveAll() {
         // Build id -> market index from every market we can find in the sector.
         java.util.Map<String, MarketAPI> index = new java.util.HashMap<>();
@@ -196,8 +182,6 @@ public class DistanceConditionManager implements EconomyTickListener {
                 "[DCM] ===== monthly hook done =====");
     }
 
-    /** Compact one-line snapshot of all DCM-relevant state on a market.
-     *  Used to log only the bodies that actually changed each tick. */
     private static String stateSnapshot(MarketAPI m) {
         StringBuilder sb = new StringBuilder();
         sb.append(currentBand(m));
@@ -372,12 +356,6 @@ public class DistanceConditionManager implements EconomyTickListener {
         syncAtmosphereMarkers(market, nextLevel, atmLevel, shouldFreeze);
     }
 
-    /** Sync the FROZEN/TENOUS display markers and strip habitable/toxic/weather
-     *  while the body is below its true atmosphere level. Display rules:
-     *  - observed == atmLevel: TENOUS only.
-     *  - 0 < observed < atmLevel: TENOUS + FROZEN.
-     *  - observed == 0: FROZEN only.
-     */
     private static void syncAtmosphereMarkers(MarketAPI market, int observed,
                                               int atmLevel, boolean shouldFreeze) {
         // Strip habitable/toxic/weather whenever the body is below its true
@@ -398,10 +376,6 @@ public class DistanceConditionManager implements EconomyTickListener {
         if (!wantTenous && market.hasCondition("sol_tenous_atmosphere")) market.removeCondition("sol_tenous_atmosphere");
     }
 
-    /** Set the visible atmosphere conditions to match a given level (0/1/2/3).
-     *  Strips all three vanilla atmosphere conditions, then adds the one matching
-     *  the target level. Level 2 has no condition (vanilla "normal atmosphere"
-     *  is the absence of thin/dense/none). */
     private static void applyAtmosphereLevel(MarketAPI market, int level) {
         if (market.hasCondition("no_atmosphere"))    market.removeCondition("no_atmosphere");
         if (market.hasCondition("thin_atmosphere"))  market.removeCondition("thin_atmosphere");
@@ -417,9 +391,6 @@ public class DistanceConditionManager implements EconomyTickListener {
         // level == 2: absence of conditions = normal atmosphere.
     }
 
-    /** Send a campaign message to the player if and only if the market is
-     *  player-owned. Used by reconcile to surface band / overlay / atmosphere
-     *  transitions on player colonies. */
     private static void notify(MarketAPI market, String msg) {
         if (market == null || !market.isPlayerOwned()) return;
         Global.getSector().getCampaignUI().addMessage(msg, Misc.getHighlightColor());
@@ -486,9 +457,6 @@ public class DistanceConditionManager implements EconomyTickListener {
         return 2;
     }
 
-    /** Detect an orbital fusion lamp on the population industry. Solar arrays
-     *  are deliberately ignored here - they're insufficient warmth to drive
-     *  the full freeze/thaw cycle. */
     public static boolean hasFusionLamp(MarketAPI market) {
         if (market == null) return false;
         Industry pop = market.getIndustry(Industries.POPULATION);

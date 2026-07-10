@@ -141,6 +141,10 @@ public class MercuryToNeptune {
             generateElevators = Global.getSettings().loadJSON("data/config/sol_settings.json").optBoolean("Generate_Space_Elevators", true);
         } catch (Exception e) {}
 
+        boolean transNeptuneMemes = true;
+        try {
+            transNeptuneMemes = Global.getSettings().loadJSON("data/config/sol_settings.json").optBoolean("Trans_Neptunian_Memes", true);
+        } catch (Exception e) {}
 
 
         // Object Generation Settings
@@ -2886,7 +2890,7 @@ public class MercuryToNeptune {
 
         JumpPointAPI jp_phoebe = Global.getFactory().createJumpPoint("jp_phoebe", "Phoebe Jump Point");
         jp_phoebe.setStandardWormholeToHyperspaceVisual();
-        jp_phoebe.setCircularOrbit(Phoebe, 0, 100, 10);
+        jp_phoebe.setCircularOrbit(Phoebe, 0, 100, calc.getTime(10f));
         system.addEntity(jp_phoebe);
 
         // Inuit Group ------------------------------------------------------------

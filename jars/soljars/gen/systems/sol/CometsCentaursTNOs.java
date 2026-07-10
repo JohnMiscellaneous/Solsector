@@ -136,6 +136,10 @@ public class CometsCentaursTNOs {
             generateElevators = Global.getSettings().loadJSON("data/config/sol_settings.json").optBoolean("Generate_Space_Elevators", true);
         } catch (Exception e) {}
 
+        boolean transNeptuneMemes = true;
+        try {
+            transNeptuneMemes = Global.getSettings().loadJSON("data/config/sol_settings.json").optBoolean("Trans_Neptunian_Memes", true);
+        } catch (Exception e) {}
 
 
         // Object Generation Settings
@@ -1954,10 +1958,11 @@ public class CometsCentaursTNOs {
             "volatiles_trace",
             "ore_sparse",
             "ruins_widespread",
-            "sol_unpronounceable",
             "sol_automated_habitats"
         });
-
+        if(transNeptuneMemes){
+            Gkun.getMarket().addCondition("sol_unpronounceable");
+        }
         Gkun.setSkipForJumpPointAutoGen(true);
 
         // Goehu
@@ -2066,8 +2071,13 @@ public class CometsCentaursTNOs {
         Sedna.getMemoryWithoutUpdate().set("$sol_orbit_min_au", 76.19f);
         Sedna.getMemoryWithoutUpdate().set("$sol_orbit_max_au", 937f);
 
+        String goblinName = "The Goblin";
+        if(!(transNeptuneMemes)){
+            goblinName = "Leleakuhonua";
+        }
+
         // The Goblin | AKA lekuaksaorhuasifhbsjhvg4ryt | AKA Leleakuhonua (a and u are held constant) | AKA 541132 | AKA 2015 TG387
-        PlanetAPI Goblin = (PlanetAPI) calc.spawnSPSObject(system, star, "Goblin", "The Goblin", "frozen", null, 220f, 1389.3517f, 0.94572f, 301.134f, 118.130f, 2078.58f, zeroDegGlobal, null, 1f);
+        PlanetAPI Goblin = (PlanetAPI) calc.spawnSPSObject(system, star, "Goblin", goblinName, "frozen", null, 220f, 1389.3517f, 0.94572f, 301.134f, 118.130f, 2078.58f, zeroDegGlobal, null, 1f);
 
         Goblin.getSpec().setTexture("graphics/planets/goblin_tx.jpg"); 
         Goblin.getSpec().setPlanetColor(new Color(255, 220, 200, 255));
@@ -2084,23 +2094,28 @@ public class CometsCentaursTNOs {
             "dark",
             "low_gravity",
             "organics_abundant",
-            "inimical_biosphere",
-            "sol_goblin_world",
+            "inimical_biosphere"
+            
         });
-
+        if(transNeptuneMemes){
+            Goblin.getMarket().addCondition("sol_goblin_world");
+        }
         Goblin.setSkipForJumpPointAutoGen(true);
-
         Goblin.getMarket().getMemoryWithoutUpdate().set("$sol_no_freeze", true);
 
         DistanceConditionManager.track(Goblin.getMarket());
         Goblin.getMemoryWithoutUpdate().set("$sol_orbit_min_au", 64.7f);
         Goblin.getMemoryWithoutUpdate().set("$sol_orbit_max_au", 2714f);
 
+        String bidenName = "Biden";
+        if(!(transNeptuneMemes)){
+            bidenName = "VP";
+        }
         // The IAU should lock in this name. To me at least, Biden is a diety.
         // Biden (2012 VP113)
         // Ironic humor trigger warning. You gotta be careful because in this polarized society there probably is someone who believes biden is one of the eponymous "old ones" from lovecraft's work.
         // 1000km cuz I feelz like it. you can't spell Assumed albedo without ASS
-        PlanetAPI Biden = (PlanetAPI) calc.spawnSPSObject(system, star, "Biden", "Biden", "frozen", null, 1000f, 269.7334f, 0.7011f, 90.902f, 294.290f, 1979.89f, zeroDegGlobal, null, 1f);
+        PlanetAPI Biden = (PlanetAPI) calc.spawnSPSObject(system, star, "Biden", bidenName, "frozen", null, 1000f, 269.7334f, 0.7011f, 90.902f, 294.290f, 1979.89f, zeroDegGlobal, null, 1f);
         Biden.getSpec().setTexture("graphics/planets/biden_tx.jpg"); 
         Biden.getSpec().setAtmosphereThickness(0f); 
         Biden.getSpec().setAtmosphereThicknessMin(0f); 
@@ -2119,12 +2134,13 @@ public class CometsCentaursTNOs {
             "ore_sparse",
             "very_cold",
             "dark",
-            "sol_pre_domain_sapience", // This reflects my unironic political beliefs.\
             "thin_atmosphere"
         });
+        if(transNeptuneMemes){
+           Biden.getMarket().addCondition("sol_pre_domain_sapience"); // This reflects my unironic political beliefs.\
+        }
 
         Biden.setSkipForJumpPointAutoGen(true);
-
         Biden.setCustomDescriptionId("sol_biden");
 
         SectorEntityToken BidenBeacon = system.addCustomEntity(null, null, "warning_beacon", "neutral");
@@ -2189,7 +2205,7 @@ public class CometsCentaursTNOs {
             "low_gravity",
             "no_atmosphere",
             "volatiles_trace",
-            "ore_sparse",
+            "ore_sparse"
         });
 
         Farfarout.setSkipForJumpPointAutoGen(true);

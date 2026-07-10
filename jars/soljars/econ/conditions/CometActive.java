@@ -37,12 +37,12 @@ public class CometActive extends BaseMarketConditionPlugin {
         }
 
         Industry fuel = IndustryCompat.getFuelProduction(market);
-        if (hasInstalledItem(fuel, SYNCHROTRON_CORE)) {
+        if (hasInstalledItem(fuel, SYNCHROTRON_CORE) && fuel.isFunctional()) {
             fuel.getSupply(Commodities.FUEL).getQuantity().modifyFlat(id, -1, desc);
         }
 
         Industry refining = IndustryCompat.getRefining(market);
-        if (hasInstalledItem(refining, CATALYTIC_CORE)) {
+        if (hasInstalledItem(refining, CATALYTIC_CORE) && refining.isFunctional()) {
             refining.getSupply(Commodities.METALS).getQuantity().modifyFlat(id, -1, desc);
             refining.getSupply(Commodities.RARE_METALS).getQuantity().modifyFlat(id, -1, desc);
         }

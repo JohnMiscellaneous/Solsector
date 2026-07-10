@@ -1,3 +1,7 @@
+Version 0.81.4
+Misc:
+    Added a setting to disable some of the more memey things like Biden and the Goblin.
+
 Version 0.81.3
 
 Gameplay:
@@ -17,9 +21,12 @@ Compatability and bug fixes:
     Added integrations for Version checker and TriOS.
     Fixed WideHorizons generation issue.
     Scripting removing and replacing conditions will now survey the condition Added.
-    TASC station condition reapplication will now run while paused and update the economy immediatly.
+    TASC station condition reapplication will now run while paused and update the economy immediatly, rather than end of day.
     Addded a few conditions from Random Assortment of Things and Unkown Skies.
     Fixed syntax error where disabling Occult Orbit Beta setting would do nothing.
     Fixed random artillery station placement.
     Cleaned up some old scripting.
-    Fixed Mimas not allowing subsurface ocean
+    Fixed Mimas not allowing subsurface ocean.
+    AccessCondition conditions like Orbital Ring will now be factored by the precolonization access tooltip and other similar things in the intel menu.
+    AccessCondition now only applies the fullurene spool debuff when the spaceport is operational.
+    

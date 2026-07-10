@@ -34,6 +34,9 @@
     ## with industrial evolution spawns several artillery stations, even if the eye bugs out
     "Several_Artillery_Stations": true,
 
+    ## disables some of the more memey things
+    "Trans_Neptunian_Memes": false,
+
     ## ======================================================
     ## ======= What entities to generate? ===================
     ## ======================================================
