@@ -80,15 +80,13 @@ public class SolDeferredSetupScript implements EveryFrameScript {
                 isSettled = mem.getBoolean(MEM_LATCHED_SETTLED);
             } else {
                 try {
-                    isSettled = Global.getSettings().loadJSON("data/config/sol_settings.json")
-                            .optBoolean("Generate_Settled_Planets", true);
+                    isSettled = Global.getSettings().loadJSON("data/config/sol_settings.json").optBoolean("Generate_Settled_Planets", true);
                 } catch (Exception e) {
                     isSettled = true;
                 }
             }
             try {
-                mercuryCold = Global.getSettings().loadJSON("data/config/sol_settings.json")
-                        .optBoolean("Mercury_And_Venus_Have_Poor_Light", true); // important for eros
+                mercuryCold = Global.getSettings().loadJSON("data/config/sol_settings.json").optBoolean("Mercury_And_Venus_Have_Poor_Light", true); // important for eros
             } catch (Exception e) {
                 mercuryCold = true;
             }
@@ -96,15 +94,9 @@ public class SolDeferredSetupScript implements EveryFrameScript {
         }
 
         boolean discoveryDone = mem.getBoolean(MEM_DISCOVERY);
-        if (!discoveryDone) {
-            if (!isSettled) {
-                mem.set(MEM_DISCOVERY, true);
-                discoveryDone = true;
-            } else {
-                discoveryDone = checkDiscovery(mem); // checks if Sol gate discovered for the detonation of soleconomies
-            }
+        if(!discoveryDone){
+            discoveryDone = checkDiscovery(mem); // checks if Sol gate discovered for the detonation of soleconomies
         }
-
         boolean doneVulcan   = mem.getBoolean(MEM_VULCAN);
         boolean doneVanera   = mem.getBoolean(MEM_VANERA);
         boolean doneIss      = mem.getBoolean(MEM_ISS);
@@ -157,8 +149,11 @@ public class SolDeferredSetupScript implements EveryFrameScript {
         if (lunaL3.isDiscoverable()) {
             return false;
         }
-
+        if(isSettled){
         new SolEconomies().generate(system);
+        }
+        new RemnantHordeGen().generate(system);
+
         mem.set(MEM_DISCOVERY, true);
         return true;
     }

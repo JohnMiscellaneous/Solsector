@@ -13,6 +13,8 @@ import soljars.gen.systems.sol.SolTotal;
 import soljars.gen.systems.sol.SolDeferredSetupScript;
 import soljars.econ.utils.DistanceConditionManager;
 import soljars.gen.systems.sol.SolEconomies;
+import soljars.gen.utils.SurveyUpdater;
+import soljars.gen.utils.NameGuard;
 
 public class SolModPlugin extends BaseModPlugin {
 
@@ -65,5 +67,7 @@ public class SolModPlugin extends BaseModPlugin {
 
         Global.getSector().addTransientScript(new SolDeferredSetupScript());
         DistanceConditionManager.install();
+        SurveyUpdater.install();
+        NameGuard.install();
     }
 }

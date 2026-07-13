@@ -1,7 +1,8 @@
 id,type,text1,text2,text3,text4,text5,notes
 sol_asteroid,CUSTOM,"A pitted chunk of metal, ice, or rock hurtling through space. Mainly significant for being a navigational hazard.",,,,,
 ,,,,,,,
-sol_sol,,,,,,,
+sol_sol,CUSTOM,"Lol Imagine I actually give the major bodies a description
+- unkown mod author before giving a description for (738591294) 2015 ZZ192, the .03 km asteroid between Mercury and Farfarout",,,,,
 ,,,,,,,
 sol_vulcanshunt,,,,,,,
 sol_vulcan_station,CUSTOM,"""             If man is of nature.
@@ -31,9 +32,30 @@ sol_earthsensors,,,,,,,
 sol_earthnav,,,,,,,
 ,,,,,,,
 sol_mars,,,,,,,
-sol_phobos,,,,,,,
+sol_phobos,CUSTOM,"""Over the moon and far away,
+ A naval observatory finds a moon one day.
+ Then in a land across a curtain
+ There lives a physicist and mathematician.
+
+He ran the numbers and had to say:
+Phobos' orbit is decaying at too fast a speed for it to be a solid body, therefore it must be hollow and an artificial creation. 
+And apparently his words had sway,
+For his mother nation would one day
+
+Send three probes Phobos' way.
+These probes would in time
+Fail one by one, three times.
+In oh such a suspicious way.
+
+Then came another day.
+And a fourth probe would come, from ESA.
+It would study, and study some more,
+Till it was finally time to say:
+
+Phobos is a dusty rubble pile and remnant of a cyclic pattern of a once-larger moon of Mars which was captured, decayed, disintegrated, reformed, decayed, disintegrated until the last remnants were that of Phobos and Deimos... That or a captured asteroid... Or an alien spaceship - that obelisk does look spooky. Or it formed with Mars.""
+   -   John H. Johnnylim's Book of Poems on the History of the Survey of Lesser Astronomical Bodies in the Solar System, for Children, LLM hallucination, 2030.",,,,,
 sol_deimos,,,,,,,
-sol_eureka,CUSTOM,"""Look at you, you voyeur, quietly watching from your stable little pocket, I’ve seen you watching for the past billion years, and I’ve had enough of it.
+sol_eureka,CUSTOM,"""Look at you, you voyeur, quietly watching from your stable little pocket, I've seen you watching for the past millions of years, and I've had enough of it.
 
 Eureka began spinning faster and faster and faster, at first he was dizzy, then things felt better, until they got blurry and he started vomiting.""
 
@@ -84,9 +106,11 @@ Summertime here is probably unpleasant.",,,,,summertime on icarus
 ,,,,,,,
 sol_eros,,,,,,,
 ,,,,,,,
-sol_ganymed_asteroid,,,,,,,beat europa in the non jovian asteroid society 
+sol_ganymed_asteroid,CUSTOM,"If n people can do something, surely then its no issue for n+1 people to do something. According to the children's story, that must've been the philosophy corrupting the mind of ganymed's discoverer, who after the discoverer of EuropaTheAsteroid bought their akeldama, the discoverer of Ganymed tarnished the heavens oncemore with the profanation of copying and misspelling, long after the Jovian moon names were accepted.
+
+Ganymed today lies, in spite of its size and close distance to Sol's center, barren, its prospective settlers correctly being dissuaded by the cursed land Ganymed sits on, one where nothing will grow.",,,,,beat europa in the non jovian asteroid society 
 ,,,,,,,
-sol_don_quixote,,,,,,,something poetic (dead comet)
+sol_don_quixote,CUSTOM,"After the domain idealism burns bright, and burns fast. Don Quixote, named after a legendary fictional ideologue, is nothing but a remnant of its once brilliant cometary past. Its surface rendered to innert stone before its performance was ever witnessed by the eyes of man.",,,,,something poetic (dead comet)
 ,,,,,,,
 sol_aethra,,,,,,,
 ,,,,,,,
@@ -125,7 +149,7 @@ The proceedings resumed but were not minuted, the stenographer having resigned d
 ,,,,,,,
 sol_vesta,,,,,,,
 ,,,,,,,
-sol_pallas,,,,,,,
+sol_pallas,, ,,,,,
 ,,,,,,,
 sol_hygiea,,,,,,,
 ,,,,,,,
@@ -157,7 +181,7 @@ sol_lutetia,,,,,,,
 ,,,,,,,
 sol_antigone,,,,,,,
 ,,,,,,,
-sol_klotho,,,,,,,
+  ,,,,,,,
 ,,,,,,,
 sol_eunomia,,,,,,,
 ,,,,,,,
@@ -167,7 +191,7 @@ sol_dactyl,,,,,,,
 sol_euphrosyne,,,,,,,
 sol_euphrosynemoon,,,,,,,
 ,,,,,,,
-sol_hungaria,,,,,,,orbital mechanics stuff
+sol_hungaria,CUSTOM,"Named after the mythological land of Hungary, Hungaria, and the asteroids who share its family weave through the ecliptic on a stable island between powerful resonances of Mars and Jupiter - the remnants of an inward asteroid belt, now largely ejected from the system.",,,,,orbital mechanics stuff
 ,,,,,,,
 sol_thule,,,,,,,kozai stuff
 ,,,,,,,
@@ -183,14 +207,14 @@ sol_intermania,,,,,,,
 ,,,,,,,
 sol_davida,,,,,,,
 ,,,,,,,
-sol_europa_asteroid,,,,,,,
+sol_europa_asteroid,CUSTOM,"A legend in luddic circles tells of a time when the moons of jupiter were named by numbers, in this endarkened past an astronomer named a rock ""Europa"", another one ""Kallisto"", yet another ""Io"", and another ""Ganymed"". Then came truth - and with it - the understanding that referring to the Jovian moons by number is cringe. So the astronomers of the age dug up an even older naming system, to the woe of EuropaTheAsteroid's mailing system.",,,,,
 ,,,,,,,
 sol_elektra,,,,,,,
 sol_130_1,,,,,,,
 sol_130_2,,,,,,,
 sol_130_3,,,,,,,
 ,,,,,,,
-sol_311p,,,,,,,
+sol_311p,,  ,,,,,
 sol_vw139_1,,,,,,,
 sol_vw139_2,,,,,,,
 ,,,,,,,
@@ -250,7 +274,9 @@ You shudder and move on. This time, for good.",,,,,
 sol_dione,,,,,,,
 sol_titan,,,,,,,
 sol_iapetus,,,,,,,
-sol_phoebe,,,,,,,
+sol_phoebe,CUSTOM,"The largest and first of the thousands of rocks comprising the Norse family, Phoebe was once a binary hydrostatic sphere skimming the edge of Sol, until a migrated Neptune flung it sunwards to burn in the captivity of Saturn. Since that far-off day, Phoebe has been smashed into a misshapen potato at the hands of its late partner and their fragmented remains.
+
+In more recent times, it became home to a sprawling facility honeycombing the outer shell, seemingly for the purpose of biological or chemical warfare, judging by the design, though much of the structure has been damaged after Phoebe suffered a miserably weak fission-fusion-based attempt to destroy the planetoid.",,,,,
 sol_saturn,,,,,,,
 ,,,,,,,
 sol_uo14,CUSTOM,"A solitary Trojan of Saturn, 2019 UO14 would have been ejected back into the chaos of Trans-Jovian space long ago if not for a tiny thruster diligently keeping it co-orbital with Saturn for thousands of years. 
@@ -282,7 +308,13 @@ sol_yx49,,,,,,,
 ,,,,,,,
 sol_neptune,,,,,,,
 sol_naiad,,,,,,,
-sol_thalassa,,,,,,,
+sol_thalassa,CUSTOM,"thalassaphobia | thal as sa pho bi a | /thuh-las-uh-FOH-bee-uh/ | noun
+
+Persistent, irrational fear of Thalassa, the second-innermost satellite of Neptune. Distinct from the acrophobias and abyss-anxieties of the deep-water complex, thalassaphobia presents in subjects with no history of proximity to the object and no articulable account of the threat it poses.
+
+The condition is not correlated with distance from Neptune, transit exposure, or prior orbital service. It has been documented in populations that have never left the inner system, and in populations that could not have known of the moon's existence.
+
+Fringe theories posit that thalassaphobia came prior to Thalassa, only to be applied later on the basis of its 69:73 mean-motion resonance with Naiad. Others suggest something more prosaic, such as a typo.",,,,,
 sol_despina,,,,,,,
 sol_galatea,,,,,,,
 sol_larissa,,,,,,,
@@ -290,19 +322,32 @@ sol_proteus,,,,,,,
 sol_triton,CUSTOM,"Triton once drifted through the Kuiper in eternal matrimony with its binary companion. Such a peaceful life was not for it, however, as with Neptune's migration out, Triton was captured, and its partner - subjected to fates unknown. Ever since, Triton has raged against its captor, tacking against the grain of Neptune and Sol, stripping Neptune of its primary moons, and precessing like a float bobbing up and down.
  
 Triton has seen better days. Once a pre-FTL jewel of Sol, the invention of lightspeed travel emptied many of its ancient domes, before the remainder were abandoned post-collapse. Only a few humans, descendants of those left behind in ""the exodus"" call Triton home, sucking on the moisture, slime, and air under the broken domes and wispy clouds of a fading world.	",,,,,
-sol_nereid,,,,,,,
+sol_nereid,CUSTOM,"""Hah! Nerd.""
+- Dyslexic proverb
+
+Nereid is the second satellite of Neptune to be discovered, the second most eccentric moon of Neptune, the third most massive moon of Neptune, the second most massive regular satellite - having been disrupted by Triton rather than captured - and the second brightest moon of Neptune. There's probably more, but you'd have to wake up your nav officer... too much effort... for how sleepy you are... all of a sudden.",,,,,
 sol_halimede,,,,,,,
 sol_neso,CUSTOM,"A barren chunk of ice. A solitary crater marks the northern hemisphere. Otherwise, Neso has been untouched over billions of years since its accretion, bar its capture by Neptune.
 
 Were primordial man to somehow emerge on a world such as Neso, the universe to them would be limited to Sol and its two pinpricks of light - Triton, and its eternally bound partner, which brightens and dims over the 26 years as Neso traverses from 0.14 to 0.52 AU on its glacial odyssey around its pinprick.",,,,,
 ,,,,,,,
-sol_rw10,,,,,,,
+sol_rw10,CUSTOM,"""2007 RW10 was standing guard this night - well, technically it was day, but in this gloomlight? Who's keeping track?
+
+2007 RW10 stood faithfully, as she had done for the last 16,000 years or so. It was difficult keeping track of things. It seemed like it was only yesterday when, mid-ceremony, she shed a tear, as she received her numbers... 309,239.
+
+It felt like it was only a few days until she got recognized as the largest object with a 1:1 mean-motion resonance with a larger object in the solar system, beating the Jupiter trojans.
+
+Yet here she is, standing in the void... on guard duty. 8,000 years to go until her tour ends and she can return to L5. Yet to receive her congratulatory name...
+
+She tried to light a cigarette, but the carbon dioxide froze and condensed onto her surface. She let out a year-long sigh.""
+
+-2007 RW10 in: The Co-Orbital Crew, magnum opus of the infinite monkey entropic experiment, 5438.",,,,,
 ,,,,,,,l4 trojans
 sol_vx30,CUSTOM,"Bar the emergence of the medical officer, overexcited by the sound of ""VX"", preliminary surveys of 2013 VX30 were uneventful. The only thing of note is a capsule, solitary amid a plain devoid of cratering. Its occupant died before impact.",,,,,
 sol_qo441,CUSTOM,"2014 QO441 is an icy potato slowly drifting through interplanetary space, leading Neptune as it sine  waves above and below the ecliptic with a 19-degree inclination, librating left and right 8 degrees every 10,000 years. It has done this dance since life emerged on Earth, and barring interference, it will dance with Neptune till the collapse of Sol into a white dwarf and their coordinated stage exit from the solar system.",,,,,
 sol_en65,CUSTOM,"""New orders,"" said Neptune, coldly.
 
-""Yessir?"" 2010 EN65 snapped back, straightening into a plank under the sole attention of its commanding officer.
+""Yessir?"" 2010 EN65 snapped back, straightening into a plank under the sole attention of her commanding officer.
 
 ""Rendezvous at L5 in a few thousand years, go via L3, and make the move look sharp. Don't. get distracted and become a horseshoe co-orbital, you hear me?"" Neptune read off, asking to ensure completion. It had enough co-orbital dipshits under its command, and bodies in resonance that merely pretended to follow orders, but the trojans, those were some of its best, and it would be a shame to lose one.
 
@@ -324,10 +369,11 @@ A giant prospecting ship drifts in orbit, its drones dutifully having stripped t
 sol_polyso,,,,,,,
 ,,,,,,,
 sol_67p,,,,,,,
-sol_1p,,,,,,,
+sol_1p,CUSTOM,"Throughout the officer deck, one question circles like a storm on Jangala: who is Halley, and why do they own a comet? The Tri-Pad you snatched upon jumping in seems to clarify things - Halley is a deity who brought order to the universe by forcing the planets, moons, minor planets, and comets to move in cycles. He did this as an angel of Isaac, enforcing his trinity of laws across the stars.
+",,,,,
 sol_109p,,,,,,,
 sol_2p,,,,,,,
-sol_9p,,,,,,,
+sol_9p,CUSTOM,"While Tempel was likely named for its now-lost religious significance, it seems that significance has been desecrated. A ""copper slug"" has smashed a sizeable hole in the comet, and across it markings scar the surface. Some excerpts: ""Freedom, Fuck Yeah!"", ""July 4th BB"", ""USA"", etc. Whatever these markings intended to communicate is now lost, but judging by the crudeness with which they were drawn, reverence was likely not their purpose.",,,,,
 sol_81p,,,,,,,
 sol_19p,,,,,,,
 sol_103p,,,,,,,
@@ -337,9 +383,9 @@ sol_chiron,,,,,,,Astrological cultists
 sol_echeclus,CUSTOM,"Lodged between the giants of Saturn and Jupiter, Echeclus has the high instability and ultimate doom of blazing a brilliant death in inner Sol or the logarithmic marathon to 3k in interstellar space that typifies the centaurs. 
 
 Echeclus seems especially unstable, as unlike many of its centaur bedfellows, which exhibit cometary behavior at perihelion, Echeclus fires off its stocks of volatiles in defiance of square-cube and thermodynamics, at random, near its average distance from Sol.",,,,,
-sol_bienor,,,,,,,
+sol_bienor,CUSTOM,"Bienor is an oblong jacobi ellipsoid spinning through the expanse between Jupiter and Neptune... alone. Looking at the lightcurve, you could've sworn there was a moon to Bienor - maybe 18% the mass? Yet now there is nothing. You blink and it's there; blink again, and it's gone",,,,,
 sol_pholus,,,,,,,
-sol_damocles,,,,,,,
+sol_damocles,,,,,,,Damocloids
 sol_typhon,,,,,,,
 sol_echidna,,,,,,,
 sol_ceto,CUSTOM,"Some binary rock. You would think Ceto an object of ignorance, yet it bears the scars of some ancient, epic duel between it and it's partner.
@@ -383,6 +429,9 @@ sol_namaka,CUSTOM,"Namaka is a moderately sized fragment of ice that spun off fr
 Today, Namaka is notable for the blasted shells of what once comprised the administrative and military heart of the Haumean system. With electronic infrastructure miraculously serviceable, data recovery indicates destruction pre-collapse, which raises the question: how was Namaka hit, why wasn't it recovered, and where are the signs of battle?",, ,,,
 sol_hiiaka,CUSTOM,"Hiiaka is Namaka's more normal twin, spun off from the Trans-Neptunian womb that was proto-Haumea. Despite Hiiaka's size, it isn't in hydrostatic equilibrium, owing to it being almost as detestably porous as Hyperion.",,,,,
 ,,,,,,,
+sol_TX300,CUSTOM,"The largest wayward member of Haumea's family, 55636 TX300 was split off from haumea billions of years ago. It has found its way to the opposite side of the system through an eternity of nodal precession. ",,,,,
+sol_TO66,CUSTOM,"1996 TO66 is one of the largest wayward members of Haumea's family. Given the millennia since its discovery and its brief stint as number two after Pluto, you'd think 1996 TO66 would've gotten a name - but you'd be wrong. It's disrespectful to rename an astronomical object, and (19308) 1996 TO66 has a higher data density than a ""normal"" name. Better yet, cut the 1996 TO66 and just refer to it as 19308. Also remove satellite names and get back to the good old days of Jupiter 1, 2, 3, and 4.",,,,,
+,,,,,,,
 sol_makemake,,,,,,,
 sol_mk2,CUSTOM,"A fairly standard ice potato in orbit of Makemake, bar its dark color. A hulking survey station stands vigil over the Domain's abandoned intentions for MK 2, and the now-silent Makemake. 
  
@@ -411,11 +460,12 @@ sol_tinia,,,,,,,
 ,,,,,,,
 sol_aya,,,,,,,
 ,,,,,,,
-sol_goibniu,,,,,,,deimos gets a planet and goibniu does not (largest nonmarket)
+sol_goibniu,CUSTOM,"Life isn't fair. Goibniu is a dwarf planet skirting the edge of Sol, yet your Tri-Pad swears it's uninhabitable, displaying a warning about ""size"" and something called ""Irish?"" To your officers, however, that seems like nonsense - your Tri-Pad said Deimos could fit a colony, Goibniu is 100,000X more massive, yet it's too small?",,,,,deimos gets a planet and goibniu does not (largest nonmarket)
 ,,,,,,,
-sol_mani,CUSTOM,"Mani would be a real planet, in hydrostatic equilibrium and with differentiated layers, if not for the giant impact on its northern hemisphere that gave it the tallest mountain in the solar system. That, however, is only according to the definition of a mountain as any protrusion from a plane. If you care about formation, it isn't. 
-One thing, however, is certain. If you consider Vesta's mountain a mountain, Mani's counts too and is higher.
-If you consider one end of a contact binary a mountain you need therapy, but in that case Chaos or Hektor probably has the highest mountain.",,,,,TODO
+sol_mani,CUSTOM,"""Behind the immense 30km mountains that jut into the void lies an icy plateau. While those who believe in reason will say this plateau is merely a byproduct of the surface of Mani deforming like putty after the massive collision that formed the tallest mountains in the Solar system, the series of inexplicable failures and geometric faults that define this plateau gives away the lie. It is nothing but the icy plateau of Leng, at the Mani of Madness.
+
+Stay away, traveler, for nothing but despair awaits ye here.""
+- A viber's atlas of the solar system, 2160",,,,,TODO
 ,,,,,,,
 sol_arrokoth,,,,,,,
 ,,,,,,,
@@ -436,9 +486,7 @@ sol_eris,,,,,,,
 sol_dysnomia,,,,,,,
 ,,,,,,,
 sol_gonggong,,,,,,,
-sol_xiangliu,CUSTOM,"A large chunk of ice in orbit of Gonggong, Xiangliu, despite its size, seems to be untouched by humanity, bar a plaque that says: ""on October 17th, 2016, Xiangliu was discovered after researchers noticed an abnormally slow rotational period in Gonggong and theorised that a moon was responsible."" Attached to the plaque are images of Gonggong from 2010 that clearly show a moon. 
-
-A piece of graffiti nearby states: ""I struggle to understand how such a large moon could be missed until measuring something as precise as the rotational period. Shouldn't it burn bright on the very first light curve?""",,,,,revise?
+sol_xiangliu,CUSTOM,"Xiangliu is a large, moderately eccentric moon of the dwarf planet Gonggong. It boasts cities, now abandoned, and mines, now dry. Yet your Tri-Pad, in a rare fit of sanity, seems to imply it took almost a decade to find Xiangliu - it even gives a precovery image which clearly shows Xiangliu right there. Quite the head-scratcher.",,,,,revise?
 ,,,,,,,
 sol_gkunlhomdima,,,,,,,unpronounceable
 sol_goehu,,,,,,,repreive
@@ -448,11 +496,26 @@ sol_minigagua,,,,,,,
 ,,,,,,,
 sol_chaos,,,,,,,
 ,,,,,,,
-sol_dziewanna,,,,,,,
+sol_dziewanna,CUSTOM,"""Polska can into space!""
+ - common refrain of a 21st-century avant-garde body horror art movement
+
+Dziewanna is a scattered disc trans-Neptunian object with moderately high eccentricity. While Dziewanna is a possible dwarf planet, the trans-Neptunian object has never been surveyed - its ownership stuck in legal limbo for millennia since the owner's dramatic space program failure. 
+
+Dziewanna is right there, but IP protection subroutines prevent you from being able to get a good resolve on the surface.",,,,,
 ,,,,,,,
-sol_sedna,CUSTOM,"Sedna lies near stationary at the interstitial plane between Sol and the endless Oort. The only evidence that Sedna was ever inhabited being a series of transient surveillance posts and an unnatural amount of cratering in the 10,000-year night of its southern hemisphere. Further investigation of the cratering has revealed debris long since rendered useless, and an insignia that your tri-pad identifies only by its frantic attempts to contact authorities.",,,,,
+sol_sedna,CUSTOM,"Sedna is a frozen world lying near stationary at the interstitial plane between Sol and the endless Oort. The only evidence that Sedna was ever inhabited being a series of transient surveillance posts and an unnatural amount of cratering in the 10,000-year night of its southern hemisphere. Further investigation of the cratering has revealed debris long since rendered useless, and an insignia that your tri-pad identifies only by its frantic attempts to contact authorities.",,,,,
 ,,,,,,,
-sol_the_goblin,,,,,,,
+sol_the_goblin,CUSTOM,"""While this is officially called Leleakuhonua, I believe that if you are going to prank the remaining dyslexic, malice should be involved. As the origin of Leleakuhonua is wholesome, I use The Goblin. It is my Islas Malvinas.
+
+Lele- Leku- Lelekuh- The Goblin shoots further than almost any non-cometary object in the solar system to an immense distance of 2,714 AU. Not much is known about it as, according to astronomers, it is 'quite far,' and 'a bit of a bother' to go to.""
+- Dictation of: A viber's atlas of the solar system, 2160",,,,,
+sol_the_goblin_surveyed,CUSTOM,"""While this is officially called Leleakuhonua, I believe that if you are going to prank the remaining dyslexic, malice should be involved. As the origin of Leleakuhonua is wholesome, I use The Goblin. It is my Islas Malvinas.
+
+
+Lele- Leku- Lelekuh- The Goblin shoots further than almost any non-cometary object in the solar system to an immense distance of 2,714 AU. Not much is known about it as, according to astronomers, it is 'quite far,' and 'a bit of a bother' to go to.""
+- Dictation of: A viber's atlas of the solar system, 2160
+
+The name The Goblin, through coincidence or intention, seems all too fitting - to the horror of the science team, and to the begrudging irritation of a crew who must now concede that this journey out this far was, maybe, worth it. The Goblin is inhabited by what can only be described as... goblins. An impossible atmosphere ripples through the pitch-black skies of this midnight world. Strange organisms honeycombing a crust otherwise bare of resources.",,,,,
 ,,,,,,,
 sol_biden,CUSTOM,"You didn't know you could feel such fear, yet upon sight of Biden, an indescribable terror dating to the racial memory of proto-man on the savanna, long burdened solemnly by your subconscious, resurfaces.
 
@@ -467,7 +530,7 @@ sol_deedee,CUSTOM,"DeeDee lies at the very edge of what was once civilized space
 
 Its guard thoroughly packed their bags, stripping DeeDee of anything of use before cruising sunwards, or elsewhere, depending on the extent of Sol's deterioration at the time of departure.",,,,,
 ,,,,,,,
-sol_buffy,,,,,,,vampires least of worries
+sol_buffy,CUSTOM,"Named after the god Buffy, who, according to legend slayed the predators that hunted man in the Pleistocenic night, Buffy now stands guard at the edge of Sol - letting things much worse than man's ancient hunter by without challenge.",,,,,Lol Buffy the Blindsight Vampire Slayer is just such a funny concept
 ,,,,,,,
 sol_alicanto,CUSTOM,"On approach, Alicanto showed signs of activity, however, now that you're here, it's as dead as a rock can be, with only the radioactive decay of natural isotopes detected. 
 
@@ -481,3 +544,5 @@ The monument stands as a challenge from some group out there, believing itself b
 ,,,,,,,
 sol_burns,CUSTOM,"Despite its distance and size, Burns-Caulfield boasts an iron core. Your science officer would think Burns-Caulfield was the remnant of some aborted planet, if not for their strange suspicion that it didn't belong.",,,,,
 sol_zx30,CUSTOM,"For scraping the oort, 1999 ZX30 has a lot of uranium. Your science officer, however, seems more concerned that 1999 ZX30 is not a valid designation.",,,,,
+,,,,,,,
+sol_ammonite,CUSTOM,"2023 KQ14, AKA Ammonite - if you're no square - is the fourth sednoid, alongside Sedna, 2012 VP113 (I mean Biden), and Lekua-something (I mean The Goblin). While the orbital group is known for their high aphelia and based nicknames, the primary definition rests on their extreme perihelia, which place them far beyond the influence of Neptune - the previous three pointing to the existence of the planet which does not exist, and Ammonite being a ""cruel joke"" raised at the hands of a rogue object.",,,,,

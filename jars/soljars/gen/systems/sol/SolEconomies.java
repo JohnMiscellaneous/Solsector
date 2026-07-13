@@ -23,6 +23,10 @@ public class SolEconomies {
         try {
             mercuryCold = Global.getSettings().loadJSON("data/config/sol_settings.json").optBoolean("Mercury_And_Venus_Have_Poor_Light", true);
         } catch (Exception e) {}
+        int numberArtilleryStations = 3;
+        try {
+            numberArtilleryStations = Global.getSettings().loadJSON("data/config/sol_settings.json").optInt("Artillery_Stations", 3);
+        } catch (Exception e) {}
 
         // --------------------------------------------------------
         // TOKEN RETRIEVAL
@@ -482,7 +486,10 @@ public class SolEconomies {
                 marketBiden.addIndustry(Industries.SPACEPORT);
                 marketBiden.addIndustry(Industries.POPULATION);
                 marketBiden.addIndustry(Industries.TECHMINING);
-
+                if(numberArtilleryStations >= 10){
+                    marketBiden.addIndustry("IndEvo_Artillery_railgun");
+                    marketBiden.addIndustry("orbitalstation");
+                }
                 marketBiden.addSubmarket(Submarkets.SUBMARKET_OPEN);
                 marketBiden.addSubmarket(Submarkets.SUBMARKET_BLACK);
                 marketBiden.addSubmarket(Submarkets.SUBMARKET_STORAGE);

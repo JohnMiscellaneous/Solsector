@@ -1,3 +1,19 @@
+Version 0.81.5
+Gameplay
+    Added config option for up to 12 artillery stations, very chaotic.
+    Added delayed remnant spawninh 
+
+Misc:
+    Added Mathilde (NEAR), Stiens (Rosetta), and Annefrank (Stardust)
+    Added descriptions for Ganymed (the asteroid), Europa (the asteroid), don quixote, hungaria, phoebe, nereid, halley, tempel 1, bienor, goibniu, xiangliu, dziewanna, buffy, ammonite, phobos, thalassa, 1996 TO66, 2002 TX300, hektor (lobe), skammadrios, mani, and 2007 RW10, and The Goblin.
+
+Compatability and bug fixes
+    AOTD renames planets so Earth becomes Nova Ashgabat (or something), a new config option and listener can now name them back.
+    Fixed nexuses getting knocked off thier orbits by railgun artillery.
+    Fixed artillery spawn implementation that results in eye indicator failing.
+    With the full Saturnine system and Jovian system the name settings were bugged out, so I fixed that.
+    Fixed custom entity stations presenting as inhabited on intel map when generate settled planets.
+
 Version 0.81.4
 Misc:
     Added a setting to disable some of the more memey things.

@@ -52,7 +52,12 @@ public class RemnantNexusFactory {
                 nexus, 1f, 1, maxFleets, 150f, minFleetSize, maxFleetSize));
 
         system.addEntity(nexus);
-        nexus.setCircularOrbitPointingDown(focus, angle, radius, period);
+
+        SectorEntityToken anchor = system.addCustomEntity(Misc.genUID(), null, "empty", "neutral", null);
+        anchor.setCircularOrbit(focus, angle, radius, period);
+        nexus.setCircularOrbit(anchor, 0f, 0f, 100f);
+        Global.getSector().addScript(new NexusOrbitGuard(nexus, anchor));
+
         RemnantThemeGenerator.addRemnantStationInteractionConfig(nexus);
 
         return nexus;

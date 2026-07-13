@@ -395,6 +395,7 @@ public class CometsCentaursTNOs {
 
         // 1P/Halley | Retrograde
         SectorEntityToken Halley = calc.spawnSPSObject6(system, star, "Halley", "Halley", "custom_entity", "Halley" + showNameCustom, 11f, 17.9286f, 0.9679f, 59.099f, 112.241f, 1986.11f, zeroDegGlobal, 2.2f, 1f, null, null, null, star, "Sol", true);
+        Halley.setCustomDescriptionId("sol_1p");
 
         // 109P/Swift-Tuttle | Retrograde
         SectorEntityToken barycenterSwift = calc.spawnSPSObject6(system, star, "Swift-Tuttle", "Swift-Tuttle", "custom_entity", "Swift" + showNameMinor, 1f, 26.0921f, 0.9632f, 139.381f, 152.982f, 1992.945f, zeroDegGlobal, null, 1f, null, null, null, star, "Sol", true);
@@ -404,6 +405,7 @@ public class CometsCentaursTNOs {
 
         // 9P/Tempel 1
         SectorEntityToken Tempel1 = calc.spawnSPSObject(system, star, "Tempel", "Tempel", "custom_entity", "Tempel" + showNameCustom, 6.0f, 3.1461f, 0.5097f, 68.754f, 179.197f, 2016.59f, zeroDegGlobal, 1.696f, 1f);
+        Tempel1.setCustomDescriptionId("sol_9p");
 
         // 81P/Wild 2
         SectorEntityToken Wild = calc.spawnSPSObject(system, star, "Wild", "Wild", "custom_entity", "Wild" + showNameCustom, 4.0f, 3.4497f, 0.5374f, 136.110f, 41.725f, 2022.96f, zeroDegGlobal, 0.562f, 1f);
@@ -510,7 +512,7 @@ public class CometsCentaursTNOs {
         // "Chiron II" — ring-shepherd inferred from ring gap structure
         // Same basis as chariklo II
         if(speculativeBodies){
-        calc.spawnMoon(system, Chiron, "Chiron II", calc.getSize(5f), r_ChironRing + 10f, calc.getTime(10f), 45f, showProvisionalNames);
+        calc.spawnMoon(system, Chiron, "Chiron Beta", calc.getSize(5f), r_ChironRing + 10f, calc.getTime(10f), 45f, showProvisionalNames);
         }
 
         DistanceConditionManager.track(Chiron.getMarket());
@@ -541,9 +543,11 @@ public class CometsCentaursTNOs {
             float[] bienorOffsets = calc.getBinaryOffsetsReal(198f, 113f, 5f);
 
             SectorEntityToken Bienor  = calc.spawnMoon(system, bienorBarycenter, "Bienor",   sz_BienorA, bienorOffsets[0], calc.getTime(0.381f), 0f,   showMinorNames);
+            Bienor.setCustomDescriptionId("sol_bienor");
             SectorEntityToken BienorB = calc.spawnMoon(system, bienorBarycenter, "Bienor Beta", sz_BienorB, bienorOffsets[1], calc.getTime(0.381f), 180f, showProvisionalNames);
         } else {
             SectorEntityToken Bienor = calc.spawnSPSObject(system, star, "Bienor", "Bienor", "asteroid", showNameMinor, 198f, 16.6006f, 0.2054f, 337.804f, 152.413f, 2027.99f, zeroDegGlobal, 0.381f, 1f);
+            Bienor.setCustomDescriptionId("sol_bienor");
         }
 
         // Pholus
@@ -568,6 +572,7 @@ public class CometsCentaursTNOs {
 
         // 5335 Damocles
         SectorEntityToken Damocles = calc.spawnSPSObject(system, star, "Damocles", "Damocles", "asteroid", showNameMinor, 10f, 11.8671f, 0.8666f, 314.211f, 191.108f, 2031.62f, zeroDegGlobal, null, 1f);
+        Damocles.setCustomDescriptionId("sol_damocles");
 
         // 42355 Typhon-Echidna
         SectorEntityToken typhonBarycenter = calc.spawnSPSObject(system, star, "typhon_barycenter", "Typhon Barycenter", "custom_entity", "empty", 1f, 37.7071f, 0.5367f, 351.859f, 158.746f, 2006.33f, zeroDegGlobal, null, 1f);
@@ -662,7 +667,8 @@ public class CometsCentaursTNOs {
             "sol_degenerate",
             "sol_subsurface_ocean",
             "sol_frozen_atmosphere_polar",
-            "sol_automated_habitats"
+            "sol_automated_habitats",
+            "low_gravity"
         });
 
         Pluto.setSkipForJumpPointAutoGen(true);
@@ -779,7 +785,8 @@ public class CometsCentaursTNOs {
             "sol_inter_binary_elevator",
             "sol_insurgent_network",
             "sol_automated_habitats",
-            "sol_ai_freedom_fighters"
+            "sol_ai_freedom_fighters",
+            "low_gravity"
         });
 
         Orcus.setSkipForJumpPointAutoGen(true);
@@ -1136,14 +1143,13 @@ public class CometsCentaursTNOs {
             "ruins_extensive",
             "sol_orbital_ring",
             "sol_fast_rotator",
-            "sol_automated_habitats"
+            "sol_automated_habitats",
+            "low_gravity"
         });
 
         Haumea.setSkipForJumpPointAutoGen(true);
 
-        // Haumea Rings
-        // Real: ~2,287 km radius, ~70 km wide, ratio ~2.8x
-        // Doubled to ~5.6x to avoid low-poly triangle rendering at small radii
+        // Haumea Rings | Vibe sizes
         float sz_Haumea = Haumea.getRadius();
         float r_HaumeaRing = sz_Haumea * 5.6f;
 
@@ -1201,11 +1207,15 @@ public class CometsCentaursTNOs {
         // actually its shared long run averages of sma, eccentricity, and inclination combined with albedo and color
         // also it's very theoretical 
 
+        // 2002 TX300
+        SectorEntityToken TX300 = calc.spawnSPSObject(system, star, "TX300", "2002 TX300", "asteroid", showNameProv, 370f, 43.4774f, 0.1213f, 324.675f, 342.670f, 1960.09f, zeroDegGlobal, 0.335f, 1f);
+        TX300.setCustomDescriptionId("sol_TX300");
+
+        // 1996 TO66
+        SectorEntityToken TO66 = calc.spawnSPSObject(system, star, "TO66", "1996 TO66", "asteroid", showNameProv, 300f, 43.4614f, 0.1142f, 355.236f, 240.432f, 1907.73f, zeroDegGlobal, 0.260f, 1f);
+        TX300.setCustomDescriptionId("sol_TO66");
+
         if(!transNeptuneShortlist){
-            // 1996 TO66
-            SectorEntityToken TO66 = calc.spawnSPSObject(system, star, "TO66", "1996 TO66", "asteroid", showNameProv, 300f, 43.4614f, 0.1142f, 355.236f, 240.432f, 1907.73f, zeroDegGlobal, 0.260f, 1f);
-            // 2002 TX300
-            SectorEntityToken TX300 = calc.spawnSPSObject(system, star, "TX300", "2002 TX300", "asteroid", showNameProv, 286f, 43.4774f, 0.1213f, 324.675f, 342.670f, 1960.09f, zeroDegGlobal, 0.335f, 1f);
             // 2005 RR43
             SectorEntityToken RR43 = calc.spawnSPSObject(system, star, "RR43", "2005 RR43", "asteroid", showNameProv, 250f, 43.5190f, 0.1409f, 85.868f, 281.787f, 1983.02f, zeroDegGlobal, 0.328f, 1f);
             // 2003 OP32
@@ -1240,7 +1250,8 @@ public class CometsCentaursTNOs {
             "sol_subsurface_ocean",
             "sol_degenerate",
             "sol_automated_habitats",
-            "dark"
+            "dark",
+            "low_gravity"
         });
 
         Makemake.setSkipForJumpPointAutoGen(true);
@@ -1302,7 +1313,8 @@ public class CometsCentaursTNOs {
             "rare_ore_sparse",
             "ruins_scattered",
             "dark",
-            "thin_atmosphere"
+            "thin_atmosphere",
+            "low_gravity"
         });
 
         Quaoar.setSkipForJumpPointAutoGen(true);
@@ -1532,6 +1544,7 @@ public class CometsCentaursTNOs {
         });
 
         Mani.setSkipForJumpPointAutoGen(true);
+        Mani.setCustomDescriptionId("sol_mani");
 
         // "Mani II" — f*ckin 1 in 100 chance, a chord was too long, now this is here
         if(speculativeBodiesExtreme){
@@ -1573,6 +1586,7 @@ public class CometsCentaursTNOs {
         SectorEntityToken Goibniu = calc.spawnSPSObject(system, star, "Goibniu", "Goibniu", "asteroid", showNameMinor, 730f, 41.8086f, 0.0760f, 250.576f, 289.667f, 1987.36f, zeroDegGlobal, 0.450f, 1f);
         SectorEntityToken goibnuStation = DerelictThemeGenerator.addSalvageEntity(system, Entities.DERELICT_SURVEY_SHIP, Factions.DERELICT); 
         goibnuStation.setCircularOrbitPointingDown(Goibniu, 90, 200f, calc.getTime(20f));
+        Goibniu.setCustomDescriptionId("sol_goibniu");
 
         // Ritona
         SectorEntityToken Ritona = calc.spawnSPSObject(system, star, "Ritona", "Ritona", "asteroid", showNameMinor, 640f, 41.5534f, 0.0239f, 187.003f, 178.794f, 2034.86f, zeroDegGlobal, 0.290f, 1f);
@@ -1681,12 +1695,12 @@ public class CometsCentaursTNOs {
             { silaOffsets[0], 0f,  0f, p_SilaNunam,  0f, +1f } 
         };
 
-        SectorEntityToken Sila = calc.spawnSPSObject5(system, star, "Sila", "Sila", "asteroid", showNameMinor, 249f, 44.0366f, 0.0141f, 304.256f, 214.867f, 2032.81f, zeroDegGlobal, null, 1f, null, null, silaExtras, star);
+        SectorEntityToken Sila = calc.spawnSPSObject5(system, star, "Sila", "Sila", "asteroid", showNameMinor, 249f, 44.0366f, 0.0141f, 304.256f, 214.867f, 2032.81f, zeroDegGlobal, -(p_SilaNunam / rotMult), 1f, null, null, silaExtras, star);
 
         calc.spawnMoon(system, Sila, "Nunam", sz_Nunam, silaOffsets[1]+silaOffsets[0], p_SilaNunam, 180f, showMinorNames);
 
         SectorEntityToken silaHabitat = DerelictThemeGenerator.addSalvageEntity(system, Entities.ORBITAL_HABITAT_REMNANT, Factions.DERELICT); silaHabitat.setId("sila_habitat"); 
-        silaHabitat.setCircularOrbitPointingDown(Sila, 0, 1, p_SilaNunam);
+        silaHabitat.setCircularOrbitPointingDown(Sila, 0,  silaOffsets[1], p_SilaNunam);
 
         // Borasisi-Pabu (66652)
 
@@ -1717,18 +1731,18 @@ public class CometsCentaursTNOs {
             float sz_AltjiraInnerPair = calc.getSize(160f); // proxy for combined inner mass in binary offset calc
             SectorEntityToken[] altjiraOuter = calc.spawnEllipticalBinary(system, AltjiraBarycenter,
                 "altjira_inner_barycenter", null, sz_AltjiraInnerPair, "custom_entity", "empty",
-                "altjira_b", "Altjira II", sz_AltjiraII, "asteroid", showNameProv,
+                "altjira_b", "Altjira Beta", sz_AltjiraII, "asteroid", showNameProv,
                 sz_AltjiraI * 10f, 0.34f, altjiraOuterPeriod, 0f);
 
             SectorEntityToken altjiraInnerBarycenter = altjiraOuter[0];
             SectorEntityToken AltjiraII = altjiraOuter[1];
 
             calc.spawnMoon(system, altjiraInnerBarycenter, "Altjira",   sz_AltjiraI,   sz_AltjiraI * 1.5f, altjiraInnerPeriod, 0f, showMinorNames);
-            calc.spawnMoon(system, altjiraInnerBarycenter, "Altjira III", sz_AltjiraIII, sz_AltjiraI * 1.5f, altjiraInnerPeriod, 180f, showProvisionalNames);
+            calc.spawnMoon(system, altjiraInnerBarycenter, "Altjira Gamma", sz_AltjiraIII, sz_AltjiraI * 1.5f, altjiraInnerPeriod, 180f, showProvisionalNames);
         } else {
             SectorEntityToken[] altjiraBinary = calc.spawnEllipticalBinary(system, AltjiraBarycenter,
                 "altjira_a", "Altjira",  sz_AltjiraI,  "asteroid", showNameMinor,
-                "altjira_b", "Altjira II", sz_AltjiraII, "asteroid", showNameProv,
+                "altjira_b", "Altjira Beta", sz_AltjiraII, "asteroid", showNameProv,
                 sz_AltjiraI * 10f, 0.34f, altjiraOuterPeriod, 0f);
         }
 
@@ -1811,7 +1825,7 @@ public class CometsCentaursTNOs {
         // ====================== SCATTERED DISK (SDOs) ============================
         // =========================================================================
 
-        // Eris & Dysnomia Sizes
+        // Eris System
         float sz_Eris = calc.getSize(2326f); 
         float sz_Dysnomia = calc.getSize(700f);
 
@@ -1819,11 +1833,10 @@ public class CometsCentaursTNOs {
         float p_ErisDysnomia = calc.getTime(15.7f);
         float[] erisOffsets = calc.getBinaryOffsetsReal(2326f, 700f, 16f / 2f);
 
-        // Eris
+        // Eris System
         // Allegedly dysonomia is super low density, as it apparently does not make Eris wobble around a barycenter, which I'm ignoring.
         PlanetAPI Eris = (PlanetAPI) calc.spawnSPSObject3(system, star, "sol_Eris", "Eris", "frozen", null, 2326f, 67.9964f, 0.4370f, 36.027f, 150.732f, 2257.27f, zeroDegGlobal, null, 1f, null, null, true, erisOffsets[0], 0f, p_ErisDysnomia);
 
-        // Eris Exception: Retaining atmosphere 
         Eris.getSpec().setTexture("graphics/planets/eris_tx.jpg"); 
         Eris.getSpec().setAtmosphereThickness(0.05f); 
         Eris.getSpec().setAtmosphereThicknessMin(10f); 
@@ -1845,7 +1858,8 @@ public class CometsCentaursTNOs {
             "sol_inter_binary_elevator",
             "sol_degenerate",
             "sol_subsurface_ocean",
-            "sol_automated_habitats"
+            "sol_automated_habitats",
+            "low_gravity"
         });
 
         Eris.setSkipForJumpPointAutoGen(true);
@@ -1968,9 +1982,9 @@ public class CometsCentaursTNOs {
         // Goehu
         SectorEntityToken Goehu = calc.spawnMoon(system, Gkun, "Goehu", sz_GoeHu, sz_Gkun * 4f, calc.getTime(11f), 180f, showMinorNames);
 
-        // "Gǃkún||'hòmdímà III" — different paper, same thin existence basis as Eris III
+        // "G'kun||'homdima III" — different paper, same thin existence basis as Eris III
         if(speculativeBodiesExtreme){
-            calc.spawnMoon(system, Gkun, "Gǃkún||'hòmdímà III", calc.getSize(10f), sz_Gkun * 1.8f, calc.getTime(2f), 180f, showProvisionalNames);
+            calc.spawnMoon(system, Gkun, "G'kun||'homdima III", calc.getSize(10f), sz_Gkun * 1.8f, calc.getTime(2f), 180f, showProvisionalNames);
         }
 
         DistanceConditionManager.track(Gkun.getMarket());
@@ -2015,9 +2029,7 @@ public class CometsCentaursTNOs {
 
         // Dziewanna
         SectorEntityToken Dziewanna = calc.spawnSPSObject(system, star, "Dziewanna", "Dziewanna", "asteroid", showNameMinor, 470f, 68.7806f, 0.5275f, 346.157f, 284.791f, 2038.94f, zeroDegGlobal, 0.295f, 1f);
-        SectorEntityToken dziewannaProbe = DerelictThemeGenerator.addSalvageEntity(system, Entities.DERELICT_SURVEY_PROBE, Factions.DERELICT); 
-
-        dziewannaProbe.setCircularOrbitPointingDown(Dziewanna, 90, 40f, calc.getTime(5f));
+        Dziewanna.setCustomDescriptionId("sol_dziewanna");
 
         SectorEntityToken Rumina = calc.spawnSPSObject(system, star, "Rumina", "Rumina", "asteroid", showNameMinor, 644f, 92.2746f, 0.6190f, 84.630f, 318.731f, 2005.06f, zeroDegGlobal, null, 1f);
 
@@ -2061,7 +2073,8 @@ public class CometsCentaursTNOs {
             "ore_abundant",
             "rare_ore_sparse",
             "ruins_scattered",
-            "sol_insurgent_network"
+            "sol_insurgent_network",
+            "low_gravity"
         });
         Sedna.setCustomDescriptionId("sol_sedna");
 
@@ -2092,13 +2105,17 @@ public class CometsCentaursTNOs {
 
         calc.addConditions(Goblin.getMarket(), new String[] {
             "dark",
-            "low_gravity",
-            "organics_abundant",
-            "inimical_biosphere"
-            
+            "very_cold",
+            "low_gravity"
         });
         if(transNeptuneMemes){
             Goblin.getMarket().addCondition("sol_goblin_world");
+            Goblin.getMarket().addCondition("inimical_biosphere");
+            Goblin.getMarket().addCondition("organics_abundant");
+        } else {
+            Goblin.getMarket().addCondition("no_atmosphere");
+            Goblin.getMarket().addCondition("ore_sparse");
+            Goblin.getMarket().addCondition("volatiles_trace");
         }
         Goblin.setSkipForJumpPointAutoGen(true);
         Goblin.getMarket().getMemoryWithoutUpdate().set("$sol_no_freeze", true);
@@ -2106,6 +2123,7 @@ public class CometsCentaursTNOs {
         DistanceConditionManager.track(Goblin.getMarket());
         Goblin.getMemoryWithoutUpdate().set("$sol_orbit_min_au", 64.7f);
         Goblin.getMemoryWithoutUpdate().set("$sol_orbit_max_au", 2714f);
+        Goblin.setCustomDescriptionId("sol_the_goblin");
 
         String bidenName = "Biden";
         if(!(transNeptuneMemes)){
@@ -2224,6 +2242,7 @@ public class CometsCentaursTNOs {
 
         // Buffy (2004 XR190)
         SectorEntityToken Buffy = calc.spawnSPSObject(system, star, "Buffy", "Buffy", "asteroid", showNameMinor, 500f, 57.8400f, 0.1086f, 252.317f, 280.494f, 2114.30f, zeroDegGlobal, null, 1f);
+        Buffy.setCustomDescriptionId("sol_buffy");
 
         SectorEntityToken buffyStation = DerelictThemeGenerator.addSalvageEntity(system, Entities.STATION_RESEARCH, Factions.DERELICT); 
         buffyStation.setCircularOrbitPointingDown(Buffy, 90, 50f, calc.getTime(30f));
@@ -2237,7 +2256,8 @@ public class CometsCentaursTNOs {
         Cashew.setCustomDescriptionId("sol_cashew");
 
         // Ammonite (2023 KQ14)
-        calc.spawnSPSObject(system, star, "Ammonite", "Ammonite", "asteroid", showNameMinor, 380f, 246.0777f, 0.7322f, 72.073f, 198.830f, 2063.660f, zeroDegGlobal, null, 1f);
+        SectorEntityToken Ammonite = calc.spawnSPSObject(system, star, "Ammonite", "Ammonite", "asteroid", showNameMinor, 380f, 246.0777f, 0.7322f, 72.073f, 198.830f, 2063.660f, zeroDegGlobal, null, 1f);
+        Ammonite.setCustomDescriptionId("sol_ammonite");
 
         if(!scatteredDiskShortlist){
             float safeAdjustment = .01f;

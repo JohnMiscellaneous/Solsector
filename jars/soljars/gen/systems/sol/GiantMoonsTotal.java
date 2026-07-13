@@ -17,11 +17,12 @@ public class GiantMoonsTotal {
         AstroCalc calc = new AstroCalc();
 
         int showNamesSetting = optInt("Show_Names", 1);
-        String showNameMinor;
-        String showNameProv;
-        if (showNamesSetting == 2)        { showNameMinor = null;      showNameProv = null;      }
-        else if (showNamesSetting == 0)   { showNameMinor = "no_name"; showNameProv = "no_name"; }
-        else                              { showNameMinor = null;      showNameProv = "no_name"; }
+        boolean showMinorNames      = showNamesSetting >= 2;
+        boolean showProvisionalNames = showNamesSetting == 3;
+        boolean showCustomNames     = showNamesSetting != 0;
+        String showNameMinor  = showMinorNames      ? "w_name" : "no_name";
+        String showNameProv   = showProvisionalNames ? "w_name" : "no_name";
+        String showNameCustom = showCustomNames     ? "w_name" : "no_name";
 
         String key = (giantName == null) ? "" : giantName.toLowerCase();
         if (key.equals("jupiter")) {

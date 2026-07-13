@@ -26,10 +26,10 @@ Helene,helene,45.2,FALSE,Asteroid,saturn_moons,,,
 Pandora,pandora,103,FALSE,Asteroid,saturn_moons,,,
 Janus,janus,203,FALSE,Asteroid,saturn_moons,,,
 Epimetheus,epimetheus,129.6,FALSE,Asteroid,saturn_moons,,,
-Atlas,atlas,40.8,FALSE,Asteroid,saturn_moons,,,
-Pan,pan,34.6,FALSE,Asteroid,saturn_moons,,,
-Erriapus,contact_binarysmall3,16.3,TRUE,Asteroid,,,,generic CB sprite (contact_binarysmall3) - not unique to body
-Kiviuq,contact_binarysmall4,38.42,TRUE,Asteroid,,,,generic CB sprite (contact_binarysmall5) - not unique to body
+Atlas,atlas,40.8,FALSE,Accretion Disc,saturn_moons,,,
+Pan,pan,34.6,FALSE,Accretion Disc,saturn_moons,,,
+Erriapus,contact_binarysmall3,16.3,TRUE,Asteroid,,,,
+Kiviuq,contact_binarysmall4,38.42,TRUE,Asteroid,,,,
 Belinda,belinda,128,FALSE,Asteroid,uranus_moons,,,
 Bianca,bianca,64,FALSE,Asteroid,uranus_moons,,,
 Cordelia,cordelia,50,FALSE,Asteroid,uranus_moons,,,
@@ -43,8 +43,11 @@ Rosalind,rosalind,72,FALSE,Asteroid,uranus_moons,,,
 Metis,metis,60,FALSE,Asteroid,jupiter_moons,,,
 Adrastea,adrastea,20,FALSE,Asteroid,jupiter_moons,,,
 Thebe,thebe,116,FALSE,Asteroid,jupiter_moons,,,
-Patroclus,patroclus,127,FALSE,Asteroid,jupiter_moons,TERRAIN_2,,shares sprite with: Menoetius; layer=TERRAIN_2
-Menoetius,patroclus,117,FALSE,Asteroid,jupiter_moons,TERRAIN_2,,shares sprite with: Patroclus; layer=TERRAIN_2
+Patroclus,patroclus,127,FALSE,Asteroid,jupiter_moons,TERRAIN_2,,
+Menoetius,patroclus,117,FALSE,Asteroid,jupiter_moons,TERRAIN_2,,
 Caju,caju,584,FALSE,Asteroid,trans_neptune,,,
-Zoe,contact_binary1,66,TRUE,Asteroid,,TERRAIN_2,,non-square sprite (14x21); generic CB sprite (contact_binary1) - not unique to body; layer=TERRAIN_2
-Arawn,contact_binary1,133,TRUE,Asteroid,,TERRAIN_2,,non-square sprite (18x27); generic CB sprite (contact_binary1) - not unique to body; layer=TERRAIN_2
+Zoe,contact_binary1,66,TRUE,Asteroid,,TERRAIN_2,,
+Arawn,contact_binary1,133,TRUE,Asteroid,,TERRAIN_2,,
+Mathilde,mathilde,52.8,FALSE,Asteroid,belt_asteroids,,,
+Annefrank,annefrank,6.6,FALSE,Asteroid,belt_asteroids,,,
+Steins,steins,6.83,FALSE,Asteroid,belt_asteroids,,,
