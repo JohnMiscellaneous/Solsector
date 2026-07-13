@@ -486,7 +486,7 @@ public class SolEconomies {
                 marketBiden.addIndustry(Industries.SPACEPORT);
                 marketBiden.addIndustry(Industries.POPULATION);
                 marketBiden.addIndustry(Industries.TECHMINING);
-                if(numberArtilleryStations >= 10){
+                if(numberArtilleryStations >= 10 && Global.getSettings().getModManager().isModEnabled("IndEvo")){
                     marketBiden.addIndustry("IndEvo_Artillery_railgun");
                     marketBiden.addIndustry("orbitalstation");
                 }

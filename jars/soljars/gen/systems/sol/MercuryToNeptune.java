@@ -1916,7 +1916,7 @@ public class MercuryToNeptune {
         // "Agamemnon Beta" — single chord occultation evidence (Timerson et al. 2013)
         // ~5 km satellite at ~278 km separation; unconfirmed, single-event detection
         if(speculativeBodies){
-            `calc.spawnMoon(system, Agamemnon, "Agamemnon Beta", calc.getSize(5f), sz_Agamemnon * 4.24f, calc.getTime(2.1f), 90f, showProvisionalNames);
+            calc.spawnMoon(system, Agamemnon, "Agamemnon Beta", calc.getSize(5f), sz_Agamemnon * 4.24f, calc.getTime(2.1f), 90f, showProvisionalNames);
         }
 
         // -------------------------------------------------------------------------
