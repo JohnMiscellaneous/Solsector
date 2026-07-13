@@ -19,7 +19,7 @@
     ## 1 disables all minor planet names (bar textured custom entities), (DEFAULT)
     ## 2 disables provisional names, 
     ## 3 shows all names
-    "Show_Names": 3,
+    "Show_Names": 1,
 
     ## what is the AD start date,
     ## dictates planet starting position.
@@ -44,7 +44,7 @@
     ## ======================================================  
     ## ======= What entities to generate? ===================
     ## ======================================================
-	"Generate_Sol": true,   
+	"Generate_Sol": true,
 
     ## enables or disables some less interesting NEAs
     ## accepted values 0, 1    
@@ -63,7 +63,7 @@
     "Hilda_Detail": 0,
 
     ## number of generic asteroid belt asteroids to generate
-    "Generic_Asteroids": 5,
+    "Generic_Asteroids": 0,
 
     ## accepted values 0, 1, 2
     "Jupiter_Trojans_Detail": 1,

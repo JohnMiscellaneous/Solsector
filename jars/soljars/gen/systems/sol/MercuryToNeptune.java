@@ -1916,7 +1916,7 @@ public class MercuryToNeptune {
         // "Agamemnon Beta" — single chord occultation evidence (Timerson et al. 2013)
         // ~5 km satellite at ~278 km separation; unconfirmed, single-event detection
         if(speculativeBodies){
-        calc.spawnMoon(system, Agamemnon, "Agamemnon Beta", calc.getSize(5f), sz_Agamemnon * 4.24f, calc.getTime(2.1f), 90f, showProvisionalNames);
+            `calc.spawnMoon(system, Agamemnon, "Agamemnon Beta", calc.getSize(5f), sz_Agamemnon * 4.24f, calc.getTime(2.1f), 90f, showProvisionalNames);
         }
 
         // -------------------------------------------------------------------------
@@ -3065,12 +3065,10 @@ public class MercuryToNeptune {
         // ===================== URANUS IRREGULAR MOONS ============================
         // =========================================================================
 
-        // Caliban
-        SectorEntityToken Caliban = calc.spawnIrregularBody2(system, Uranus, "Caliban", "Caliban", "moon", showNameMinor, 15f, 0.047908f, 0.2f, 241.2f, 349.7f, 2000.771f, zeroDegGlobal, null, 0.00004366f, "Uranus", true);
+        // Caliban // TODO, WHY?
+        SectorEntityToken Caliban = calc.spawnIrregularBody2(system, Uranus, "Caliban", "Caliban", "moon", showNameMinor, 42f, 0.047908f, 0.2f, 241.2f, 349.7f, 2000.771f, zeroDegGlobal, null, 0.00004366f, "Uranus", true);
         // Sycorax
         SectorEntityToken Sycorax = calc.spawnIrregularBody2(system, Uranus, "Sycorax", "Sycorax", "moon", showNameMinor, 330f, 0.081507f, 0.52f, 332.1f, 25.4f, 2002.612f, zeroDegGlobal, null, 0.00004366f, "Uranus", true);
-        // SectorEntityToken sycoraxField = system.addTerrain(Terrain.ASTEROID_FIELD, new AsteroidFieldTerrainPlugin.AsteroidFieldParams(50f, 50f, 5, 5, 3f, 7f, "Sycorax remnants"));
-        // sycoraxField.setOrbit(Sycorax.getOrbit().makeCopy());
 
         if(!uranusShortlist){
             // Margaret
@@ -3149,11 +3147,7 @@ public class MercuryToNeptune {
         });
 
         // NEPTUNE MAGNETOSPHERE
-        // Cutoff at Galle Ring inner edge (0.00025f) minus 60 units gap
-        // float nepMagLimit = calc.getDistNeptune(0.00025f) - 60f;
-        // SectorEntityToken neptuneInnerField = system.addTerrain(Terrain.MAGNETIC_FIELD, new MagneticFieldTerrainPlugin.MagneticFieldParams(nepMagLimit, nepMagLimit / 2f, Neptune, sz_Neptune * 0.9f, sz_Neptune * 1.5f, new Color(150, 200, 230, 5), .2f));
-        // neptuneInnerField.setCircularOrbit(Neptune, 0, 0, -100);
-        // ((CampaignTerrainAPI) neptuneInnerField).getPlugin().setTerrainName("Neptunial Magnetic Field");
+        // Gone.
 
         // =========================================================================
         // NEPTUNE RINGS
@@ -3230,6 +3224,7 @@ public class MercuryToNeptune {
         Larissa.setSkipForJumpPointAutoGen(true);
 
         // TODO new moon?
+            // Dafuq??
 
         // Proteus
         PlanetAPI Proteus = system.addPlanet("Proteus", Neptune, "Proteus", "rocky_ice", 318, 
@@ -3445,7 +3440,6 @@ public class MercuryToNeptune {
 
         // --- SMALL L4 BODIES ---
         if(!neptuneTrojansShortlist){
-        // HOW THE FUCK DID AN AI THINK 2008 GW171 IS A NEPTUNE TROJAN?!?!
         // 2010 TT191 | 30 km
         calc.spawnSPSObject2(system, star, "2010 TT191", "2010 TT191", "asteroid", showNameProv, 30f, 30.2667f, 0.0642f, 249.251f, 6.879f, 2105.84f, zeroDegGlobal, null, 1f, p_Neptune, dist_NeptuneRaw);
         // 2007 VL305 | 30 km
