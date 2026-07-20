@@ -62,6 +62,7 @@ import soljars.gen.utils.RemnantPatrolFactory;
 import soljars.gen.utils.AstroCalc;
 import soljars.gen.systems.sol.GiantMoonsTotal;
 import soljars.gen.systems.sol.CometsCentaursTNOs;
+import soljars.gen.utils.AstroCalc.CompoundOrbit;
 
 import soljars.compat.widehorizons.LocationXY;
 import soljars.compat.industrialevolution.ArtillerySpawnTool;
@@ -648,8 +649,11 @@ public class MercuryToNeptune {
         float sz_Mars = calc.getSize(6779f);
         PlanetAPI Mars = (PlanetAPI) calc.spawnSPSObject(system, star, "Mars", "Mars", "barren-desert", null, 6779f, dist_MarsRaw, 0.0934f, 49.579f, 286.5f, 2022.60f, zeroDegGlobal, null, 1f);
         float angleMars = Mars.getCircularOrbitAngle();
+        if(angleMars == 0) angleMars = ((CompoundOrbit) Mars.getOrbit()).getCircularOrbitAngle();
         float dist_Mars = Mars.getCircularOrbitRadius();
         float p_Mars = Mars.getCircularOrbitPeriod();
+        if(p_Mars == 0) p_Mars = ((CompoundOrbit) Mars.getOrbit()).getCircularOrbitPeriod();
+        
 
         calc.addConditions(Mars.getMarket(), new String[] {
             "cold",
@@ -752,7 +756,7 @@ public class MercuryToNeptune {
         // =========================================================================
         // ========================= MARS TROJANS ==================================
         // =========================================================================
-
+        calc.smartLagrangeBeanMinor(system, star, "Eurekan group", dist_MarsRaw, false, 0.15f, 0.06f, true, "rings_trojan2", angleMars, p_Mars);
         // MARS L4 TROJANS (LEADING +60) 
 
         // SectorEntityToken MarsL4Trojan = system.addTerrain(Terrain.ASTEROID_FIELD, new AsteroidFieldTerrainPlugin.AsteroidFieldParams(10f, 10f, 1, 1, 3f, 3f, "1999 UJ7"));
@@ -764,8 +768,7 @@ public class MercuryToNeptune {
         // Eureka | Mars L5 Trojan
         float p_EurekaBeta = calc.getTime(0.5f);
         float sz_Eureka = calc.getSize(2.0f);
-        SectorEntityToken Eureka = calc.spawnSPSObject(system, star, "Eureka", "Eureka", "asteroid", showNameMinor, 2.0f, dist_MarsRaw, 0.0649f, 245.013f, 95.543f, 2026.56f, zeroDegGlobal, -p_EurekaBeta / rotMult, 1f);
-        Eureka.setCustomDescriptionId("sol_eureka");
+        SectorEntityToken Eureka = calc.spawnSPSObject2(system, star, "Eureka", "Eureka", "asteroid", showNameMinor, 2.0f, 1.5236f, 0.0649f, 49.579f, 224.5f, 2022.60f, zeroDegGlobal, -p_EurekaBeta / rotMult, 1f, p_Mars, dist_MarsRaw);
 
         calc.spawnMoon(system, Eureka, "5261 Beta", 2f, sz_Eureka * 2.1f, calc.getTime(0.5f), 45f, showProvisionalNames);
 
@@ -883,7 +886,7 @@ public class MercuryToNeptune {
         }
 
         // Ganymed
-        SectorEntityToken GanymedAS = calc.spawnSPSObject(system, star, "GanymedA", "GanymedA", "asteroid", showNameMinor, 35, 2.6650f, 0.5332f, 215.441f, 132.503f, 2024.71f, zeroDegGlobal, 0.429f, 1f);
+        SectorEntityToken GanymedAS = calc.spawnSPSObject(system, star, "GanymedA", "Ganymed", "asteroid", showNameMinor, 35, 2.6650f, 0.5332f, 215.441f, 132.503f, 2024.71f, zeroDegGlobal, 0.429f, 1f);
         GanymedAS.setCustomDescriptionId("sol_ganymed_asteroid");
 
         // Don Quixote
@@ -1802,7 +1805,8 @@ public class MercuryToNeptune {
         // =========================================================================
         // ===================== JUPITER Trojans ===================================
         // =========================================================================
-
+        calc.smartTadpolePair(system, star, "Jovian Trojans", 1f, 0.000954f * 4f, dist_JupiterRaw, 0.9f, 0.065f, "rings_trojan1", angleJupiter, p_Jupiter);
+        
         // --- L4 GENERIC FIELDS (6 Evenly Spaced Nodes) ---
         // calc.spawnBeanEntity(system, L4_Jupiter, null, "Greek Camp", "field", null, 0f, map_1AU_at_Jupiter, 6.0f, 1.2f, ang_L4_Jup, p_Jupiter_Libration, 0f);
         // calc.spawnBeanEntity(system, L4_Jupiter, null, "Greek Camp", "field", null, 0f, map_1AU_at_Jupiter, 6.2f, 1.1f, ang_L4_Jup, p_Jupiter_Libration, 60f);
@@ -2058,6 +2062,8 @@ public class MercuryToNeptune {
         float p_Hilda = p_Jupiter * (2f/3f); 
         // The mathematically perfect 3:2 resonant SMA to prevent 8,000-year drift
         float hildaResonantSMA = dist_JupiterRaw * (float)Math.pow(2.0/3.0, 2.0/3.0); // ~3.9712f
+        calc.smartLagrangeBeanMinorPair(system, star, "Hilda group", hildaResonantSMA, 0.5f, 0.14f,false,"rings_trojan3", angleJupiter, p_Jupiter);
+        calc.smartLagrangeBeanMinor(system, star, "Hilda group L3", hildaResonantSMA, false, 0.5f, 0.14f,false,"rings_trojan3", angleJupiter - 120f, p_Jupiter);
 
         // 153 Hilda | 171 km
         PlanetAPI Hilda = (PlanetAPI) calc.spawnSPSObject7(system,falseMoons ? Hektor : star, "Hilda", "Hilda",falseMoons ? "barren-bombarded" : "barren", 
@@ -3356,6 +3362,8 @@ public class MercuryToNeptune {
         // =========================================================================
         // ========================== NEPTUNE TROJANS ==============================
         // =========================================================================
+
+        calc.smartTadpolePair(system, star, "Neptunian Trojans", 1f, 0.0000515f * 20f, dist_NeptuneRaw, 0.9f, 0.05f, "rings_trojan1", angleNeptune, p_Neptune);
 
         // -------------------------------------------------------------------------
         // NEPTUNE QUASI-MOON

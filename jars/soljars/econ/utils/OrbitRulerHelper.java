@@ -372,4 +372,79 @@ public class OrbitRulerHelper {
         sb.append("II");
         return sb.toString();
     }
+    
+    public static void renderCircumstellarRuler(TooltipMakerAPI tooltip, MarketAPI market, float pad) {
+        if (tooltip == null || market == null) return;
+
+        SectorEntityToken primary = market.getPrimaryEntity();
+        if (primary == null) return;
+
+        float currentAu = DistanceCheck.getMarketAU(market);
+        float minAu = currentAu;
+        float maxAu = currentAu;
+
+        MemoryAPI mem = primary.getMemoryWithoutUpdate();
+        if (mem != null) {
+            if (mem.contains(MEM_ORBIT_MIN)) minAu = mem.getFloat(MEM_ORBIT_MIN);
+            if (mem.contains(MEM_ORBIT_MAX)) maxAu = mem.getFloat(MEM_ORBIT_MAX);
+        }
+        if (minAu > maxAu) {
+            float t = minAu; minAu = maxAu; maxAu = t;
+        }
+
+        tooltip.addSectionHeading(
+                String.format("%s is %.1f AU away from its star",
+                        market.getName(), currentAu),
+                Alignment.MID, pad);
+
+        String topRow    = makeCircumstellarTickRow(true);
+        String orbitRow  = makeOrbitRow(minAu, maxAu, currentAu);
+        String bottomRow = makeCircumstellarTickRow(false);
+
+        tooltip.addPara(topRow, Misc.getGrayColor(), 3f);
+
+        List<String> highlights = new ArrayList<>();
+        List<Color> colors = new ArrayList<>();
+        buildOrbitHighlights(orbitRow, minAu, maxAu, currentAu, highlights, colors);
+
+        tooltip.addPara(orbitRow, 3f,
+                colors.toArray(new Color[0]),
+                highlights.toArray(new String[0]));
+
+        tooltip.addPara(bottomRow, Misc.getGrayColor(), 3f);
+    }
+
+    /** Tick row for the circumstellar ruler: only the two heliopause slashes, no II band ticks. */
+    private static String makeCircumstellarTickRow(boolean top) {
+        StringBuilder sb = new StringBuilder(" I");
+        int cursorPx = SPACE_PX + 2;  // space + I
+
+        List<float[]> events = new ArrayList<>();  // {au, widthPx, kind}
+        int helioKind = top ? 1 : 2;  // 1='\', 2='/'
+        events.add(new float[] {
+                DistanceConditionManager.IRRADIATED_MIN_AU, SLASH_PX, helioKind
+        });
+        events.add(new float[] {
+                DistanceConditionManager.IRRADIATED_MAX_AU, SLASH_PX, helioKind
+        });
+        events.sort((a, b) -> Float.compare(a[0], b[0]));
+
+        for (float[] e : events) {
+            float au = e[0];
+            int markerPx = (int) e[1];
+            int kind = (int) e[2];
+            String marker = (kind == 1) ? "\\" : "/";
+
+            int rawCenterPx = SUN_PX + Math.round(au * PX_PER_AU);
+            int rawStartPx = rawCenterPx - markerPx / 2;
+            int startPx = snapToGrid(rawStartPx, SPACE_PX);
+
+            int gap = startPx - cursorPx;
+            int nSpaces = Math.max(0, gap / SPACE_PX);
+            for (int i = 0; i < nSpaces; i++) sb.append(' ');
+            sb.append(marker);
+            cursorPx = cursorPx + nSpaces * SPACE_PX + markerPx;
+        }
+        return sb.toString();
+    }
 }

@@ -10,7 +10,16 @@
             "rings_rocks0":"graphics/planets/rings_rocks0.png",
             "rings_rocks1":"graphics/planets/rings_rocks1.png",
             "rings_rocks2":"graphics/planets/rings_rocks2.png",
+            "rings_trojan0":"graphics/planets/rings_trojan0.png",
+            "rings_trojan1":"graphics/planets/rings_trojan1.png",
+            "rings_trojan2":"graphics/planets/rings_trojan2.png",
+            "rings_trojan3":"graphics/planets/rings_trojan3.png",
+            "rings_kuiper0":"graphics/planets/rings_kuiper0.png",
+        },
+        "systemMap":{
+		    "map_asteroid_belt_thin":"graphics/terrain/map_asteroid_belt_thin.png",
         },
     },
+
     
 }

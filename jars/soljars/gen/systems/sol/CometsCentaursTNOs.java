@@ -622,7 +622,10 @@ public class CometsCentaursTNOs {
         // 2003 UY292
         SectorEntityToken UY292 = calc.spawnSPSObject(system, star, "UY292", "2003 UY292", "asteroid", showNameProv, 210f, 21.8641f, 0.2722f, 28.284f, 23.882f, 2003.81f, zeroDegGlobal, null, 1f);
         }
-
+        
+        // Kuiper belt
+        calc.smartBelt(system, star, "Kuiper Belt", 0, calc.getDist(35f, star), calc.getDist(50f, star), calc.getTime(950f), calc.getTime(1150f));
+        calc.smartRingTex(system, star, "sol_rings", "rings_kuiper0", 1024, 0, calc.getDist(35f, star), calc.getDist(50f, star), calc.getTime(1000f));
         // =========================================================================
         // ==================== PLUTINOS (3:2) ===================================== 
         // =========================================================================

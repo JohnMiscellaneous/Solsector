@@ -12,9 +12,9 @@ import com.fs.starfarer.api.impl.campaign.econ.BaseMarketConditionPlugin;
 import soljars.econ.utils.IndustryCompat;
 import soljars.econ.utils.OrbitRulerHelper;
 
-public class CometExtreme extends BaseMarketConditionPlugin {
+public class DistCircumstellar extends BaseMarketConditionPlugin {
 
-    public static final String ID = "sol_comet_extreme";
+    public static final String ID = "sol_dist_circumstellar";
 
     private static final String SYNCHROTRON_CORE = "synchrotron";
     private static final String CATALYTIC_CORE = "catalytic_core";
@@ -30,21 +30,17 @@ public class CometExtreme extends BaseMarketConditionPlugin {
         super.apply(id);
         String desc = condition.getName();
 
-        Industry mining = IndustryCompat.getMining(market);
-        if (mining != null) {
-            mining.getSupply(Commodities.VOLATILES).getQuantity().modifyFlat(id, 6, desc);
-            mining.getUpkeep().modifyMult(id, 0.5f, desc);
-        }
-
         Industry fuel = IndustryCompat.getFuelProduction(market);
         if (hasInstalledItem(fuel, SYNCHROTRON_CORE) && fuel.isFunctional()) {
-            fuel.getSupply(Commodities.FUEL).getQuantity().modifyFlat(id, -2, desc);
+            fuel.getSupply(Commodities.FUEL).getQuantity().modifyFlat(id, 1, desc);
+            fuel.getUpkeep().modifyMult(id, 0.75f, desc);
         }
 
         Industry refining = IndustryCompat.getRefining(market);
         if (hasInstalledItem(refining, CATALYTIC_CORE) && refining.isFunctional()) {
-            refining.getSupply(Commodities.METALS).getQuantity().modifyFlat(id, -2, desc);
-            refining.getSupply(Commodities.RARE_METALS).getQuantity().modifyFlat(id, -2, desc);
+            refining.getSupply(Commodities.METALS).getQuantity().modifyFlat(id, 1, desc);
+            refining.getSupply(Commodities.RARE_METALS).getQuantity().modifyFlat(id, 1, desc);
+            refining.getUpkeep().modifyMult(id, 0.75f, desc);
         }
     }
 
@@ -52,21 +48,17 @@ public class CometExtreme extends BaseMarketConditionPlugin {
     public void unapply(String id) {
         super.unapply(id);
 
-        Industry mining = IndustryCompat.getMining(market);
-        if (mining != null) {
-            mining.getSupply(Commodities.VOLATILES).getQuantity().unmodifyFlat(id);
-            mining.getUpkeep().unmodifyMult(id);
-        }
-
         Industry fuel = IndustryCompat.getFuelProduction(market);
         if (fuel != null) {
             fuel.getSupply(Commodities.FUEL).getQuantity().unmodifyFlat(id);
+            fuel.getUpkeep().unmodifyMult(id);
         }
 
         Industry refining = IndustryCompat.getRefining(market);
         if (refining != null) {
             refining.getSupply(Commodities.METALS).getQuantity().unmodifyFlat(id);
             refining.getSupply(Commodities.RARE_METALS).getQuantity().unmodifyFlat(id);
+            refining.getUpkeep().unmodifyMult(id);
         }
     }
 
@@ -77,23 +69,11 @@ public class CometExtreme extends BaseMarketConditionPlugin {
         float pad = 10f;
         Color h = Misc.getHighlightColor();
 
-        tooltip.addPara(
-                "A %s in orbit of " + market.getName() + " is accelerating the once-natural process of "
-                + market.getName() + "'s degradation, heightening tectonic activity, and rendering vacuum "
-                + "processes highly inefficient, as the surface is blown away in a stunning display of "
-                + "light and resource extraction.",
-                pad, h,
-                "fusion lamp");
+        tooltip.addPara("%s metals and transplutonics output (catalytic core)", pad, h, "+1");
+        tooltip.addPara("%s industry upkeep (catalytic core)", pad, h, "x0.75");
+        tooltip.addPara("%s fuel production (synchrotron core)", pad, h, "+1");
+        tooltip.addPara("%s industry upkeep (synchrotron core)", pad, h, "x0.75");
 
-        Industry mining = IndustryCompat.getMining(market);
-        Industry fuel = IndustryCompat.getFuelProduction(market);
-        Industry refining = IndustryCompat.getRefining(market);
-
-        tooltip.addPara("%s volatiles output (mining)", pad, h, "+6");
-        tooltip.addPara("%s upkeep cost (mining)", pad, h, "x0.5");
-        tooltip.addPara("%s metals and transplutonics output (catalytic core)", pad, h, "-2");
-        tooltip.addPara("%s fuel output (synchrotron core)", pad, h, "-2");
-
-        OrbitRulerHelper.renderCometRuler(tooltip, market, pad);
+        OrbitRulerHelper.renderCircumstellarRuler(tooltip, market, pad);
     }
 }

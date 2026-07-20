@@ -3,7 +3,7 @@
     ## 1 Fills the inner system with weak remnants
     ## 2 Fills the inner system with remnants
     ## 3 Fills the system with a massive amount of renmnant nexuses and death fleets.
-    "remnant_difficulty": 1,
+    "remnant_difficulty": 3,
 
     ## Planets will be settled by various factions
     ## the settled planets will appear upon jump into the Sol system
@@ -13,7 +13,7 @@
     "Settled_Planets_Spawn_In_Instantly": false,
 
     ## AOTD renames planets by default, this renames them back
-    "Preserve_Planet_Names": false,
+    "Preserve_Planet_Names": true,
 
     ## 0 disables all minor planet names
     ## 1 disables all minor planet names (bar textured custom entities), (DEFAULT)
@@ -26,8 +26,8 @@
     "Current_Year": 10008,
 
     ## ======= Sector Position =============================
-    "X-coord": 75000,
-    "Y-coord": 42000,
+    "X-coord": 0,
+    "Y-coord": 0,
 
     ## if settings or wide horizons changes map size, this means it will remain in the same position
     "Scale_With_Map_Size": true,
@@ -36,7 +36,7 @@
     ## 0-12, with IndEvo each number adds another artillery station, values greater than 1 will break the eye indicator
     ## Order is Mercury, Callisto, Luna, Mars, Ceres, Titan, Triton, Pluto, Biden / VP, Haumea, Earth
     ## With Maxxed out remnant settings neutral and derilect artillery will spawn as remnant
-    "Artillery_Stations": 3,
+    "Artillery_Stations": 12,
 
     ## disables some of the more memey things
     "Trans_Neptunian_Memes": true,
@@ -44,7 +44,7 @@
     ## ======================================================  
     ## ======= What entities to generate? ===================
     ## ======================================================
-	"Generate_Sol": true,   
+	"Generate_Sol": true,
 
     ## enables or disables some less interesting NEAs
     ## accepted values 0, 1    
@@ -60,10 +60,10 @@
 
     ## you get the point
     ## accepted values 0, 1
-    "Hilda_Detail": 0,
+    "Hilda_Detail": 1,
 
     ## number of generic asteroid belt asteroids to generate
-    "Generic_Asteroids": 5,
+    "Generic_Asteroids": 0,
 
     ## accepted values 0, 1, 2
     "Jupiter_Trojans_Detail": 1,

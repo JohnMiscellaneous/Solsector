@@ -16,7 +16,7 @@ public class CometActive extends BaseMarketConditionPlugin {
 
     public static final String ID = "sol_comet_active";
 
-    private static final String SYNCHROTRON_CORE = "synchrotron_core";
+    private static final String SYNCHROTRON_CORE = "synchrotron";
     private static final String CATALYTIC_CORE = "catalytic_core";
 
     private static boolean hasInstalledItem(Industry ind, String itemId) {
@@ -94,7 +94,7 @@ public class CometActive extends BaseMarketConditionPlugin {
         Industry refining = IndustryCompat.getRefining(market);
 
         tooltip.addPara("%s volatiles output (mining)", pad, h, "+3");
-        tooltip.addPara("%s upkeep cost (mining)", pad, h, "-25%");
+        tooltip.addPara("%s upkeep cost (mining)", pad, h, "x0.75");
         tooltip.addPara("%s metals and transplutonics output (catalytic core)", pad, h, "-1");
         tooltip.addPara("%s fuel output (synchrotron core)", pad, h, "-1");
 

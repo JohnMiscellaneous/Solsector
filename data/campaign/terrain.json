@@ -1,0 +1,13 @@
+{
+	#
+	# terrain with gameplay effects
+	#
+	
+	"sol_tadpole":{
+    	"plugin":"soljars.gen.terrain.TadpoleTerrainPlugin",
+	},
+	"sol_lagrange_bean_minor":{
+    	"plugin":"soljars.gen.terrain.SolLagrangeBean",
+	},
+}
+
