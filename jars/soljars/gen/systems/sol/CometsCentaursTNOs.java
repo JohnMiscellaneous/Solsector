@@ -64,6 +64,7 @@ import soljars.gen.utils.AstroCalc.CompoundOrbit;
 import soljars.gen.utils.AstroCalc.KeplerComponent;
 import soljars.gen.utils.CompoundOrbitTool;
 import soljars.gen.utils.AstroCalc.SolAsteroidFactory;
+import soljars.gen.utils.CometTerrainManager;
 
 // =========================================================================
 // ========================= Initialisation ================================
@@ -416,6 +417,37 @@ public class CometsCentaursTNOs {
         // 103P/Hartley 2
         SectorEntityToken barycenterHartley = calc.spawnSPSObject(system, star, "Hartley", "Hartley", "custom_entity", "Hartley" + showNameCustom, 1f, 3.4757f, 0.6936f, 219.742f, 181.322f, 2017.301f, zeroDegGlobal, 0.68f, 1f);
 
+        // --- Coma/tail terrain: (activation AU, coma radius in game units) ---
+        // Activation sits inside each comet's aphelion so the terrain actually
+        // toggles over the orbit; magnitude scales off nucleus size / activity.
+        CometTerrainManager.setup(Churymov,           4.0f, 120f);   // q 1.24, apo 5.67
+        CometTerrainManager.setup(Halley,             5.5f, 400f);   // q 0.57, apo 35.3
+        CometTerrainManager.setup(barycenterSwift,    5.0f, 400f);   // 26 km nucleus, apo 51.2
+        CometTerrainManager.setup(Encke,              3.0f, 150f);   // q 0.34, apo 4.10 - dust-poor
+        CometTerrainManager.setup(Tempel1,            3.5f, 180f);   // q 1.54, apo 4.75
+        CometTerrainManager.setup(Wild,               4.0f, 200f);   // q 1.60, apo 5.30
+        CometTerrainManager.setup(barycenterBorrelly, 3.5f, 180f);   // q 1.31, apo 5.91
+        CometTerrainManager.setup(barycenterHartley,  3.0f, 140f);   // q 1.06, apo 5.88 - hyperactive but tiny
+
+        // 29P/Schwassmann-Wachmann 1 | permanently active, outburst-prone
+        SectorEntityToken SW1 = calc.spawnSPSObject(system, star, "SchwassmannWachmann", "Schwassmann-Wachmann", "asteroid", showNameMinor, 60.4f, 6.0460f, 0.0448f, 312.391f, 50.663f, 2019.29f, zeroDegGlobal, 2.4f, 1f);
+        CometTerrainManager.setup(SW1, 6.5f, 200f);      // q 5.78, apo 6.32 - never switches off
+
+        // 28P/Neujmin 1 | one of the least active JFCs known
+        SectorEntityToken Neujmin = calc.spawnSPSObject(system, star, "Neujmin", "Neujmin", "asteroid", showNameMinor, 21.4f, 6.9655f, 0.7735f, 346.346f, 347.443f, 2021.19f, zeroDegGlobal, 0.528f, 1f);
+        CometTerrainManager.setup(Neujmin, 3.0f, 200f);  // q 1.58, apo 12.35
+
+        // 27P/Crommelin | Halley-type
+        SectorEntityToken Crommelin = calc.spawnSPSObject(system, star, "Crommelin", "Crommelin", "asteroid", showNameMinor, 5f, 9.0935f, 0.9193f, 250.959f, 195.955f, 2011.59f, zeroDegGlobal, null, 1f);
+        CometTerrainManager.setup(Crommelin, 4.0f, 300f); // q 0.73, apo 17.45
+
+        // 26P/Grigg-Skjellerup | dust-poor, Giotto's second target
+        SectorEntityToken Grigg = calc.spawnSPSObject(system, star, "GriggSkjellerup", "Grigg-Skjellerup", "asteroid", showNameMinor, 2.6f, 3.0242f, 0.6397f, 211.634f, 1.896f, 2013.51f, zeroDegGlobal, null, 1f);
+        CometTerrainManager.setup(Grigg, 3.0f, 120f);     // q 1.09, apo 4.96
+
+        // 21P/Giacobini-Zinner | parent of the Draconids, ICE flyby 1985
+        SectorEntityToken GiacobiniZinner = calc.spawnSPSObject(system, star, "GiacobiniZinner", "Giacobini-Zinner", "asteroid", showNameMinor, 2.0f, 3.5003f, 0.7105f, 195.404f, 172.812f, 2018.69f, zeroDegGlobal, 0.396f, 1f);
+        CometTerrainManager.setup(GiacobiniZinner, 3.0f, 180f);  // q 1.01, apo 5.99
         // =========================================================================
         // ======================= LONG PERIOD COMETS ==============================
         // =========================================================================
@@ -519,11 +551,14 @@ public class CometsCentaursTNOs {
         Chiron.getMarket().getMemoryWithoutUpdate().set("$sol_comet_distance", 12.5f);
         Chiron.getMemoryWithoutUpdate().set("$sol_orbit_min_au", 8.533f);
         Chiron.getMemoryWithoutUpdate().set("$sol_orbit_max_au", 18.87f);
+        CometTerrainManager.setup(Chiron, 12.5f, 600f);
 
         // 60558 Echeclus
         // mysterious cryovolcanism
         SectorEntityToken Echeclus = calc.spawnSPSObject(system, star, "Echeclus", "Echeclus", "asteroid", showNameMinor, 60f, 10.7588f, 0.4545f, 173.263f, 163.495f, 2015.29f, zeroDegGlobal, 1.117f, 1f);
         Echeclus.setCustomDescriptionId("sol_echeclus");
+        CometTerrainManager.setup(Echeclus, 8.0f, 300f);
+        Echeclus.getMemoryWithoutUpdate().set(CometTerrainManager.MEM_COMET_NO_TAIL, true);
 
         SectorEntityToken echeclusProbe = DerelictThemeGenerator.addSalvageEntity(system, Entities.DERELICT_SURVEY_PROBE, Factions.DERELICT); 
         echeclusProbe.setCircularOrbitPointingDown(Echeclus, 90, 40f, calc.getTime(5f)); 
@@ -623,9 +658,25 @@ public class CometsCentaursTNOs {
         SectorEntityToken UY292 = calc.spawnSPSObject(system, star, "UY292", "2003 UY292", "asteroid", showNameProv, 210f, 21.8641f, 0.2722f, 28.284f, 23.882f, 2003.81f, zeroDegGlobal, null, 1f);
         }
         
-        // Kuiper belt
-        calc.smartBelt(system, star, "Kuiper Belt", 0, calc.getDist(35f, star), calc.getDist(50f, star), calc.getTime(950f), calc.getTime(1150f));
-        calc.smartRingTex(system, star, "sol_rings", "rings_kuiper0", 1024, 0, calc.getDist(35f, star), calc.getDist(50f, star), calc.getTime(1000f));
+        // Kuiper belt — resonant populations
+        // Plutinos (3:2)
+        calc.smartBelt(system, star, "Plutinos", 0, calc.getDist(38.5f, star), calc.getDist(40.5f, star), calc.getTime(87251f), calc.getTime(93095f));
+        calc.smartRingTex(system, star, "sol_rings", "rings_trojan2", 256, 0, calc.getDist(38.5f, star), calc.getDist(40.2f, star), calc.getTime(90159f));
+
+        // 5:3 resonance (a ≈ 42.3 AU)
+        calc.smartBelt(system, star, "Fivethreenos", 0, calc.getDist(41.8f, star), calc.getDist(42.8f, star), calc.getTime(98708f), calc.getTime(102274f));
+        calc.smartRingTex(system, star, "sol_rings", "rings_trojan2", 256, 0, calc.getDist(41f, star), calc.getDist(43f, star), calc.getTime(100484f));
+
+        // 7:4 resonance (a ≈ 43.6 AU)
+        calc.smartBelt(system, star, "Sevfournos", 0, calc.getDist(43.1f, star), calc.getDist(44.1f, star), calc.getTime(103351f), calc.getTime(106967f));
+        calc.smartRingTex(system, star, "sol_rings", "rings_trojan2", 256, 0, calc.getDist(43f, star), calc.getDist(45f, star), calc.getTime(105152f));
+
+        // Twotinos (2:1, a ≈ 47.8 AU)
+        calc.smartBelt(system, star, "Twotinos", 0, calc.getDist(47.2f, star), calc.getDist(48.4f, star), calc.getTime(118440f), calc.getTime(122988f));
+        calc.smartRingTex(system, star, "sol_rings", "rings_trojan2", 256, 0, calc.getDist(46.5f, star), calc.getDist(49.3f, star), calc.getTime(120708f));
+
+        // Whole-belt ring terrain
+        calc.smartRingTerrain(system, star, "Kuiper Belt", calc.getDist(35f, star), calc.getDist(50f, star), calc.getTime(101201f));
         // =========================================================================
         // ==================== PLUTINOS (3:2) ===================================== 
         // =========================================================================
@@ -765,7 +816,7 @@ public class CometsCentaursTNOs {
         float[] orcOffsets = calc.getBinaryOffsetsReal(910f, 442f, 12f);
 
         // Orcus | THE ANTIPLUTO
-        PlanetAPI Orcus = (PlanetAPI) calc.spawnSPSObject3(system, star, "Orcus", "Orcus", "cryovolcanic", null, 910f, 39.3358f, 0.2217f, 268.385f, 73.722f, 2143.69f, zeroDegGlobal, null, 1f, null, null, true, orcOffsets[0], 0f, p_OrcusVanth);
+        PlanetAPI Orcus = (PlanetAPI) calc.spawnSPSObject(system, star, "Orcus", "Orcus", "cryovolcanic", null, 910f, 39.3358f, 0f, 268.385f, 73.722f, 2143.69f, zeroDegGlobal, null, 1f);
 
         Orcus.getSpec().setTexture("graphics/planets/orcus_tx.jpg"); 
         Orcus.getSpec().setAtmosphereThickness(0f); 
@@ -792,7 +843,7 @@ public class CometsCentaursTNOs {
             "low_gravity"
         });
 
-        Orcus.setSkipForJumpPointAutoGen(true);
+        Orcus.setSkipForJumpPointAutoGen(false);
 
         // Vanth 
         PlanetAPI Vanth = system.addPlanet("Vanth", Orcus, "Vanth", "rocky_ice", 180, sz_Vanth, orcOffsets[0] + orcOffsets[1], p_OrcusVanth);
@@ -1126,7 +1177,8 @@ public class CometsCentaursTNOs {
         // =========================================================================
 
         // Haumea
-        PlanetAPI Haumea = (PlanetAPI) calc.spawnSPSObject(system, star, "Haumea", "Haumea", "frozen", null, 1632f, 43.0055f, 0.1958f, 121.797f, 240.888f, 2133.74f, zeroDegGlobal, null, 1f);
+        PlanetAPI Haumea = (PlanetAPI) calc.spawnSPSObject(system, star, "Haumea", "Haumea", "frozen", null, 1632f, 43.0055f, 0f, 121.797f, 240.888f, 2133.74f, zeroDegGlobal, null, 1f);
+
         Haumea.getSpec().setTexture("graphics/planets/haumea_tx.jpg"); 
         Haumea.getSpec().setAtmosphereThickness(0f); 
         Haumea.getSpec().setAtmosphereThicknessMin(0f); 
@@ -1150,7 +1202,7 @@ public class CometsCentaursTNOs {
             "low_gravity"
         });
 
-        Haumea.setSkipForJumpPointAutoGen(true);
+        Haumea.setSkipForJumpPointAutoGen(false);
 
         // Haumea Rings | Vibe sizes
         float sz_Haumea = Haumea.getRadius();
@@ -1230,9 +1282,8 @@ public class CometsCentaursTNOs {
         // =========================================================================
 
         // Makemake
-        PlanetAPI Makemake = (PlanetAPI) calc.spawnSPSObject(system, star, "Makemake", "Makemake", "cryovolcanic", null, 1430f, 45.5107f, 0.1604f, 79.269f, 297.075f, 1881.48f, zeroDegGlobal, null, 1f);
+        PlanetAPI Makemake = (PlanetAPI) calc.spawnSPSObject(system, star, "Makemake", "Makemake", "cryovolcanic", null, 1430f, 45.5107f, 0f, 79.269f, 297.075f, 1881.48f, zeroDegGlobal, null, 1f);
         float sz_Makemake = calc.getSize(1430f);
-
         Makemake.getSpec().setTexture("graphics/planets/makemake_tx.jpg"); 
         Makemake.getSpec().setAtmosphereThickness(0f); 
         Makemake.getSpec().setAtmosphereThicknessMin(0f); 
@@ -1257,7 +1308,7 @@ public class CometsCentaursTNOs {
             "low_gravity"
         });
 
-        Makemake.setSkipForJumpPointAutoGen(true);
+        Makemake.setSkipForJumpPointAutoGen(false);
 
         Makemake.getMarket().getMemoryWithoutUpdate().set("$sol_polar_atmosphere_level", 2);
 
@@ -1281,7 +1332,7 @@ public class CometsCentaursTNOs {
         Makemake.getMemoryWithoutUpdate().set("$sol_orbit_max_au", 52.796f);
 
         // --- Quaoar System  ---
-        PlanetAPI Quaoar = (PlanetAPI) calc.spawnSPSObject(system, star, "Quaoar", "Quaoar", "frozen", null, 1110f, 43.1477f, 0.0358f, 188.963f, 163.923f, 2079.83f, zeroDegGlobal, null, 1f);
+        PlanetAPI Quaoar = (PlanetAPI) calc.spawnSPSObject(system, star, "Quaoar", "Quaoar", "frozen", null, 1110f, 43.1477f, 0f, 188.963f, 163.923f, 2079.83f, zeroDegGlobal, null, 1f);
 
         // Quaoar Rings
         float sz_Quaoar = Quaoar.getRadius();
@@ -1320,7 +1371,7 @@ public class CometsCentaursTNOs {
             "low_gravity"
         });
 
-        Quaoar.setSkipForJumpPointAutoGen(true);
+        Quaoar.setSkipForJumpPointAutoGen(false);
 
         // Weywot
         SectorEntityToken Weywot = calc.spawnMoon(system, Quaoar, "Weywot", calc.getSize(80f), sz_Quaoar * 12f, calc.getTime(12.4f), 180f, showMinorNames);
@@ -1838,7 +1889,7 @@ public class CometsCentaursTNOs {
 
         // Eris System
         // Allegedly dysonomia is super low density, as it apparently does not make Eris wobble around a barycenter, which I'm ignoring.
-        PlanetAPI Eris = (PlanetAPI) calc.spawnSPSObject3(system, star, "sol_Eris", "Eris", "frozen", null, 2326f, 67.9964f, 0.4370f, 36.027f, 150.732f, 2257.27f, zeroDegGlobal, null, 1f, null, null, true, erisOffsets[0], 0f, p_ErisDysnomia);
+        PlanetAPI Eris = (PlanetAPI) calc.spawnSPSObject(system, star, "sol_Eris", "Eris", "frozen", null, 2326f, 67.9964f, 0f, 36.027f, 150.732f, 2257.27f, zeroDegGlobal, null, 1f);
 
         Eris.getSpec().setTexture("graphics/planets/eris_tx.jpg"); 
         Eris.getSpec().setAtmosphereThickness(0.05f); 
@@ -1865,7 +1916,7 @@ public class CometsCentaursTNOs {
             "low_gravity"
         });
 
-        Eris.setSkipForJumpPointAutoGen(true);
+        Eris.setSkipForJumpPointAutoGen(false);
 
         // Dysnomia — orbits Eris directly
         // Giant NEA - low albedo, rubble pile
@@ -1917,7 +1968,7 @@ public class CometsCentaursTNOs {
         Dysnomia.getMemoryWithoutUpdate().set("$sol_orbit_max_au", 97.49f);
 
         // Gonggong
-        PlanetAPI Gonggong = (PlanetAPI) calc.spawnSPSObject7(system, falseMoons ? Eris : star, "Gonggong", "Gonggong", "frozen", null, 1230f, 66.8937f, 0.5032f, 336.840f, 206.642f, 1856.59f, zeroDegGlobal, null, 1f, null, null, null, star, "Sol", false, falseMoons);
+        PlanetAPI Gonggong = (PlanetAPI) calc.spawnSPSObject(system, star, "Gonggong", "Gonggong", "frozen", null, 1230f, 66.8937f, 0f, 336.840f, 206.642f, 1856.59f, zeroDegGlobal, null, 1f);
 
         Gonggong.getSpec().setTexture("graphics/planets/gonggong_tx.jpg");
         Gonggong.getSpec().setAtmosphereThickness(0f);
@@ -1942,7 +1993,7 @@ public class CometsCentaursTNOs {
             "sol_unexploded_ordnance"
         });
 
-        Gonggong.setSkipForJumpPointAutoGen(true);
+        Gonggong.setSkipForJumpPointAutoGen(false);
 
         SectorEntityToken Xiangliu = calc.spawnWithEllipticalOrbit(system, Gonggong, "xiangliu", "Xiangliu", "asteroid", showNameMinor, calc.getSize(100f), calc.getSize(1230f) * 10.0f, 0.29f, 0f, calc.getTime(25f), 180f, calc.getTime(25f) / rotMult);
         Xiangliu.setCustomDescriptionId("sol_xiangliu");
@@ -2058,7 +2109,8 @@ public class CometsCentaursTNOs {
         // =========================================================================
 
         // Sedna
-        PlanetAPI Sedna = (PlanetAPI) calc.spawnSPSObject(system, star, "Sedna", "Sedna", "frozen",  null, 1000f, 506f, 0.8496f, 144.478f, 311.009f, 2075.73f,  zeroDegGlobal, null, 1f);
+        PlanetAPI Sedna = (PlanetAPI) calc.spawnSPSObject(system, star, "Sedna", "Sedna", "frozen", null, 1000f, 506f, 0f, 144.478f, 311.009f, 2075.73f, zeroDegGlobal, null, 1f);
+
         Sedna.getSpec().setTexture("graphics/planets/sedna_tx.jpg"); 
         Sedna.getSpec().setAtmosphereThickness(0f); 
         Sedna.getSpec().setAtmosphereThicknessMin(0f); 
@@ -2081,7 +2133,7 @@ public class CometsCentaursTNOs {
         });
         Sedna.setCustomDescriptionId("sol_sedna");
 
-        Sedna.setSkipForJumpPointAutoGen(true);
+        Sedna.setSkipForJumpPointAutoGen(false);
 
         DistanceConditionManager.track(Sedna.getMarket());
         Sedna.getMemoryWithoutUpdate().set("$sol_orbit_min_au", 76.19f);

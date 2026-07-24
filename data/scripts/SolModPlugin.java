@@ -15,6 +15,7 @@ import soljars.econ.utils.DistanceConditionManager;
 import soljars.gen.systems.sol.SolEconomies;
 import soljars.gen.utils.SurveyUpdater;
 import soljars.gen.utils.NameGuard;
+import soljars.gen.utils.CometTerrainManager;
 
 public class SolModPlugin extends BaseModPlugin {
 
@@ -69,5 +70,6 @@ public class SolModPlugin extends BaseModPlugin {
         DistanceConditionManager.install();
         SurveyUpdater.install();
         NameGuard.install();
+        CometTerrainManager.install();
     }
 }

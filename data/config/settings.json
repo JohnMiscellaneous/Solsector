@@ -15,9 +15,13 @@
             "rings_trojan2":"graphics/planets/rings_trojan2.png",
             "rings_trojan3":"graphics/planets/rings_trojan3.png",
             "rings_kuiper0":"graphics/planets/rings_kuiper0.png",
+            "rings_cometcoma0":"graphics/planets/rings_cometcoma0.png",
+            "rings_comettail0":"graphics/planets/rings_comettail0.png",
         },
         "systemMap":{
 		    "map_asteroid_belt_thin":"graphics/terrain/map_asteroid_belt_thin.png",
+		    "map_comet_coma":"graphics/terrain/map_comet_coma.png",
+		    "map_comet_tail":"graphics/terrain/map_comet_tail.png",
         },
     },
 

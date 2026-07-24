@@ -1,3 +1,14 @@
+Version 0.82.0
+Gameplay:
+    Added Comet terrain
+    Added Trojan terrain
+    Added Hilda triangle terrain
+    Added Kuiper belt terrains
+
+Bug fixes:
+    implemented some optimizations for custom orbits
+    synchrotron core's id is now synchrotron
+
 Version 0.81.5
 Gameplay
     Added config option for up to 12 artillery stations, very chaotic.

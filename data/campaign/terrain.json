@@ -3,11 +3,16 @@
 	# terrain with gameplay effects
 	#
 	
-	"sol_tadpole":{
-    	"plugin":"soljars.gen.terrain.TadpoleTerrainPlugin",
+	"sol_lagrange_bean":{
+    	"plugin":"soljars.gen.terrain.LagrangeBean",
 	},
 	"sol_lagrange_bean_minor":{
-    	"plugin":"soljars.gen.terrain.SolLagrangeBean",
+    	"plugin":"soljars.gen.terrain.LagrangeBeanMinor",
+	},
+	"sol_comet_coma":{
+    	"plugin":"soljars.gen.terrain.CometComa",
+	},
+	"sol_comet_tail":{
+    	"plugin":"soljars.gen.terrain.CometTail",
 	},
 }
-

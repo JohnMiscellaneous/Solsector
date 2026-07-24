@@ -63,6 +63,7 @@ import soljars.gen.utils.AstroCalc;
 import soljars.gen.systems.sol.GiantMoonsTotal;
 import soljars.gen.systems.sol.CometsCentaursTNOs;
 import soljars.gen.utils.AstroCalc.CompoundOrbit;
+import soljars.gen.utils.CometTerrainManager;
 
 import soljars.compat.widehorizons.LocationXY;
 import soljars.compat.industrialevolution.ArtillerySpawnTool;
@@ -1316,9 +1317,10 @@ public class MercuryToNeptune {
         // S/2019 (31) 1 (Moon)
         SectorEntityToken EuphrosyneBeta = calc.spawnMoon(system, Euphrosyne, "31 Beta", calc.getSize(6.7f), calc.getSize(260f) * 5f, calc.getTime(1.2f), 200f, showProvisionalNames);
 
+        // 25 Phocaea
+        SectorEntityToken Phocaea = calc.spawnSPSObject(system, star, "Phocaea", "Phocaea", "asteroid", showNameMinor, 61f, 2.4000f, 0.2550f, 214.100f, 90.200f, 2024.90f, zeroDegGlobal, 0.414f, 1f);
+
         if(!asteroidBeltShortlist){
-            // 25 Phocaea
-            SectorEntityToken Phocaea = calc.spawnSPSObject(system, star, "Phocaea", "Phocaea", "asteroid", showNameMinor, 61f, 2.4000f, 0.2550f, 214.100f, 90.200f, 2024.90f, zeroDegGlobal, 0.414f, 1f);
             // 128 Nemesis
             SectorEntityToken Nemesis = calc.spawnSPSObject(system, star, "Nemesis", "Nemesis", "asteroid", showNameMinor, 163f, 2.7490f, 0.1270f, 76.200f, 302.800f, 2026.62f, zeroDegGlobal, 3.242f, 1f);
             // Alauda
@@ -1805,8 +1807,9 @@ public class MercuryToNeptune {
         // =========================================================================
         // ===================== JUPITER Trojans ===================================
         // =========================================================================
-        calc.smartTadpolePair(system, star, "Jovian Trojans", 1f, 0.000954f * 4f, dist_JupiterRaw, 0.9f, 0.065f, "rings_trojan1", angleJupiter, p_Jupiter);
-        
+        calc.smartLagrangeBean(system, star, "Greek Camp", 1f, 0.000954f * 4f, dist_JupiterRaw, true, 0.9f, 0.065f, "rings_trojan1", angleJupiter, p_Jupiter);
+        calc.smartLagrangeBean(system, star, "Trojan Camp", 1f, 0.000954f * 4f, dist_JupiterRaw, false, 0.9f, 0.065f, "rings_trojan1", angleJupiter, p_Jupiter);
+
         // --- L4 GENERIC FIELDS (6 Evenly Spaced Nodes) ---
         // calc.spawnBeanEntity(system, L4_Jupiter, null, "Greek Camp", "field", null, 0f, map_1AU_at_Jupiter, 6.0f, 1.2f, ang_L4_Jup, p_Jupiter_Libration, 0f);
         // calc.spawnBeanEntity(system, L4_Jupiter, null, "Greek Camp", "field", null, 0f, map_1AU_at_Jupiter, 6.2f, 1.1f, ang_L4_Jup, p_Jupiter_Libration, 60f);
@@ -3363,7 +3366,7 @@ public class MercuryToNeptune {
         // ========================== NEPTUNE TROJANS ==============================
         // =========================================================================
 
-        calc.smartTadpolePair(system, star, "Neptunian Trojans", 1f, 0.0000515f * 20f, dist_NeptuneRaw, 0.9f, 0.05f, "rings_trojan1", angleNeptune, p_Neptune);
+        calc.smartLagrangeBeanPair(system, star, "Neptunian Trojans", 1f, 0.0000515f * 20f, dist_NeptuneRaw, 0.9f, 0.05f, "rings_trojan1", angleNeptune, p_Neptune);
 
         // -------------------------------------------------------------------------
         // NEPTUNE QUASI-MOON
@@ -3545,6 +3548,7 @@ public class MercuryToNeptune {
         SectorEntityToken Orcus = system.getEntityById("Orcus");
         SectorEntityToken Haumea = system.getEntityById("Haumea");
         SectorEntityToken Biden = system.getEntityById("Biden");
+        SectorEntityToken Gonggong = system.getEntityById("Gonggong");
 
         SectorEntityToken jpPhaethon = system.getEntityById("jp_phaethon");
         jpPhaethon.setSkipForJumpPointAutoGen(true);
@@ -3560,7 +3564,18 @@ public class MercuryToNeptune {
                 SolIX.getMarket().removeCondition("high_gravity");
             }
         }
+        float[] erisOffsets = calc.getBinaryOffsetsReal(2326f, 700f, 16f / 2f);
+        float[] orcOffsets = calc.getBinaryOffsetsReal(910f, 442f, 12f);
+        float p_OrcusVanth = -calc.getTime(9.5f);
+        float p_ErisDysnomia = calc.getTime(15.7f);
 
+        calc.applySPSOrbit(Haumea, star, 43.0055f, 0.1958f, 121.797f, 240.888f, 2133.74f, zeroDegGlobal, null, 1f, null, null, null, star, "Sol", false, false);        
+        calc.applySPSOrbit(Sedna, star, 506f, 0.8496f, 144.478f, 311.009f, 2075.73f, zeroDegGlobal, null, 1f, null, null, null, star, "Sol", false, false);
+        calc.applySPSOrbit(Quaoar, star, 43.1477f, 0.0358f, 188.963f, 163.923f, 2079.83f, zeroDegGlobal, null, 1f, null, null, null, star, "Sol", false, false);        
+        calc.applySPSOrbit(Makemake, star, 45.5107f, 0.1604f, 79.269f, 297.075f, 1881.48f, zeroDegGlobal, null, 1f, null, null, null, star, "Sol", false, false);        
+        calc.applySPSOrbit(Orcus, star, 39.3358f, 0.2217f, 268.385f, 73.722f, 2143.69f, zeroDegGlobal, null, 1f, null, null, new float[][]{{orcOffsets[0], 0f, 0f, p_OrcusVanth, 0f, 1f}}, star, "Sol", false, false);
+        calc.applySPSOrbit(Gonggong, star, 66.8937f, 0.5032f, 336.840f, 206.642f, 1856.59f, zeroDegGlobal, null, 1f, null, null, null, star, "Sol", false, false);        
+        calc.applySPSOrbit(Eris, star, 67.9964f, 0.4370f, 36.027f, 150.732f, 2257.27f, zeroDegGlobal, null, 1f, null, null, new float[][]{{erisOffsets[0], 0f, 0f, p_ErisDysnomia, 0f, 1f}}, star, "Sol", false, false);        
         // =========================================================================
         // Deep space probes 
         // =========================================================================
