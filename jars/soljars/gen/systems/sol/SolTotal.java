@@ -161,310 +161,106 @@ public class SolTotal {
         system.setMapGridWidthOverride(solMapGridSize);
         system.setMapGridHeightOverride(solMapGridSize);
 
-        boolean luddicClaim = false; 
+        JSONObject cfg;
         try {
-            JSONObject settings = Global.getSettings().loadJSON("data/config/sol_settings.json");
-            luddicClaim = settings.optBoolean("Luddic_Church_Claim_On_Sol", false);
-        } catch (Exception e) {}
-        if (luddicClaim) {
+            cfg = Global.getSettings().loadJSON("data/config/sol_settings.json");
+        } catch (Exception e) {
+            cfg = new JSONObject();
+        }
+
+        if (cfg.optBoolean("Luddic_Church_Claim_On_Sol", false)) {
             system.getMemoryWithoutUpdate().set(MemFlags.CLAIMING_FACTION, Factions.LUDDIC_CHURCH);
         }
+        boolean isSettled       = cfg.optBoolean("Generate_Settled_Planets", true);
+        int remnantHorde        = cfg.optInt("remnant_difficulty", 1);
+        int remnantSizeModifier = 0;
+        if(remnantHorde == 1){ remnantSizeModifier = -10;}
+        if(remnantHorde == 2){ remnantSizeModifier = 0;}
+        if(remnantHorde == 3){ remnantSizeModifier = 10;}
 
-        boolean isSettled = true;
-        try {
-            isSettled = Global.getSettings().loadJSON("data/config/sol_settings.json").optBoolean("Generate_Settled_Planets", true);
-        } catch (Exception e) {}
-
-        int remnantHorde = 1;
-        try {
-            remnantHorde = Global.getSettings().loadJSON("data/config/sol_settings.json").optInt("remnant_difficulty", 1);
-        } catch (Exception e) {}
-
-        int deepSpaceProbes = 1;
-        try {
-            deepSpaceProbes = Global.getSettings().loadJSON("data/config/sol_settings.json").optInt("Generate_Probes", 1);
-        } catch (Exception e) {}
-
-        boolean mercuryCold = true;
-        try {
-            mercuryCold = Global.getSettings().loadJSON("data/config/sol_settings.json").optBoolean("Mercury_And_Venus_Have_Poor_Light", true);
-        } catch (Exception e) {}
-        // Uranus and Neptune spawn in with normal gravity, this, after hyperspace initialisation removes high_gravity because they are too low densisty to have higher gravity than earth
-        // Thier gravity curve is much longer than earth tho :\
-        boolean Uranus_And_Neptune_Have_Normal_Gravity = true;
-        try {
-            Uranus_And_Neptune_Have_Normal_Gravity = Global.getSettings().loadJSON("data/config/sol_settings.json").optBoolean("Uranus_And_Neptune_Have_Normal_Gravity", true);
-        } catch (Exception e) {}
-
-        boolean generateElevators = true;
-        try {
-            generateElevators = Global.getSettings().loadJSON("data/config/sol_settings.json").optBoolean("Generate_Space_Elevators", true);
-        } catch (Exception e) {}
-
-
+        int deepSpaceProbes     = cfg.optInt("Generate_Probes", 1);
+        boolean mercuryCold     = cfg.optBoolean("Mercury_And_Venus_Have_Poor_Light", true);
+        // Uranus and Neptune spawn with normal gravity; hyperspace init strips high_gravity (too low density), but their gravity curve is much longer than Earth's
+        boolean Uranus_And_Neptune_Have_Normal_Gravity = cfg.optBoolean("Uranus_And_Neptune_Have_Normal_Gravity", true);
+        boolean generateElevators = cfg.optBoolean("Generate_Space_Elevators", true);
+        boolean transNeptuneMemes = cfg.optBoolean("Trans_Neptunian_Memes", true);
 
         // Object Generation Settings
-        int DetailSetting = 0;
-        try {
-            DetailSetting = Global.getSettings().loadJSON("data/config/sol_settings.json").optInt("Inner_Sol_Detail", 0);
-        } catch (Exception e) {}
-        boolean innerSolShortlist = true;
-        if(DetailSetting >= 1){
-            innerSolShortlist = false;  
-        }
+        int innerSolDetail               = cfg.optInt("Inner_Sol_Detail", 1);
+        int visitedDetail                = cfg.optInt("Visited_Asteroids_Detail", 1);
+        int asteroidBeltDetail           = cfg.optInt("Asteroid_Belt_Detail", 1);
+        int hildaDetail                  = cfg.optInt("Hilda_Detail", 1);
+        int jupiterTrojansDetail         = cfg.optInt("Jupiter_Trojans_Detail", 1);
+        int jupiterDetail                = cfg.optInt("Jupiter_Detail", 1);
+        int saturnDetail                 = cfg.optInt("Saturn_Detail", 1);
+        int uranusDetail                 = cfg.optInt("Uranus_Detail", 1);
+        int neptuneDetail                = cfg.optInt("Neptune_Detail", 1);
+        int neptuneTrojansDetail         = cfg.optInt("Neptune_Trojans_Detail", 1);
+        int centaurDetail                = cfg.optInt("Centaur_Detail", 1);
+        int transNeptuneDetail           = cfg.optInt("Kuiper_Detail", 1);
+        int scatteredDiskDetail          = cfg.optInt("Scattered_Disk_Detail", 1);
+        int cometDetail                  = cfg.optInt("Comet_Detail", 1);
+        
+        boolean allowNonVisited          = cfg.optBoolean("Allow_Non_Visited", true);
 
-        DetailSetting = 0;
-        try {
-            DetailSetting = Global.getSettings().loadJSON("data/config/sol_settings.json").optInt("Visited_Asteroids_Detail", 0);
-        } catch (Exception e) {}
-        boolean visitedAsteroidsShortlist = true;
-        if(DetailSetting >= 1){
-            visitedAsteroidsShortlist = false;  
-        }
-
-        DetailSetting = 0;
-        try {
-            DetailSetting = Global.getSettings().loadJSON("data/config/sol_settings.json").optInt("Asteroid_Belt_Detail", 0);
-        } catch (Exception e) {}
-        boolean asteroidBeltShortlist = true;
-        if(DetailSetting >= 1){
-            asteroidBeltShortlist = false;  
-        }
-
-        DetailSetting = 1;
-        try {
-            DetailSetting = Global.getSettings().loadJSON("data/config/sol_settings.json").optInt("Hilda_Detail", 1);
-        } catch (Exception e) {}
-        boolean hildaShortlist = true;
-        if(DetailSetting >= 1){
-            hildaShortlist = false;  
-        }
-
-        DetailSetting = 1;
-        try {
-            DetailSetting = Global.getSettings().loadJSON("data/config/sol_settings.json").optInt("Jupiter_Trojans_Detail", 1);
-        } catch (Exception e) {}
-        boolean jupiterTrojansShortlist = true;
-        if(DetailSetting >= 1){
-            jupiterTrojansShortlist = false;  
-        }
-
-        int jupiterDetailSetting = 0;
-        try {
-            jupiterDetailSetting = Global.getSettings().loadJSON("data/config/sol_settings.json").optInt("Jupiter_Detail", 0);
-        } catch (Exception e) {}
-        boolean jupiterAll = (jupiterDetailSetting >= 2)? true : false;
-        boolean jupiterShortlist = (jupiterDetailSetting >= 1)? false : true;
-
-        int saturnDetailSetting = 0;
-        try {
-            saturnDetailSetting = Global.getSettings().loadJSON("data/config/sol_settings.json").optInt("Saturn_Detail", 0);
-        } catch (Exception e) {}
-        boolean saturnAll = (saturnDetailSetting >= 2)? true : false;
-        boolean saturnShortlist = (saturnDetailSetting >= 1)? false : true;
-
-        DetailSetting = 0;
-        try {
-            DetailSetting = Global.getSettings().loadJSON("data/config/sol_settings.json").optInt("Uranus_Detail", 0);
-        } catch (Exception e) {}
-        boolean uranusShortlist = true;
-        if(DetailSetting >= 1){
-            uranusShortlist = false;  
-        }
-
-        DetailSetting = 0;
-        try {
-            DetailSetting = Global.getSettings().loadJSON("data/config/sol_settings.json").optInt("Neptune_Detail", 0);
-        } catch (Exception e) {}
-        boolean neptuneShortlist = true;
-        if(DetailSetting >= 1){
-            neptuneShortlist = false;  
-        }
-
-        DetailSetting = 0;
-        try {
-            DetailSetting = Global.getSettings().loadJSON("data/config/sol_settings.json").optInt("Neptune_Trojans_Detail", 1);
-        } catch (Exception e) {}
-        boolean neptuneTrojansShortlist = true;
-        if(DetailSetting >= 1){
-            neptuneTrojansShortlist = false;  
-        }
-
-        DetailSetting = 0;
-        try {
-            DetailSetting = Global.getSettings().loadJSON("data/config/sol_settings.json").optInt("Centaur_Detail", 0);
-        } catch (Exception e) {}
-        boolean centaurShortlist = true;
-        if(DetailSetting >= 1){
-            centaurShortlist = false;  
-        }
-
-        DetailSetting = 1;
-        try {
-            DetailSetting = Global.getSettings().loadJSON("data/config/sol_settings.json").optInt("Kuiper_Detail", 1);
-        } catch (Exception e) {}
-        boolean transNeptuneShortlist = true;
-        if(DetailSetting >= 1){
-            transNeptuneShortlist = false;  
-        }
-
-        DetailSetting = 1;
-        try {
-            DetailSetting = Global.getSettings().loadJSON("data/config/sol_settings.json").optInt("Scattered_Disk_Detail", 1);
-        } catch (Exception e) {}
-        boolean scatteredDiskShortlist = true;
-        if(DetailSetting >= 1){
-            scatteredDiskShortlist = false;  
-        }
-
-
-        // Shit from the respectible end of science fiction
-        // no inexplicable 2km moons even closer to Jupiter than Thebe, and no ninth planets, leda, 1999 ZX30, and Burns-Caulfield
-        boolean fictionalTNOs = true;
-        try {
-            fictionalTNOs = Global.getSettings().loadJSON("data/config/sol_settings.json").optBoolean("Fictional_Trans_Neptunian_Objects", true);
-        } catch (Exception e) {}
-
-        // Other Object generation settings
-        // Pins pallas -> Ceres, Clete -> Neptune for the intel screen
-        boolean falseMoons = true;
-        try {
-            falseMoons = Global.getSettings().loadJSON("data/config/sol_settings.json").optBoolean("False_Moons", true);
-        } catch (Exception e) {}
+        // Respectable end of science fiction: no 2km moons inside Thebe, no ninth planets, Leda, 1999 ZX30, Burns-Caulfield
+        boolean fictionalTNOs = cfg.optBoolean("Fictional_Trans_Neptunian_Objects", true);
+        // Pins Pallas -> Ceres, Clete -> Neptune for the intel screen
+        boolean falseMoons    = cfg.optBoolean("False_Moons", true);
 
         // Disables unnamed bodies showing up on map
-        int showNamesSetting = 0;
-        try {
-            showNamesSetting = Global.getSettings().loadJSON("data/config/sol_settings.json").optInt("Show_Names", 0);
-        } catch (Exception e) {}
+        int showNamesSetting = cfg.optInt("Show_Names", 0);
+        boolean showMinorNames      = showNamesSetting >= 2;
+        boolean showProvisionalNames = showNamesSetting == 3;
+        boolean showCustomNames     = showNamesSetting != 0;
+        String showNameMinor  = showMinorNames      ? "w_name" : "no_name";
+        String showNameProv   = showProvisionalNames ? "w_name" : "no_name";
+        String showNameCustom = showCustomNames     ? "w_name" : "no_name";
 
-        boolean showMinorNames;
-        boolean showProvisionalNames;
-        boolean showCustomNames;
-        String showNameMinor;
-        String showNameProv;
-        String showNameCustom;
+        // Single-chord moons, indicated bodies — too controversial or not cool enough to send anyway.
+        // Extreme is UNOBSERVED / second-order: Eris may have an inner moonlet pumping Dysnomia's eccentricity, or Dysnomia was recently decked by a TNO or captured as an extreme-distance binary
+        int speculativeBodiesSetting = cfg.optInt("Speculative_Bodies", 0);
+        boolean speculativeBodies        = speculativeBodiesSetting >= 1;
+        boolean speculativeBodiesExtreme = speculativeBodiesSetting >= 2;
 
-        if (showNamesSetting == 3) {
-            showMinorNames = true;
-            showProvisionalNames = true;
-            showCustomNames = true;
-            showNameMinor = "w_name";
-            showNameProv = "w_name";
-            showNameCustom = "w_name";
-        } else if (showNamesSetting == 2) {
-            showMinorNames = true;
-            showProvisionalNames = false;
-            showCustomNames = true;
-            showNameMinor = "w_name";
-            showNameProv = "no_name";
-            showNameCustom = "w_name";
-        } else if (showNamesSetting == 0) {
-            showMinorNames = false;
-            showProvisionalNames = false;
-            showCustomNames = false;
-            showNameMinor = "no_name";
-            showNameProv = "no_name";
-            showNameCustom = "no_name";
-        } else { // default: 1
-            showMinorNames = false;
-            showProvisionalNames = false;
-            showCustomNames = true;
-            showNameMinor = "no_name";
-            showNameProv = "no_name";
-            showNameCustom = "w_name";
+        int speculativeBodiesBigSetting = cfg.optInt("Speculative_Bodies_Big", 0);
+        boolean planetNine   = speculativeBodiesBigSetting >= 1;
+        boolean planetTen    = speculativeBodiesBigSetting >= 2;
+        boolean planetEleven = speculativeBodiesBigSetting >= 3;
+
+        boolean occultOrbitBeta = cfg.optBoolean("Occult_Orbit_Beta", true);
+        if (!occultOrbitBeta) { falseMoons = false; }
+
+        boolean occultTerrainBeta = cfg.optBoolean("Occult_Terrain_Beta", true);
+
+        int genericAsteroids = cfg.optInt("Generic_Asteroids", 0);
+        int gen_Hungarians = Math.round(genericAsteroids * 0.05f);
+        int gen_InnerBelt  = Math.round(genericAsteroids * 0.24f);
+        int gen_CoreBelt   = Math.round(genericAsteroids * 0.38f);
+        int gen_OuterBelt  = Math.round(genericAsteroids * 0.26f);
+        int gen_Cybeles    = Math.round(genericAsteroids * 0.07f);
+
+        float rotMult       = (float) cfg.optDouble("rotMult", 4f);
+        float progradeMult  = (float) cfg.optDouble("progradeMult", -1f);
+        int stablePointDetail = cfg.optInt("Stable_Points_Detail", 0);
+        int numberArtilleryStations = cfg.optInt("Artillery_Stations", 3);
+
+        if(allowNonVisited){
+            // Phaethon
+            SectorEntityToken Phaethon = calc.spawnSPSObject(system, star, "Phaethon", "Phaethon", "asteroid", showNameMinor, 6f, 1.2714f, 0.8898f, 265.220f, 322.180f, 2020.96f, zeroDegGlobal, 0.150f, 1f);
+            Phaethon.setCustomDescriptionId("sol_phaethon");
+
+            // Attach Jump Point
+            JumpPointAPI jpPhaethon = Global.getFactory().createJumpPoint("jp_phaethon", "Phaethon Jump Point");
+            jpPhaethon.setStandardWormholeToHyperspaceVisual();
+            jpPhaethon.setCircularOrbit(Phaethon, 20, 35, 10);
+            system.addEntity(jpPhaethon);
+        } else {
+            JumpPointAPI jpPhaethon = Global.getFactory().createJumpPoint("jp_phaethon", "Sedna Jump Point");
+            jpPhaethon.setStandardWormholeToHyperspaceVisual();
+            system.addEntity(jpPhaethon);
+            calc.applySPSOrbit(jpPhaethon, star, 506f, 0.8496f, 144.478f, 311.009f, 2075.73f, zeroDegGlobal, null, 1f, null, null, null, star, "Sol", false, false);
         }
-
-        // Single chord moons, indicated bodies, etc, whatevers too controvertial and not cool enough to send it anyways
-        // Extreme is UNOBSERVED, and second order explanations, eris may have an inner moonlet that pumps Dysnomias eccentricity, but dysnomia might have just been decked by a tno recently or been a captured binary at a truly extreme distance  (Dysnomias pros captured so not that big a leap)
-        int speculativeBodiesSetting = 0;
-        try {
-            speculativeBodiesSetting = Global.getSettings().loadJSON("data/config/sol_settings.json").optInt("Speculative_Bodies", 0);
-        } catch (Exception e) {}
-
-        boolean speculativeBodies;
-        boolean speculativeBodiesExtreme;
-
-        if (speculativeBodiesSetting == 2) {
-            speculativeBodies = true;
-            speculativeBodiesExtreme = true;
-        } else if (speculativeBodiesSetting == 1) {
-            speculativeBodies = true;
-            speculativeBodiesExtreme = false;
-        } else { // default: 0
-            speculativeBodies = false;
-            speculativeBodiesExtreme = false;
-        }
-
-
-        int speculativeBodiesBigSetting = 0;
-        try {
-            speculativeBodiesBigSetting = Global.getSettings().loadJSON("data/config/sol_settings.json").optInt("Speculative_Bodies_Big", 0);
-        } catch (Exception e) {}
-
-        boolean planetNine;
-        boolean planetTen;
-        boolean planetEleven;
-
-        if (speculativeBodiesBigSetting == 3) {
-            planetNine = true;
-            planetTen = true;
-            planetEleven = true;
-        } else if (speculativeBodiesBigSetting == 2) {
-            planetNine = true;
-            planetTen = true;
-            planetEleven = false;
-        } else if (speculativeBodiesBigSetting == 1) {
-            planetNine = true;
-            planetTen = false;
-            planetEleven = false;
-        } else { // default: 0
-            planetNine = false;
-            planetTen = false;
-            planetEleven = false;
-        }
-
-        boolean occultOrbitBeta = true;
-        try {
-            occultOrbitBeta = Global.getSettings().loadJSON("data/config/sol_settings.json").optBoolean("Occult_Orbit_Beta", true);
-        } catch (Exception e) {}
-        if(!occultOrbitBeta){falseMoons = false;}
-
-        int genericAsteroids = 0;
-        try {
-            genericAsteroids = Global.getSettings().loadJSON("data/config/sol_settings.json").optInt("Generic_Asteroids", 0);
-        } catch (Exception e) {}
-
-        int gen_Hungarians  = Math.round(genericAsteroids * 0.05f);
-        int gen_InnerBelt   = Math.round(genericAsteroids * 0.24f);
-        int gen_CoreBelt    = Math.round(genericAsteroids * 0.38f);
-        int gen_OuterBelt   = Math.round(genericAsteroids * 0.26f);
-        int gen_Cybeles     = Math.round(genericAsteroids * 0.07f);
-
-        float rotMult = 4f;
-        try {
-            rotMult = (float) Global.getSettings().loadJSON("data/config/sol_settings.json").optDouble("rotMult", 4f);
-        } catch (Exception e) {}
-
-        float progradeMult = -1f;
-        try {
-            progradeMult = (float) Global.getSettings().loadJSON("data/config/sol_settings.json").optDouble("progradeMult", -1f);
-        } catch (Exception e) {}
-
-        int stablePointDetail = 0;
-        try {
-            stablePointDetail = Global.getSettings().loadJSON("data/config/sol_settings.json").optInt("Stable_Points_Detail", 0);
-        } catch (Exception e) {}
-
-        // Phaethon
-        SectorEntityToken Phaethon = calc.spawnSPSObject(system, star, "Phaethon", "Phaethon", "asteroid", showNameMinor, 6f, 1.2714f, 0.8898f, 265.220f, 322.180f, 2020.96f, zeroDegGlobal, 0.150f, 1f);
-        Phaethon.setCustomDescriptionId("sol_phaethon");
-
-        // Attach Jump Point
-        JumpPointAPI jpPhaethon = Global.getFactory().createJumpPoint("jp_phaethon", "Phaethon Jump Point");
-        jpPhaethon.setStandardWormholeToHyperspaceVisual();
-        jpPhaethon.setCircularOrbit(Phaethon, 20, 35, 10);
-        system.addEntity(jpPhaethon);
 
         system.autogenerateHyperspaceJumpPoints(true, false, false);
 

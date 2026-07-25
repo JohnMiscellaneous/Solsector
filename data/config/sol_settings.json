@@ -50,23 +50,24 @@
     ## ======= What entities to generate? ===================
     ## ======================================================
 	"Generate_Sol": true,
-    ## for the chaotic which dont want to see an object a probe hasnt flown by
+
+    ## for the chaotic which dont want to see an object a probe hasnt flown by, overides all
 	"Allow_Non_Visited": true,
 
     ## enables or disables some less interesting NEAs
     ## accepted values 0, 1    
-    "Inner_Sol_Detail": 0,
+    "Inner_Sol_Detail": 1,
 
     ## enables or disables some small Visited Asteroids
-    ## accepted values 0, 1
-    "Visited_Asteroids_Detail": 0, 
+    ## accepted values 0 (none specifically), 1 (default), 2 (), 3, 4
+    "Visited_Asteroids_Detail": 1, 
 
     ## enables or disables some less important/interesting asteroids
-    ## accepted values 0, 1
-    "Asteroid_Detail": 0,
+    ## accepted values 0, 1, 2
+    "Asteroid_Detail": 1,
 
     ## you get the point
-    ## accepted values 0, 1 
+    ## accepted values 0, 1, 2
     "Hilda_Detail": 1,
 
     ## number of generic asteroid belt asteroids to generate
@@ -82,25 +83,25 @@
     "Saturn_Detail": 1,
 
     ## accepted values 0 (minimal), 1 (default), 2 (all)   
-    "Uranus_Detail": 0,
+    "Uranus_Detail": 1,
 
     ## accepted values 0 (minimal), 1 (default), 2 (all)       
-    "Neptune_Detail": 0,
+    "Neptune_Detail": 1,
 
     ## accepted values 0 (minimal), 1 (default), 2 (all)      
     "Neptune_Trojans_Detail": 1,
 
     ## accepted values 0 (nothing bar chiron), 1 (default), 2 (bit more)      
     ## Enables the entites, terrain is handled under occult terrain beta.
-    "Comet_Detail": 0,
+    "Comet_Detail": 1,
 
     ## accepted values 0 (just Chiron and Chariklo), 1 (default), 2 (bit more)
-    "Centaur_Shortlist": 0,
+    "Centaur_Detail": 1,
 
-    ## accepted values 0, 1,  
+    ## accepted values 0, 1, 2
     "Kuiper_Detail": 1,
     
-    ## accepted values 0, 1,  
+    ## accepted values 0, 1, 2
     "Scattered_Disk_Detail": 1,
 
     ## accepted values 0 (major points, default), 1 (L4 and L5 for all 8 classical planets), 2 (L3 for the madmen)
@@ -119,6 +120,9 @@
     ## 1 is convincing speculative moons, 
     ## 2 is edge-case speculative moons
     "Speculative_Bodies": 0,
+
+    ## Makes planet 9 hidden
+    "Hidden_Planet": true,
 
     ## accepted values 0 (none), 1 (interesting orbit ones) (default), 2 (pretty inclusive)
     "Generate_Probes": 1,

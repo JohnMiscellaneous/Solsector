@@ -141,6 +141,7 @@ public class CometsCentaursTNOs {
         boolean fictionalTNOs = cfg.optBoolean("Fictional_Trans_Neptunian_Objects", true);
         // Pins Pallas -> Ceres, Clete -> Neptune for the intel screen
         boolean falseMoons    = cfg.optBoolean("False_Moons", true);
+        boolean hiddenPlanet = cfg.optBoolean("Hidden_Planet", true);
 
         // Disables unnamed bodies showing up on map
         int showNamesSetting = cfg.optInt("Show_Names", 0);
@@ -178,75 +179,74 @@ public class CometsCentaursTNOs {
         float progradeMult  = (float) cfg.optDouble("progradeMult", -1f);
         int stablePointDetail = cfg.optInt("Stable_Points_Detail", 0);
         int numberArtilleryStations = cfg.optInt("Artillery_Stations", 3);
-        
+
         // =========================================================================
         // ========================= ACTIVE COMETS =================================
         // =========================================================================
         // --- Short Period Comets ---
-        if(cometDetail > 0){
+        if(cometDetail >= 1 || visitedDetail >= 1){
             // 67P Churyumov-Gerasimenko
             SectorEntityToken Churymov = calc.spawnSPSObject(system, star, "Churyumov-Gerasimenko", "Churyumov-Gerasimenko", "custom_entity", "Churymov" + showNameCustom, 1f, 3.4622f, 0.6409f, 50.136f, 12.798f, 2015.616f, zeroDegGlobal, -.529f, 1f);
-
             // 1P/Halley | Retrograde
             SectorEntityToken Halley = calc.spawnSPSObject6(system, star, "Halley", "Halley", "custom_entity", "Halley" + showNameCustom, 11f, 17.9286f, 0.9679f, 59.099f, 112.241f, 1986.11f, zeroDegGlobal, 2.2f, 1f, null, null, null, star, "Sol", true);
             Halley.setCustomDescriptionId("sol_1p");
-
-            // 109P/Swift-Tuttle | Retrograde
-            SectorEntityToken barycenterSwift = calc.spawnSPSObject6(system, star, "Swift-Tuttle", "Swift-Tuttle", "custom_entity", "Swift" + showNameMinor, 1f, 26.0921f, 0.9632f, 139.381f, 152.982f, 1992.945f, zeroDegGlobal, null, 1f, null, null, null, star, "Sol", true);
-
-            // 2P/Encke
-            SectorEntityToken Encke = calc.spawnSPSObject(system, star, "Encke", "Encke", "asteroid", showNameMinor, 4.8f, 2.2197f, 0.8477f, 334.194f, 187.134f, 2023.81f, zeroDegGlobal, 0.458f, 1f);
-
             // 9P/Tempel 1
             SectorEntityToken Tempel1 = calc.spawnSPSObject(system, star, "Tempel", "Tempel", "custom_entity", "Tempel" + showNameCustom, 6.0f, 3.1461f, 0.5097f, 68.754f, 179.197f, 2016.59f, zeroDegGlobal, 1.696f, 1f);
             Tempel1.setCustomDescriptionId("sol_9p");
-
             // 81P/Wild 2
             SectorEntityToken Wild = calc.spawnSPSObject(system, star, "Wild", "Wild", "custom_entity", "Wild" + showNameCustom, 4.0f, 3.4497f, 0.5374f, 136.110f, 41.725f, 2022.96f, zeroDegGlobal, 0.562f, 1f);
-
             // 19P/Borrelly
             SectorEntityToken barycenterBorrelly = calc.spawnSPSObject(system, star, "Borrelly", "Borrelly", "custom_entity", "Borelly" + showNameCustom, 1f, 3.6070f, 0.6379f, 74.301f, 351.862f, 2022.088f, zeroDegGlobal, 1.04f, 1f);
-
             // 103P/Hartley 2
             SectorEntityToken barycenterHartley = calc.spawnSPSObject(system, star, "Hartley", "Hartley", "custom_entity", "Hartley" + showNameCustom, 1f, 3.4757f, 0.6936f, 219.742f, 181.322f, 2017.301f, zeroDegGlobal, 0.68f, 1f);
+            if(occultTerrainBeta){
+                CometTerrainManager.setup(Churymov,           4.0f, 120f);  
+                CometTerrainManager.setup(Tempel1,            3.5f, 180f);
+                CometTerrainManager.setup(Halley,             5.5f, 400f);
+                CometTerrainManager.setup(Wild,               4.0f, 200f); 
+                CometTerrainManager.setup(barycenterHartley,  3.0f, 140f);
+                CometTerrainManager.setup(barycenterBorrelly, 3.5f, 180f);
+            }
+        }
 
+        if(cometDetail >= 2 || visitedDetail >= 3){
+            // 26P/Grigg-Skjellerup | dust-poor, Giotto's second target
+            SectorEntityToken Grigg = calc.spawnSPSObject(system, star, "GriggSkjellerup", "Grigg-Skjellerup", "asteroid", showNameMinor, 2.6f, 3.0242f, 0.6397f, 211.634f, 1.896f, 2013.51f, zeroDegGlobal, null, 1f);
+            // 21P/Giacobini-Zinner | parent of the Draconids, ICE flyby 1985
+            SectorEntityToken GiacobiniZinner = calc.spawnSPSObject(system, star, "GiacobiniZinner", "Giacobini-Zinner", "asteroid", showNameMinor, 2.0f, 3.5003f, 0.7105f, 195.404f, 172.812f, 2018.69f, zeroDegGlobal, 0.396f, 1f);
+            if(occultTerrainBeta){
+                CometTerrainManager.setup(Grigg, 3.0f, 120f);
+                CometTerrainManager.setup(GiacobiniZinner, 3.0f, 180f);
+            }
+        }
+
+        if(cometDetail >= 1 && allowNonVisited){
+            // 109P/Swift-Tuttle | Retrograde
+            SectorEntityToken barycenterSwift = calc.spawnSPSObject6(system, star, "Swift-Tuttle", "Swift-Tuttle", "custom_entity", "Swift" + showNameMinor, 1f, 26.0921f, 0.9632f, 139.381f, 152.982f, 1992.945f, zeroDegGlobal, null, 1f, null, null, null, star, "Sol", true);
+            // 2P/Encke
+            SectorEntityToken Encke = calc.spawnSPSObject(system, star, "Encke", "Encke", "asteroid", showNameMinor, 4.8f, 2.2197f, 0.8477f, 334.194f, 187.134f, 2023.81f, zeroDegGlobal, 0.458f, 1f);
             // 29P/Schwassmann-Wachmann 1 | permanently active, outburst-prone
             SectorEntityToken SW1 = calc.spawnSPSObject(system, star, "SchwassmannWachmann", "Schwassmann-Wachmann", "asteroid", showNameMinor, 60.4f, 6.0460f, 0.0448f, 312.391f, 50.663f, 2019.29f, zeroDegGlobal, 2.4f, 1f);
-            
             // TODO Hale-Bopp
             if(occultTerrainBeta){
                 CometTerrainManager.setup(SW1, 6.5f, 200f);    
-                CometTerrainManager.setup(Churymov,           4.0f, 120f);  
-                CometTerrainManager.setup(Halley,             5.5f, 400f);
                 CometTerrainManager.setup(barycenterSwift,    5.0f, 400f); 
                 CometTerrainManager.setup(Encke,              3.0f, 150f);
-                CometTerrainManager.setup(Tempel1,            3.5f, 180f);
-                CometTerrainManager.setup(Wild,               4.0f, 200f); 
-                CometTerrainManager.setup(barycenterBorrelly, 3.5f, 180f);
-                CometTerrainManager.setup(barycenterHartley,  3.0f, 140f);
             }
                 
             if(cometDetail >= 2){
-                // 28P/Neujmin 1 | one of the least active JFCs known
+                // 28P/Neujmin 1 | No clue how this got in
                 SectorEntityToken Neujmin = calc.spawnSPSObject(system, star, "Neujmin", "Neujmin", "asteroid", showNameMinor, 21.4f, 6.9655f, 0.7735f, 346.346f, 347.443f, 2021.19f, zeroDegGlobal, 0.528f, 1f);
-
-                // 27P/Crommelin | Halley-type
+                // 27P/Crommelin 
                 SectorEntityToken Crommelin = calc.spawnSPSObject(system, star, "Crommelin", "Crommelin", "asteroid", showNameMinor, 5f, 9.0935f, 0.9193f, 250.959f, 195.955f, 2011.59f, zeroDegGlobal, null, 1f);
-
-                // 26P/Grigg-Skjellerup | dust-poor, Giotto's second target
-                SectorEntityToken Grigg = calc.spawnSPSObject(system, star, "GriggSkjellerup", "Grigg-Skjellerup", "asteroid", showNameMinor, 2.6f, 3.0242f, 0.6397f, 211.634f, 1.896f, 2013.51f, zeroDegGlobal, null, 1f);
-
-                // 21P/Giacobini-Zinner | parent of the Draconids, ICE flyby 1985
-                SectorEntityToken GiacobiniZinner = calc.spawnSPSObject(system, star, "GiacobiniZinner", "Giacobini-Zinner", "asteroid", showNameMinor, 2.0f, 3.5003f, 0.7105f, 195.404f, 172.812f, 2018.69f, zeroDegGlobal, 0.396f, 1f);
                 if(occultTerrainBeta){
-                    CometTerrainManager.setup(GiacobiniZinner, 3.0f, 180f);
                     CometTerrainManager.setup(Neujmin, 3.0f, 200f); 
-                    CometTerrainManager.setup(Grigg, 3.0f, 120f);
                     CometTerrainManager.setup(Crommelin, 4.0f, 300f);
                 }
             }
         }
-    
+
+
         // =========================================================================
         // ======================= LONG PERIOD COMETS ==============================
         // =========================================================================
@@ -294,7 +294,7 @@ public class CometsCentaursTNOs {
                 "sol_dist_distant"
             });
             if(speculativeBodies){
-            calc.spawnMoon(system, Chariklo, "Chariklo Beta", calc.getSize(5f), r_C2R + 10f, calc.getTime(12f), 180f, showProvisionalNames);
+                calc.spawnMoon(system, Chariklo, "Chariklo Beta", calc.getSize(5f), r_C2R + 10f, calc.getTime(12f), 180f, showProvisionalNames);
             }
 
             Chariklo.setSkipForJumpPointAutoGen(true);
@@ -587,6 +587,12 @@ public class CometsCentaursTNOs {
         Charon.getMemoryWithoutUpdate().set("$sol_orbit_max_au", 49.3f);
 
         Pluto.getMarket().getMemoryWithoutUpdate().set("$sol_polar_atmosphere_level", 2);
+
+        // This is actually a CCC, but allownonvisited skips the rest so:
+        if(transNeptuneDetail >= 1 || visitedDetail >= 1){
+            // Arrokoth
+            SectorEntityToken arrokothBarycenter = calc.spawnSPSObject(system, star, "arrokoth", "Arrokoth", "custom_entity", "Arrokoth" + showNameCustom, 1f, 44.0615f, 0.0363f, 159.062f, 189.384f, 2066.64f, zeroDegGlobal, 0.664f, 1f);
+        }
 
         if(allowNonVisited){
             if(transNeptuneDetail >= 1){
@@ -1529,10 +1535,7 @@ public class CometsCentaursTNOs {
             // =========================================================================
             // COLD CLASSICAL CUBEWANOS 
             // =========================================================================
-            if(transNeptuneDetail >= 1 || visitedDetail >= 1){
-                // Arrokoth
-                SectorEntityToken arrokothBarycenter = calc.spawnSPSObject(system, star, "arrokoth", "Arrokoth", "custom_entity", "Arrokoth" + showNameCustom, 1f, 44.0615f, 0.0363f, 159.062f, 189.384f, 2066.64f, zeroDegGlobal, 0.664f, 1f);
-            }
+
             if(transNeptuneDetail >= 1){
                 // Sila-Nunam (79360)
                 float sz_Sila = calc.getSize(249f);
@@ -1882,7 +1885,7 @@ public class CometsCentaursTNOs {
 
             SectorEntityToken Rumina = calc.spawnSPSObject(system, star, "Rumina", "Rumina", "asteroid", showNameMinor, 644f, 92.2746f, 0.6190f, 84.630f, 318.731f, 2005.06f, zeroDegGlobal, null, 1f);
 
-            if(transNeptuneDetail >= 2){
+            if(scatteredDiskDetail >= 2){
                 // 2003 UY117
                 SectorEntityToken UY117 = calc.spawnSPSObject(system, star, "UY117", "2003 UY117", "asteroid", showNameProv, 170f, 56.1198f, 0.4202f, 265.250f, 113.035f, 2005.03f, zeroDegGlobal, 0.516f, 1f);
                 // 1996 TL66
@@ -1940,7 +1943,7 @@ public class CometsCentaursTNOs {
             }
 
             // The Goblin | AKA lekuaksaorhuasifhbsjhvg4ryt | AKA Leleakuhonua (a and u are held constant) | AKA 541132 | AKA 2015 TG387
-            PlanetAPI Goblin = (PlanetAPI) calc.spawnSPSObject(system, star, "Goblin", goblinName, "frozen", null, 220f, 1389.3517f, 0.94572f, 301.134f, 118.130f, 2078.58f, zeroDegGlobal, null, 1f);
+            PlanetAPI Goblin = (PlanetAPI) calc.spawnSPSObject7(system, falseMoons ? Sedna : star, "Goblin", goblinName, "frozen", null, 220f, 1389.3517f, 0.94572f, 301.134f, 118.130f, 2078.58f, zeroDegGlobal, null, 1f, null, null, null, star, "Sol", false, falseMoons);
 
             Goblin.getSpec().setTexture("graphics/planets/goblin_tx.jpg"); 
             Goblin.getSpec().setPlanetColor(new Color(255, 220, 200, 255));
@@ -1983,8 +1986,7 @@ public class CometsCentaursTNOs {
             // Biden (2012 VP113)
             // Ironic humor trigger warning. You gotta be careful because in this polarized society there probably is someone who believes biden is one of the eponymous "old ones" from lovecraft's work.
             // 1000km cuz I feelz like it. you can't spell Assumed albedo without ASS
-            PlanetAPI Biden = (PlanetAPI) calc.spawnSPSObject(system, star, "Biden", bidenName, "frozen", null, 1000f, 269.7334f, 0.7011f, 90.902f, 294.290f, 1979.89f, zeroDegGlobal, null, 1f);
-            Biden.getSpec().setTexture("graphics/planets/biden_tx.jpg"); 
+            PlanetAPI Biden = (PlanetAPI) calc.spawnSPSObject7(system, falseMoons ? Sedna : star, "Biden", bidenName, "frozen", null, 1000f, 269.7334f, 0.7011f, 90.902f, 294.290f, 1979.89f, zeroDegGlobal, null, 1f, null, null, null, star, "Sol", false, falseMoons);            Biden.getSpec().setTexture("graphics/planets/biden_tx.jpg"); 
             Biden.getSpec().setAtmosphereThickness(0f); 
             Biden.getSpec().setAtmosphereThicknessMin(0f); 
             Biden.getSpec().setAtmosphereColor(new Color(0, 0, 0, 0)); 
@@ -2020,7 +2022,7 @@ public class CometsCentaursTNOs {
             Biden.getMemoryWithoutUpdate().set("$sol_orbit_max_au", 444.1f);
 
             // Farout (2018 VG18)
-            PlanetAPI Farout = (PlanetAPI) calc.spawnSPSObject(system, star, "Farout", "Farout", "frozen", null, 500f, 81.9689f, 0.5237f, 245.260f, 16.976f, 1694.35f, zeroDegGlobal, null, 1f);
+            PlanetAPI Farout = (PlanetAPI) calc.spawnSPSObject7(system, falseMoons ? Gonggong : star, "Farout", "Farout", "frozen", null, 500f, 81.9689f, 0.5237f, 245.260f, 16.976f, 1694.35f, zeroDegGlobal, null, 1f, null, null, null, star, "Sol", false, falseMoons);
 
             Farout.getSpec().setTexture("graphics/planets/farout_tx.jpg"); 
             Farout.getSpec().setAtmosphereThickness(0f); 
@@ -2055,7 +2057,7 @@ public class CometsCentaursTNOs {
             Farout.getMemoryWithoutUpdate().set("$sol_orbit_max_au", 124.897f);
 
             // Farfarout (2018 AG37)
-            PlanetAPI Farfarout = (PlanetAPI) calc.spawnSPSObject(system, star, "Farfarout", "Farfarout", "rocky_ice", null, 400f, 80.1675f, 0.6554f, 68.357f, 231.855f, 2364.23f, zeroDegGlobal, null, 1f);
+            PlanetAPI Farfarout = (PlanetAPI) calc.spawnSPSObject7(system, falseMoons ? Gonggong : star, "Farfarout", "Farfarout", "rocky_ice", null, 400f, 80.1675f, 0.6554f, 68.357f, 231.855f, 2364.23f, zeroDegGlobal, null, 1f, null, null, null, star, "Sol", false, falseMoons);
 
             Farfarout.getSpec().setTexture("graphics/planets/farfarout_tx.jpg"); 
             Farfarout.getSpec().setAtmosphereThickness(0f); 
@@ -2203,6 +2205,12 @@ public class CometsCentaursTNOs {
                 DistanceConditionManager.track(SolIX.getMarket());
                 SolIX.getMemoryWithoutUpdate().set("$sol_orbit_min_au", 200f);
                 SolIX.getMemoryWithoutUpdate().set("$sol_orbit_max_au", 370f);
+                
+                if(hiddenPlanet){
+                    SolIX.setDiscoverable(true);
+                    SolIX.setSensorProfile(10000f);
+                    SolIX.addTag(Tags.NEUTRINO_HIGH);
+                }
             }
 
             if(planetTen){
@@ -2241,6 +2249,12 @@ public class CometsCentaursTNOs {
                 DistanceConditionManager.track(SolX.getMarket());
                 SolX.getMemoryWithoutUpdate().set("$sol_orbit_min_au", 120f);
                 SolX.getMemoryWithoutUpdate().set("$sol_orbit_max_au", 140f);
+                
+                if(hiddenPlanet){
+                    SolX.setDiscoverable(true);
+                    SolX.setSensorProfile(10000f);
+                    SolX.addTag(Tags.NEUTRINO_HIGH);
+                }
             }
 
             float sz_SolXI;
@@ -2287,13 +2301,18 @@ public class CometsCentaursTNOs {
                 DistanceConditionManager.track(SolXI.getMarket());
                 SolXI.getMemoryWithoutUpdate().set("$sol_orbit_min_au", 1400f);
                 SolXI.getMemoryWithoutUpdate().set("$sol_orbit_max_au", 8600f);
-
+                
+                if(hiddenPlanet){
+                    SolXI.setDiscoverable(true);
+                    SolXI.setSensorProfile(10000f);
+                    SolXI.addTag(Tags.NEUTRINO_HIGH);
+                }
             }
 
             SectorEntityToken SolIX = system.getEntityById("SolIX");
             SectorEntityToken SolX = system.getEntityById("SolX");
             SectorEntityToken SolXI = system.getEntityById("SolXI");
-
+            
         }
     }
 }

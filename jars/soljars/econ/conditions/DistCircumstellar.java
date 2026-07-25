@@ -30,6 +30,8 @@ public class DistCircumstellar extends BaseMarketConditionPlugin {
         super.apply(id);
         String desc = condition.getName();
 
+        market.getHazard().modifyFlat(id, 0.15f, desc);
+
         Industry fuel = IndustryCompat.getFuelProduction(market);
         if (hasInstalledItem(fuel, SYNCHROTRON_CORE) && fuel.isFunctional()) {
             fuel.getSupply(Commodities.FUEL).getQuantity().modifyFlat(id, 1, desc);
@@ -47,6 +49,8 @@ public class DistCircumstellar extends BaseMarketConditionPlugin {
     @Override
     public void unapply(String id) {
         super.unapply(id);
+
+        market.getHazard().unmodifyFlat(id);
 
         Industry fuel = IndustryCompat.getFuelProduction(market);
         if (fuel != null) {
@@ -69,6 +73,7 @@ public class DistCircumstellar extends BaseMarketConditionPlugin {
         float pad = 10f;
         Color h = Misc.getHighlightColor();
 
+        tooltip.addPara("%s hazard rating", pad, h, "+15%");
         tooltip.addPara("%s metals and transplutonics output (catalytic core)", pad, h, "+1");
         tooltip.addPara("%s industry upkeep (catalytic core)", pad, h, "x0.75");
         tooltip.addPara("%s fuel production (synchrotron core)", pad, h, "+1");

@@ -108,7 +108,9 @@ set "ARGFILE=%TEMP%\soljars_files.txt"
     echo "%SRCROOT_FWD%/soljars/gen/systems/sol/GiantMoonsTotal.java"
     echo "%SRCROOT_FWD%/soljars/gen/systems/sol/SolTotal.java"
     echo "%SRCROOT_FWD%/soljars/gen/systems/sol/SolInnit.java"
+    echo "%SRCROOT_FWD%/soljars/gen/systems/sol/SolMisc.java"
     echo "%SRCROOT_FWD%/soljars/gen/systems/sol/MercuryToNeptune.java"
+    echo "%SRCROOT_FWD%/soljars/gen/systems/sol/CometsCentaursTNOs.java"
 )
 
 echo.

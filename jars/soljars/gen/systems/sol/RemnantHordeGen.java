@@ -62,8 +62,6 @@ public class RemnantHordeGen {
         float angle_Phobos = Phobos.getCircularOrbitAngle();
         float angle_Vulcan = VulcanEnergy.getCircularOrbitAngle();
         float angle_CeresJump = CeresJump.getCircularOrbitAngle();
-        float angle_Alexhelios = Alexhelios.getCircularOrbitAngle();
-        float angle_Cleoselene = Cleoselene.getCircularOrbitAngle();
 
         if(remnantHorde >= 1){
             // Small remnant fleets
@@ -108,18 +106,26 @@ public class RemnantHordeGen {
         if(remnantHorde >= 2){
             // Misc inner nexi
             CampaignFleetAPI vestaNexus = RemnantNexusFactory.spawnNexus(system, Vesta, "remnant_station2_Standard", 180f, 100f, calc.getTime(15f), 3, 20 + remnantSizeModifier, 40 + remnantSizeModifier, null);
-            CampaignFleetAPI pallasNexus = RemnantNexusFactory.spawnNexus(system, Pallas, "remnant_station2_Damaged", 180f, 100f, calc.getTime(15f), 2, 5, 25 + remnantSizeModifier, null);
-            CampaignFleetAPI hygieaNexus = RemnantNexusFactory.spawnNexus(system, Hygiea, "remnant_station2_Damaged", 180f, 100f, calc.getTime(15f), 2, 5, 25 + remnantSizeModifier, null);
+            if (Pallas != null) {
+                CampaignFleetAPI pallasNexus = RemnantNexusFactory.spawnNexus(system, Pallas, "remnant_station2_Damaged", 180f, 100f, calc.getTime(15f), 2, 5, 25 + remnantSizeModifier, null);
+            }
+            if (Hygiea != null) {
+                CampaignFleetAPI hygieaNexus = RemnantNexusFactory.spawnNexus(system, Hygiea, "remnant_station2_Damaged", 180f, 100f, calc.getTime(15f), 2, 5, 25 + remnantSizeModifier, null);
+            }
             CampaignFleetAPI lutetiaNexus = RemnantNexusFactory.spawnNexus(system, Vesta, "remnant_station2_Standard", 180f, 100f, calc.getTime(15f), 3, 20 + remnantSizeModifier, 40 + remnantSizeModifier, null);
 
             // Ceres opposite hyperjump
             CampaignFleetAPI ceresNexus = RemnantNexusFactory.spawnNexus(system, Ceres, "remnant_station2_Damaged", angle_CeresJump + 180f, 100f, calc.getTime(30f), 2, 5, 25 + remnantSizeModifier, null);
 
             // Alexhelios Weapon Platform (antipode of Kleopatra)
-            CampaignFleetAPI alexNexus = RemnantNexusFactory.spawnNexus(system, Alexhelios, "station1_Standard", angle_Alexhelios, 30f, calc.getTime(20f), 1, 20 + remnantSizeModifier, 30 + remnantSizeModifier, Commodities.BETA_CORE);
+            if (Alexhelios != null) {
+                CampaignFleetAPI alexNexus = RemnantNexusFactory.spawnNexus(system, Alexhelios, "station1_Standard", Alexhelios.getCircularOrbitAngle(), 30f, calc.getTime(20f), 1, 20 + remnantSizeModifier, 30 + remnantSizeModifier, Commodities.BETA_CORE);
+            }
 
             // Cleoselene Weapon Platform (antipode of Kleopatra)
-            CampaignFleetAPI cleoNexus = RemnantNexusFactory.spawnNexus(system, Cleoselene, "station1_Standard", angle_Cleoselene, 30f, calc.getTime(10f), 1, 20 + remnantSizeModifier, 30 + remnantSizeModifier, Commodities.BETA_CORE);
+            if (Cleoselene != null) {
+                CampaignFleetAPI cleoNexus = RemnantNexusFactory.spawnNexus(system, Cleoselene, "station1_Standard", Cleoselene.getCircularOrbitAngle(), 30f, calc.getTime(10f), 1, 20 + remnantSizeModifier, 30 + remnantSizeModifier, Commodities.BETA_CORE);
+            }
 
             // Ceres (120 FP)
             CampaignFleetAPI ceresOrdo = patrolFactory.spawnPatrol(system, Ceres, 120f);
@@ -132,10 +138,14 @@ public class RemnantHordeGen {
         }
         if(remnantHorde >= 3){
             // Agamemnon Weapon Platform
-            CampaignFleetAPI agamemnonNexus = RemnantNexusFactory.spawnNexus(system, Agamemnon, "remnant_weapon_platform1_Standard", 180f, 100f, calc.getTime(5f), 1, 30 + remnantSizeModifier, 35 + remnantSizeModifier, Commodities.BETA_CORE);
+            if (Agamemnon != null) {
+                CampaignFleetAPI agamemnonNexus = RemnantNexusFactory.spawnNexus(system, Agamemnon, "remnant_weapon_platform1_Standard", 180f, 100f, calc.getTime(5f), 1, 30 + remnantSizeModifier, 35 + remnantSizeModifier, Commodities.BETA_CORE);
+            }
 
             // Mentor Weapon Platform
-            CampaignFleetAPI mentorNexus = RemnantNexusFactory.spawnNexus(system, Mentor, "remnant_weapon_platform1_Standard", 180f, 100f, calc.getTime(5f), 1, 30 + remnantSizeModifier, 35 + remnantSizeModifier, Commodities.BETA_CORE);
+            if (Mentor != null) {
+                CampaignFleetAPI mentorNexus = RemnantNexusFactory.spawnNexus(system, Mentor, "remnant_weapon_platform1_Standard", 180f, 100f, calc.getTime(5f), 1, 30 + remnantSizeModifier, 35 + remnantSizeModifier, Commodities.BETA_CORE);
+            }
 
             // Titan Nexus
             CampaignFleetAPI titanNexus = RemnantNexusFactory.spawnNexus(system, Titan, "remnant_station2_Standard", 72f, sz_Titan * 4f, calc.getTime(10f), 3, 30 + remnantSizeModifier, 40 + remnantSizeModifier, null);

@@ -486,10 +486,11 @@ public class SolEconomies {
                 marketBiden.addIndustry(Industries.SPACEPORT);
                 marketBiden.addIndustry(Industries.POPULATION);
                 marketBiden.addIndustry(Industries.TECHMINING);
-                if(numberArtilleryStations >= 10 && Global.getSettings().getModManager().isModEnabled("IndEvo")){
-                    marketBiden.addIndustry("IndEvo_Artillery_railgun");
-                    marketBiden.addIndustry("orbitalstation");
-                }
+                
+                marketBiden.getIndustry(Industries.POPULATION).setAICoreId(Commodities.BETA_CORE);
+                marketBiden.getIndustry(Industries.SPACEPORT).setAICoreId(Commodities.GAMMA_CORE);
+                marketBiden.getIndustry(Industries.TECHMINING).setAICoreId(Commodities.GAMMA_CORE);
+
                 marketBiden.addSubmarket(Submarkets.SUBMARKET_OPEN);
                 marketBiden.addSubmarket(Submarkets.SUBMARKET_BLACK);
                 marketBiden.addSubmarket(Submarkets.SUBMARKET_STORAGE);
@@ -574,9 +575,6 @@ public class SolEconomies {
                 Farfarout.setDiscoverable(true);
             }
         }
-        // --------------------------------------------------------
-        // CLETE
-        // --------------------------------------------------------
         // --------------------------------------------------------
         // CLETE
         // --------------------------------------------------------
