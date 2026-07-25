@@ -18,22 +18,6 @@ import com.fs.starfarer.api.impl.campaign.terrain.BaseTerrain;
 import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.util.Misc;
 
-/**
- * Anti-sunward ion tail trailing an active comet. Constant-width strip rooted at
- * the comet, four magnitudes long and half a magnitude wide, dissolving over a
- * long alpha fade rather than tapering - a tapering strip makes every quad a
- * trapezoid, and affine texture interpolation bends the midline at each
- * triangle diagonal, which reads as a zig-zag down the centerline.
- *
- * Geometry is built once in local space with the tail along +x and the origin at
- * the comet; the only per-frame work is resolving the heliocentric angle, which
- * is pushed onto the entity as its facing. Vertices are rotated in software at
- * draw time, as SolLagrangeBean.frameToWorld does, with the trig hoisted out of
- * the loop since the facing is constant across the strip. Comets are eccentric,
- * so the facing comes from the star->comet vector directly - there is no circular
- * orbit angle to borrow - with a small deadband to suppress the position
- * quantization chatter that would otherwise wobble the strip.
- */
 public class CometTail extends BaseTerrain {
 
     public static class CometTailParams {
@@ -46,26 +30,23 @@ public class CometTail extends BaseTerrain {
         }
     }
 
-    protected static final float BASE_MULT = 0.7f;    // moving detect mult
-    protected static final float SLOW_MULT = 0.5f;    // stationary/slow-moving detect mult
+    protected static final float BASE_MULT = 0.7f;
+    protected static final float SLOW_MULT = 0.5f;
 
-    protected static final float LENGTH_MULT = 4f;    // length, in magnitudes
-    protected static final float WIDTH = 1.5f;        // constant width, in magnitudes
+    protected static final float LENGTH_MULT = 4f;
+    protected static final float WIDTH = 1.5f; // Diameter, not radius.
 
-    // the strip is a rectangle, so segments exist only to sample the alpha curve;
-    // spacing has to stay well under HEAD_FADE or the root ramp is lost
     protected static final int SEGMENTS = 8;
-    protected static final float END_FADE = 0.65f;    // long dissolve toward the tip
-    protected static final float HEAD_FADE = 0.08f;   // short ramp at the root, blends into the coma
-    protected static final float FACING_DEADBAND = 0.03f;  // degrees
+    protected static final float END_FADE = 0.65f;  
+    protected static final float HEAD_FADE = 0.08f;
+    protected static final float FACING_DEADBAND = 0.03f;
 
-    protected static final Color MAP_COLOR = new Color(150, 200, 255, 255);   // map tint only
+    protected static final Color MAP_COLOR = new Color(150, 200, 255, 255);
 
     protected CometTailParams params;
 
-    protected float facing = Float.NaN;               // persists; recomputed on first advance
+    protected float facing = Float.NaN;
 
-    // local-space strip, +x down the tail, origin at the comet
     protected transient float[] localX, localY, localT, localA;
     protected transient SpriteAPI mapTex;
     protected transient SpriteAPI tailTex;
@@ -76,20 +57,12 @@ public class CometTail extends BaseTerrain {
         this.params = (CometTailParams) param;
     }
 
-    // =====================================================================
-    // Geometry, built once in local space
-    // =====================================================================
+    // Geometry
 
     protected float length() { return params.cometMagnitude * LENGTH_MULT; }
 
     protected float halfWidth() { return params.cometMagnitude * WIDTH * 0.5f; }
 
-    /**
-     * Quad strip vertex pairs, plus the T coordinate and alpha fade each pair
-     * carries. Alpha smoothsteps to zero over the last {@code END_FADE} of the
-     * length so the tail dissolves instead of ending on a hard edge, and ramps up
-     * over the first {@code HEAD_FADE} so the root blends into the coma.
-     */
     protected void buildLocal() {
         int n = (SEGMENTS + 1) * 2;
         localX = new float[n];
@@ -117,10 +90,7 @@ public class CometTail extends BaseTerrain {
         return x < 0f ? 0f : (x > 1f ? 1f : x);
     }
 
-    // =====================================================================
-    // Rotation. The tail is a real rotator; its facing is just pinned to the
-    // radius vector rather than driven at a fixed rate.
-    // =====================================================================
+    // Rotation. Tail transient to 0,0. This wont work with binary stars.
 
     @Override
     public void advance(float amount) {
@@ -145,16 +115,13 @@ public class CometTail extends BaseTerrain {
         return Float.isNaN(facing) ? 0f : facing;
     }
 
-    /** Local (tail-space) to world; ca/sa are the facing's cosine and sine. */
     protected Vector2f localToWorld(float lx, float ly, float ca, float sa) {
         Vector2f loc = entity.getLocation();
         return new Vector2f(loc.x + lx * ca - ly * sa,
                             loc.y + lx * sa + ly * ca);
     }
 
-    // =====================================================================
     // Containment: inverse-rotate the point, then an analytic strip test
-    // =====================================================================
 
     @Override
     public boolean containsPoint(Vector2f point, float radius) {
@@ -163,8 +130,8 @@ public class CometTail extends BaseTerrain {
         float ca = (float) Math.cos(ang), sa = (float) Math.sin(ang);
 
         float dx = point.x - c.x, dy = point.y - c.y;
-        float along = dx * ca + dy * sa;          // local x
-        float perp  = -dx * sa + dy * ca;         // local y
+        float along = dx * ca + dy * sa;
+        float perp  = -dx * sa + dy * ca;
 
         float len = length();
         if (along < -radius || along > len + radius) return false;
@@ -176,22 +143,13 @@ public class CometTail extends BaseTerrain {
         return length() + params.cometMagnitude;
     }
 
-    // =====================================================================
     // Rendering
-    // =====================================================================
 
     @Override
     public EnumSet<CampaignEngineLayers> getActiveLayers() {
         return EnumSet.of(CampaignEngineLayers.TERRAIN_1);
     }
 
-    /**
-     * Constant-width strip; U spans the width, V runs the length. The texture is
-     * centerline-dense and transparent at both edges, so U runs 0 to 1 straight
-     * across the band. GL_MODULATE is set explicitly: the campaign pass can leave
-     * the environment on GL_REPLACE, which discards both the vertex tint and the
-     * per-vertex alpha and renders the strip flat and opaque.
-     */
     protected void renderStrip(SpriteAPI tex, Color color, float factor, float alphaMult) {
         if (localX == null) buildLocal();
 
@@ -246,9 +204,7 @@ public class CometTail extends BaseTerrain {
         renderStrip(mapTex, MAP_COLOR, factor, alphaMult);
     }
 
-    // =====================================================================
     // Effect + tooltip
-    // =====================================================================
 
     @Override
     public String getTerrainName() {

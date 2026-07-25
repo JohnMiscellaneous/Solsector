@@ -41,10 +41,17 @@
     ## disables some of the more memey things
     "Trans_Neptunian_Memes": true,
 
+    ## enables Possibly unstable terrain
+    "Occult_Terrain_Beta": true,
+    ## enables custom orbits, great for performance, if it doesn't make you crash
+    "Occult_Orbit_Beta": true,
+
     ## ======================================================  
     ## ======= What entities to generate? ===================
     ## ======================================================
 	"Generate_Sol": true,
+    ## for the chaotic which dont want to see an object a probe hasnt flown by
+	"Allow_Non_Visited": true,
 
     ## enables or disables some less interesting NEAs
     ## accepted values 0, 1    
@@ -59,35 +66,35 @@
     "Asteroid_Detail": 0,
 
     ## you get the point
-    ## accepted values 0, 1
+    ## accepted values 0, 1 
     "Hilda_Detail": 1,
 
     ## number of generic asteroid belt asteroids to generate
     "Generic_Asteroids": 0,
 
-    ## accepted values 0, 1, 2
+    ## accepted values 0 (minimal), 1 (default), 2 (bit more)
     "Jupiter_Trojans_Detail": 1,
 
-    ## 0 - galilean moons, inner moons, and a few irregulars (default)
-    ## 1 - adds some more irregulars
-    ## 2 - adds EVERY irregular (not recommended)
-    "Jupiter_Detail": 0,
+    ## accepted values 0 (mininimal, Gallilean + inner + himalia), 1 (default), 2 (extensive), 3 ALL 200+ PEBBLES
+    "Jupiter_Detail": 1,
 
-    ## 0 - inner moons, and a few irregulars (default)
-    ## 1 - adds some more inner moons and irregulars
-    ## 2 - adds EVERY irregular (VERY not recommended)
-    "Saturn_Detail": 0,
+    ## accepted values 0 (mininimal, inner moons + phoebe), 1 (default), 2 (extensive), 3 ALL 200+ PEBBLES
+    "Saturn_Detail": 1,
 
-    ## accepted values 0, 1,   
+    ## accepted values 0 (minimal), 1 (default), 2 (all)   
     "Uranus_Detail": 0,
 
-    ## accepted values 0, 1       
+    ## accepted values 0 (minimal), 1 (default), 2 (all)       
     "Neptune_Detail": 0,
 
-    ## accepted values 0, 1,      
-    "Neptune_Trojans_Shortlist": 1,
+    ## accepted values 0 (minimal), 1 (default), 2 (all)      
+    "Neptune_Trojans_Detail": 1,
 
-    ## accepted values 0, 1,      
+    ## accepted values 0 (nothing bar chiron), 1 (default), 2 (bit more)      
+    ## Enables the entites, terrain is handled under occult terrain beta.
+    "Comet_Detail": 0,
+
+    ## accepted values 0 (just Chiron and Chariklo), 1 (default), 2 (bit more)
     "Centaur_Shortlist": 0,
 
     ## accepted values 0, 1,  
@@ -96,12 +103,10 @@
     ## accepted values 0, 1,  
     "Scattered_Disk_Detail": 1,
 
-    ## 0 - just major ones (default)
-    ## 1 - adds minor stable langranges
-    ## 2 - add l3
+    ## accepted values 0 (major points, default), 1 (L4 and L5 for all 8 classical planets), 2 (L3 for the madmen)
     "Stable_Points_Detail": 0,
 
-    ## A few asteroids from science fiction which A, I respect, and B, has the grace to include a minor TNO or Jovian Irreg
+    ## adds 1999 ZX30, Burns-Caulfield, and the fictional jovian irreg of Leda, let me know if you'd like to see your favourite author's fictional minor object and it isnt that one moon from Red Rising.
     "Fictional_Trans_Neptunian_Objects": true,
 
     ## 0 is only the confirmed planets (default)
@@ -115,9 +120,7 @@
     ## 2 is edge-case speculative moons
     "Speculative_Bodies": 0,
 
-    ## 0 is no deep space probes
-    ## 1 is a few deep space probes (default)
-    ## 2 is pretty much every probe that could last thousands of years and is not on a bassically earth orbit
+    ## accepted values 0 (none), 1 (interesting orbit ones) (default), 2 (pretty inclusive)
     "Generate_Probes": 1,
 
     ## MISC ===============================================
@@ -139,8 +142,6 @@
     ## ======================================================
     ## Settings you might edit
 
-    ## enables custom orbits, great for performance, if it doesn't make you crash
-    "Occult_Orbit_Beta": true,
     ## defines if the logic should be circular or eccentric (if Occultorbitbeta should be false ), 1 will force everthing to being circular
     "Eccentricity_Cutoff": 0.01,
     

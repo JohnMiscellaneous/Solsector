@@ -16,11 +16,6 @@ import com.fs.starfarer.api.impl.campaign.terrain.BaseTerrain;
 import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.util.Misc;
 
-/**
- * Coma/tail-free sensor haze around an active comet. Plain disc centered on the
- * terrain entity, radius set by the comet's magnitude. No impacts, no burn
- * penalty - it is only cover.
- */
 public class CometComa extends BaseTerrain {
 
     public static class CometComaParams {
@@ -48,9 +43,7 @@ public class CometComa extends BaseTerrain {
         this.params = (CometComaParams) param;
     }
 
-    // =====================================================================
     // Geometry
-    // =====================================================================
 
     @Override
     public boolean containsPoint(Vector2f point, float radius) {
@@ -65,20 +58,14 @@ public class CometComa extends BaseTerrain {
         return params.cometMagnitude;
     }
 
-    // =====================================================================
     // Rendering
-    // =====================================================================
 
     @Override
     public EnumSet<CampaignEngineLayers> getActiveLayers() {
         return EnumSet.of(CampaignEngineLayers.TERRAIN_1);
     }
 
-    /**
-     * Textured disc. U is the radial axis - u=0 at the center where the texture is
-     * solid, u=1 at the rim where it's transparent - and V runs around the
-     * circumference, so the left-hand column wraps into a pure outward gradient.
-     */
+    // Radially fading disc, just a texture wrapped around its lefthand side
     protected void renderFan(SpriteAPI tex, Color color, float factor, float alphaMult) {
         float rf = color.getRed() / 255f;
         float gf = color.getGreen() / 255f;
@@ -89,7 +76,6 @@ public class CometComa extends BaseTerrain {
         float cx = loc.x * factor, cy = loc.y * factor;
         float r = params.cometMagnitude * factor;
 
-        // texture may be padded to power-of-two; these are the used fractions
         float tw = tex.getTextureWidth();
         float th = tex.getTextureHeight();
 
@@ -128,9 +114,7 @@ public class CometComa extends BaseTerrain {
         renderFan(mapTex, MAP_COLOR, factor, alphaMult);
     }
 
-    // =====================================================================
     // Effect + tooltip
-    // =====================================================================
 
     @Override
     public String getTerrainName() {

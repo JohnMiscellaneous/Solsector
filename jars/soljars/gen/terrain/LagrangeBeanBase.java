@@ -21,51 +21,33 @@ import com.fs.starfarer.api.util.Misc;
 
 import soljars.gen.utils.AstroCalc;
 
-/**
- * Shared machinery for the Lagrange libration clouds. A subclass supplies a
- * closed boundary and a paired inner/outer edge in frame space - coordinates
- * normalized to the A-B separation, origin at A, A->B along +x, so L4 sits at
- * (0.5, sqrt(3)/2) - and this class handles everything downstream of that.
- *
- * The frame->world map is radial and angle-preserving: |h| == |f|, so a vertex's
- * heliocentric radius depends only on |f| and its heliocentric angle is its frame
- * angle plus the frame rotation. The world shape is therefore a RIGID ROTATION of
- * a fixed shape about the primary, and everything except that rotation is
- * frame-invariant: the log-scaled radii, the arc lengths, the tile and fade
- * coordinates, the map ribbon rails. All of it is resolved once into "cache
- * space" - world offsets from the primary at frame angle 0 - and the per-frame
- * cost collapses to four multiplies and two adds per vertex, with no trig, no
- * AstroCalc call, and no allocation.
- */
+// Shared by LagrangeBean and LagrangeBeanMinor
 public abstract class LagrangeBeanBase extends BaseTerrain {
 
-    protected static final int PROFILE = 64;               // along-arc samples per edge
+    protected static final int PROFILE = 64;
 
-    protected static final float MAP_EDGE_WIDTH = 300f;    // edge band thickness, game units
-    protected static final float STATIONARY_MULT = 0.25f;  // dense-field slow-moving detect mult
+    protected static final float MAP_EDGE_WIDTH = 300f;
+    protected static final float STATIONARY_MULT = 0.25f;
 
-    protected static final float TILE_SCALE = 1f;          // arc repeats; >1 = more/shorter tiles
-    protected static final float END_FADE = 0.15f;         // fraction of the arc feathered at each tip
+    protected static final float TILE_SCALE = 1f;
+    protected static final float END_FADE = 0.15f;
 
-    // ---- frame space, filled by buildPolygon() ----
-    protected transient float[] polyX, polyY;                    // closed boundary
+    protected transient float[] polyX, polyY;
     protected transient float[] edgeInX, edgeInY, edgeOutX, edgeOutY;
 
-    // ---- cache space: world offsets from the primary at frame angle 0 ----
-    protected transient float[] wpX, wpY;                        // boundary
-    protected transient float[] woX, woY, wiX, wiY;              // paired edges
-    protected transient float[] railAX, railAY, railBX, railBY;  // map ribbon rails
-    protected transient float[] railSeg;                         // boundary segment lengths
-    protected transient float[] arcLen;                          // centerline arc length per sample
-    protected transient float[] fadeA;                           // per-sample tip feather
-    protected transient float maxThick;                          // widest cross-section
-    protected transient float minR, maxR;                        // radial bounds, containment early-out
+    protected transient float[] wpX, wpY;
+    protected transient float[] woX, woY, wiX, wiY;
+    protected transient float[] railAX, railAY, railBX, railBY;
+    protected transient float[] railSeg;
+    protected transient float[] arcLen;
+    protected transient float[] fadeA;
+    protected transient float maxThick;
+    protected transient float minR, maxR;
     protected transient float renderRange;
     protected transient boolean built;
 
-    // ---- derived once the sprites resolve; they carry the texture aspect ----
-    protected transient float[] arcV;      // band V coordinate per sample
-    protected transient float[] railV;     // map ribbon V coordinate per boundary vertex
+    protected transient float[] arcV;
+    protected transient float[] railV;
 
     protected transient AstroCalc calc;
     protected transient SpriteAPI mapTex, bandTex;
@@ -75,7 +57,6 @@ public abstract class LagrangeBeanBase extends BaseTerrain {
     // Subclass contract
     // =====================================================================
 
-    /** Must be null-safe before init(); the render path guards on it. */
     protected abstract SectorEntityToken primary();
 
     protected abstract float distanceAU();
@@ -96,7 +77,6 @@ public abstract class LagrangeBeanBase extends BaseTerrain {
 
     protected abstract boolean hasImpacts();
 
-    /** Fill polyX/polyY and the edgeIn/edgeOut arrays in frame units. */
     protected abstract void buildPolygon();
 
     // =====================================================================
@@ -121,7 +101,6 @@ public abstract class LagrangeBeanBase extends BaseTerrain {
         built = true;
     }
 
-    /** Frame units -> cache space (world offset from the primary at frame angle 0). */
     protected void toCache(float[] fx, float[] fy, float[] ox, float[] oy) {
         for (int i = 0; i < fx.length; i++) {
             double auR = Math.sqrt(fx[i] * fx[i] + fy[i] * fy[i]) * distanceAU();
@@ -167,8 +146,8 @@ public abstract class LagrangeBeanBase extends BaseTerrain {
             if (th > maxThick) maxThick = th;
 
             float t = i / (float) (PROFILE - 1);
-            float fade = clamp01(Math.min(t, 1f - t) / END_FADE);   // 0 at a tip, 0.5 at center
-            fadeA[i] = fade * fade * (3f - 2f * fade);              // smoothstep
+            float fade = clamp01(Math.min(t, 1f - t) / END_FADE);
+            fadeA[i] = fade * fade * (3f - 2f * fade);
         }
 
         buildRails();
@@ -178,12 +157,6 @@ public abstract class LagrangeBeanBase extends BaseTerrain {
         railV = null;
     }
 
-    /**
-     * Map ribbon rails, in cache space. The map draws vertices at
-     * (b*factor +- n*hw) with hw = MAP_EDGE_WIDTH*0.5*factor, which is just
-     * factor*(b +- n*MAP_EDGE_WIDTH*0.5) - so the rails are factor-free and
-     * precompute here alongside the segment lengths the V coordinate needs.
-     */
     protected void buildRails() {
         int m = polyN();
         float hw = MAP_EDGE_WIDTH * 0.5f;
@@ -209,11 +182,6 @@ public abstract class LagrangeBeanBase extends BaseTerrain {
         }
     }
 
-    /**
-     * The cloud and its terrain entity are rigid with respect to each other - the
-     * frame angle is derived from the entity's own orbit - so the furthest
-     * boundary point from the entity is a constant, measured once.
-     */
     protected void buildRenderRange() {
         renderRange = calc().getDist(distanceAU() * 1.6f, primary());
         if (entity == null) return;
@@ -223,7 +191,7 @@ public abstract class LagrangeBeanBase extends BaseTerrain {
 
         Vector2f a = primary().getLocation(), e = entity.getLocation();
         float dx = e.x - a.x, dy = e.y - a.y;
-        float ex = dx * ca + dy * sa, ey = -dx * sa + dy * ca;   // entity in cache space
+        float ex = dx * ca + dy * sa, ey = -dx * sa + dy * ca;
 
         float max = 0f;
         for (int i = 0; i < polyN(); i++) {
@@ -233,24 +201,14 @@ public abstract class LagrangeBeanBase extends BaseTerrain {
         renderRange = max + 100f;
     }
 
-    /** Rotation of the A->B axis, in degrees, derived from where this terrain sits. */
     protected float getFrameAngle() {
-        // Take the orbit angle the engine advances in double each frame, not
-        // Misc.getAngleInDegrees on the entity's float position: at the orbital
-        // radius that position quantizes to a few units, and atan2 of it wobbles
-        // the whole band tangentially (lateral jitter). Fall back to position only
-        // if the terrain somehow isn't on a circular orbit.
         float angSelf = entity.getOrbit() != null
                 ? entity.getCircularOrbitAngle()
                 : Misc.getAngleInDegrees(primary().getLocation(), entity.getLocation());
         return angSelf - (leading() ? 60f : -60f);
     }
 
-    // =====================================================================
-    // Containment. Cache space rather than frame space: the radial map is
-    // monotonic and angle-preserving, so the two tests are equivalent, but
-    // this one skips the AstroCalc.getAU inverse and two trig calls.
-    // =====================================================================
+    // Containment
 
     @Override
     public boolean containsPoint(Vector2f point, float radius) {
@@ -278,9 +236,7 @@ public abstract class LagrangeBeanBase extends BaseTerrain {
         return in;
     }
 
-    // =====================================================================
     // Campaign layer rendering
-    // =====================================================================
 
     @Override
     public EnumSet<CampaignEngineLayers> getActiveLayers() {
@@ -294,22 +250,12 @@ public abstract class LagrangeBeanBase extends BaseTerrain {
         return renderRange;
     }
 
-    /**
-     * Textured band across the cloud. The triangle strip pairs the inner and outer
-     * edges by index so it follows the arc without a fan; the sol_rings texture
-     * spans the band thickness once (S axis) and tiles along the arc (T axis), so
-     * it reads as a vertical ring pattern repeating down the length. Per-vertex
-     * alpha feathers the last {@code END_FADE} of the arc at each point tip so the
-     * texture fades out instead of ending on a hard pinch.
-     */
+    // Textured band
     protected void renderBand(float alphaMult) {
         ensureBuilt();
         if (bandTex == null) bandTex = Global.getSettings().getSprite("sol_rings", bandTextureId());
 
         if (arcV == null) {
-            // one repeat spans (belly thickness) * (texH/texW), so the texture is
-            // undistorted at the widest part and only compresses toward the thinning
-            // tips where it is already fading
             float aspect = bandTex.getHeight() / Math.max(1f, bandTex.getWidth());
             float tileLen = Math.max(1f, maxThick * aspect * TILE_SCALE);
             arcV = new float[PROFILE];
@@ -353,12 +299,6 @@ public abstract class LagrangeBeanBase extends BaseTerrain {
         renderBand(1f);
     }
 
-    // =====================================================================
-    // Map rendering. Per RingRenderer, map space is world coords * factor.
-    // A constant-width textured ribbon traces the whole boundary, closed into
-    // a loop, matching the vanilla belt look. Both rails and the V advance are
-    // factor-invariant, so the per-frame work is the rotation and one scale.
-    // =====================================================================
 
     @Override
     public void renderOnMap(float factor, float alphaMult) {
@@ -369,8 +309,6 @@ public abstract class LagrangeBeanBase extends BaseTerrain {
 
         int m = polyN();
         if (railV == null) {
-            // increment = segLen*factor * texH/imgH * bandW / (2*hw), and 2*hw is
-            // MAP_EDGE_WIDTH*factor, so factor cancels out of the V advance entirely
             float k = mapTex.getTextureHeight() / mapTex.getHeight()
                     * mapTex.getWidth() / MAP_EDGE_WIDTH;
             railV = new float[m + 1];
@@ -393,7 +331,7 @@ public abstract class LagrangeBeanBase extends BaseTerrain {
                         (byte) (int) (mapColor.getAlpha() * alphaMult));
 
         GL11.glBegin(GL11.GL_QUAD_STRIP);
-        for (int i = 0; i <= m; i++) {                   // <= m to close the loop
+        for (int i = 0; i <= m; i++) {
             int c0 = i % m;
 
             GL11.glTexCoord2f(0f, railV[i]);
@@ -407,9 +345,7 @@ public abstract class LagrangeBeanBase extends BaseTerrain {
         GL11.glDisable(GL11.GL_TEXTURE_2D);
     }
 
-    // =====================================================================
     // Effect + tooltip
-    // =====================================================================
 
     @Override
     public String getTerrainName() {
@@ -424,22 +360,17 @@ public abstract class LagrangeBeanBase extends BaseTerrain {
         float mult = Misc.isSlowMoving(fleet) ? sensorSlow() : sensorBase();
 
         fleet.getStats().addTemporaryModMult(
-            0.1f,                          // duration, days - refreshed every frame while inside
-            getModId(),                    // source key
-            getTerrainName(),              // shown in the sensor tooltip breakdown
+            0.1f,
+            getModId(),
+            getTerrainName(),
             mult,
             fleet.getStats().getDetectedRangeMod());
 
-        if (!hasImpacts()) return;         // sparse fields are just light sensor cover
+        if (!hasImpacts()) return;
         applyAsteroidImpacts(fleet);
     }
 
-    /**
-     * Asteroid impacts, paced exactly like a vanilla belt: each frame with no
-     * impact banks a little "skipped" time that raises the next hit chance, so
-     * strikes arrive at a steady cadence instead of clumping. AsteroidImpact
-     * itself no-ops for slow/stopped fleets, matching the tooltip.
-     */
+    // Asteroid impacts
     protected static void applyAsteroidImpacts(CampaignFleetAPI fleet) {
         if (fleet.isInHyperspaceTransition()) return;
 
@@ -471,8 +402,6 @@ public abstract class LagrangeBeanBase extends BaseTerrain {
 
     @Override
     public boolean hasAIFlag(Object flag) {
-        // impact-associated danger flags only; the cloud has no burn penalty, so
-        // no REDUCES_SPEED_LARGE. Sparse fields are harmless cover.
         if (!hasImpacts()) return false;
         return flag == TerrainAIFlags.DANGEROUS_UNLESS_GO_SLOW ||
                flag == TerrainAIFlags.NOT_SUPER_DANGEROUS_UNLESS_GO_SLOW;
