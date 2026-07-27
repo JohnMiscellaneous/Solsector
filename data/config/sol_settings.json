@@ -54,27 +54,31 @@
     ## for the chaotic which dont want to see an object a probe hasnt flown by, overides all
 	"Allow_Non_Visited": true,
 
+    ## enables lightcurve, radar, and occultation based custom entities
+    ## accepted values 0, 1    
+    "Lightcurve_Entities": true,
+
     ## enables or disables some less interesting NEAs
     ## accepted values 0, 1    
-    "Inner_Sol_Detail": 1,
+    "Inner_Sol_Detail": 2,
 
     ## enables or disables some small Visited Asteroids
     ## accepted values 0 (none specifically), 1 (default), 2 (), 3, 4
-    "Visited_Asteroids_Detail": 3, 
+    "Visited_Asteroids_Detail": 1, 
 
     ## enables or disables some less important/interesting asteroids
     ## accepted values 0, 1, 2
-    "Asteroid_Detail": 1,
+    "Asteroid_Detail": 2,
 
     ## you get the point
     ## accepted values 0, 1, 2
-    "Hilda_Detail": 1,
+    "Hilda_Detail": 2,
 
     ## number of generic asteroid belt asteroids to generate
     "Generic_Asteroids": 0,
 
     ## accepted values 0 (minimal), 1 (default), 2 (bit more)
-    "Jupiter_Trojans_Detail": 1,
+    "Jupiter_Trojans_Detail": 2,
 
     ## accepted values 0 (mininimal, Gallilean + inner + himalia), 1 (default), 2 (extensive), 3 ALL 200+ PEBBLES
     "Jupiter_Detail": 1,

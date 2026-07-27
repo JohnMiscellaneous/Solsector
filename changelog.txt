@@ -4,10 +4,21 @@ Gameplay:
     Added Trojan terrain
     Added Hilda triangle terrain
     Added Kuiper belt terrains
+    Extrasolar now gives bonuses to vaccuum processes
+
+Misc:
+    added textures for: Torifune, Kamooalewa, Didymos, Dimorphos, Dinkanesh, Selam, Braille, Itokawa, Ryugu, Aegaeon, Anthe, Pallene, 
+    added saturn moonlets with Methone textures
+    Every visited object, bar those where the camera was broken and neptune now has a custom texture.
+    added procedural lightcurve based textures for: Moshup, Apollo, 1950 DA, Castalia, Cerberus, Bacchus, Mithra, Geographos, Apophis, Ganymed, Ra-Shalom, 1998 KY26, Aethra, Brucia, 1996 HW1, Cybele, Sylvia, Camilla, Hermione, Themis, Antiope A, Thisbe, Flora, Kleopatra, Kalliope, Antigone, Klotho, Astraea, Eunomia, Euphrosyne, Phocaea, Eugenia, Hungaria, Thule, Juno, Iris, Crimea, Hebe, Metis, Amphitrite, Herculina, Interamnia, Davida, Europa, Elektra, Fortuna, Egeria, Diotima, Doris, Scheila, Otero, Achilles, Nestor, Diomedes, Ajax, Leucus, Anchises, Astyanax, Schubart, Bononia, Venusia, Asplinda, Rita, Marina, Normannia, Potomac, Kirkwood, Cunningham, Shaposhnikov, Guinevere, Bus, van den Bergh, Squannit, Antiope B
+    overhauled generation settings to allow the player to fine tune things a bit more. 0 now also means something akin to 0.
 
 Bug fixes:
     implemented some optimizations for custom orbits
     synchrotron core's id is now synchrotron
+    more null handling now
+
+Almost certainly not savegame compatable
 
 Version 0.81.5
 Gameplay

@@ -71,6 +71,8 @@ import soljars.compat.industrialevolution.ArtillerySpawnTool;
 
 import com.fs.starfarer.api.campaign.CampaignTerrainPlugin;
 
+//TOdo Mithra, Crimea, Bacchus, 1996hw1, astrea, scheilla, cerberus, castalia
+
 public class MercuryToNeptune {
 
     public void generate(StarSystemAPI system, SectorEntityToken star) {
@@ -151,7 +153,8 @@ public class MercuryToNeptune {
         // Pins Pallas -> Ceres, Clete -> Neptune for the intel screen
         boolean falseMoons    = cfg.optBoolean("False_Moons", true);
         boolean hiddenPlanet = cfg.optBoolean("Hidden_Planet", true);
-
+       
+        boolean lightcurveEntities = cfg.optBoolean("Lightcurve_Entities", true);
 
         // Disables unnamed bodies showing up on map
         int showNamesSetting = cfg.optInt("Show_Names", 0);
@@ -855,7 +858,6 @@ public class MercuryToNeptune {
                     SectorEntityToken PM35 = calc.spawnSPSObject(system, star, "PM35", "2012 PM35", "asteroid", showNameProv, 1.5f, 2.3674f, 0.1128f, 317.396f, 335.445f, 2027.00f, zeroDegGlobal, null, 1f);
 
                     // Otero | Done
-
                     SectorEntityToken Otero = calc.spawnSPSObject(system, star, "Otero", "Otero", "asteroid", showNameMinor, 10.974f, 2.2723f, 0.1469f, 0.937f, 136.066f, 2025.18f, zeroDegGlobal, 0.152f, 1f);
                 }
             }
@@ -875,10 +877,12 @@ public class MercuryToNeptune {
             SectorEntityToken Aylochaxnim = calc.spawnSPSObject(system, star, "Aylochaxnim", "Aylochaxnim", "asteroid", showNameMinor, 1.5f, 0.5554f, 0.1770f, 6.703f, 187.311f, 2020.10f, zeroDegGlobal, null, 1f);
             Aylochaxnim.setCustomDescriptionId("sol_alylochaxnim");
 
-            if(innerSolDetail >= 2){
-                // Moshup | Done
-                SectorEntityToken Moshup = calc.spawnSPSObject(system, star, "Moshup", "Moshup", "asteroid", showNameMinor, 1.3f, 0.6423f, 0.6884f, 244.912f, 192.628f, 2001.40f, zeroDegGlobal, 0.115f, 1f);
-                // Squannit (Moon) | Done
+            // Moshup | Done
+            SectorEntityToken Moshup = calc.spawnSPSObject(system, star, "Moshup", "Moshup", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Moshup" + showNameMinor : showNameMinor, 1.3f, 0.6423f, 0.6884f, 244.912f, 192.628f, 2001.40f, zeroDegGlobal, 0.115f, 1f);
+            if(lightcurveEntities){
+                SectorEntityToken Squannit = system.addCustomEntity("Squannit", "Squannit", "Squannit" + showNameMinor, "neutral");
+                Squannit.setCircularOrbitPointingDown(Moshup, 0f, calc.getSize(1.3f) * 5f, calc.getTime(0.7f));
+            } else {
                 calc.spawnMoon(system, Moshup, "Squannit", calc.getSize(0.45f), calc.getSize(1.3f) * 5f, calc.getTime(0.7f), 0f, showMinorNames);
             }
         }
@@ -888,7 +892,7 @@ public class MercuryToNeptune {
 
         if(innerSolDetail >= 1 && allowNonVisited){
             // Apollo | Done
-            SectorEntityToken Apollo = calc.spawnSPSObject(system, star, "Apollo", "Apollo", "asteroid", showNameMinor, 1.5f, 1.4702f, 0.5599f, 35.717f, 285.820f, 1932.51f, zeroDegGlobal, 0.128f, 1f);
+            SectorEntityToken Apollo = calc.spawnSPSObject(system, star, "Apollo", "Apollo", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Apollo" + showNameMinor : showNameMinor, 1.5f, 1.4702f, 0.5599f, 35.717f, 285.820f, 1932.51f, zeroDegGlobal, 0.128f, 1f);
             calc.spawnMoon(system, Apollo, "1862 Beta", 1f, calc.getSize(1.5f) * 2.6f, calc.getTime(1.14f), 0f, showProvisionalNames);
 
             // Icarus | No model
@@ -897,27 +901,41 @@ public class MercuryToNeptune {
 
             if(innerSolDetail >= 2){
                 // 1950 DA | Done (_1950da)
-                SectorEntityToken DA1950 = calc.spawnSPSObject(system, star, "1950 DA", "1950 DA", "asteroid", showNameProv, 1.1f, 1.6986f, 0.5074f, 356.680f, 224.620f, 2022.39f, zeroDegGlobal, 0.088f, 1f);
+                SectorEntityToken DA1950 = calc.spawnSPSObject(system, star, "1950 DA", "1950 DA", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "DA1950" + showNameProv : showNameProv, 1.1f, 1.6986f, 0.5074f, 356.680f, 224.620f, 2022.39f, zeroDegGlobal, 0.088f, 1f);
                 //  ANGLO AMERICAN PLATINIDES
                 SectorEntityToken angloStation = DerelictThemeGenerator.addSalvageEntity(system, "station_mining_remnant", Factions.DERELICT);
                 angloStation.setName("Anglo-American Platinides");
                 angloStation.setCircularOrbitPointingDown(DA1950, 30, 20, calc.getTime(10f));
                 angloStation.setDiscoverable(true);
                 angloStation.setSensorProfile(2000f);
-                // Sisyphus | No Model
-                SectorEntityToken Sisyphus = calc.spawnSPSObject(system, star, "Sisyphus", "Sisyphus", "asteroid", showNameMinor, 8.5f, 1.8937f, 0.5386f, 63.498f, 293.090f, 2017.68f, zeroDegGlobal, 0.100f, 1f);
-                // Sisyphus moonlet
-                calc.spawnMoon(system, Sisyphus, "1866  Beta", calc.getSize(0.84f), calc.getSize(8.5f) * 2.6f, calc.getTime(1.14f), 0f, showProvisionalNames);
-                // Adonis | No Model
-                SectorEntityToken Adonis = calc.spawnSPSObject(system, star, "Adonis", "Adonis", "asteroid", showNameMinor, 0.6f, 1.8737f, 0.7644f, 350.596f, 42.348f, 1936.18f, zeroDegGlobal, null, 1f);
-                // Oljato | No Model
-                SectorEntityToken Oljato = calc.spawnSPSObject(system, star, "Oljato", "Oljato", "asteroid", showNameMinor, 1.8f, 2.1718f, 0.7132f, 76.657f, 96.486f, 2018.47f, zeroDegGlobal, 1.083f, 1f);
-                // Heracles | No Model
-                SectorEntityToken Heracles = calc.spawnSPSObject(system, star, "Heracles", "Heracles", "asteroid", showNameMinor, 5f, 1.8336f, 0.7723f, 226.741f, 299.715f, 2022.53f, zeroDegGlobal, -0.113f, 1f);
-                // Moon: S/2011 (5143) | No Model
-                calc.spawnMoon(system, Heracles, "5143 Beta", calc.getSize(0.6f), calc.getSize(4.8f) * 5f, -calc.getTime(0.7f), 45f, showProvisionalNames);
-                // Syrinx | No Model
-                SectorEntityToken Syrinx = calc.spawnSPSObject(system, star, "Syrinx", "Syrinx", "asteroid", showNameMinor, 1.8f, 2.4680f, 0.7429f, 244.460f, 272.820f, 2012.87f, zeroDegGlobal, null, 1f);
+                // 4769 Castalia | Done 
+                SectorEntityToken Castalia = calc.spawnSPSObject(system, star, "Castalia", "Castalia", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Castalia" + showNameMinor : showNameMinor, 1.4f, 1.0631f, 0.4832f, 325.499f, 121.452f, 2025.99f, zeroDegGlobal, 0.171f, 1f);
+                // 1865 Cerberus | Done
+                SectorEntityToken Cerberus = calc.spawnSPSObject(system, star, "Cerberus", "Cerberus", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Cerberus" + showNameMinor : showNameMinor, 1.2f, 1.0800f, 0.4669f, 212.881f, 325.295f, 2026.01f, zeroDegGlobal, 0.283f, 1f);
+                // Bacchus | Done
+                SectorEntityToken Bacchus = calc.spawnSPSObject(system, star, "Bacchus", "Bacchus", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Bacchus" + showNameMinor : showNameMinor, 1.024f, 1.0775f, 0.3492f, 33.022f, 55.392f, 2026.28f, zeroDegGlobal, 0.621f, 1f);
+                // Mithra | Done
+                SectorEntityToken Mithra = calc.spawnSPSObject(system, star, "Mithra", "Mithra", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Mithra" + showNameMinor : showNameMinor, 1.849f, 2.2052f, 0.6598f, 82.164f, 169.300f, 2026.65f, zeroDegGlobal, 2.81f, 1f);
+                // 1620 Geographos
+                SectorEntityToken Geographos = calc.spawnSPSObject(system, star, "Geographos", "Geographos", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Geographos" + showNameMinor : showNameMinor, 3.0f, 1.2458f, 0.3355f, 337.135f, 277.029f, 2026.46f, zeroDegGlobal, 0.218f, 1f);
+                // 99942 Apophis
+                SectorEntityToken Apophis = calc.spawnSPSObject(system, star, "Apophis", "Apophis", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Apophis" + showNameMinor : showNameMinor, 0.34f, 0.9224f, 0.1911f, 203.894f, 126.680f, 2026.01f, zeroDegGlobal, 1.273f, 1f);
+                if(innerSolDetail >= 3){
+                    // Sisyphus | No Model
+                    SectorEntityToken Sisyphus = calc.spawnSPSObject(system, star, "Sisyphus", "Sisyphus", "asteroid", showNameMinor, 8.5f, 1.8937f, 0.5386f, 63.498f, 293.090f, 2017.68f, zeroDegGlobal, 0.100f, 1f);
+                    // Sisyphus moonlet
+                    calc.spawnMoon(system, Sisyphus, "1866  Beta", calc.getSize(0.84f), calc.getSize(8.5f) * 2.6f, calc.getTime(1.14f), 0f, showProvisionalNames);
+                    // Adonis | No Model
+                    SectorEntityToken Adonis = calc.spawnSPSObject(system, star, "Adonis", "Adonis", "asteroid", showNameMinor, 0.6f, 1.8737f, 0.7644f, 350.596f, 42.348f, 1936.18f, zeroDegGlobal, null, 1f);
+                    // Oljato | No Model
+                    SectorEntityToken Oljato = calc.spawnSPSObject(system, star, "Oljato", "Oljato", "asteroid", showNameMinor, 1.8f, 2.1718f, 0.7132f, 76.657f, 96.486f, 2018.47f, zeroDegGlobal, 1.083f, 1f);
+                    // Heracles | No Model
+                    SectorEntityToken Heracles = calc.spawnSPSObject(system, star, "Heracles", "Heracles", "asteroid", showNameMinor, 5f, 1.8336f, 0.7723f, 226.741f, 299.715f, 2022.53f, zeroDegGlobal, -0.113f, 1f);
+                    // Moon: S/2011 (5143) | No Model
+                    calc.spawnMoon(system, Heracles, "5143 Beta", calc.getSize(0.6f), calc.getSize(4.8f) * 5f, -calc.getTime(0.7f), 45f, showProvisionalNames);
+                    // Syrinx | No Model
+                    SectorEntityToken Syrinx = calc.spawnSPSObject(system, star, "Syrinx", "Syrinx", "asteroid", showNameMinor, 1.8f, 2.4680f, 0.7429f, 244.460f, 272.820f, 2012.87f, zeroDegGlobal, null, 1f);
+                }
             }
         }
 
@@ -952,7 +970,7 @@ public class MercuryToNeptune {
 
         if(innerSolDetail >= 1 && allowNonVisited){
             // Ganymed | Done
-            SectorEntityToken GanymedAS = calc.spawnSPSObject(system, star, "GanymedA", "Ganymed", "asteroid", showNameMinor, 35, 2.6650f, 0.5332f, 215.441f, 132.503f, 2024.71f, zeroDegGlobal, 0.429f, 1f);
+            SectorEntityToken GanymedAS = calc.spawnSPSObject(system, star, "GanymedA", "Ganymed", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Ganymed" + showNameMinor : showNameMinor, 35, 2.6650f, 0.5332f, 215.441f, 132.503f, 2024.71f, zeroDegGlobal, 0.429f, 1f);
             GanymedAS.setCustomDescriptionId("sol_ganymed_asteroid");
 
             // Don Quixote | No Model
@@ -961,7 +979,7 @@ public class MercuryToNeptune {
 
             if(innerSolDetail >= 2){
                 // 2100 Ra-Shalom | Done (rashalom)
-                SectorEntityToken RaShalom = calc.spawnSPSObject(system, star, "Ra-Shalom", "Ra-Shalom", "asteroid", showNameMinor, 2.3f, 0.8321f, 0.4365f, 170.880f, 355.980f, 2016.64f, zeroDegGlobal, 0.825f, 1f);
+                SectorEntityToken RaShalom = calc.spawnSPSObject(system, star, "Ra-Shalom", "Ra-Shalom", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "RaShalom" + showNameMinor : showNameMinor, 2.3f, 0.8321f, 0.4365f, 170.880f, 355.980f, 2016.64f, zeroDegGlobal, 0.825f, 1f);
             }
         }
 
@@ -969,7 +987,7 @@ public class MercuryToNeptune {
         // 1998 KY 26 | Hyabusa mission | 5 min rotation | dark comet????? <- this is probably the same type of shit that oumouamoua was on
         // | Done (_1998ky26)
         if(innerSolDetail >= 1 && allowNonVisited){
-            SectorEntityToken KY26 = calc.spawnSPSObject(system, star, "KY26", "1998 KY26", "asteroid", showNameProv, 0.011f, 1.2289f, 0.2001f, 84.182f, 210.004f, 2025.88f, zeroDegGlobal, 0.00371f, 1f);
+            SectorEntityToken KY26 = calc.spawnSPSObject(system, star, "KY26", "1998 KY26", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "KY26" + showNameProv : showNameProv, 0.011f, 1.2289f, 0.2001f, 84.182f, 210.004f, 2025.88f, zeroDegGlobal, 0.00371f, 1f);
         }
 
         // =========================================================================
@@ -977,12 +995,15 @@ public class MercuryToNeptune {
         // =========================================================================
         if(innerSolDetail >= 1 && allowNonVisited){
             // Aethra | Done
-            SectorEntityToken Aethra = calc.spawnSPSObject(system, star, "Aethra", "Aethra", "asteroid", showNameMinor, 43f, 2.6082f, 0.3888f, 259.740f, 252.560f, 2021.12f, zeroDegGlobal, 0.216f, 1f);
+            SectorEntityToken Aethra = calc.spawnSPSObject(system, star, "Aethra", "Aethra", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Aethra" + showNameMinor : showNameMinor, 43f, 2.6082f, 0.3888f, 259.740f, 252.560f, 2021.12f, zeroDegGlobal, 0.216f, 1f);
 
-            // Brucia | No Model
-            SectorEntityToken Brucia = calc.spawnSPSObject(system, star, "Brucia", "Brucia", "asteroid", showNameMinor, 33f, 2.6345f, 0.3014f, 276.510f, 296.240f, 2023.68f, zeroDegGlobal, 0.394f, 1f);
+            // Brucia | Done
+            SectorEntityToken Brucia = calc.spawnSPSObject(system, star, "Brucia", "Brucia", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Brucia" + showNameMinor : showNameMinor, 33f, 2.6345f, 0.3014f, 276.510f, 296.240f, 2023.68f, zeroDegGlobal, 0.394f, 1f);
 
-            if(innerSolDetail >= 2){
+            //1996 HW 1 | Done
+            SectorEntityToken HW1 = calc.spawnSPSObject(system, star, "HW1", "1996 HW1", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "HW1" + showNameProv : showNameProv, 2.928f, 2.0455f, 0.4490f, 177.089f, 177.283f, 2026.26f, zeroDegGlobal, 0.365f, 1f);
+
+            if(innerSolDetail >= 3){
                 // Kepler | No Model
                 SectorEntityToken Kepler = calc.spawnSPSObject(system, star, "Kepler", "Kepler", "asteroid", showNameMinor, 4f, 2.6825f, 0.4651f, 6.410f, 330.490f, 2023.18f, zeroDegGlobal, 0.120f, 1f);
             }
@@ -1193,33 +1214,30 @@ public class MercuryToNeptune {
             }
         }
 
-        // =========================================================================
-        // GROUP 2: THE CYBELE GROUP (Outer Belt Edge)
-        // =========================================================================
         if(asteroidBeltDetail >= 1 && allowNonVisited){
 
-            // Cybele
-            SectorEntityToken Cybele = calc.spawnSPSObject(system, star, "Cybele", "Cybele", "asteroid", showNameMinor, 237f, 3.4283f, 0.1114f, 155.630f, 102.370f, 2021.06f, zeroDegGlobal, 0.253f, 1f);
+            // Cybele | Done
+            SectorEntityToken Cybele = calc.spawnSPSObject(system, star, "Cybele", "Cybele", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Cybele" + showNameMinor : showNameMinor, 237f, 3.4283f, 0.1114f, 155.630f, 102.370f, 2021.06f, zeroDegGlobal, 0.253f, 1f);
 
-            // Sylvia
-            SectorEntityToken Sylvia = calc.spawnSPSObject(system, star, "Sylvia", "Sylvia", "asteroid", showNameMinor, 253f, 3.4770f, 0.0939f, 73.010f, 264.400f, 2024.15f, zeroDegGlobal, 0.216f, 1f);
+            // Sylvia | Done
+            SectorEntityToken Sylvia = calc.spawnSPSObject(system, star, "Sylvia", "Sylvia", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Sylvia" + showNameMinor : showNameMinor, 253f, 3.4770f, 0.0939f, 73.010f, 264.400f, 2024.15f, zeroDegGlobal, 0.216f, 1f);
 
-            // Romulus (Moon)
+            // Romulus (Moon) | No Model
             SectorEntityToken Romulus = calc.spawnMoon(system, Sylvia, "Romulus", calc.getSize(10.8f), calc.getSize(250f) * 10f, calc.getTime(3.65f), 45f, showMinorNames);
             Romulus.setCustomDescriptionId("sol_romulus");
-            // Remus (Moon)
+            // Remus (Moon) | No Model
             SectorEntityToken Remus = calc.spawnMoon(system, Sylvia, "Remus", calc.getSize(10.6f), calc.getSize(250f) * 5f, calc.getTime(1.37f), 225f, showMinorNames);
             Remus.setCustomDescriptionId("sol_remus");
 
             if(asteroidBeltDetail >= 2){
-                // Camilla
-                SectorEntityToken Camilla = calc.spawnSPSObject(system, star, "Camilla", "Camilla", "asteroid", showNameMinor, 210f, 3.4860f, 0.0653f, 172.590f, 305.220f, 2026.42f, zeroDegGlobal, 0.202f, 1f);
+                // Camilla | Done
+                SectorEntityToken Camilla = calc.spawnSPSObject(system, star, "Camilla", "Camilla", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Camilla" + showNameMinor : showNameMinor, 210f, 3.4860f, 0.0653f, 172.590f, 305.220f, 2026.42f, zeroDegGlobal, 0.202f, 1f);
                 // S/2001 (107) 1 (Moon)
                 SectorEntityToken CamillaBeta = calc.spawnMoon(system, Camilla, "107 Beta", calc.getSize(16f), calc.getSize(219f) * 10f, 3.7f, 45f, showProvisionalNames);
                 // S/2016 (107) 2 (Moon)
                 SectorEntityToken CamillaGamma = calc.spawnMoon(system, Camilla, "107 Gamma", calc.getSize(3.5f), calc.getSize(219f) * 4f, 0.53f, 225f, showProvisionalNames);
-                // Hermione
-                SectorEntityToken Hermione = calc.spawnSPSObject(system, star, "Hermione", "Hermione", "asteroid", showNameMinor, 209f, 3.4530f, 0.1257f, 72.880f, 296.930f, 2021.83f, zeroDegGlobal, 0.231f, 1f);
+                // Hermione | Done
+                SectorEntityToken Hermione = calc.spawnSPSObject(system, star, "Hermione", "Hermione", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Hermione" + showNameMinor : showNameMinor, 209f, 3.4530f, 0.1257f, 72.880f, 296.930f, 2021.83f, zeroDegGlobal, 0.231f, 1f);
                 // LaFayette (Moon)
                 SectorEntityToken HermioneBeta = calc.spawnMoon(system, Hermione, "LaFayette", calc.getSize(8f), calc.getSize(190f) * 5f, calc.getTime(20f), 45f, showMinorNames);
             }
@@ -1229,10 +1247,10 @@ public class MercuryToNeptune {
         // GROUP 3: THE THEMIS FAMILY (Outer Belt C/B-Type)
         // =========================================================================
         if(asteroidBeltDetail >= 1 && allowNonVisited){
-            // Themis
-            SectorEntityToken Themis = calc.spawnSPSObject(system, star, "Themis", "Themis", "asteroid", showNameMinor, 198f, 3.1490f, 0.1165f, 36.500f, 108.060f, 2025.00f, zeroDegGlobal, 0.349f, 1f);
+            // Themis | Done
+            SectorEntityToken Themis = calc.spawnSPSObject(system, star, "Themis", "Themis", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Themis" + showNameMinor : showNameMinor, 198f, 3.1490f, 0.1165f, 36.500f, 108.060f, 2025.00f, zeroDegGlobal, 0.349f, 1f);
 
-            // Antiope
+            // Antiope | Done | Done
             float sz_Antiope_Comp = calc.getSize(88f);
             float p_Antiope = calc.getTime(2022f);
             float p_AntiopeAB = calc.getTime(1f);
@@ -1241,9 +1259,15 @@ public class MercuryToNeptune {
                 { sz_Antiope_Comp * 3f, 0f,  0f, p_AntiopeAB,  0f, +1f } 
             };
 
-            SectorEntityToken AntiopeA = calc.spawnSPSObject7(system, star, "AntiopeA", "Antiope A", "asteroid", showNameMinor, 88f, 3.1560f, 0.1560f, 70.200f, 242.400f, 2021.46f, zeroDegGlobal, -(p_AntiopeAB / rotMult), 1f, null, null, antiopeExtras, star, "Sol", false, false);
+            SectorEntityToken AntiopeA = calc.spawnSPSObject7(system, star, "AntiopeA", "Antiope A", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "AntiopeA" + showNameMinor : showNameMinor, 88f, 3.1560f, 0.1560f, 70.200f, 242.400f, 2021.46f, zeroDegGlobal, -(p_AntiopeAB / rotMult), 1f, null, null, antiopeExtras, star, "Sol", false, false);
 
-            SectorEntityToken AntiopeB = calc.spawnMoon(system, AntiopeA, "Antiope B", sz_Antiope_Comp, sz_Antiope_Comp * 6f, p_AntiopeAB, 180f, showMinorNames);
+            if(lightcurveEntities){
+                SectorEntityToken AntiopeB = system.addCustomEntity("Antiope B", "Antiope B", "AntiopeB" + showNameMinor, "neutral");
+                AntiopeB.setCircularOrbitPointingDown(AntiopeA, 180f, sz_Antiope_Comp * 6f, p_AntiopeAB);
+            } else {
+                SectorEntityToken AntiopeB = calc.spawnMoon(system, AntiopeA, "Antiope B", sz_Antiope_Comp, sz_Antiope_Comp * 6f, p_AntiopeAB, 180f, showMinorNames);
+            }   
+
             SectorEntityToken ElevatorAB = calc.spawnTransBinaryElevator(system, AntiopeA, "ElevatorAB", "Antiope-Antiope Elevator", sz_Antiope_Comp * 6f, 180f, p_AntiopeAB);
 
             // Antiope Station | Orbital Station 
@@ -1268,19 +1292,17 @@ public class MercuryToNeptune {
             // antiopeStation.setSensorProfile(4000f);
 
             if(asteroidBeltDetail >= 2){
-                // Thisbe
-                SectorEntityToken Thisbe = calc.spawnSPSObject(system, star, "Thisbe", "Thisbe", "asteroid", showNameMinor, 218f, 2.7680f, 0.1650f, 276.770f, 36.590f, 2023.28f, zeroDegGlobal, 0.252f, 1f);
+                // Thisbe | Done
+                SectorEntityToken Thisbe = calc.spawnSPSObject(system, star, "Thisbe", "Thisbe", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Thisbe" + showNameMinor : showNameMinor, 218f, 2.7680f, 0.1650f, 276.770f, 36.590f, 2023.28f, zeroDegGlobal, 0.252f, 1f);
             }
         }
         // =========================================================================
         // GROUP 4: THE FLORA FAMILY (Inner Belt S-Type)
         // =========================================================================
         if(asteroidBeltDetail >= 1 && allowNonVisited){
-            // Flora 
-            SectorEntityToken Flora = calc.spawnSPSObject(system, star, "Flora", "Flora", "asteroid", showNameMinor, 140f, 2.2014f, 0.1566f, 110.850f, 285.400f, 2027.433f, zeroDegGlobal, 0.536f, 1f);
+            // Flora | Done
+            SectorEntityToken Flora = calc.spawnSPSObject(system, star, "Flora", "Flora", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Flora" + showNameMinor : showNameMinor, 140f, 2.2014f, 0.1566f, 110.850f, 285.400f, 2027.433f, zeroDegGlobal, 0.536f, 1f);
         }
-        
-
         
         // =========================================================================
         // GROUP 5: METALLIC (M-TYPE) & HIGH-DENSITY OBJECTS
@@ -1312,19 +1334,17 @@ public class MercuryToNeptune {
             }
         }
 
-
-
         if(asteroidBeltDetail >= 1 && allowNonVisited){
-            // Kleopatra
-            SectorEntityToken Kleopatra = calc.spawnSPSObject(system, star, "Kleopatra", "Kleopatra", "asteroid", showNameMinor, 135f, 2.7953f, 0.2520f, 215.390f, 179.640f, 2021.15f, zeroDegGlobal, 0.224f, 1f);
+            // Kleopatra | Done
+            SectorEntityToken Kleopatra = calc.spawnSPSObject(system, star, "Kleopatra", "Kleopatra", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Kleopatra" + showNameMinor : showNameMinor, 135f, 2.7953f, 0.2520f, 215.390f, 179.640f, 2021.15f, zeroDegGlobal, 0.224f, 1f);
 
             // Alexhelios (Outer)
             SectorEntityToken Alexhelios = calc.spawnMoon(system, Kleopatra, "Alexhelios", calc.getSize(5f), 40, calc.getTime(20f), 90f, showMinorNames);
             // Cleoselene (Inner)
             SectorEntityToken Cleoselene = calc.spawnMoon(system, Kleopatra, "Cleoselene", calc.getSize(3f), 100, calc.getTime(10f), 270f, showMinorNames);
 
-            // 22 Kalliope
-            SectorEntityToken Kalliope = calc.spawnSPSObject(system, star, "Kalliope", "Kalliope", "asteroid", showNameMinor, 166f, 2.9090f, 0.1028f, 66.060f, 356.350f, 2023.35f, zeroDegGlobal, 0.173f, 1f);
+            // 22 Kalliope | Done
+            SectorEntityToken Kalliope = calc.spawnSPSObject(system, star, "Kalliope", "Kalliope", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Kalliope" + showNameMinor : showNameMinor, 166f, 2.9090f, 0.1028f, 66.060f, 356.350f, 2023.35f, zeroDegGlobal, 0.173f, 1f);
 
             // Linus (Moon)
             SectorEntityToken Linus = calc.spawnMoon(system, Kalliope, "Linus", calc.getSize(10f), calc.getSize(166f) * 6f, calc.getTime(15f), 0f, showMinorNames);
@@ -1336,8 +1356,8 @@ public class MercuryToNeptune {
             glencoreStation.setDiscoverable(true);
             glencoreStation.setSensorProfile(2000f);
 
-            // Antigone
-            SectorEntityToken Antigone = calc.spawnSPSObject(system, star, "Antigone", "Antigone", "asteroid", showNameMinor, 125f, 2.8670f, 0.2131f, 135.660f, 108.310f, 2022.75f, zeroDegGlobal, 0.206f, 1f);
+            // Antigone | Dpme
+            SectorEntityToken Antigone = calc.spawnSPSObject(system, star, "Antigone", "Antigone", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Antigone" + showNameMinor : showNameMinor, 125f, 2.8670f, 0.2131f, 135.660f, 108.310f, 2022.75f, zeroDegGlobal, 0.206f, 1f);
             // "Antigone Beta" — lightcurve-only hint from 1979 Tedesco survey
             if(speculativeBodiesExtreme){
                 calc.spawnMoon(system, Antigone, "Antigone Beta", calc.getSize(6f), calc.getSize(125f) * 4f, calc.getTime(2.5f), 90f, showProvisionalNames);
@@ -1350,8 +1370,8 @@ public class MercuryToNeptune {
             NeoNorNickel.setDiscoverable(true);
             NeoNorNickel.setSensorProfile(2000f);
 
-            // Klotho
-            SectorEntityToken Klotho = calc.spawnSPSObject(system, star, "Klotho", "Klotho", "asteroid", showNameMinor, 82f, 2.6680f, 0.2565f, 159.250f, 268.420f, 2022.65f, zeroDegGlobal, 1.463f, 1f);
+            // Klotho | Done
+            SectorEntityToken Klotho = calc.spawnSPSObject(system, star, "Klotho", "Klotho", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Klotho" + showNameMinor : showNameMinor, 82f, 2.6680f, 0.2565f, 159.250f, 268.420f, 2022.65f, zeroDegGlobal, 1.463f, 1f);
 
             // NEWMONT GOLDCORP
             SectorEntityToken newmontStation = DerelictThemeGenerator.addSalvageEntity(system, "station_mining_remnant", Factions.DERELICT);
@@ -1359,6 +1379,9 @@ public class MercuryToNeptune {
             newmontStation.setCircularOrbitPointingDown(Klotho, 180, 140, calc.getTime(42f));
             newmontStation.setDiscoverable(true);
             newmontStation.setSensorProfile(2000f);
+            
+            // Astraea | Done
+            SectorEntityToken Astraea = calc.spawnSPSObject(system, star, "Astraea", "Astraea", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Astraea" + showNameMinor : showNameMinor, 106.699f, 2.5768f, 0.1876f, 141.447f, 359.376f, 2028.49f, zeroDegGlobal, 0.7f, 1f);
         }
         
         // =========================================================================
@@ -1367,33 +1390,35 @@ public class MercuryToNeptune {
 
 
         if(asteroidBeltDetail >= 1 && allowNonVisited){
-            // Eunomia
-            SectorEntityToken Eunomia = calc.spawnSPSObject(system, star, "Eunomia", "Eunomia", "asteroid", showNameMinor, 268f, 2.6430f, 0.1870f, 293.300f, 97.900f, 2024.55f, zeroDegGlobal, 0.254f, 1f);
+            // Eunomia | Done
+            SectorEntityToken Eunomia = calc.spawnSPSObject(system, star, "Eunomia", "Eunomia", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Eunomia" + showNameMinor : showNameMinor, 268f, 2.6430f, 0.1870f, 293.300f, 97.900f, 2024.55f, zeroDegGlobal, 0.254f, 1f);
 
-            // 31 Euphrosyne
-            SectorEntityToken Euphrosyne = calc.spawnSPSObject(system, star, "Euphrosyne", "Euphrosyne", "asteroid", showNameMinor, 267f, 3.1590f, 0.2160f, 30.800f, 61.800f, 2024.82f, zeroDegGlobal, 0.230f, 1f);
+            // 31 Euphrosyne | Done
+            SectorEntityToken Euphrosyne = calc.spawnSPSObject(system, star, "Euphrosyne", "Euphrosyne", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Euphrosyne" + showNameMinor : showNameMinor, 267f, 3.1590f, 0.2160f, 30.800f, 61.800f, 2024.82f, zeroDegGlobal, 0.230f, 1f);
 
             // S/2019 (31) 1 (Moon)
             SectorEntityToken EuphrosyneBeta = calc.spawnMoon(system, Euphrosyne, "31 Beta", calc.getSize(6.7f), calc.getSize(260f) * 5f, calc.getTime(1.2f), 200f, showProvisionalNames);
 
-            // 25 Phocaea
-            SectorEntityToken Phocaea = calc.spawnSPSObject(system, star, "Phocaea", "Phocaea", "asteroid", showNameMinor, 61f, 2.4000f, 0.2550f, 214.100f, 90.200f, 2024.90f, zeroDegGlobal, 0.414f, 1f);
+            // 25 Phocaea | Done
+            SectorEntityToken Phocaea = calc.spawnSPSObject(system, star, "Phocaea", "Phocaea", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Phocaea" + showNameMinor : showNameMinor, 61f, 2.4000f, 0.2550f, 214.100f, 90.200f, 2024.90f, zeroDegGlobal, 0.414f, 1f);
 
             if(asteroidBeltDetail >= 2){
-                // 128 Nemesis
-                SectorEntityToken Nemesis = calc.spawnSPSObject(system, star, "Nemesis", "Nemesis", "asteroid", showNameMinor, 163f, 2.7490f, 0.1270f, 76.200f, 302.800f, 2026.62f, zeroDegGlobal, 3.242f, 1f);
-                // Alauda
-                SectorEntityToken Alauda = calc.spawnSPSObject(system, star, "Alauda", "Alauda", "asteroid", showNameMinor, 191f, 3.1950f, 0.0161f, 289.710f, 353.930f, 2018.49f, zeroDegGlobal, 0.696f, 1f);
-                // P/2007 (702) 1 
-                SectorEntityToken AlaudaBeta = calc.spawnMoon(system, Alauda, "Pichi Unem", calc.getSize(3.5f), calc.getSize(191f) * 6f, calc.getTime(4.9f), 90f, showProvisionalNames);
-                // Ursula
-                SectorEntityToken Ursula = calc.spawnSPSObject(system, star, "Ursula", "Ursula", "asteroid", showNameMinor, 216f, 3.1240f, 0.1060f, 336.410f, 342.150f, 2020.15f, zeroDegGlobal, 0.704f, 1f);
-                // Eugenia
-                SectorEntityToken Eugenia = calc.spawnSPSObject(system, star, "Eugenia", "Eugenia", "asteroid", showNameMinor, 202f, 2.7200f, 0.0820f, 147.940f, 85.140f, 2023.30f, zeroDegGlobal, 0.238f, 1f);
-                // S/2004 (45)
+                // Eugenia | Done
+                SectorEntityToken Eugenia = calc.spawnSPSObject(system, star, "Eugenia", "Eugenia", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Eugenia" + showNameMinor : showNameMinor, 202f, 2.7200f, 0.0820f, 147.940f, 85.140f, 2023.30f, zeroDegGlobal, 0.238f, 1f);
+                // S/2004 (45) | No Model
                 SectorEntityToken EugeniaGamma = calc.spawnMoon(system, Eugenia, "S/2004 (45) 1", calc.getSize(6f), calc.getSize(202f) * 5.9f, calc.getTime(1.793f), 0f, showProvisionalNames);
-                // Petit-Prince (Moon)
+                // Petit-Prince (Moon) | No Model
                 SectorEntityToken PetitPrince = calc.spawnMoon(system, Eugenia, "Petit-Prince", calc.getSize(7f), calc.getSize(200f) * 5f, calc.getTime(10f), 180f, showMinorNames);
+                if(asteroidBeltDetail >= 3){
+                    // 128 Nemesis | No Model
+                    SectorEntityToken Nemesis = calc.spawnSPSObject(system, star, "Nemesis", "Nemesis", "asteroid", showNameMinor, 163f, 2.7490f, 0.1270f, 76.200f, 302.800f, 2026.62f, zeroDegGlobal, 3.242f, 1f);
+                    // Alauda | No Model
+                    SectorEntityToken Alauda = calc.spawnSPSObject(system, star, "Alauda", "Alauda", "asteroid", showNameMinor, 191f, 3.1950f, 0.0161f, 289.710f, 353.930f, 2018.49f, zeroDegGlobal, 0.696f, 1f);
+                    // P/2007 (702) 1 | No Model
+                    SectorEntityToken AlaudaBeta = calc.spawnMoon(system, Alauda, "Pichi Unem", calc.getSize(3.5f), calc.getSize(191f) * 6f, calc.getTime(4.9f), 90f, showProvisionalNames);
+                    // Ursula | No Model
+                    SectorEntityToken Ursula = calc.spawnSPSObject(system, star, "Ursula", "Ursula", "asteroid", showNameMinor, 216f, 3.1240f, 0.1060f, 336.410f, 342.150f, 2020.15f, zeroDegGlobal, 0.704f, 1f);
+                }
             }
         }
 
@@ -1401,32 +1426,35 @@ public class MercuryToNeptune {
         // GROUP 7: RESONANT & ECCENTRIC GROUPS (Outliers)
         // =========================================================================
         if(asteroidBeltDetail >= 1 && allowNonVisited){
-            // Hungaria
-            SectorEntityToken Hungaria = calc.spawnSPSObject(system, star, "Hungaria", "Hungaria", "asteroid", showNameMinor, 11f, 1.9440f, 0.0736f, 175.400f, 123.970f, 2024.34f, zeroDegGlobal, 1.105f, 1f);
+            // Hungaria | Done
+            SectorEntityToken Hungaria = calc.spawnSPSObject(system, star, "Hungaria", "Hungaria", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Hungaria" + showNameMinor : showNameMinor, 11f, 1.9440f, 0.0736f, 175.400f, 123.970f, 2024.34f, zeroDegGlobal, 1.105f, 1f);
             Hungaria.setCustomDescriptionId("sol_hungaria");
 
-            // Thule
-            SectorEntityToken Thule = calc.spawnSPSObject(system, star, "Thule", "Thule", "asteroid", showNameMinor, 127f, 4.2690f, 0.0123f, 75.580f, 234.290f, 2023.37f, zeroDegGlobal, 0.310f, 1f);
+            // Thule | Done
+            SectorEntityToken Thule = calc.spawnSPSObject(system, star, "Thule", "Thule", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Thule" + showNameMinor : showNameMinor, 127f, 4.2690f, 0.0123f, 75.580f, 234.290f, 2023.37f, zeroDegGlobal, 0.310f, 1f);
+            
+            if(asteroidBeltDetail >= 3){
 
-            // Griqua
-            SectorEntityToken Griqua = calc.spawnSPSObject(system, star, "Griqua", "Griqua", "asteroid", showNameMinor, 30f, 3.2220f, 0.3700f, 121.410f, 262.190f, 2022.93f, zeroDegGlobal, 0.288f, 1f);
+                // Alinda | No Model
+                SectorEntityToken Alinda = calc.spawnSPSObject(system, star, "Alinda", "Alinda", "asteroid", showNameMinor, 4f, 2.4730f, 0.5670f, 110.550f, 349.330f, 2025.04f, zeroDegGlobal, 3.082f, 1f);
 
-            // Alinda
-            SectorEntityToken Alinda = calc.spawnSPSObject(system, star, "Alinda", "Alinda", "asteroid", showNameMinor, 4f, 2.4730f, 0.5670f, 110.550f, 349.330f, 2025.04f, zeroDegGlobal, 3.082f, 1f);
+                // Polana | No Model
+                SectorEntityToken Polana = calc.spawnSPSObject(system, star, "Polana", "Polana", "asteroid", showNameMinor, 54.812f, 2.4192f, 0.1328f, 291.058f, 292.675f, 2026.40f, zeroDegGlobal, 0.407f, 1f);
 
-            // Polana
-            SectorEntityToken Polana = calc.spawnSPSObject(system, star, "Polana", "Polana", "asteroid", showNameMinor, 54.812f, 2.4192f, 0.1328f, 291.058f, 292.675f, 2026.40f, zeroDegGlobal, 0.407f, 1f);
+                // Griqua | No Model
+                SectorEntityToken Griqua = calc.spawnSPSObject(system, star, "Griqua", "Griqua", "asteroid", showNameMinor, 30f, 3.2220f, 0.3700f, 121.410f, 262.190f, 2022.93f, zeroDegGlobal, 0.288f, 1f);
+            }
         }
         
         // =========================================================================
         // GROUP 8: LARGE BACKGROUND ASTEROIDS (S-Type / Stony)
         // =========================================================================
         if(asteroidBeltDetail >= 1 && allowNonVisited){
-            // Juno
-            SectorEntityToken Juno = calc.spawnSPSObject(system, star, "Juno", "Juno", "asteroid", showNameMinor, 246f, 2.6680f, 0.2580f, 169.870f, 248.410f, 2024.64f, zeroDegGlobal, 0.300f, 1f);
+            // Juno | Done
+            SectorEntityToken Juno = calc.spawnSPSObject(system, star, "Juno", "Juno", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Juno" + showNameMinor : showNameMinor, 246f, 2.6680f, 0.2580f, 169.870f, 248.410f, 2024.64f, zeroDegGlobal, 0.300f, 1f);
 
-            // Iris
-            SectorEntityToken Iris = calc.spawnSPSObject(system, star, "Iris", "Iris", "asteroid", showNameMinor, 200f, 2.3860f, 0.2300f, 259.560f, 145.200f, 2022.48f, zeroDegGlobal, 0.297f, 1f);
+            // Iris | Done
+            SectorEntityToken Iris = calc.spawnSPSObject(system, star, "Iris", "Iris", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Iris" + showNameMinor : showNameMinor, 200f, 2.3860f, 0.2300f, 259.560f, 145.200f, 2022.48f, zeroDegGlobal, 0.297f, 1f);
 
             // ## ASTEROIDE TINTO ------------------------------------------------------
             // Location: 7 Iris (Stony-Iron, very bright/reflective)
@@ -1437,14 +1465,16 @@ public class MercuryToNeptune {
             tintoStation.setSensorProfile(2000f);
 
             if(asteroidBeltDetail >= 2){
-                // Hebe
-                SectorEntityToken Hebe = calc.spawnSPSObject(system, star, "Hebe", "Hebe", "asteroid", showNameMinor, 186f, 2.4250f, 0.2030f, 138.640f, 239.490f, 2024.35f, zeroDegGlobal, 0.303f, 1f);
-                // Metis
-                SectorEntityToken MetisA = calc.spawnSPSObject(system, star, "Metis", "Metis", "asteroid", showNameMinor, 190f, 2.3860f, 0.1220f, 68.850f, 6.270f, 2025.79f, zeroDegGlobal, 0.212f, 1f);
-                // Amphitrite
-                SectorEntityToken Amphitrite = calc.spawnSPSObject(system, star, "Amphitrite", "Amphitrite", "asteroid", showNameMinor, 212f, 2.5540f, 0.0730f, 356.360f, 63.340f, 2025.12f, zeroDegGlobal, 0.224f, 1f);
-                // Herculina
-                SectorEntityToken Herculina = calc.spawnSPSObject(system, star, "Herculina", "Herculina", "asteroid", showNameMinor, 168f, 2.7720f, 0.1770f, 107.600f, 57.730f, 2023.36f, zeroDegGlobal, 0.392f, 1f);
+                // Crimea
+                SectorEntityToken Crimea = calc.spawnSPSObject(system, star, "Crimea", "Crimea", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Crimea" + showNameMinor : showNameMinor, 29.179f, 2.7722f, 0.1097f, 72.056f, 310.689f, 2026.09f, zeroDegGlobal, 0.407f, 1f);
+                // Hebe | Done
+                SectorEntityToken Hebe = calc.spawnSPSObject(system, star, "Hebe", "Hebe", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Hebe" + showNameMinor : showNameMinor, 186f, 2.4250f, 0.2030f, 138.640f, 239.490f, 2024.35f, zeroDegGlobal, 0.303f, 1f);
+                // Metis | Done
+                SectorEntityToken MetisA = calc.spawnSPSObject(system, star, "Metis", "Metis", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Metis9" + showNameMinor : showNameMinor, 190f, 2.3860f, 0.1220f, 68.850f, 6.270f, 2025.79f, zeroDegGlobal, 0.212f, 1f);
+                // Amphitrite | Done
+                SectorEntityToken Amphitrite = calc.spawnSPSObject(system, star, "Amphitrite", "Amphitrite", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Amphitrite" + showNameMinor : showNameMinor, 212f, 2.5540f, 0.0730f, 356.360f, 63.340f, 2025.12f, zeroDegGlobal, 0.224f, 1f);
+                // Herculina | Done
+                SectorEntityToken Herculina = calc.spawnSPSObject(system, star, "Herculina", "Herculina", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Herculina" + showNameMinor : showNameMinor, 168f, 2.7720f, 0.1770f, 107.600f, 57.730f, 2023.36f, zeroDegGlobal, 0.392f, 1f);
             }
         }
         // =========================================================================
@@ -1453,18 +1483,18 @@ public class MercuryToNeptune {
 
 
         if(asteroidBeltDetail >= 1 && allowNonVisited){
-            // Interamnia
-            SectorEntityToken Interamnia = calc.spawnSPSObject(system, star, "Interamnia", "Interamnia", "asteroid", showNameMinor, 306f, 3.0580f, 0.1559f, 280.170f, 94.410f, 2023.20f, zeroDegGlobal, 0.364f, 1f);
+            // Interamnia | Done
+            SectorEntityToken Interamnia = calc.spawnSPSObject(system, star, "Interamnia", "Interamnia", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Interamnia" + showNameMinor : showNameMinor, 306f, 3.0580f, 0.1559f, 280.170f, 94.410f, 2023.20f, zeroDegGlobal, 0.364f, 1f);
 
-            // Davida
-            SectorEntityToken Davida = calc.spawnSPSObject(system, star, "Davida", "Davida", "asteroid", showNameMinor, 289f, 3.1660f, 0.1880f, 117.800f, 299.700f, 2024.80f, zeroDegGlobal, 0.214f, 1f);
+            // Davida | Done
+            SectorEntityToken Davida = calc.spawnSPSObject(system, star, "Davida", "Davida", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Davida" + showNameMinor : showNameMinor, 289f, 3.1660f, 0.1880f, 117.800f, 299.700f, 2024.80f, zeroDegGlobal, 0.214f, 1f);
 
-            // Europa
-            SectorEntityToken EuropaA = calc.spawnSPSObject(system, star, "EuropaA", "Europa", "asteroid", showNameMinor, 304f, 3.0930f, 0.1110f, 128.580f, 342.910f, 2021.20f, zeroDegGlobal, 0.235f, 1f);
+            // Europa | Done
+            SectorEntityToken EuropaA = calc.spawnSPSObject(system, star, "EuropaA", "Europa", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Europa" + showNameMinor : showNameMinor, 304f, 3.0930f, 0.1110f, 128.580f, 342.910f, 2021.20f, zeroDegGlobal, 0.235f, 1f);
             EuropaA.setCustomDescriptionId("sol_europa_asteroid");
 
-            // Elektra
-            SectorEntityToken Elektra = calc.spawnSPSObject(system, star, "Elektra", "Elektra", "asteroid", showNameMinor, 199f, 3.1260f, 0.2100f, 144.990f, 237.750f, 2020.10f, zeroDegGlobal, 0.218f, 1f);
+            // Elektra | Done
+            SectorEntityToken Elektra = calc.spawnSPSObject(system, star, "Elektra", "Elektra", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Elektra" + showNameMinor : showNameMinor, 199f, 3.1260f, 0.2100f, 144.990f, 237.750f, 2020.10f, zeroDegGlobal, 0.218f, 1f);
 
             // S/2003 (130) 1
             SectorEntityToken ElektraBeta = calc.spawnWithEllipticalOrbit(system, Elektra, "ElektraBeta", "130 Beta", "asteroid", showNameProv, calc.getSize(6f), calc.getSize(199f) * 13.0f, 0.0835f, 360.5f, calc.getTime(5.287f), 117.3f, calc.getTime(5.287f) / rotMult);
@@ -1488,18 +1518,20 @@ public class MercuryToNeptune {
             salyutGun.setCircularOrbit(star, 230f, calc.getDist(2.8f, star), calc.getTime(1700f));
 
             if(asteroidBeltDetail >= 2){
-                // Bamberga
-                SectorEntityToken Bamberga = calc.spawnSPSObject(system, star, "Bamberga", "Bamberga", "asteroid", showNameMinor, 221f, 2.6810f, 0.3410f, 327.850f, 44.150f, 2022.60f, zeroDegGlobal, 1.226f, 1f);
-                // Fortuna
-                SectorEntityToken Fortuna = calc.spawnSPSObject(system, star, "Fortuna", "Fortuna", "asteroid", showNameMinor, 211f, 2.4410f, 0.1590f, 211.380f, 182.090f, 2024.15f, zeroDegGlobal, 0.310f, 1f);
-                // Egeria
-                SectorEntityToken Egeria = calc.spawnSPSObject(system, star, "Egeria", "Egeria", "asteroid", showNameMinor, 202f, 2.5760f, 0.0860f, 43.210f, 79.830f, 2021.40f, zeroDegGlobal, 0.294f, 1f);
-                // Patientia
-                SectorEntityToken Patientia = calc.spawnSPSObject(system, star, "Patientia", "Patientia", "asteroid", showNameMinor, 225f, 3.0600f, 0.0760f, 89.250f, 337.060f, 2022.70f, zeroDegGlobal, 0.405f, 1f);
-                // Diotima
-                SectorEntityToken Diotima = calc.spawnSPSObject(system, star, "Diotima", "Diotima", "asteroid", showNameMinor, 176f, 3.0680f, 0.0350f, 69.350f, 199.580f, 2023.75f, zeroDegGlobal, 0.199f, 1f);
-                // Doris
-                SectorEntityToken Doris = calc.spawnSPSObject(system, star, "Doris", "Doris", "asteroid", showNameMinor, 216f, 3.1130f, 0.0670f, 183.440f, 251.020f, 2023.70f, zeroDegGlobal, 0.496f, 1f);
+                // Fortuna | Done
+                SectorEntityToken Fortuna = calc.spawnSPSObject(system, star, "Fortuna", "Fortuna", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Fortuna" + showNameMinor : showNameMinor, 211f, 2.4410f, 0.1590f, 211.380f, 182.090f, 2024.15f, zeroDegGlobal, 0.310f, 1f);
+                // Egeria | Done
+                SectorEntityToken Egeria = calc.spawnSPSObject(system, star, "Egeria", "Egeria", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Egeria" + showNameMinor : showNameMinor, 202f, 2.5760f, 0.0860f, 43.210f, 79.830f, 2021.40f, zeroDegGlobal, 0.294f, 1f);
+                // Diotima | Done
+                SectorEntityToken Diotima = calc.spawnSPSObject(system, star, "Diotima", "Diotima", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Diotima" + showNameMinor : showNameMinor, 176f, 3.0680f, 0.0350f, 69.350f, 199.580f, 2023.75f, zeroDegGlobal, 0.199f, 1f);
+                // Doris | Done
+                SectorEntityToken Doris = calc.spawnSPSObject(system, star, "Doris", "Doris", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Doris" + showNameMinor : showNameMinor, 216f, 3.1130f, 0.0670f, 183.440f, 251.020f, 2023.70f, zeroDegGlobal, 0.496f, 1f);
+                if(asteroidBeltDetail >= 3){
+                    // Patientia | No Model
+                    SectorEntityToken Patientia = calc.spawnSPSObject(system, star, "Patientia", "Patientia", "asteroid", showNameMinor, 225f, 3.0600f, 0.0760f, 89.250f, 337.060f, 2022.70f, zeroDegGlobal, 0.405f, 1f);
+                    // Bamberga | No Model
+                    SectorEntityToken Bamberga = calc.spawnSPSObject(system, star, "Bamberga", "Bamberga", "asteroid", showNameMinor, 221f, 2.6810f, 0.3410f, 327.850f, 44.150f, 2022.60f, zeroDegGlobal, 1.226f, 1f);
+                }
             }
         }
 
@@ -1513,19 +1545,23 @@ public class MercuryToNeptune {
             // Assuming CNSA doesnt order a suicide, which they most likely will
             SectorEntityToken Tianwen = system.addCustomEntity("Tianwen-2" , "Tianwen-2", "Sol_probe", "neutral");
             Tianwen.setCircularOrbitWithSpin(P311, 180, 50, 10, -10, -10);
-        
-            // 2006 VW139 | Active eccentric binary asteroid 
-            // Wierd asf object
-            SectorEntityToken vw139Barycenter = calc.spawnSPSObject(system, star, "vw139_barycenter", "2006 VW139 Barycenter", "custom_entity", "empty", 1f, 3.050600317f, 0.201470979f, 280.454365f, 83.183311f, 2022.169f, zeroDegGlobal, null, 1f);
 
-            float sz_VW139a = (1.69f * 3f);
-            float sz_VW139b = (1.2f* 3f);
-            float p_VW139binary = calc.getTime(119f);
+            // Scheila
+            SectorEntityToken Scheila = calc.spawnSPSObject(system, star, "Scheila", "Scheila", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Scheila" + showNameMinor : showNameMinor, 159.726f, 2.9332f, 0.1595f, 70.445f, 177.946f, 2027.46f, zeroDegGlobal, 0.66f, 1f);
+            if(asteroidBeltDetail >= 3){
+                // 2006 VW139 | Active eccentric binary asteroid 
+                // Wierd asf object
+                SectorEntityToken vw139Barycenter = calc.spawnSPSObject(system, star, "vw139_barycenter", "2006 VW139 Barycenter", "custom_entity", "empty", 1f, 3.050600317f, 0.201470979f, 280.454365f, 83.183311f, 2022.169f, zeroDegGlobal, null, 1f);
 
-            SectorEntityToken[] vw139Binary = calc.spawnEllipticalBinary(system, vw139Barycenter,"vw139a", "2006 VW139", sz_VW139a, "asteroid", showNameProv,"vw139b", "2006 VW139 B", sz_VW139b, "asteroid", showNameProv, sz_VW139a * 18f, 0.46f, p_VW139binary, 0f);
+                float sz_VW139a = (1.69f * 3f);
+                float sz_VW139b = (1.2f* 3f);
+                float p_VW139binary = calc.getTime(119f);
 
-            SectorEntityToken VW139a = vw139Binary[0];
-            SectorEntityToken VW139b = vw139Binary[1];
+                SectorEntityToken[] vw139Binary = calc.spawnEllipticalBinary(system, vw139Barycenter,"vw139a", "2006 VW139", sz_VW139a, "asteroid", showNameProv,"vw139b", "2006 VW139 B", sz_VW139b, "asteroid", showNameProv, sz_VW139a * 18f, 0.46f, p_VW139binary, 0f);
+
+                SectorEntityToken VW139a = vw139Binary[0];
+                SectorEntityToken VW139b = vw139Binary[1];
+            }
         }
 
         // =========================================================================
@@ -1991,39 +2027,41 @@ public class MercuryToNeptune {
             // L4 ASTEROID POPULATION (The Greeks) 
             // -------------------------------------------------------------------------
 
-            if(asteroidBeltDetail >= 2){
-                // Leonteus | 112 km
-                calc.spawnSPSObject2(system, star, "Leonteus", "Leonteus", "asteroid", showNameMinor, 112f, 5.2278f, 0.0909f, 200.527f, 263.269f, 2023.69f, zeroDegGlobal, 0.234f, 1f, p_Jupiter, dist_JupiterRaw);
-                // Achilles | 135 km
-                calc.spawnSPSObject2(system, star, "Achilles", "Achilles", "asteroid", showNameMinor, 135f, 5.2147f, 0.1483f, 316.533f, 134.215f, 2023.35f, zeroDegGlobal, 0.304f, 1f, p_Jupiter, dist_JupiterRaw);
-                // Nestor | 112 km
-                calc.spawnSPSObject2(system, star, "Nestor", "Nestor", "asteroid", showNameMinor, 112f, 5.1698f, 0.1157f, 350.757f, 343.679f, 2031.68f, zeroDegGlobal, 0.666f, 1f, p_Jupiter, dist_JupiterRaw);
+            if(jupiterTrojansDetail >= 2){
+                // Achilles | 135 km | Done
+                calc.spawnSPSObject2(system, star, "Achilles", "Achilles", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Achilles" + showNameMinor : showNameMinor, 135f, 5.2147f, 0.1483f, 316.533f, 134.215f, 2023.35f, zeroDegGlobal, 0.304f, 1f, p_Jupiter, dist_JupiterRaw);
+                // Nestor | 112 km | Done
+                calc.spawnSPSObject2(system, star, "Nestor", "Nestor", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Nestor" + showNameMinor : showNameMinor, 112f, 5.1698f, 0.1157f, 350.757f, 343.679f, 2031.68f, zeroDegGlobal, 0.666f, 1f, p_Jupiter, dist_JupiterRaw);
+                // Diomedes | 118 km | Done
+                calc.spawnSPSObject2(system, star, "Diomedes", "Diomedes", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Diomedes" + showNameMinor : showNameMinor, 118f, 5.2268f, 0.0461f, 315.777f, 131.145f, 2022.36f, zeroDegGlobal, 1.020f, 1f, p_Jupiter, dist_JupiterRaw);
+                // Red Rising Reference?!?!
+                // Ajax | 84 km | Done
+                calc.spawnSPSObject2(system, star, "Ajax", "Ajax", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Ajax" + showNameMinor : showNameMinor, 84f, 5.2832f, 0.1124f, 332.877f, 61.741f, 2022.09f, zeroDegGlobal, 1.226f, 1f, p_Jupiter, dist_JupiterRaw);
                 // Eurybates | 64 km
                 SectorEntityToken Eurybates = calc.spawnSPSObject2(system, star, "Eurybates", "Eurybates", "asteroid", showNameMinor, 64f, 5.2158f, 0.0909f, 43.555f, 28.569f, 2022.27f, zeroDegGlobal, 0.363f, 1f, p_Jupiter, dist_JupiterRaw);
                 calc.spawnMoon(system, Eurybates, "Queta", calc.getSize(1.2f), calc.getSize(64f) * 10f, calc.getTime(82.5f), 1f, showMinorNames);
-                // Odysseus | 115 km
-                calc.spawnSPSObject2(system, star, "Odysseus", "Odysseus", "asteroid", showNameMinor, 115f, 5.2281f, 0.0902f, 221.220f, 238.649f, 2024.15f, zeroDegGlobal, 0.421f, 1f, p_Jupiter, dist_JupiterRaw);
-                // Diomedes | 118 km
-                calc.spawnSPSObject2(system, star, "Diomedes", "Diomedes", "asteroid", showNameMinor, 118f, 5.2268f, 0.0461f, 315.777f, 131.145f, 2022.36f, zeroDegGlobal, 1.020f, 1f, p_Jupiter, dist_JupiterRaw);
-                // Teucer | 89 km
-                calc.spawnSPSObject2(system, star, "Teucer", "Teucer", "asteroid", showNameMinor, 89f, 5.1144f, 0.0893f, 69.939f, 49.045f, 2024.18f, zeroDegGlobal, 0.423f, 1f, p_Jupiter, dist_JupiterRaw);
-                // Red Rising Reference?!?!
-                // Ajax | 84 km
-                calc.spawnSPSObject2(system, star, "Ajax", "Ajax", "asteroid", showNameMinor, 84f, 5.2832f, 0.1124f, 332.877f, 61.741f, 2022.09f, zeroDegGlobal, 1.226f, 1f, p_Jupiter, dist_JupiterRaw);
-                // Menelaus | 43 km
-                calc.spawnSPSObject2(system, star, "Menelaus", "Menelaus", "asteroid", showNameMinor, 43f, 5.2002f, 0.0232f, 240.290f, 299.019f, 2026.75f, zeroDegGlobal, 0.739f, 1f, p_Jupiter, dist_JupiterRaw);
-                // Thestor | 69 km 
-                calc.spawnSPSObject2(system, star, "Thestor", "Thestor", "asteroid", showNameMinor, 69f, 5.2749f, 0.0561f, 233.700f, 199.846f, 2023.23f, zeroDegGlobal, 0.561f, 1f, p_Jupiter, dist_JupiterRaw);
-                // Telamon | 65 km
-                calc.spawnSPSObject2(system, star, "Telamon", "Telamon", "asteroid", showNameMinor, 65f, 5.1401f, 0.1086f, 340.835f, 114.469f, 2023.78f, zeroDegGlobal, 0.476f, 1f, p_Jupiter, dist_JupiterRaw);
                 // Polymele | 21 km | LUCY flyby planned
                 SectorEntityToken Polymele = calc.spawnSPSObject2(system, star, "Polymele", "Polymele", "asteroid", showNameMinor, 21f, 5.1899f, 0.0963f, 50.326f, 5.793f, 2021.72f, zeroDegGlobal, 0.244f, 1f, p_Jupiter, dist_JupiterRaw);
                 // "Shaun" | 5km
                 calc.spawnMoon(system, Polymele, "Shaun", calc.getSize(5f), calc.getSize(21f) * 19.5f, calc.getTime(15.5f), 90f, showMinorNames);
-                // Leucus | 34 km | 446h rotation (extreme slow rotator)
-                calc.spawnSPSObject2(system, star, "Leucus", "Leucus", "asteroid", showNameMinor, 34f, 5.3110f, 0.0653f, 251.075f, 162.335f, 2021.70f, zeroDegGlobal, 18.580f, 1f, p_Jupiter, dist_JupiterRaw);
-                // Orus | 51 km 
-                calc.spawnSPSObject2(system, star, "Orus", "Orus", "asteroid", showNameMinor, 51f, 5.1234f, 0.0370f, 258.551f, 182.781f, 2023.32f, zeroDegGlobal, 0.560f, 1f, p_Jupiter, dist_JupiterRaw);
+                // Leucus | 34 km | 446h rotation (extreme slow rotator) | Done
+                calc.spawnSPSObject2(system, star, "Leucus", "Leucus", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Leucus" + showNameMinor : showNameMinor, 34f, 5.3110f, 0.0653f, 251.075f, 162.335f, 2021.70f, zeroDegGlobal, 18.580f, 1f, p_Jupiter, dist_JupiterRaw);
+                if(jupiterTrojansDetail >= 3){
+                    // Leonteus | 112 km
+                    calc.spawnSPSObject2(system, star, "Leonteus", "Leonteus", "asteroid", showNameMinor, 112f, 5.2278f, 0.0909f, 200.527f, 263.269f, 2023.69f, zeroDegGlobal, 0.234f, 1f, p_Jupiter, dist_JupiterRaw);
+                    // Odysseus | 115 km
+                    calc.spawnSPSObject2(system, star, "Odysseus", "Odysseus", "asteroid", showNameMinor, 115f, 5.2281f, 0.0902f, 221.220f, 238.649f, 2024.15f, zeroDegGlobal, 0.421f, 1f, p_Jupiter, dist_JupiterRaw);
+                    // Teucer | 89 km
+                    calc.spawnSPSObject2(system, star, "Teucer", "Teucer", "asteroid", showNameMinor, 89f, 5.1144f, 0.0893f, 69.939f, 49.045f, 2024.18f, zeroDegGlobal, 0.423f, 1f, p_Jupiter, dist_JupiterRaw);
+                    // Menelaus | 43 km | Done
+                    calc.spawnSPSObject2(system, star, "Menelaus", "Menelaus", "asteroid", showNameMinor, 43f, 5.2002f, 0.0232f, 240.290f, 299.019f, 2026.75f, zeroDegGlobal, 0.739f, 1f, p_Jupiter, dist_JupiterRaw);
+                    // Thestor | 69 km 
+                    calc.spawnSPSObject2(system, star, "Thestor", "Thestor", "asteroid", showNameMinor, 69f, 5.2749f, 0.0561f, 233.700f, 199.846f, 2023.23f, zeroDegGlobal, 0.561f, 1f, p_Jupiter, dist_JupiterRaw);
+                    // Telamon | 65 km
+                    calc.spawnSPSObject2(system, star, "Telamon", "Telamon", "asteroid", showNameMinor, 65f, 5.1401f, 0.1086f, 340.835f, 114.469f, 2023.78f, zeroDegGlobal, 0.476f, 1f, p_Jupiter, dist_JupiterRaw);
+                    // Orus | 51 km 
+                    calc.spawnSPSObject2(system, star, "Orus", "Orus", "asteroid", showNameMinor, 51f, 5.1234f, 0.0370f, 258.551f, 182.781f, 2023.32f, zeroDegGlobal, 0.560f, 1f, p_Jupiter, dist_JupiterRaw);
+                }
             }
         }
         /// =========================================================================
@@ -2087,30 +2125,31 @@ public class MercuryToNeptune {
                 // -------------------------------------------------------------------------
 
                 if(jupiterTrojansDetail >= 2){
-                    // Aeneas | 118 km
-                    calc.spawnSPSObject2(system, star, "Aeneas", "Aeneas", "asteroid", showNameMinor, 118f, 5.2389f, 0.1054f, 247.257f, 52.484f, 2022.28f, zeroDegGlobal, 0.363f, 1f, p_Jupiter, dist_JupiterRaw);
-                    // Anchises | 100 km
-                    calc.spawnSPSObject2(system, star, "Anchises", "Anchises", "asteroid", showNameMinor, 100f, 5.2700f, 0.1376f, 283.901f, 41.439f, 2024.18f, zeroDegGlobal, 0.483f, 1f, p_Jupiter, dist_JupiterRaw);
-                    // Priamus | 101 km
-                    calc.spawnSPSObject2(system, star, "Priamus", "Priamus", "asteroid", showNameMinor, 101f, 5.2101f, 0.1235f, 301.436f, 337.539f, 2021.61f, zeroDegGlobal, 0.286f, 1f, p_Jupiter, dist_JupiterRaw);
-                    // Troilus | 100 km | 56h rotation
-                    calc.spawnSPSObject2(system, star, "Troilus", "Troilus", "asteroid", showNameMinor, 100f, 5.2548f, 0.0926f, 48.547f, 296.719f, 2023.94f, zeroDegGlobal, 2.340f, 1f, p_Jupiter, dist_JupiterRaw);
-                    // Deiphobus | 118 km | 59h rotation
-                    calc.spawnSPSObject2(system, star, "Deiphobus", "Deiphobus", "asteroid", showNameMinor, 118f, 5.1352f, 0.0447f, 283.687f, 1.077f, 2021.91f, zeroDegGlobal, 2.444f, 1f, p_Jupiter, dist_JupiterRaw);
-                    // Glaukos | 48 km
-                    calc.spawnSPSObject2(system, star, "Glaukos", "Glaukos", "asteroid", showNameMinor, 48f, 5.2366f, 0.0326f, 176.301f, 131.459f, 2023.07f, zeroDegGlobal, 0.249f, 1f, p_Jupiter, dist_JupiterRaw);
-                    // Astyanax | 28 km
-                    calc.spawnSPSObject2(system, star, "Astyanax", "Astyanax", "asteroid", showNameMinor, 28f, 5.2183f, 0.0331f, 145.769f, 166.231f, 2024.11f, zeroDegGlobal, 0.272f, 1f, p_Jupiter, dist_JupiterRaw);
-                    // Helenos | 34 km
-                    calc.spawnSPSObject2(system, star, "Helenos", "Helenos", "asteroid", showNameMinor, 34f, 5.3198f, 0.0486f, 188.771f, 116.029f, 2022.74f, zeroDegGlobal, null, 1f, p_Jupiter, dist_JupiterRaw);
-                    // Antenor | 98 km
-                    calc.spawnSPSObject2(system, star, "Antenor", "Antenor", "asteroid", showNameMinor, 98f, 5.1726f, 0.0138f, 159.018f, 300.965f, 2027.42f, zeroDegGlobal, 0.332f, 1f, p_Jupiter, dist_JupiterRaw);
-                    // Sarpedon | 77 km
-                    calc.spawnSPSObject2(system, star, "Sarpedon", "Sarpedon", "asteroid", showNameMinor, 77f, 5.2591f, 0.0176f, 220.789f, 57.247f, 2021.49f, zeroDegGlobal, 0.948f, 1f, p_Jupiter, dist_JupiterRaw);
+                    // Astyanax | 28 km | Done
+                    calc.spawnSPSObject2(system, star, "Astyanax", "Astyanax", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Astyanax" + showNameMinor : showNameMinor, 28f, 5.2183f, 0.0331f, 145.769f, 166.231f, 2024.11f, zeroDegGlobal, 0.272f, 1f, p_Jupiter, dist_JupiterRaw);
+                    // Anchises | 100 km | Done
+                    calc.spawnSPSObject2(system, star, "Anchises", "Anchises", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Anchises" + showNameMinor : showNameMinor, 100f, 5.2700f, 0.1376f, 283.901f, 41.439f, 2024.18f, zeroDegGlobal, 0.483f, 1f, p_Jupiter, dist_JupiterRaw);
+                    if(jupiterTrojansDetail >= 3){
+                        // Aeneas | 118 km
+                        calc.spawnSPSObject2(system, star, "Aeneas", "Aeneas", "asteroid", showNameMinor, 118f, 5.2389f, 0.1054f, 247.257f, 52.484f, 2022.28f, zeroDegGlobal, 0.363f, 1f, p_Jupiter, dist_JupiterRaw);
+                        // Priamus | 101 km
+                        calc.spawnSPSObject2(system, star, "Priamus", "Priamus", "asteroid", showNameMinor, 101f, 5.2101f, 0.1235f, 301.436f, 337.539f, 2021.61f, zeroDegGlobal, 0.286f, 1f, p_Jupiter, dist_JupiterRaw);
+                        // Troilus | 100 km | 56h rotation
+                        calc.spawnSPSObject2(system, star, "Troilus", "Troilus", "asteroid", showNameMinor, 100f, 5.2548f, 0.0926f, 48.547f, 296.719f, 2023.94f, zeroDegGlobal, 2.340f, 1f, p_Jupiter, dist_JupiterRaw);
+                        // Deiphobus | 118 km | 59h rotation
+                        calc.spawnSPSObject2(system, star, "Deiphobus", "Deiphobus", "asteroid", showNameMinor, 118f, 5.1352f, 0.0447f, 283.687f, 1.077f, 2021.91f, zeroDegGlobal, 2.444f, 1f, p_Jupiter, dist_JupiterRaw);
+                        // Glaukos | 48 km 
+                        calc.spawnSPSObject2(system, star, "Glaukos", "Glaukos", "asteroid", showNameMinor, 48f, 5.2366f, 0.0326f, 176.301f, 131.459f, 2023.07f, zeroDegGlobal, 0.249f, 1f, p_Jupiter, dist_JupiterRaw);
+                        // Helenos | 34 km
+                        calc.spawnSPSObject2(system, star, "Helenos", "Helenos", "asteroid", showNameMinor, 34f, 5.3198f, 0.0486f, 188.771f, 116.029f, 2022.74f, zeroDegGlobal, null, 1f, p_Jupiter, dist_JupiterRaw);
+                        // Antenor | 98 km
+                        calc.spawnSPSObject2(system, star, "Antenor", "Antenor", "asteroid", showNameMinor, 98f, 5.1726f, 0.0138f, 159.018f, 300.965f, 2027.42f, zeroDegGlobal, 0.332f, 1f, p_Jupiter, dist_JupiterRaw);
+                        // Sarpedon | 77 km
+                        calc.spawnSPSObject2(system, star, "Sarpedon", "Sarpedon", "asteroid", showNameMinor, 77f, 5.2591f, 0.0176f, 220.789f, 57.247f, 2021.49f, zeroDegGlobal, 0.948f, 1f, p_Jupiter, dist_JupiterRaw);
+                    }
                 }
             }
         }
-
         // =========================================================================
         // ========================== THE HILDA TRIANGLE ===========================
         // =========================================================================
@@ -2156,78 +2195,78 @@ public class MercuryToNeptune {
             Hilda.setSkipForJumpPointAutoGen(true);
             
             if(hildaDetail >= 1){
-                // 1911 Schubart | 67 km
-                calc.spawnSPSObject2(system, star, "Schubart", "Schubart", "asteroid", showNameMinor, 67f, 3.9807f, 0.1731f, 284.773f, 181.886f, 2022.58f, zeroDegGlobal, 0.496f, 1f, p_Hilda, hildaResonantSMA);
-
+                // 1911 Schubart | 67 km | Done
+                calc.spawnSPSObject2(system, star, "Schubart", "Schubart", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Schubart" + showNameMinor : showNameMinor, 67f, 3.9807f, 0.1731f, 284.773f, 181.886f, 2022.58f, zeroDegGlobal, 0.496f, 1f, p_Hilda, hildaResonantSMA);
                 if(hildaDetail >= 2){
-                    // 190 Ismene | 159 km 
-                    calc.spawnSPSObject2(system, star, "Ismene", "Ismene", "asteroid", showNameMinor, 159f, 3.9949f, 0.1683f, 175.396f, 271.448f, 2029.54f, zeroDegGlobal, 0.272f, 1f, p_Hilda, hildaResonantSMA);
-                    // 361 Bononia | 154 km
-                    calc.spawnSPSObject2(system, star, "Bononia", "Bononia", "asteroid", showNameMinor, 154f, 3.9786f, 0.2107f, 18.557f, 66.823f, 2025.11f, zeroDegGlobal, 0.576f, 1f, p_Hilda, hildaResonantSMA);
-                    // 499 Venusia | ~81 km
-                    calc.spawnSPSObject2(system, star, "Venusia", "Venusia", "asteroid", showNameMinor, 81f, 4.0086f, 0.2147f, 256.245f, 174.952f, 2013.25f, zeroDegGlobal, 0.562f, 1f, p_Hilda, hildaResonantSMA);
-                    // 748 Simeisa | ~104 km
-                    calc.spawnSPSObject2(system, star, "Simeisa", "Simeisa", "asteroid", showNameMinor, 104f, 3.9472f, 0.1881f, 265.460f, 177.730f, 2021.19f, zeroDegGlobal, 0.497f, 1f, p_Hilda, hildaResonantSMA);
-                    // 958 Asplinda | ~47 km
-                    calc.spawnSPSObject2(system, star, "Asplinda", "Asplinda", "asteroid", showNameMinor, 47f, 3.9849f, 0.1846f, 343.120f, 92.950f, 2017.04f, zeroDegGlobal, 0.689f, 1f, p_Hilda, hildaResonantSMA);
-                    // 1038 Tuckia | ~58 km
-                    calc.spawnSPSObject2(system, star, "Tuckia", "Tuckia", "asteroid", showNameMinor, 58f, 3.9820f, 0.2204f, 57.769f, 305.020f, 2018.10f, zeroDegGlobal, 0.967f, 1f, p_Hilda, hildaResonantSMA);
-                    // 1144 Oda | ~58 km
-                    calc.spawnSPSObject2(system, star, "Oda", "Oda", "asteroid", showNameMinor, 58f, 3.7489f, 0.0942f, 156.730f, 220.870f, 2015.03f, zeroDegGlobal, 1.834f, 1f, p_Hilda, hildaResonantSMA);
-                    // 1162 Larissa | ~44 km (not to be confused with the moon of neptune)
-                    calc.spawnSPSObject2(system, star, "LarissaA", "Larissa", "asteroid", showNameMinor, 44f, 3.9393f, 0.1095f, 39.808f, 209.550f, 2018.65f, zeroDegGlobal, 0.272f, 1f, p_Hilda, hildaResonantSMA);
-                    // 1180 Rita | ~97 kmnull
-                    calc.spawnSPSObject2(system, star, "Rita", "Rita", "asteroid", showNameMinor, 97f, 3.9851f, 0.1575f, 88.336f, 209.120f, 2012.51f, zeroDegGlobal, 0.621f, 1f, p_Hilda, hildaResonantSMA);
-                    // 1202 Marina | ~55 km
-                    calc.spawnSPSObject2(system, star, "Marina", "Marina", "asteroid", showNameMinor, 55f, 3.9980f, 0.1661f, 49.880f, 307.450f, 2017.99f, zeroDegGlobal, 0.399f, 1f, p_Hilda, hildaResonantSMA);
-                    // 1212 Francette | ~82 km
-                    calc.spawnSPSObject2(system, star, "Francette", "Francette", "asteroid", showNameMinor, 82f, 3.9541f, 0.1914f, 149.580f, 348.230f, 2019.36f, zeroDegGlobal, 0.935f, 1f, p_Hilda, hildaResonantSMA);
-                    // 1256 Normannia | ~69 km
-                    calc.spawnSPSObject2(system, star, "Normannia", "Normannia", "asteroid", showNameMinor, 69f, 3.8949f, 0.0782f, 236.940f, 101.060f, 2017.56f, zeroDegGlobal, 0.755f, 1f, p_Hilda, hildaResonantSMA);
-                    // 1268 Libya | ~94 km
-                    calc.spawnSPSObject2(system, star, "Libya", "Libya", "asteroid", showNameMinor, 94f, 3.9737f, 0.1019f, 351.000f, 119.430f, 2014.21f, zeroDegGlobal, 0.585f, 1f, p_Hilda, hildaResonantSMA);
-                    // 1269 Rollandia | ~105 km
-                    calc.spawnSPSObject2(system, star, "Rollandia", "Rollandia", "asteroid", showNameMinor, 105f, 3.9023f, 0.0996f, 134.710f, 19.460f, 2019.47f, zeroDegGlobal, 0.723f, 1f, p_Hilda, hildaResonantSMA);
-                    // 1345 Potomac | ~72 km
-                    calc.spawnSPSObject2(system, star, "Potomac", "Potomac", "asteroid", showNameMinor, 72f, 3.9856f, 0.1818f, 137.430f, 333.120f, 2018.63f, zeroDegGlobal, 0.475f, 1f, p_Hilda, hildaResonantSMA);
-                    // 1512 Oulu | ~82 km
-                    calc.spawnSPSObject2(system, star, "Oulu", "Oulu", "asteroid", showNameMinor, 82f, 3.9717f, 0.1466f, 10.168f, 238.200f, 2010.34f, zeroDegGlobal, 5.513f, 1f, p_Hilda, hildaResonantSMA);
-                    // 1529 Oterma | ~56 km
-                    calc.spawnSPSObject2(system, star, "Oterma", "Oterma", "asteroid", showNameMinor, 56f, 3.9924f, 0.2006f, 100.590f, 295.080f, 2016.56f, zeroDegGlobal, 0.656f, 1f, p_Hilda, hildaResonantSMA);
-                    // 1578 Kirkwood | ~51 km
-                    calc.spawnSPSObject2(system, star, "Kirkwood", "Kirkwood", "asteroid", showNameMinor, 51f, 3.9236f, 0.2391f, 74.002f, 1.773f, 2013.47f, zeroDegGlobal, 0.522f, 1f, p_Hilda, hildaResonantSMA);
-                    // 1748 Mauderli | ~44 km
-                    calc.spawnSPSObject2(system, star, "Mauderli", "Mauderli", "asteroid", showNameMinor, 44f, 3.9403f, 0.2223f, 125.950f, 199.950f, 2012.82f, zeroDegGlobal, 0.250f, 1f, p_Hilda, hildaResonantSMA);
-                    // 1754 Cunningham | ~79 km
-                    calc.spawnSPSObject2(system, star, "Cunningham", "Cunningham", "asteroid", showNameMinor, 79f, 3.9422f, 0.1696f, 162.900f, 109.620f, 2015.90f, zeroDegGlobal, 0.322f, 1f, p_Hilda, hildaResonantSMA);
-                    // 1877 Marsden | ~35 km
-                    calc.spawnSPSObject2(system, star, "Marsden", "Marsden", "asteroid", showNameMinor, 35f, 3.9439f, 0.2076f, 352.860f, 306.870f, 2012.36f, zeroDegGlobal, 0.600f, 1f, p_Hilda, hildaResonantSMA);
-                    // 1439 Vogtia | ~47 km
-                    calc.spawnSPSObject2(system, star, "Vogtia", "Vogtia", "asteroid", showNameMinor, 47f, 4.0028f, 0.1179f, 35.575f, 101.700f, 2011.55f, zeroDegGlobal, 0.537f, 1f, p_Hilda, hildaResonantSMA);
-                    // 1902 Shaposhnikov | ~97 km
-                    calc.spawnSPSObject2(system, star, "Shaposhnikov", "Shaposhnikov", "asteroid", showNameMinor, 97f, 3.9651f, 0.2219f, 59.315f, 268.160f, 2013.59f, zeroDegGlobal, 0.874f, 1f, p_Hilda, hildaResonantSMA);
-                    // 1941 Wild | ~17 km (not to be confused with the other Wild in this codebase)
-                    calc.spawnSPSObject2(system, star, "WildaA", "1941 Wild", "asteroid", showNameMinor, 17f, 3.9520f, 0.2886f, 60.454f, 302.700f, 2011.38f, zeroDegGlobal, 0.377f, 1f, p_Hilda, hildaResonantSMA);
-                    // 2067 Aksnes | ~46 km
-                    calc.spawnSPSObject2(system, star, "Aksnes", "Aksnes", "asteroid", showNameMinor, 46f, 3.9637f, 0.1816f, 150.240f, 297.330f, 2013.48f, zeroDegGlobal, 0.740f, 1f, p_Hilda, hildaResonantSMA);
-                    // 2246 Bowell | ~44 km
-                    calc.spawnSPSObject2(system, star, "Bowell", "Bowell", "asteroid", showNameMinor, 44f, 3.9576f, 0.0938f, 155.660f, 21.544f, 2012.33f, zeroDegGlobal, 0.208f, 1f, p_Hilda, hildaResonantSMA);
-                    // 2312 Duboshin | ~54 km
-                    calc.spawnSPSObject2(system, star, "Duboshin", "Duboshin", "asteroid", showNameMinor, 54f, 3.9613f, 0.1568f, 61.441f, 342.000f, 2012.75f, zeroDegGlobal, 2.116f, 1f, p_Hilda, hildaResonantSMA);
-                    // 2483 Guinevere | ~42 km
-                    calc.spawnSPSObject2(system, star, "Guinevere", "Guinevere", "asteroid", showNameMinor, 42f, 3.9710f, 0.2776f, 252.040f, 183.360f, 2017.57f, zeroDegGlobal, 0.614f, 1f, p_Hilda, hildaResonantSMA);
-                    // 2959 Scholl | ~34 km
-                    calc.spawnSPSObject2(system, star, "Scholl", "Scholl", "asteroid", showNameMinor, 34f, 3.9436f, 0.2749f, 121.240f, 285.080f, 2015.94f, zeroDegGlobal, 0.667f, 1f, p_Hilda, hildaResonantSMA);
-                    // 3202 Graff | ~36 km
-                    calc.spawnSPSObject2(system, star, "Graff", "Graff", "asteroid", showNameMinor, 36f, 3.9363f, 0.1148f, 205.140f, 268.810f, 2011.27f, zeroDegGlobal, 0.722f, 1f, p_Hilda, hildaResonantSMA);
-                    // 3254 Bus | ~32 km
-                    calc.spawnSPSObject2(system, star, "Bus", "Bus", "asteroid", showNameMinor, 32f, 3.9548f, 0.1643f, 43.479f, 305.670f, 2013.69f, zeroDegGlobal, 0.276f, 1f, p_Hilda, hildaResonantSMA);
-                    // 4230 van den Bergh | ~37 km
-                    calc.spawnSPSObject2(system, star, "vandenBergh", "van den Bergh", "asteroid", showNameMinor, 37f, 3.9502f, 0.1338f, 160.470f, 20.889f, 2016.80f, zeroDegGlobal, 3.663f, 1f, p_Hilda, hildaResonantSMA);
+                    // 361 Bononia | 154 km | Done
+                    calc.spawnSPSObject2(system, star, "Bononia", "Bononia", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Bononia" + showNameMinor : showNameMinor, 154f, 3.9786f, 0.2107f, 18.557f, 66.823f, 2025.11f, zeroDegGlobal, 0.576f, 1f, p_Hilda, hildaResonantSMA);
+                    // 499 Venusia | ~81 km | Done
+                    calc.spawnSPSObject2(system, star, "Venusia", "Venusia", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Venusia" + showNameMinor : showNameMinor, 81f, 4.0086f, 0.2147f, 256.245f, 174.952f, 2013.25f, zeroDegGlobal, 0.562f, 1f, p_Hilda, hildaResonantSMA);
+                    // 958 Asplinda | ~47 km | Done
+                    calc.spawnSPSObject2(system, star, "Asplinda", "Asplinda", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Asplinda" + showNameMinor : showNameMinor, 47f, 3.9849f, 0.1846f, 343.120f, 92.950f, 2017.04f, zeroDegGlobal, 0.689f, 1f, p_Hilda, hildaResonantSMA);
+                    // 1180 Rita | ~97 km | Done
+                    calc.spawnSPSObject2(system, star, "Rita", "Rita", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Rita" + showNameMinor : showNameMinor, 97f, 3.9851f, 0.1575f, 88.336f, 209.120f, 2012.51f, zeroDegGlobal, 0.621f, 1f, p_Hilda, hildaResonantSMA);
+                    // 1202 Marina | ~55 km | Done
+                    calc.spawnSPSObject2(system, star, "Marina", "Marina", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Marina" + showNameMinor : showNameMinor, 55f, 3.9980f, 0.1661f, 49.880f, 307.450f, 2017.99f, zeroDegGlobal, 0.399f, 1f, p_Hilda, hildaResonantSMA);
+                    // 1256 Normannia | ~69 km | Done
+                    calc.spawnSPSObject2(system, star, "Normannia", "Normannia", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Normannia" + showNameMinor : showNameMinor, 69f, 3.8949f, 0.0782f, 236.940f, 101.060f, 2017.56f, zeroDegGlobal, 0.755f, 1f, p_Hilda, hildaResonantSMA);
+                    // 1345 Potomac | ~72 km | Done
+                    calc.spawnSPSObject2(system, star, "Potomac", "Potomac", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Potomac" + showNameMinor : showNameMinor, 72f, 3.9856f, 0.1818f, 137.430f, 333.120f, 2018.63f, zeroDegGlobal, 0.475f, 1f, p_Hilda, hildaResonantSMA);
+                    // 1578 Kirkwood | ~51 km | Done
+                    calc.spawnSPSObject2(system, star, "Kirkwood", "Kirkwood", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Kirkwood" + showNameMinor : showNameMinor, 51f, 3.9236f, 0.2391f, 74.002f, 1.773f, 2013.47f, zeroDegGlobal, 0.522f, 1f, p_Hilda, hildaResonantSMA);
+                    // 1754 Cunningham | ~79 km | Done
+                    calc.spawnSPSObject2(system, star, "Cunningham", "Cunningham", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Cunningham" + showNameMinor : showNameMinor, 79f, 3.9422f, 0.1696f, 162.900f, 109.620f, 2015.90f, zeroDegGlobal, 0.322f, 1f, p_Hilda, hildaResonantSMA);
+                    // 1902 Shaposhnikov | ~97 km | Done
+                    calc.spawnSPSObject2(system, star, "Shaposhnikov", "Shaposhnikov", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Shaposhnikov" + showNameMinor : showNameMinor, 97f, 3.9651f, 0.2219f, 59.315f, 268.160f, 2013.59f, zeroDegGlobal, 0.874f, 1f, p_Hilda, hildaResonantSMA);
+                    // 2483 Guinevere | ~42 km | Done
+                    calc.spawnSPSObject2(system, star, "Guinevere", "Guinevere", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Guinevere" + showNameMinor : showNameMinor, 42f, 3.9710f, 0.2776f, 252.040f, 183.360f, 2017.57f, zeroDegGlobal, 0.614f, 1f, p_Hilda, hildaResonantSMA);
+                    // 3254 Bus | ~32 km | Done
+                    calc.spawnSPSObject2(system, star, "Bus", "Bus", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Bus" + showNameMinor : showNameMinor, 32f, 3.9548f, 0.1643f, 43.479f, 305.670f, 2013.69f, zeroDegGlobal, 0.276f, 1f, p_Hilda, hildaResonantSMA);
+                    // 4230 van den Bergh | ~37 km | Done (vandenbergh)
+                    calc.spawnSPSObject2(system, star, "vandenBergh", "van den Bergh", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "vandenBergh" + showNameMinor : showNameMinor, 37f, 3.9502f, 0.1338f, 160.470f, 20.889f, 2016.80f, zeroDegGlobal, 3.663f, 1f, p_Hilda, hildaResonantSMA);
+                    if(hildaDetail >= 3){
+                        // 190 Ismene | 159 km 
+                        calc.spawnSPSObject2(system, star, "Ismene", "Ismene", "asteroid", showNameMinor, 159f, 3.9949f, 0.1683f, 175.396f, 271.448f, 2029.54f, zeroDegGlobal, 0.272f, 1f, p_Hilda, hildaResonantSMA);
+                        // 748 Simeisa | ~104 km
+                        calc.spawnSPSObject2(system, star, "Simeisa", "Simeisa", "asteroid", showNameMinor, 104f, 3.9472f, 0.1881f, 265.460f, 177.730f, 2021.19f, zeroDegGlobal, 0.497f, 1f, p_Hilda, hildaResonantSMA);
+                        // 1038 Tuckia | ~58 km
+                        calc.spawnSPSObject2(system, star, "Tuckia", "Tuckia", "asteroid", showNameMinor, 58f, 3.9820f, 0.2204f, 57.769f, 305.020f, 2018.10f, zeroDegGlobal, 0.967f, 1f, p_Hilda, hildaResonantSMA);
+                        // 1144 Oda | ~58 km
+                        calc.spawnSPSObject2(system, star, "Oda", "Oda", "asteroid", showNameMinor, 58f, 3.7489f, 0.0942f, 156.730f, 220.870f, 2015.03f, zeroDegGlobal, 1.834f, 1f, p_Hilda, hildaResonantSMA);
+                        // 1162 Larissa | ~44 km (not to be confused with the moon of neptune)
+                        calc.spawnSPSObject2(system, star, "LarissaA", "Larissa", "asteroid", showNameMinor, 44f, 3.9393f, 0.1095f, 39.808f, 209.550f, 2018.65f, zeroDegGlobal, 0.272f, 1f, p_Hilda, hildaResonantSMA);
+                        // 1212 Francette | ~82 km
+                        calc.spawnSPSObject2(system, star, "Francette", "Francette", "asteroid", showNameMinor, 82f, 3.9541f, 0.1914f, 149.580f, 348.230f, 2019.36f, zeroDegGlobal, 0.935f, 1f, p_Hilda, hildaResonantSMA);
+                        // 1268 Libya | ~94 km
+                        calc.spawnSPSObject2(system, star, "Libya", "Libya", "asteroid", showNameMinor, 94f, 3.9737f, 0.1019f, 351.000f, 119.430f, 2014.21f, zeroDegGlobal, 0.585f, 1f, p_Hilda, hildaResonantSMA);
+                        // 1269 Rollandia | ~105 km
+                        calc.spawnSPSObject2(system, star, "Rollandia", "Rollandia", "asteroid", showNameMinor, 105f, 3.9023f, 0.0996f, 134.710f, 19.460f, 2019.47f, zeroDegGlobal, 0.723f, 1f, p_Hilda, hildaResonantSMA);
+                        // 1512 Oulu | ~82 km
+                        calc.spawnSPSObject2(system, star, "Oulu", "Oulu", "asteroid", showNameMinor, 82f, 3.9717f, 0.1466f, 10.168f, 238.200f, 2010.34f, zeroDegGlobal, 5.513f, 1f, p_Hilda, hildaResonantSMA);
+                        // 1529 Oterma | ~56 km
+                        calc.spawnSPSObject2(system, star, "Oterma", "Oterma", "asteroid", showNameMinor, 56f, 3.9924f, 0.2006f, 100.590f, 295.080f, 2016.56f, zeroDegGlobal, 0.656f, 1f, p_Hilda, hildaResonantSMA);
+                        // 1748 Mauderli | ~44 km
+                        calc.spawnSPSObject2(system, star, "Mauderli", "Mauderli", "asteroid", showNameMinor, 44f, 3.9403f, 0.2223f, 125.950f, 199.950f, 2012.82f, zeroDegGlobal, 0.250f, 1f, p_Hilda, hildaResonantSMA);
+                        // 1877 Marsden | ~35 km
+                        calc.spawnSPSObject2(system, star, "Marsden", "Marsden", "asteroid", showNameMinor, 35f, 3.9439f, 0.2076f, 352.860f, 306.870f, 2012.36f, zeroDegGlobal, 0.600f, 1f, p_Hilda, hildaResonantSMA);
+                        // 1439 Vogtia | ~47 km
+                        calc.spawnSPSObject2(system, star, "Vogtia", "Vogtia", "asteroid", showNameMinor, 47f, 4.0028f, 0.1179f, 35.575f, 101.700f, 2011.55f, zeroDegGlobal, 0.537f, 1f, p_Hilda, hildaResonantSMA);
+                        // 1941 Wild | ~17 km (not to be confused with the other Wild in this codebase)
+                        calc.spawnSPSObject2(system, star, "WildaA", "1941 Wild", "asteroid", showNameMinor, 17f, 3.9520f, 0.2886f, 60.454f, 302.700f, 2011.38f, zeroDegGlobal, 0.377f, 1f, p_Hilda, hildaResonantSMA);
+                        // 2067 Aksnes | ~46 km
+                        calc.spawnSPSObject2(system, star, "Aksnes", "Aksnes", "asteroid", showNameMinor, 46f, 3.9637f, 0.1816f, 150.240f, 297.330f, 2013.48f, zeroDegGlobal, 0.740f, 1f, p_Hilda, hildaResonantSMA);
+                        // 2246 Bowell | ~44 km
+                        calc.spawnSPSObject2(system, star, "Bowell", "Bowell", "asteroid", showNameMinor, 44f, 3.9576f, 0.0938f, 155.660f, 21.544f, 2012.33f, zeroDegGlobal, 0.208f, 1f, p_Hilda, hildaResonantSMA);
+                        // 2312 Duboshin | ~54 km
+                        calc.spawnSPSObject2(system, star, "Duboshin", "Duboshin", "asteroid", showNameMinor, 54f, 3.9613f, 0.1568f, 61.441f, 342.000f, 2012.75f, zeroDegGlobal, 2.116f, 1f, p_Hilda, hildaResonantSMA);
+                        // 2959 Scholl | ~34 km
+                        calc.spawnSPSObject2(system, star, "Scholl", "Scholl", "asteroid", showNameMinor, 34f, 3.9436f, 0.2749f, 121.240f, 285.080f, 2015.94f, zeroDegGlobal, 0.667f, 1f, p_Hilda, hildaResonantSMA);
+                        // 3202 Graff | ~36 km
+                        calc.spawnSPSObject2(system, star, "Graff", "Graff", "asteroid", showNameMinor, 36f, 3.9363f, 0.1148f, 205.140f, 268.810f, 2011.27f, zeroDegGlobal, 0.722f, 1f, p_Hilda, hildaResonantSMA);
+                    }
                 }
             }
         }
-
         // =========================================================================
         // ============================= SATURN SYSTEM =============================
         // =========================================================================

@@ -427,7 +427,7 @@ public class CometsCentaursTNOs {
                 SectorEntityToken Xewioso = calc.spawnSPSObject(system, star, "Xewioso", "Xewioso", "asteroid", showNameMinor, 565f, 37.6872f, 0.2435f, 46.729f, 248.379f, 1926.52f, zeroDegGlobal, null, 1f);
 
                 if(centaurDetail >= 2){
-                    // 944 Hidalgo
+                    // 944 Hidalgo | Done
                     SectorEntityToken Hidalgo = calc.spawnSPSObject(system, star, "Hidalgo", "Hidalgo", "asteroid", showNameMinor, 38f, 5.7283f, 0.6622f, 21.363f, 56.598f, 2032.54f, zeroDegGlobal, 0.421f, 1f);
                     SectorEntityToken hidalgoProbe = DerelictThemeGenerator.addSalvageEntity(system, Entities.DERELICT_SURVEY_PROBE, Factions.DERELICT); hidalgoProbe.setId("hidalgo_probe");
                     hidalgoProbe.setName("Guadalupe"); 
