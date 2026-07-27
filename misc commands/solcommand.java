@@ -1,1 +1,0 @@
-runcode if (Global.getSector().getStarSystem("Sol") == null) { new soljars.gen.systems.sol.SolTotal().generate(Global.getSector()); }

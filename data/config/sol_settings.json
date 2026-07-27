@@ -60,7 +60,7 @@
 
     ## enables or disables some small Visited Asteroids
     ## accepted values 0 (none specifically), 1 (default), 2 (), 3, 4
-    "Visited_Asteroids_Detail": 1, 
+    "Visited_Asteroids_Detail": 3, 
 
     ## enables or disables some less important/interesting asteroids
     ## accepted values 0, 1, 2

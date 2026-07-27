@@ -135,8 +135,22 @@ function Get-EntryString {
     $discoverable = $false
     if ($Row.PSObject.Properties['Discoverable']) { $discoverable = ConvertTo-Bool $Row.Discoverable }
 
-    # size from log formula
-    $gameRadiusFloat = Get-GameSize -km $diameterKm -S $Settings
+    # size: if this body belongs to a system (SystemDiameter set), size it as a
+    # linear fraction of the whole system's game-size. The log formula is applied
+    # ONCE to the system extent, then divided by real proportion, so companions like
+    # Dactyl stay small relative to Ida instead of being flattened to near-equal.
+    # Otherwise fall back to the plain log formula on the body's own diameter.
+    $systemDiamKm = 0.0
+    $hasSystem = $Row.PSObject.Properties['SystemDiameter'] -and `
+                 [double]::TryParse( ($Row.SystemDiameter | Out-String).Trim(), [ref]$systemDiamKm ) -and `
+                 $systemDiamKm -gt 0
+
+    if ($hasSystem) {
+        $systemGameSize  = Get-GameSize -km $systemDiamKm -S $Settings
+        $gameRadiusFloat = [math]::Max(2.0, $systemGameSize * ($diameterKm / $systemDiamKm))
+    } else {
+        $gameRadiusFloat = Get-GameSize -km $diameterKm -S $Settings
+    }
     $radius      = [int][math]::Round($gameRadiusFloat)
     $spriteSize  = [int][math]::Round($gameRadiusFloat * 2.0)
 
