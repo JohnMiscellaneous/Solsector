@@ -83,9 +83,10 @@ public class LagrangeBean extends LagrangeBeanBase {
             return (float) Math.pow(1f - t, 1.5);
         }
     }
-
+    
+    // Geometry
     @Override
-    protected void buildPolygon() { // Was messing with AI, This geometry scares me, and it should you.
+    protected void buildPolygon() {
         double mu = params.massB / (params.massA + params.massB);
         double sign = params.leading ? 1.0 : -1.0;
 
@@ -208,7 +209,7 @@ public class LagrangeBean extends LagrangeBeanBase {
         edgeInX = inX; edgeInY = inY;
         edgeOutX = outX; edgeOutY = outY;
     }
-
+    
     protected static void pushEdge(float[] x, float[] y, float[] off, float dir) {
         int m = x.length;
         float[] ox = new float[m], oy = new float[m];

@@ -1,24 +1,26 @@
 Version 0.82.0
 Gameplay:
-    Added Comet terrain
-    Added Trojan terrain
-    Added Hilda triangle terrain
-    Added Kuiper belt terrains
+    Added Comet terrain, a terrain for comets when they are close enough to the sun
+    Added Trojan terrain for Jupiter, Neptune, and Mars (only L5 Eureka group)
+    Added Hilda triangle terrain (Hildas are 3:2 resonant with jupiter, but their longitude of perihelion, and the fact that eccentric objects move slower far out leads them to clump sunwards of Jupiter's L3, L4, and L5 points)
+    Added Kuiper belt terrains (these are kinda ugly, and I'll probably change them later on)
     Extrasolar now gives bonuses to vaccuum processes
+    Made planet 9 now have to be discovered via sensors (disableable in options)
 
 Misc:
-    added textures for: Torifune, Kamooalewa, Didymos, Dimorphos, Dinkanesh, Selam, Braille, Itokawa, Ryugu, Aegaeon, Anthe, Pallene, 
-    added saturn moonlets with Methone textures
-    Every visited object, bar those where the camera was broken and neptune now has a custom texture.
-    added procedural lightcurve based textures for: Moshup, Apollo, 1950 DA, Castalia, Cerberus, Bacchus, Mithra, Geographos, Apophis, Ganymed, Ra-Shalom, 1998 KY26, Aethra, Brucia, 1996 HW1, Cybele, Sylvia, Camilla, Hermione, Themis, Antiope A, Thisbe, Flora, Kleopatra, Kalliope, Antigone, Klotho, Astraea, Eunomia, Euphrosyne, Phocaea, Eugenia, Hungaria, Thule, Juno, Iris, Crimea, Hebe, Metis, Amphitrite, Herculina, Interamnia, Davida, Europa, Elektra, Fortuna, Egeria, Diotima, Doris, Scheila, Otero, Achilles, Nestor, Diomedes, Ajax, Leucus, Anchises, Astyanax, Schubart, Bononia, Venusia, Asplinda, Rita, Marina, Normannia, Potomac, Kirkwood, Cunningham, Shaposhnikov, Guinevere, Bus, van den Bergh, Squannit, Antiope B
-    overhauled generation settings to allow the player to fine tune things a bit more. 0 now also means something akin to 0.
+    Added textures for: Torifune, Kamooalewa, Didymos, Dimorphos, Dinkanesh, Selam, Braille, Itokawa, Ryugu, Aegaeon, Anthe, Pallene, 
+    Added saturn moonlets with Methone textures
+    Added procedural lightcurve / RADAR / occultation based textures for: Moshup, Apollo, 1950 DA, Castalia, Cerberus, Bacchus, Mithra, Geographos, Apophis, Ganymed, Ra-Shalom, 1998 KY26, Aethra, Brucia, 1996 HW1, Cybele, Sylvia, Camilla, Hermione, Themis, Antiope A, Thisbe, Flora, Kleopatra, Kalliope, Antigone, Klotho, Astraea, Eunomia, Euphrosyne, Phocaea, Eugenia, Hungaria, Thule, Juno, Iris, Crimea, Hebe, Metis, Amphitrite, Herculina, Interamnia, Davida, Europa, Elektra, Fortuna, Egeria, Diotima, Doris, Scheila, Otero, Achilles, Nestor, Diomedes, Ajax, Leucus, Anchises, Astyanax, Schubart, Bononia, Venusia, Asplinda, Rita, Marina, Normannia, Potomac, Kirkwood, Cunningham, Shaposhnikov, Guinevere, Bus, van den Bergh, Squannit, Antiope B, 1992 SK, 1998 ML14, 1998 WT24, 1999 JV6, 2000 ET70, 2008 EV5, Alkmene, Angelina, Ariadne, Atalante, Aurora, Ausonia, Bellona, Betulia, Circe, Daphne, Dike, Echo, Eos, Eurynome, Euterpe, Feronia, Fides, Freia, Golevka, Harmonia, Hesperia, Io (the asteroid), Irene, Isis, Julia, Kalypso, Klytia, Laetitia, Leto, Maja, Massalia, Melete, Melpomene, Minerva, Nemausa, Nereus, Niobe, Nysa, Sappho, Thetis, Urania, and Yorp     
+    Overhauled generation settings to allow the player to fine tune things a bit more.
+    Limited the max amount of Artillery stations to 3, for your computer's own safety.
 
 Bug fixes:
-    implemented some optimizations for custom orbits
-    synchrotron core's id is now synchrotron
-    more null handling now
+    Implemented some optimizations for custom orbits
+    Synchrotron core's ID is now correctly synchrotron, catalytic core's ID is still correct and catalytic_core, how or why this is the case is beyond me 
+    Implemented some null handling / missing token protection and logging
+    Fixed grav well generation, enabled the confirmed dwarf planets to create nascent grav wells
 
-Almost certainly not savegame compatable
+Not savegame compatable
 
 Version 0.81.5
 Gameplay

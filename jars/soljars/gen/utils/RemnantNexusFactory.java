@@ -21,6 +21,19 @@ public class RemnantNexusFactory {
                                                int minFleetSize, int maxFleetSize,
                                                String coreType) {
 
+        if (system == null || focus == null
+                || focus.getContainingLocation() == null || focus.getLocation() == null) {
+            Global.getLogger(RemnantNexusFactory.class).warn(
+                    "tried to spawn nexus at " + focus + "/" + system);
+            return null;
+        }
+
+        if (radius <= 0f || Float.isNaN(radius) || period == 0f || Float.isNaN(period)) {
+            Global.getLogger(RemnantNexusFactory.class).warn(
+                    "tried to spawn nexus with bad orbit radius=" + radius + " period=" + period);
+            return null;
+        }
+
         if (coreType == null) {
             coreType = Commodities.ALPHA_CORE;
         }

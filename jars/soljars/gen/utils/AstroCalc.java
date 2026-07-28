@@ -401,8 +401,18 @@ return new float[]{distPrimary, distSecondary};
 
 // Bulk-add market conditions from an explicit array
 public void addConditions(MarketAPI market, String[] conditions) {
+    if (market == null || conditions == null) {
+        Global.getLogger(AstroCalc.class).warn(
+                "addConditions skipped: market=" + market + " conditions=" + java.util.Arrays.toString(conditions));
+        return;
+    }
     for (String c : conditions) {
-        market.addCondition(c);
+        try {
+            market.addCondition(c);
+        } catch (Exception e) {
+            Global.getLogger(AstroCalc.class).warn(
+                    "addConditions: failed to add '" + c + "' to " + market.getId(), e);
+        }
     }
 }
 
@@ -547,12 +557,6 @@ public static class KeplerComponent {
         meanAnomaly = ma;
     }
 
-    /**
-     * Kepler's equation. M and the result are in radians. Danby's starter is used
-     * above e = 0.8: E = M is a poor seed near perihelion on a comet orbit and
-     * does not converge inside the iteration budget, so those positions come out
-     * wrong on exactly the part of the orbit that gets looked at.
-     */
     private double solveE(double M) {
         if (M > Math.PI) M -= TWO_PI;
         else if (M < -Math.PI) M += TWO_PI;
@@ -580,8 +584,6 @@ public static class KeplerComponent {
         double E = solveE(meanAnomaly * DEG_TO_RAD);
 
         // perifocal position straight from E: x = a(cos E - e), y = b sin E.
-        // No true anomaly, no atan2, no radius division - then one constant
-        // rotation by the longitude of periapsis.
         double px = a * (Math.cos(E) - ecc);
         double py = bAxis * Math.sin(E);
 
@@ -589,11 +591,7 @@ public static class KeplerComponent {
         scratch[1] += sign * (float) (px * sinPeri + py * cosPeri);
     }
 
-    /**
-     * True anomaly in degrees, 0..360. Solves fresh rather than caching state off
-     * evalInto - only the angle getters call this, and a stale cached value after
-     * a load would be worse than the solve.
-     */
+    // true anomaly in deg
     float trueAnomalyDeg() {
         if (isCircular) return meanAnomaly;
 

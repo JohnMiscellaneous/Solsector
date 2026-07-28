@@ -131,9 +131,9 @@ public class MercuryToNeptune {
         boolean transNeptuneMemes = cfg.optBoolean("Trans_Neptunian_Memes", true);
 
         // Object Generation Settings
-        int innerSolDetail               = cfg.optInt("Inner_Sol_Detail", 1);
-        int visitedDetail                = cfg.optInt("Visited_Asteroids_Detail", 1);
-        int asteroidBeltDetail           = cfg.optInt("Asteroid_Belt_Detail", 1);
+        int innerSolDetail               = cfg.optInt("NEA_Detail", 1);
+        int visitedDetail                = cfg.optInt("Visited_Bodies_Detail", 1);
+        int asteroidBeltDetail           = cfg.optInt("Asteroid_Detail", 1);
         int hildaDetail                  = cfg.optInt("Hilda_Detail", 1);
         int jupiterTrojansDetail         = cfg.optInt("Jupiter_Trojans_Detail", 1);
         int jupiterDetail                = cfg.optInt("Jupiter_Detail", 1);
@@ -863,8 +863,24 @@ public class MercuryToNeptune {
             }
         }
         // =========================================================================
-        // ==================== LOW PERIAPSIS & SUN GRAZERS ========================
+        // ============================= VULCANOIDS ================================
         // =========================================================================
+        // I DREAM OF THEM
+
+        // =========================================================================
+        // ============================== VATIRAS ==================================
+        // =========================================================================
+        // interior to Venus (Q < 0.718 AU)
+        if(innerSolDetail >= 1 && allowNonVisited){
+            // Aylochaxnim | No model
+            SectorEntityToken Aylochaxnim = calc.spawnSPSObject(system, star, "Aylochaxnim", "Aylochaxnim", "asteroid", showNameMinor, 1.5f, 0.5554f, 0.1770f, 6.703f, 187.311f, 2020.10f, zeroDegGlobal, null, 1f);
+            Aylochaxnim.setCustomDescriptionId("sol_alylochaxnim");
+        }
+
+        // =========================================================================
+        // =============================== ATIRAS ==================================
+        // =========================================================================
+        // interior to Earth (Q < 0.983 AU)
         if(innerSolDetail >= 1 && allowNonVisited){
             // Atira | No model
             float sz_Atira = calc.getSize(4.8f);
@@ -872,24 +888,12 @@ public class MercuryToNeptune {
             SectorEntityToken Atira = calc.spawnSPSObject(system, star, "Atira", "Atira", "asteroid", showNameMinor, 4.8f, 0.7427f, 0.3221f, 104.397f, 252.825f, 2003.05f, zeroDegGlobal, -p_AtiraAlphaBeta / rotMult, 1f);
             Atira.setCustomDescriptionId("sol_atira");
             calc.spawnMoon(system, Atira, "163693 Beta", 2f, sz_Atira * 3.25f, p_AtiraAlphaBeta, 45f, showProvisionalNames);
-
-            // Aylochaxnim | No model
-            SectorEntityToken Aylochaxnim = calc.spawnSPSObject(system, star, "Aylochaxnim", "Aylochaxnim", "asteroid", showNameMinor, 1.5f, 0.5554f, 0.1770f, 6.703f, 187.311f, 2020.10f, zeroDegGlobal, null, 1f);
-            Aylochaxnim.setCustomDescriptionId("sol_alylochaxnim");
-
-            // Moshup | Done
-            SectorEntityToken Moshup = calc.spawnSPSObject(system, star, "Moshup", "Moshup", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Moshup" + showNameMinor : showNameMinor, 1.3f, 0.6423f, 0.6884f, 244.912f, 192.628f, 2001.40f, zeroDegGlobal, 0.115f, 1f);
-            if(lightcurveEntities){
-                SectorEntityToken Squannit = system.addCustomEntity("Squannit", "Squannit", "Squannit" + showNameMinor, "neutral");
-                Squannit.setCircularOrbitPointingDown(Moshup, 0f, calc.getSize(1.3f) * 5f, calc.getTime(0.7f));
-            } else {
-                calc.spawnMoon(system, Moshup, "Squannit", calc.getSize(0.45f), calc.getSize(1.3f) * 5f, calc.getTime(0.7f), 0f, showMinorNames);
-            }
         }
-        // =========================================================================
-        // ================== MAJOR VENUS CROSSERS =================================
-        // =========================================================================
 
+        // =========================================================================
+        // =============================== APOLLOS =================================
+        // =========================================================================
+        // a > 1 AU, perihelion q < 1.017 AU (Earth-crossing from outside)
         if(innerSolDetail >= 1 && allowNonVisited){
             // Apollo | Done
             SectorEntityToken Apollo = calc.spawnSPSObject(system, star, "Apollo", "Apollo", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Apollo" + showNameMinor : showNameMinor, 1.5f, 1.4702f, 0.5599f, 35.717f, 285.820f, 1932.51f, zeroDegGlobal, 0.128f, 1f);
@@ -899,7 +903,17 @@ public class MercuryToNeptune {
             SectorEntityToken Icarus = calc.spawnSPSObject(system, star, "Icarus", "Icarus", "asteroid", showNameMinor, 1.4f, 1.0779f, 0.8268f, 88.033f, 31.326f, 2015.46f, zeroDegGlobal, 0.095f, 1f);
             Icarus.setCustomDescriptionId("sol_icarus");
 
+            // 1998 KY26 | Hyabusa mission | 5 min rotation | dark comet????? <- probably same type of shit oumuamua was on | Done (_1998ky26)
+            SectorEntityToken KY26 = calc.spawnSPSObject(system, star, "KY26", "1998 KY26", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "KY26" + showNameProv : showNameProv, 0.011f, 1.2289f, 0.2001f, 84.182f, 210.004f, 2025.88f, zeroDegGlobal, 0.00371f, 1f);
+
             if(innerSolDetail >= 2){
+                SectorEntityToken SK1992   = calc.spawnSPSObject(system, star, "1992SK",   "1992 SK",   lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "1992SK" + showNameProv : showNameProv,  0.938f, 1.2485f, 0.3249f, 8.869f,   233.726f, 2025.86f, zeroDegGlobal, 0.305f,   1f);
+                SectorEntityToken ML14     = calc.spawnSPSObject(system, star, "1998ML14", "1998 ML14", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "1998ML14" + showNameProv : showNameProv,  1.0f,   2.4078f, 0.6239f, 338.653f, 20.333f,  2024.93f, zeroDegGlobal, 0.595f,   1f);
+                SectorEntityToken JV6      = calc.spawnSPSObject(system, star, "1999JV6",  "1999 JV6",  lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "1999JV6" + showNameProv : showNameProv,  0.451f, 1.0091f, 0.3116f, 124.200f, 235.709f, 2025.94f, zeroDegGlobal, 0.272f,   1f);
+                SectorEntityToken Golevka  = calc.spawnSPSObject(system, star, "Golevka",  "Golevka",   lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Golevka" + showNameMinor : showNameMinor, 0.53f,  2.4744f, 0.6191f, 208.552f, 69.780f,  2027.06f, zeroDegGlobal, 0.251f,   1f);
+                SectorEntityToken Nereus   = calc.spawnSPSObject(system, star, "Nereus",   "Nereus",    lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Nereus" + showNameMinor : showNameMinor, 0.33f,  1.4851f, 0.3587f, 313.106f, 159.557f, 2025.64f, zeroDegGlobal, 0.632f,   1f);
+                SectorEntityToken YORP     = calc.spawnSPSObject(system, star, "YORP",     "YORP",      lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "YORP" + showNameMinor : showNameMinor, 0.124f, 1.0059f, 0.2300f, 278.184f, 278.987f, 2026.53f, zeroDegGlobal, 0.00845f, 1f);
+
                 // 1950 DA | Done (_1950da)
                 SectorEntityToken DA1950 = calc.spawnSPSObject(system, star, "1950 DA", "1950 DA", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "DA1950" + showNameProv : showNameProv, 1.1f, 1.6986f, 0.5074f, 356.680f, 224.620f, 2022.39f, zeroDegGlobal, 0.088f, 1f);
                 //  ANGLO AMERICAN PLATINIDES
@@ -918,8 +932,7 @@ public class MercuryToNeptune {
                 SectorEntityToken Mithra = calc.spawnSPSObject(system, star, "Mithra", "Mithra", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Mithra" + showNameMinor : showNameMinor, 1.849f, 2.2052f, 0.6598f, 82.164f, 169.300f, 2026.65f, zeroDegGlobal, 2.81f, 1f);
                 // 1620 Geographos
                 SectorEntityToken Geographos = calc.spawnSPSObject(system, star, "Geographos", "Geographos", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Geographos" + showNameMinor : showNameMinor, 3.0f, 1.2458f, 0.3355f, 337.135f, 277.029f, 2026.46f, zeroDegGlobal, 0.218f, 1f);
-                // 99942 Apophis
-                SectorEntityToken Apophis = calc.spawnSPSObject(system, star, "Apophis", "Apophis", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Apophis" + showNameMinor : showNameMinor, 0.34f, 0.9224f, 0.1911f, 203.894f, 126.680f, 2026.01f, zeroDegGlobal, 1.273f, 1f);
+
                 if(innerSolDetail >= 3){
                     // Sisyphus | No Model
                     SectorEntityToken Sisyphus = calc.spawnSPSObject(system, star, "Sisyphus", "Sisyphus", "asteroid", showNameMinor, 8.5f, 1.8937f, 0.5386f, 63.498f, 293.090f, 2017.68f, zeroDegGlobal, 0.100f, 1f);
@@ -940,8 +953,34 @@ public class MercuryToNeptune {
         }
 
         // =========================================================================
-        // ========================== AMOR ASTEROIDS ===============================
+        // ================================ ATENS ==================================
         // =========================================================================
+        // a < 1 AU, aphelion Q > 0.983 AU (Earth-crossing from inside)
+        if(innerSolDetail >= 1 && allowNonVisited){
+            // Moshup | Done
+            SectorEntityToken Moshup = calc.spawnSPSObject(system, star, "Moshup", "Moshup", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Moshup" + showNameMinor : showNameMinor, 1.3f, 0.6423f, 0.6884f, 244.912f, 192.628f, 2001.40f, zeroDegGlobal, 0.115f, 1f);
+            if(lightcurveEntities){
+                SectorEntityToken Squannit = system.addCustomEntity("Squannit", "Squannit", "Squannit" + showNameMinor, "neutral");
+                Squannit.setCircularOrbitPointingDown(Moshup, 0f, calc.getSize(1.3f) * 5f, calc.getTime(0.7f));
+            } else {
+                calc.spawnMoon(system, Moshup, "Squannit", calc.getSize(0.45f), calc.getSize(1.3f) * 5f, calc.getTime(0.7f), 0f, showMinorNames);
+            }
+
+            if(innerSolDetail >= 2){
+                SectorEntityToken WT24  = calc.spawnSPSObject(system, star, "1998WT24", "1998 WT24", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "1998WT24" + showNameProv : showNameProv, 0.432f, 0.7187f, 0.4176f, 81.658f,  167.512f, 2026.58f, zeroDegGlobal, 0.154f, 1f);
+                SectorEntityToken ET70  = calc.spawnSPSObject(system, star, "2000ET70", "2000 ET70", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "2000ET70" + showNameProv : showNameProv, 1.5f,   0.9466f, 0.1239f, 331.112f, 46.049f,  2026.56f, zeroDegGlobal, 0.373f, 1f);
+                SectorEntityToken EV5   = calc.spawnSPSObject(system, star, "2008EV5",  "2008 EV5",  lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "2008EV5" + showNameProv : showNameProv, 0.40f,  0.9598f, 0.0829f, 93.188f,  235.931f, 2026.51f, zeroDegGlobal, 0.155f, 1f);
+                // 99942 Apophis
+                SectorEntityToken Apophis = calc.spawnSPSObject(system, star, "Apophis", "Apophis", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Apophis" + showNameMinor : showNameMinor, 0.34f, 0.9224f, 0.1911f, 203.894f, 126.680f, 2026.01f, zeroDegGlobal, 1.273f, 1f);
+                // 2100 Ra-Shalom | Done (rashalom)
+                SectorEntityToken RaShalom = calc.spawnSPSObject(system, star, "Ra-Shalom", "Ra-Shalom", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "RaShalom" + showNameMinor : showNameMinor, 2.3f, 0.8321f, 0.4365f, 170.880f, 355.980f, 2016.64f, zeroDegGlobal, 0.825f, 1f);
+            }
+        }
+
+        // =========================================================================
+        // ================================ AMORS ==================================
+        // =========================================================================
+        // a > 1 AU, 1.017 < perihelion q < 1.3 AU (approach but don't cross Earth)
 
         // Eros system
         SectorEntityToken Eros = calc.spawnSPSObject7(system, falseMoons ? Mars : star, "Eros", "Eros", "custom_entity", "Eros", 17f, 1.4583f, 0.2227f, 304.320f, 178.820f, 2019.85f, zeroDegGlobal, 0.220f, 1f, null, null, null, star, "Sol", false, falseMoons);
@@ -977,31 +1016,25 @@ public class MercuryToNeptune {
             SectorEntityToken DonQuixote = calc.spawnSPSObject(system, star, "Don Quixote", "Don Quixote", "asteroid", showNameMinor, 19, 4.2572f, 0.7087f, 350.013f, 316.432f, 2018.33f, zeroDegGlobal, 0.321f, 1f);
             DonQuixote.setCustomDescriptionId("sol_don_quixote");
 
+            // 1996 HW1 | Done
+            SectorEntityToken HW1 = calc.spawnSPSObject(system, star, "HW1", "1996 HW1", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "HW1" + showNameProv : showNameProv, 2.928f, 2.0455f, 0.4490f, 177.089f, 177.283f, 2026.26f, zeroDegGlobal, 0.365f, 1f);
+
             if(innerSolDetail >= 2){
-                // 2100 Ra-Shalom | Done (rashalom)
-                SectorEntityToken RaShalom = calc.spawnSPSObject(system, star, "Ra-Shalom", "Ra-Shalom", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "RaShalom" + showNameMinor : showNameMinor, 2.3f, 0.8321f, 0.4365f, 170.880f, 355.980f, 2016.64f, zeroDegGlobal, 0.825f, 1f);
+                // Betulia | Done
+                SectorEntityToken Betulia = calc.spawnSPSObject(system, star, "Betulia", "Betulia", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Betulia" + showNameMinor : showNameMinor, 5.8f, 2.1948f, 0.4876f, 62.221f, 159.707f, 2025.16f, zeroDegGlobal, 0.256f, 1f);
             }
         }
 
-        // DARK COMET ==============================================================
-        // 1998 KY 26 | Hyabusa mission | 5 min rotation | dark comet????? <- this is probably the same type of shit that oumouamoua was on
-        // | Done (_1998ky26)
-        if(innerSolDetail >= 1 && allowNonVisited){
-            SectorEntityToken KY26 = calc.spawnSPSObject(system, star, "KY26", "1998 KY26", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "KY26" + showNameProv : showNameProv, 0.011f, 1.2289f, 0.2001f, 84.182f, 210.004f, 2025.88f, zeroDegGlobal, 0.00371f, 1f);
-        }
-
         // =========================================================================
-        // ====================== MAJOR MARS-CROSSERS ==============================
+        // ===================== MARS-CROSSERS / MAIN BELT =========================
         // =========================================================================
+        // q > 1.3 AU (past Amor) -- everything that dumps beyond the NEO classes
         if(innerSolDetail >= 1 && allowNonVisited){
             // Aethra | Done
             SectorEntityToken Aethra = calc.spawnSPSObject(system, star, "Aethra", "Aethra", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Aethra" + showNameMinor : showNameMinor, 43f, 2.6082f, 0.3888f, 259.740f, 252.560f, 2021.12f, zeroDegGlobal, 0.216f, 1f);
 
             // Brucia | Done
             SectorEntityToken Brucia = calc.spawnSPSObject(system, star, "Brucia", "Brucia", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Brucia" + showNameMinor : showNameMinor, 33f, 2.6345f, 0.3014f, 276.510f, 296.240f, 2023.68f, zeroDegGlobal, 0.394f, 1f);
-
-            //1996 HW 1 | Done
-            SectorEntityToken HW1 = calc.spawnSPSObject(system, star, "HW1", "1996 HW1", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "HW1" + showNameProv : showNameProv, 2.928f, 2.0455f, 0.4490f, 177.089f, 177.283f, 2026.26f, zeroDegGlobal, 0.365f, 1f);
 
             if(innerSolDetail >= 3){
                 // Kepler | No Model
@@ -1541,13 +1574,18 @@ public class MercuryToNeptune {
         if(asteroidBeltDetail >= 1 && allowNonVisited){
             // 311P/PanSTARRS (P/2013 P5) — active asteroid / main-belt comet
             SectorEntityToken P311 = calc.spawnSPSObject(system, star, "311P PanSTARRS", "311P PanSTARRS", "asteroid", showNameProv, 0.6f, 2.1887f, 0.1157f, 279.260f, 143.999f, 2017.52f, zeroDegGlobal, 4.966f, 1f);
-
-            // Assuming CNSA doesnt order a suicide, which they most likely will
-            SectorEntityToken Tianwen = system.addCustomEntity("Tianwen-2" , "Tianwen-2", "Sol_probe", "neutral");
-            Tianwen.setCircularOrbitWithSpin(P311, 180, 50, 10, -10, -10);
+            if(occultTerrainBeta){
+                CometTerrainManager.setup(P311, 2.1887f, 50f);    
+            }
+            if(deepSpaceProbes >= 1){
+                // Assuming CNSA doesnt order a suicide, which they most likely will
+                SectorEntityToken Tianwen = system.addCustomEntity("Tianwen-2" , "Tianwen-2", "Sol_probe", "neutral");
+                Tianwen.setCircularOrbitWithSpin(P311, 180, 50, 10, -10, -10);
+            }
 
             // Scheila
             SectorEntityToken Scheila = calc.spawnSPSObject(system, star, "Scheila", "Scheila", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Scheila" + showNameMinor : showNameMinor, 159.726f, 2.9332f, 0.1595f, 70.445f, 177.946f, 2027.46f, zeroDegGlobal, 0.66f, 1f);
+            
             if(asteroidBeltDetail >= 3){
                 // 2006 VW139 | Active eccentric binary asteroid 
                 // Wierd asf object
@@ -1563,7 +1601,47 @@ public class MercuryToNeptune {
                 SectorEntityToken VW139b = vw139Binary[1];
             }
         }
-
+        // Stuff I'll organize later: 
+        if(asteroidBeltDetail >= 2 && allowNonVisited){
+            SectorEntityToken Alkmene   = calc.spawnSPSObject(system, star, "Alkmene",   "Alkmene",   lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Alkmene" + showNameMinor : showNameMinor, 57.621f,  2.7633f, 0.2209f, 25.383f,  110.673f, 2026.26f, zeroDegGlobal, 0.542f, 1f);
+            SectorEntityToken Angelina  = calc.spawnSPSObject(system, star, "Angelina",  "Angelina",  lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Angelina" + showNameMinor : showNameMinor, 58.292f,  2.6804f, 0.1267f, 308.952f, 181.149f, 2027.66f, zeroDegGlobal, 0.365f, 1f);
+            SectorEntityToken Ariadne   = calc.spawnSPSObject(system, star, "Ariadne",   "Ariadne",   lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Ariadne" + showNameMinor : showNameMinor, 71.340f,  2.2044f, 0.1677f, 264.739f, 16.310f,  2027.88f, zeroDegGlobal, 0.240f, 1f);
+            SectorEntityToken Atalante  = calc.spawnSPSObject(system, star, "Atalante",  "Atalante",  lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Atalante" + showNameMinor : showNameMinor, 132.842f, 2.7447f, 0.3062f, 358.162f, 47.760f,  2024.63f, zeroDegGlobal, 0.414f, 1f);
+            SectorEntityToken Aurora    = calc.spawnSPSObject(system, star, "Aurora",    "Aurora",    lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Aurora" + showNameMinor : showNameMinor, 204.89f,  3.1591f, 0.0973f, 2.453f,   60.612f,  2025.72f, zeroDegGlobal, 0.301f, 1f);
+            SectorEntityToken Ausonia   = calc.spawnSPSObject(system, star, "Ausonia",   "Ausonia",   lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Ausonia" + showNameMinor : showNameMinor, 116.044f, 2.3942f, 0.1281f, 337.684f, 295.551f, 2025.29f, zeroDegGlobal, 0.387f, 1f);
+            SectorEntityToken Bellona   = calc.spawnSPSObject(system, star, "Bellona",   "Bellona",   lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Bellona" + showNameMinor : showNameMinor, 120.90f,  2.7778f, 0.1490f, 144.147f, 343.542f, 2025.05f, zeroDegGlobal, 0.654f, 1f);
+            SectorEntityToken Circe     = calc.spawnSPSObject(system, star, "Circe",     "Circe",     lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Circe" + showNameMinor : showNameMinor, 132.992f, 2.6878f, 0.1065f, 184.246f, 329.260f, 2026.56f, zeroDegGlobal, 0.506f, 1f);
+            SectorEntityToken Dike      = calc.spawnSPSObject(system, star, "Dike",      "Dike",      lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Dike" + showNameMinor : showNameMinor, 67.354f,  2.6628f, 0.1978f, 41.396f,  195.388f, 2025.06f, zeroDegGlobal, 0.755f, 1f);
+            SectorEntityToken Echo      = calc.spawnSPSObject(system, star, "Echo",      "Echo",      lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Echo" + showNameMinor : showNameMinor, 43.218f, 2.3930f, 0.1844f, 191.514f, 270.903f, 2028.27f, zeroDegGlobal, 1.050f, 1f);
+            SectorEntityToken Eos       = calc.spawnSPSObject(system, star, "Eos",       "Eos",       lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Eos" + showNameMinor : showNameMinor, 95.469f, 3.0119f, 0.1009f, 141.711f, 192.429f, 2026.05f, zeroDegGlobal, 0.435f, 1f);
+            SectorEntityToken Eurynome  = calc.spawnSPSObject(system, star, "Eurynome",  "Eurynome",  lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Eurynome" + showNameMinor : showNameMinor, 63.479f,  2.4442f, 0.1909f, 206.501f, 201.390f, 2024.54f, zeroDegGlobal, 0.249f, 1f);
+            SectorEntityToken Euterpe   = calc.spawnSPSObject(system, star, "Euterpe",   "Euterpe",   lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Euterpe" + showNameMinor : showNameMinor, 96f,      2.3469f, 0.1716f, 94.767f,  356.613f, 2026.76f, zeroDegGlobal, 0.434f, 1f);
+            SectorEntityToken Feronia   = calc.spawnSPSObject(system, star, "Feronia",   "Feronia",   lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Feronia" + showNameMinor : showNameMinor, 74.966f,  2.2659f, 0.1213f, 207.925f, 102.678f, 2026.08f, zeroDegGlobal, 0.337f, 1f);
+            SectorEntityToken Fides     = calc.spawnSPSObject(system, star, "Fides",     "Fides",     lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Fides" + showNameMinor : showNameMinor, 108.35f,  2.6434f, 0.1746f, 7.227f,   62.330f,  2028.13f, zeroDegGlobal, 0.306f, 1f);
+            SectorEntityToken Freia     = calc.spawnSPSObject(system, star, "Freia",     "Freia",     lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Freia" + showNameMinor : showNameMinor, 145.423f, 3.4084f, 0.1677f, 204.271f, 252.284f, 2026.95f, zeroDegGlobal, 0.416f, 1f);
+            SectorEntityToken Harmonia  = calc.spawnSPSObject(system, star, "Harmonia",  "Harmonia",  lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Harmonia" + showNameMinor : showNameMinor, 111.251f, 2.2677f, 0.0467f, 94.152f,  269.932f, 2025.13f, zeroDegGlobal, 0.371f, 1f);
+            SectorEntityToken Hesperia  = calc.spawnSPSObject(system, star, "Hesperia",  "Hesperia",  lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Hesperia" + showNameMinor : showNameMinor, 138.13f,  2.9771f, 0.1689f, 184.893f, 288.175f, 2025.28f, zeroDegGlobal, 0.236f, 1f);
+            SectorEntityToken IoAst     = calc.spawnSPSObject(system, star, "IoAst",     "Io",        lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Io" + showNameMinor : showNameMinor, 154.79f,  2.6535f, 0.1930f, 203.036f, 122.963f, 2025.31f, zeroDegGlobal, 0.286f, 1f);
+            SectorEntityToken Irene     = calc.spawnSPSObject(system, star, "Irene",     "Irene",     lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Irene" + showNameMinor : showNameMinor, 152f,     2.5883f, 0.1628f, 86.011f,  98.306f,  2025.74f, zeroDegGlobal, 0.626f, 1f);
+            SectorEntityToken Isis      = calc.spawnSPSObject(system, star, "Isis",      "Isis",      lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Isis" + showNameMinor : showNameMinor, 110.997f, 2.4448f, 0.2220f, 84.145f,  237.617f, 2024.80f, zeroDegGlobal, 0.566f, 1f);
+            SectorEntityToken Julia     = calc.spawnSPSObject(system, star, "Julia",     "Julia",     lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Julia" + showNameMinor : showNameMinor, 145.483f, 2.5506f, 0.1837f, 311.520f, 45.198f,  2025.91f, zeroDegGlobal, 0.474f, 1f);
+            SectorEntityToken Kalypso   = calc.spawnSPSObject(system, star, "Kalypso",   "Kalypso",   lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Kalypso" + showNameMinor : showNameMinor, 97.262f,  2.6181f, 0.2030f, 143.436f, 314.442f, 2027.06f, zeroDegGlobal, 0.377f, 1f);
+            SectorEntityToken Klytia    = calc.spawnSPSObject(system, star, "Klytia",    "Klytia",    lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Klytia" + showNameMinor : showNameMinor, 44.590f,  2.6646f, 0.0426f, 6.822f,   56.895f,  2026.18f, zeroDegGlobal, 0.346f, 1f);
+            SectorEntityToken Laetitia  = calc.spawnSPSObject(system, star, "Laetitia",  "Laetitia",  lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Laetitia" + showNameMinor : showNameMinor, 179.484f, 2.7693f, 0.1138f, 156.819f, 210.097f, 2024.69f, zeroDegGlobal, 0.214f, 1f);
+            SectorEntityToken Leto      = calc.spawnSPSObject(system, star, "Leto",      "Leto",      lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Leto" + showNameMinor : showNameMinor, 122.509f, 2.7846f, 0.1844f, 44.026f,  305.107f, 2025.24f, zeroDegGlobal, 0.619f, 1f);
+            SectorEntityToken Maja      = calc.spawnSPSObject(system, star, "Maja",      "Maja",      lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Maja" + showNameMinor : showNameMinor, 71.82f,   2.6470f, 0.1719f, 7.469f,   43.473f,  2027.69f, zeroDegGlobal, 0.406f, 1f);
+            SectorEntityToken Massalia  = calc.spawnSPSObject(system, star, "Massalia",  "Massalia",  lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Massalia" + showNameMinor : showNameMinor, 135.680f, 2.4080f, 0.1436f, 205.948f, 257.195f, 2025.58f, zeroDegGlobal, 0.337f, 1f);
+            SectorEntityToken Melete    = calc.spawnSPSObject(system, star, "Melete",    "Melete",    lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Melete" + showNameMinor : showNameMinor, 121.333f, 2.5981f, 0.2365f, 192.904f, 105.030f, 2024.82f, zeroDegGlobal, 0.756f, 1f);
+            SectorEntityToken Melpomene = calc.spawnSPSObject(system, star, "Melpomene", "Melpomene", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Melpomene" + showNameMinor : showNameMinor, 139.594f, 2.2958f, 0.2178f, 150.324f, 228.030f, 2027.17f, zeroDegGlobal, 0.482f, 1f);
+            SectorEntityToken Minerva   = calc.spawnSPSObject(system, star, "Minerva",   "Minerva",   lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Minerva" + showNameMinor : showNameMinor, 154.155f, 2.7533f, 0.1430f, 3.813f,   275.903f, 2026.99f, zeroDegGlobal, 0.249f, 1f);
+            SectorEntityToken Moskva    = calc.spawnSPSObject(system, star, "Moskva",    "Moskva",    lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Moskva" + showNameMinor : showNameMinor, 27.927f,  2.5411f, 0.1288f, 183.707f, 126.518f, 2024.46f, zeroDegGlobal, 0.252f, 1f);
+            SectorEntityToken Nemausa   = calc.spawnSPSObject(system, star, "Nemausa",   "Nemausa",   lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Nemausa" + showNameMinor : showNameMinor, 138.159f, 2.3659f, 0.0660f, 175.875f, 2.398f,   2025.62f, zeroDegGlobal, 0.324f, 1f);
+            SectorEntityToken Niobe     = calc.spawnSPSObject(system, star, "Niobe",     "Niobe",     lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Niobe" + showNameMinor : showNameMinor, 83.42f,   2.7544f, 0.1771f, 315.906f, 267.003f, 2025.11f, zeroDegGlobal, 1.494f, 1f);
+            SectorEntityToken Nysa      = calc.spawnSPSObject(system, star, "Nysa",      "Nysa",      lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Nysa" + showNameMinor : showNameMinor, 70.64f,   2.4225f, 0.1497f, 131.476f, 343.893f, 2026.00f, zeroDegGlobal, 0.268f, 1f);
+            SectorEntityToken Sappho    = calc.spawnSPSObject(system, star, "Sappho",    "Sappho",    lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Sappho" + showNameMinor : showNameMinor, 68.563f,  2.2969f, 0.2000f, 218.595f, 139.810f, 2025.34f, zeroDegGlobal, 0.585f, 1f);
+            SectorEntityToken Thetis    = calc.spawnSPSObject(system, star, "Thetis",    "Thetis",    lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Thetis" + showNameMinor : showNameMinor, 84.899f,  2.4729f, 0.1308f, 125.496f, 136.161f, 2027.70f, zeroDegGlobal, 0.511f, 1f);
+            SectorEntityToken Urania    = calc.spawnSPSObject(system, star, "Urania",    "Urania",    lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Urania" + showNameMinor : showNameMinor, 92.787f,  2.3654f, 0.1266f, 307.395f, 87.228f,  2026.30f, zeroDegGlobal, 0.570f, 1f);
+        }
         // =========================================================================
         // =========================== JUPITER SYSTEM ==============================
         // =========================================================================

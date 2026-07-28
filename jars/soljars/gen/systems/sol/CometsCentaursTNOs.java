@@ -102,10 +102,10 @@ public class CometsCentaursTNOs {
             cfg = new JSONObject();
         }
 
-        if (cfg.optBoolean("Luddic_Church_Claim_On_Sol", false)) {
-            system.getMemoryWithoutUpdate().set(MemFlags.CLAIMING_FACTION, Factions.LUDDIC_CHURCH);
-        }
+        boolean luddicSystem = cfg.optBoolean("Luddic_Church_Claim_On_Sol", false);
         boolean isSettled       = cfg.optBoolean("Generate_Settled_Planets", true);
+        boolean instantMarkets       = cfg.optBoolean("Settled_Planets_Spawn_In_Instantly", true);
+
         int remnantHorde        = cfg.optInt("remnant_difficulty", 1);
         int remnantSizeModifier = 0;
         if(remnantHorde == 1){ remnantSizeModifier = -10;}
@@ -120,9 +120,9 @@ public class CometsCentaursTNOs {
         boolean transNeptuneMemes = cfg.optBoolean("Trans_Neptunian_Memes", true);
 
         // Object Generation Settings
-        int innerSolDetail               = cfg.optInt("Inner_Sol_Detail", 1);
-        int visitedDetail                = cfg.optInt("Visited_Asteroids_Detail", 1);
-        int asteroidBeltDetail           = cfg.optInt("Asteroid_Belt_Detail", 1);
+        int innerSolDetail               = cfg.optInt("NEA_Detail", 1);
+        int visitedDetail                = cfg.optInt("Visited_Bodies_Detail", 1);
+        int asteroidBeltDetail           = cfg.optInt("Asteroid_Detail", 1);
         int hildaDetail                  = cfg.optInt("Hilda_Detail", 1);
         int jupiterTrojansDetail         = cfg.optInt("Jupiter_Trojans_Detail", 1);
         int jupiterDetail                = cfg.optInt("Jupiter_Detail", 1);
@@ -142,6 +142,8 @@ public class CometsCentaursTNOs {
         // Pins Pallas -> Ceres, Clete -> Neptune for the intel screen
         boolean falseMoons    = cfg.optBoolean("False_Moons", true);
         boolean hiddenPlanet = cfg.optBoolean("Hidden_Planet", true);
+       
+        boolean lightcurveEntities = cfg.optBoolean("Lightcurve_Entities", true);
 
         // Disables unnamed bodies showing up on map
         int showNamesSetting = cfg.optInt("Show_Names", 0);
@@ -312,8 +314,8 @@ public class CometsCentaursTNOs {
 
             system.addRingBand(Chiron, "sol_rings", "rings_alpha0", 256, 1, Color.RED, 15f, r_ChironRing, (progradeMult * 10));
             system.addRingBand(Chiron, "sol_rings", "rings_alpha1", 256, 2, Color.RED, 5f, r_ChironRing + 8f, (progradeMult * 15));
-            system.addTerrain(Terrain.RING, new RingSystemTerrainPlugin.RingParams(20f, r_ChironRing, Chiron, "Chiron Ring")).setCircularOrbit(Chiron, 0, 0, (progradeMult * 60));
-
+            system.addTerrain(Terrain.RING, new RingSystemTerrainPlugin.RingParams(20f, r_ChironRing, Chiron, "Chiron Rings")).setCircularOrbit(Chiron, 0, 0, (progradeMult * 60));
+        
             Chiron.getSpec().setTexture("graphics/planets/chiron_tx.jpg"); 
             Chiron.getSpec().setAtmosphereThickness(0f); 
             Chiron.getSpec().setAtmosphereThicknessMin(0f); 
@@ -426,12 +428,12 @@ public class CometsCentaursTNOs {
 
                 SectorEntityToken Xewioso = calc.spawnSPSObject(system, star, "Xewioso", "Xewioso", "asteroid", showNameMinor, 565f, 37.6872f, 0.2435f, 46.729f, 248.379f, 1926.52f, zeroDegGlobal, null, 1f);
 
+                 // 944 Hidalgo | Done
+                SectorEntityToken Hidalgo = calc.spawnSPSObject(system, star, "Hidalgo", "Hidalgo", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Hidalgo" + showNameMinor : showNameMinor, 38f, 5.7283f, 0.6622f, 21.363f, 56.598f, 2032.54f, zeroDegGlobal, 0.421f, 1f);
+                SectorEntityToken hidalgoProbe = DerelictThemeGenerator.addSalvageEntity(system, Entities.DERELICT_SURVEY_PROBE, Factions.DERELICT); hidalgoProbe.setId("hidalgo_probe");
+                hidalgoProbe.setName("Guadalupe"); 
+                hidalgoProbe.setCircularOrbitPointingDown(Hidalgo, 90, 40f, calc.getTime(5f));
                 if(centaurDetail >= 2){
-                    // 944 Hidalgo | Done
-                    SectorEntityToken Hidalgo = calc.spawnSPSObject(system, star, "Hidalgo", "Hidalgo", "asteroid", showNameMinor, 38f, 5.7283f, 0.6622f, 21.363f, 56.598f, 2032.54f, zeroDegGlobal, 0.421f, 1f);
-                    SectorEntityToken hidalgoProbe = DerelictThemeGenerator.addSalvageEntity(system, Entities.DERELICT_SURVEY_PROBE, Factions.DERELICT); hidalgoProbe.setId("hidalgo_probe");
-                    hidalgoProbe.setName("Guadalupe"); 
-                    hidalgoProbe.setCircularOrbitPointingDown(Hidalgo, 90, 40f, calc.getTime(5f));
                     // 20461 Dioretsa
                     SectorEntityToken Dioretsa = calc.spawnSPSObject(system, star, "Dioretsa", "Dioretsa", "asteroid", showNameMinor, 14f, 23.7704f, 0.9004f, 297.119f, 102.244f, 1999.84f, zeroDegGlobal, null, 1f);
                     // 8405 Asbolus
@@ -1294,6 +1296,7 @@ public class CometsCentaursTNOs {
             float sz_Actea = calc.getSize(290f); 
             float[] salaciaOffsets = calc.getBinaryOffsetsReal(850f, 290f, 8.0f);
             // Some schizo shit about if Actea dual peaked, then mabye possible mabye it is somehow a binary despite the super strong resonance that would pump that E 
+                // What?
 
             float[][] salaciaExtras = new float[][]{
                 { salaciaOffsets[0], 0f, 0f, p_SalaciaBinary, 0f, +1f }  // binary wobble
@@ -1434,17 +1437,17 @@ public class CometsCentaursTNOs {
 
             ChaosStation.getMemoryWithoutUpdate().set("$sol_orbit_min_au", 35.677f);
             ChaosStation.getMemoryWithoutUpdate().set("$sol_orbit_max_au", 47.801f);
-
-            // Goibniu
-            SectorEntityToken Goibniu = calc.spawnSPSObject(system, star, "Goibniu", "Goibniu", "asteroid", showNameMinor, 730f, 41.8086f, 0.0760f, 250.576f, 289.667f, 1987.36f, zeroDegGlobal, 0.450f, 1f);
-            SectorEntityToken goibnuStation = DerelictThemeGenerator.addSalvageEntity(system, Entities.DERELICT_SURVEY_SHIP, Factions.DERELICT); 
-            goibnuStation.setCircularOrbitPointingDown(Goibniu, 90, 200f, calc.getTime(20f));
-            Goibniu.setCustomDescriptionId("sol_goibniu");
-
-            // Ritona
-            SectorEntityToken Ritona = calc.spawnSPSObject(system, star, "Ritona", "Ritona", "asteroid", showNameMinor, 640f, 41.5534f, 0.0239f, 187.003f, 178.794f, 2034.86f, zeroDegGlobal, 0.290f, 1f);
-
+            
             if(transNeptuneDetail >= 1){
+                // Goibniu
+                SectorEntityToken Goibniu = calc.spawnSPSObject(system, star, "Goibniu", "Goibniu", "asteroid", showNameMinor, 730f, 41.8086f, 0.0760f, 250.576f, 289.667f, 1987.36f, zeroDegGlobal, 0.450f, 1f);
+                SectorEntityToken goibnuStation = DerelictThemeGenerator.addSalvageEntity(system, Entities.DERELICT_SURVEY_SHIP, Factions.DERELICT); 
+                goibnuStation.setCircularOrbitPointingDown(Goibniu, 90, 200f, calc.getTime(20f));
+                Goibniu.setCustomDescriptionId("sol_goibniu");
+
+                // Ritona
+                SectorEntityToken Ritona = calc.spawnSPSObject(system, star, "Ritona", "Ritona", "asteroid", showNameMinor, 640f, 41.5534f, 0.0239f, 187.003f, 178.794f, 2034.86f, zeroDegGlobal, 0.290f, 1f);
+
                 // Uni-Tinia (2002 UX25) | as/rp=14.3 | es=0.17 | Ps=8.309 d
                 SectorEntityToken uniBarycenter = calc.spawnSPSObject(system, star, "uni_barycenter", "Uni Barycenter", "custom_entity", "empty", 1f, 42.9742f, 0.1464f, 204.594f, 275.638f, 2065.11f, zeroDegGlobal, 0.367f, 1f);
 
@@ -1552,7 +1555,7 @@ public class CometsCentaursTNOs {
                 calc.spawnMoon(system, Sila, "Nunam", sz_Nunam, silaOffsets[1]+silaOffsets[0], p_SilaNunam, 180f, showMinorNames);
 
                 SectorEntityToken silaHabitat = DerelictThemeGenerator.addSalvageEntity(system, Entities.ORBITAL_HABITAT_REMNANT, Factions.DERELICT); silaHabitat.setId("sila_habitat"); 
-                silaHabitat.setCircularOrbitPointingDown(Sila, 0,  silaOffsets[1], p_SilaNunam);
+                silaHabitat.setCircularOrbitPointingDown(Sila, 180,  silaOffsets[1], p_SilaNunam);
 
                 // Borasisi-Pabu (66652)
 
@@ -1716,7 +1719,7 @@ public class CometsCentaursTNOs {
 
             Eris.setSkipForJumpPointAutoGen(false);
 
-            // Dysnomia — orbits Eris directly
+            // Dysnomia 
             // Giant NEA - low albedo, rubble pile
             PlanetAPI Dysnomia = system.addPlanet("Dysnomia", Eris, "Dysnomia", "rocky_ice", 180, sz_Dysnomia, erisOffsets[0] + erisOffsets[1], p_ErisDysnomia);
 
@@ -1878,32 +1881,33 @@ public class CometsCentaursTNOs {
             DistanceConditionManager.track(Chiminigagua.getMarket());
             Chiminigagua.getMemoryWithoutUpdate().set("$sol_orbit_min_au", 35.572f);
             Chiminigagua.getMemoryWithoutUpdate().set("$sol_orbit_max_au", 82.000f);
+            
+            if(scatteredDiskDetail >= 1){
+                // Dziewanna
+                SectorEntityToken Dziewanna = calc.spawnSPSObject(system, star, "Dziewanna", "Dziewanna", "asteroid", showNameMinor, 470f, 68.7806f, 0.5275f, 346.157f, 284.791f, 2038.94f, zeroDegGlobal, 0.295f, 1f);
+                Dziewanna.setCustomDescriptionId("sol_dziewanna");
 
-            // Dziewanna
-            SectorEntityToken Dziewanna = calc.spawnSPSObject(system, star, "Dziewanna", "Dziewanna", "asteroid", showNameMinor, 470f, 68.7806f, 0.5275f, 346.157f, 284.791f, 2038.94f, zeroDegGlobal, 0.295f, 1f);
-            Dziewanna.setCustomDescriptionId("sol_dziewanna");
+                SectorEntityToken Rumina = calc.spawnSPSObject(system, star, "Rumina", "Rumina", "asteroid", showNameMinor, 644f, 92.2746f, 0.6190f, 84.630f, 318.731f, 2005.06f, zeroDegGlobal, null, 1f);
 
-            SectorEntityToken Rumina = calc.spawnSPSObject(system, star, "Rumina", "Rumina", "asteroid", showNameMinor, 644f, 92.2746f, 0.6190f, 84.630f, 318.731f, 2005.06f, zeroDegGlobal, null, 1f);
-
-            if(scatteredDiskDetail >= 2){
-                // 2003 UY117
-                SectorEntityToken UY117 = calc.spawnSPSObject(system, star, "UY117", "2003 UY117", "asteroid", showNameProv, 170f, 56.1198f, 0.4202f, 265.250f, 113.035f, 2005.03f, zeroDegGlobal, 0.516f, 1f);
-                // 1996 TL66
-                SectorEntityToken TL66 = calc.spawnSPSObject(system, star, "TL66", "1996 TL66", "asteroid", showNameProv, 400f, 84.8933f, 0.5866f, 217.702f, 185.141f, 2001.68f, zeroDegGlobal, 0.500f, 1f);
-                // 2021 DR15
-                SectorEntityToken DR15 = calc.spawnSPSObject(system, star, "DR15", "2021 DR15", "asteroid", showNameProv, 700f, 67.6937f, 0.4305f, 334.151f, 22.780f, 1832.72f, zeroDegGlobal, null, 1f);
-                // 2014 FC72
-                SectorEntityToken FC72 = calc.spawnSPSObject(system, star, "FC72", "2014 FC72", "asteroid", showNameProv, 500f, 75.2044f, 0.3130f, 177.996f, 32.068f, 2023.48f, zeroDegGlobal, null, 1f);
-                // 2010 RE64
-                SectorEntityToken RE64 = calc.spawnSPSObject(system, star, "RE64", "2010 RE64", "asteroid", showNameProv, 430f, 66.2026f, 0.4511f, 67.586f, 20.177f, 2076.62f, zeroDegGlobal, null, 1f);
-                // 2005 QU182
-                SectorEntityToken QU182 = calc.spawnSPSObject(system, star, "QU182", "2005 QU182", "asteroid", showNameProv, 700f, 112.1695f, 0.6696f, 78.536f, 224.256f, 1971.57f, zeroDegGlobal, null, 1f);
-                // 2021 LL37 <- likely largest solar system object w/o wikipedia page [disrespect = mad]
-                SectorEntityToken LL37 = calc.spawnSPSObject(system, star, "LL37", "2021 LL37", "asteroid", showNameProv, 500f, 55.6420f, 0.3580f, 345.027f, 50.025f, 2193.34f, zeroDegGlobal, null, 1f);
+                if(scatteredDiskDetail >= 2){
+                    // 2003 UY117
+                    SectorEntityToken UY117 = calc.spawnSPSObject(system, star, "UY117", "2003 UY117", "asteroid", showNameProv, 170f, 56.1198f, 0.4202f, 265.250f, 113.035f, 2005.03f, zeroDegGlobal, 0.516f, 1f);
+                    // 1996 TL66
+                    SectorEntityToken TL66 = calc.spawnSPSObject(system, star, "TL66", "1996 TL66", "asteroid", showNameProv, 400f, 84.8933f, 0.5866f, 217.702f, 185.141f, 2001.68f, zeroDegGlobal, 0.500f, 1f);
+                    // 2021 DR15
+                    SectorEntityToken DR15 = calc.spawnSPSObject(system, star, "DR15", "2021 DR15", "asteroid", showNameProv, 700f, 67.6937f, 0.4305f, 334.151f, 22.780f, 1832.72f, zeroDegGlobal, null, 1f);
+                    // 2014 FC72
+                    SectorEntityToken FC72 = calc.spawnSPSObject(system, star, "FC72", "2014 FC72", "asteroid", showNameProv, 500f, 75.2044f, 0.3130f, 177.996f, 32.068f, 2023.48f, zeroDegGlobal, null, 1f);
+                    // 2010 RE64
+                    SectorEntityToken RE64 = calc.spawnSPSObject(system, star, "RE64", "2010 RE64", "asteroid", showNameProv, 430f, 66.2026f, 0.4511f, 67.586f, 20.177f, 2076.62f, zeroDegGlobal, null, 1f);
+                    // 2005 QU182
+                    SectorEntityToken QU182 = calc.spawnSPSObject(system, star, "QU182", "2005 QU182", "asteroid", showNameProv, 700f, 112.1695f, 0.6696f, 78.536f, 224.256f, 1971.57f, zeroDegGlobal, null, 1f);
+                    // 2021 LL37 <- likely largest solar system object w/o wikipedia page [disrespect = mad]
+                    SectorEntityToken LL37 = calc.spawnSPSObject(system, star, "LL37", "2021 LL37", "asteroid", showNameProv, 500f, 55.6420f, 0.3580f, 345.027f, 50.025f, 2193.34f, zeroDegGlobal, null, 1f);
+                }
             }
-
             // =========================================================================
-            // EXTREME SCATTERED, EXTREME DETATCHED, SEDNOIDS, ETNOS, EXTREME DAMOCLOIDS
+            // EXTREME SCATTERED, EXTREME DETATCHED, SEDNOIDS, ETNOS, EXTREME DAMOCLOIDS, COMMUNIST EXTREMISTS (VERY RED)
             // =========================================================================
 
             // Sedna
@@ -2087,12 +2091,12 @@ public class CometsCentaursTNOs {
             DistanceConditionManager.track(Farfarout.getMarket());
             Farfarout.getMemoryWithoutUpdate().set("$sol_orbit_min_au", 27.63f);
             Farfarout.getMemoryWithoutUpdate().set("$sol_orbit_max_au", 132.7f);
-
-            // DeeDee (2014 UZ224)
-            SectorEntityToken DeeDee = calc.spawnSPSObject(system, star, "DeeDee", "DeeDee", "asteroid", showNameMinor, 635f, 109.8853f, 0.6486f, 131.183f, 28.607f, 2142.25f, zeroDegGlobal, null, 1f);
-            DeeDee.setCustomDescriptionId("sol_deedee");
-
+            
             if(scatteredDiskDetail >= 1){
+                // DeeDee (2014 UZ224)
+                SectorEntityToken DeeDee = calc.spawnSPSObject(system, star, "DeeDee", "DeeDee", "asteroid", showNameMinor, 635f, 109.8853f, 0.6486f, 131.183f, 28.607f, 2142.25f, zeroDegGlobal, null, 1f);
+                DeeDee.setCustomDescriptionId("sol_deedee");
+
                 // Buffy (2004 XR190)
                 SectorEntityToken Buffy = calc.spawnSPSObject(system, star, "Buffy", "Buffy", "asteroid", showNameMinor, 500f, 57.8400f, 0.1086f, 252.317f, 280.494f, 2114.30f, zeroDegGlobal, null, 1f);
                 Buffy.setCustomDescriptionId("sol_buffy");

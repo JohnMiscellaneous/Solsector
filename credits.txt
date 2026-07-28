@@ -26,6 +26,7 @@ Kale4Good - Enceladus
 Astra-Planetshine - Haumea
 MapperPro - Hiiaka (secretly namaka)
 
+Lightcurves - 3D asteroid catalogue, DAMIT database.
 Icons:
 Lot of touch ups but I usually work off a base image:
 neomechanica - orbital ring art

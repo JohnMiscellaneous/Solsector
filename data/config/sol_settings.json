@@ -3,7 +3,7 @@
     ## 1 Fills the inner system with weak remnants
     ## 2 Fills the inner system with remnants
     ## 3 Fills the system with a massive amount of renmnant nexuses and death fleets.
-    "remnant_difficulty": 3,
+    "remnant_difficulty": 1,
 
     ## Planets will be settled by various factions
     ## the settled planets will appear upon jump into the Sol system
@@ -26,17 +26,17 @@
     "Current_Year": 10008,
 
     ## ======= Sector Position =============================
-    "X-coord": 0,
-    "Y-coord": 0,
+    "X-coord": 75000,
+    "Y-coord": 42000,
 
     ## if settings or wide horizons changes map size, this means it will remain in the same position
     "Scale_With_Map_Size": true,
     ## overides the prior settings and makes sol random
     "Random_Location": false,
-    ## 0-12, with IndEvo each number adds another artillery station, values greater than 1 will break the eye indicator
-    ## Order is Mercury, Callisto, Luna, Mars, Ceres, Titan, Triton, Pluto, Biden / VP, Haumea, Earth
-    ## With Maxxed out remnant settings neutral and derilect artillery will spawn as remnant
-    "Artillery_Stations": 12,
+    ## 0-3, with IndEvo each number adds another artillery station, values greater than 1 will break the eye indicator
+    ## Order is Mercury, Callisto, Luna, 
+    ## these don't respect performance though so default is 1
+    "Artillery_Stations": 1,
 
     ## disables some of the more memey things
     "Trans_Neptunian_Memes": true,
@@ -51,36 +51,36 @@
     ## ======================================================
 	"Generate_Sol": true,
 
-    ## for the chaotic which dont want to see an object a probe hasnt flown by, overides all
+    ## allows bodies a probe hasnt bean within 1,000,000 km of
 	"Allow_Non_Visited": true,
 
     ## enables lightcurve, radar, and occultation based custom entities
     ## accepted values 0, 1    
     "Lightcurve_Entities": true,
 
-    ## enables or disables some less interesting NEAs
-    ## accepted values 0, 1    
-    "Inner_Sol_Detail": 2,
+    ## enables or disables some small Visited Asteroids, these entities can be enabled through this or thier respective detail setting
+    ## accepted values 0 (minimal), 1 (default),  2 (more lightcurves), 3 (plus unremarkable asteroids w/o lightcurve)
+    "Visited_Bodies_Detail": 1, 
 
-    ## enables or disables some small Visited Asteroids
-    ## accepted values 0 (none specifically), 1 (default), 2 (), 3, 4
-    "Visited_Asteroids_Detail": 1, 
+    ## enables or disables some less interesting NEAs
+    ## accepted values 0, 1 (default), 2 (more lightcurves), 3 (plus unremarkable asteroids w/o lightcurve)
+    "NEA_Detail": 1,
 
     ## enables or disables some less important/interesting asteroids
-    ## accepted values 0, 1, 2
-    "Asteroid_Detail": 2,
+    ## accepted values 0 (minimal), 1 (default),  2 (more lightcurves), 3 (plus unremarkable asteroids w/o lightcurve)
+    "Asteroid_Detail": 1,
 
     ## you get the point
-    ## accepted values 0, 1, 2
-    "Hilda_Detail": 2,
+    ## accepted values 0 (minimal), 1 (default),  2 (more lightcurves), 3 (plus unremarkable asteroids w/o lightcurve)
+    "Hilda_Detail": 1,
 
     ## number of generic asteroid belt asteroids to generate
-    "Generic_Asteroids": 0,
+    "Generic_Asteroids": 5,
 
-    ## accepted values 0 (minimal), 1 (default), 2 (bit more)
-    "Jupiter_Trojans_Detail": 2,
+    ## accepted values 0 (minimal), 1 (default),  2 (more lightcurves) and other stuff, 3 (plus unremarkable asteroids w/o lightcurve)
+    "Jupiter_Trojans_Detail": 1,
 
-    ## accepted values 0 (mininimal, Gallilean + inner + himalia), 1 (default), 2 (extensive), 3 ALL 200+ PEBBLES
+    ## accepted values 0 (mininimal, Gallilean + inner + himalia), 1 (default), 2 (extensive), 3 ALL 100+ PEBBLES
     "Jupiter_Detail": 1,
 
     ## accepted values 0 (mininimal, inner moons + phoebe), 1 (default), 2 (extensive), 3 ALL 200+ PEBBLES
@@ -111,7 +111,7 @@
     ## accepted values 0 (major points, default), 1 (L4 and L5 for all 8 classical planets), 2 (L3 for the madmen)
     "Stable_Points_Detail": 0,
 
-    ## adds 1999 ZX30, Burns-Caulfield, and the fictional jovian irreg of Leda, let me know if you'd like to see your favourite author's fictional minor object and it isnt that one moon from Red Rising.
+    ## adds 1999 ZX30, Burns-Caulfield, and the fictional jovian irreg of Leda
     "Fictional_Trans_Neptunian_Objects": true,
 
     ## 0 is only the confirmed planets (default)
@@ -125,7 +125,7 @@
     ## 2 is edge-case speculative moons
     "Speculative_Bodies": 0,
 
-    ## Makes planet 9 hidden
+    ## Makes planet 9 have to be discovered (you can just use the gravity well)
     "Hidden_Planet": true,
 
     ## accepted values 0 (none), 1 (interesting orbit ones) (default), 2 (pretty inclusive)

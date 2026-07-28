@@ -1,5 +1,6 @@
 package soljars.gen.utils;
 
+import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.CampaignFleetAPI;
 import com.fs.starfarer.api.campaign.FleetAssignment;
 import com.fs.starfarer.api.campaign.SectorEntityToken;
@@ -13,6 +14,13 @@ import com.fs.starfarer.api.impl.campaign.procgen.themes.RemnantSeededFleetManag
 public class RemnantPatrolFactory {
 
     public CampaignFleetAPI spawnPatrol(StarSystemAPI system, SectorEntityToken source, float combatPoints) {
+        if (source == null || system == null
+                || source.getContainingLocation() == null || source.getLocation() == null) {
+            Global.getLogger(RemnantPatrolFactory.class).warn(
+                    "tried to spawn patrol at " + source + "/" + system);
+            return null;
+        }
+
         FleetParamsV3 params = new FleetParamsV3(
                 null,
                 source.getLocationInHyperspace(),

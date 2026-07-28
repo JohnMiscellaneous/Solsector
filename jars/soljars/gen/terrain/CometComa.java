@@ -29,9 +29,9 @@ public class CometComa extends BaseTerrain {
     }
 
     protected static final float BASE_MULT = 0.7f;   // moving detect mult
-    protected static final float SLOW_MULT = 0.5f;   // stationary/slow-moving detect mult
+    protected static final float SLOW_MULT = 0.5f;   // stationary/slow detect
     protected static final int SEGMENTS = 48;                       // fan segments around the rim
-    protected static final Color MAP_COLOR = new Color(150, 200, 255, 255);   // map tint only
+    protected static final Color MAP_COLOR = new Color(150, 200, 255, 255);
 
     protected CometComaParams params;
     protected transient SpriteAPI mapTex;

@@ -68,7 +68,7 @@ public class SolMisc {
         int transNeptuneDetail           = cfg.optInt("Kuiper_Detail", 1);
         int scatteredDiskDetail          = cfg.optInt("Scattered_Disk_Detail", 1);
         int cometDetail                  = cfg.optInt("Comet_Detail", 1);
-        
+
         boolean allowNonVisited          = cfg.optBoolean("Allow_Non_Visited", true);
 
         // Respectable end of science fiction: no 2km moons inside Thebe, no ninth planets, Leda, 1999 ZX30, Burns-Caulfield
@@ -159,23 +159,24 @@ public class SolMisc {
                 SunYards.setCircularOrbitPointingDown(system.getStar(), 180, VulcanEnergy.getCircularOrbitRadius(), VulcanEnergy.getCircularOrbitPeriod());
                 SunYards.setDiscoverable(true);
                 SunYards.setSensorProfile(4000f);
+            } else {
+                Global.getLogger(SolMisc.class).warn("SunYards skipped: no VulcanEnergy");
             }
 
-            MarketAPI mercuryMarket = marketOf(system, "mercury");
             if (numberArtilleryStations >= 1) {
-                ArtillerySpawnTool.spawnArtilleryStation(mercuryMarket, "remnant", "missile");
-            } else if (mercuryMarket != null) {
-                mercuryMarket.addCondition("IndEvo_ArtilleryStationCondition");
+                spawnArtillery(system, "mercury", "remnant", "missile");
+            } else {
+                addCond(system, "mercury", "IndEvo_ArtilleryStationCondition");
             }
             if (numberArtilleryStations >= 2) {
                 if (remnantHorde <= 2) {
-                    ArtillerySpawnTool.spawnArtilleryStation(marketOf(system, "Callisto"), "pirates", "railgun");
+                    spawnArtillery(system, "Callisto", "pirates", "railgun");
                 } else {
-                    ArtillerySpawnTool.spawnArtilleryStation(marketOf(system, "Mars"), "remnant", "railgun");
+                    spawnArtillery(system, "Mars", "remnant", "railgun");
                 }
             }
             if (numberArtilleryStations >= 3) {
-                ArtillerySpawnTool.spawnArtilleryStation(marketOf(system, "Luna"), "remnant", "mortar");
+                spawnArtillery(system, "Luna", "remnant", "mortar");
             }
             if(visitedDetail >= 1 || innerSolDetail >= 1){
                 spawnWatchtower(system, system.getEntityById("Kamooalewa"), 0f, 50f, calc.getTime(10f));
@@ -208,13 +209,7 @@ public class SolMisc {
             spawnWatchtower(system, system.getEntityById("Nereid"), 180f, 100f, calc.getTime(.48f) * rotMult);
 
             if (neptuneTrojansDetail >= 1 && allowNonVisited) {
-                SectorEntityToken WG157 = system.getEntityById("WG157");
-                if (WG157 != null) {
-                    SectorEntityToken neptunePets = system.addCustomEntity(null, null, "IndEvo_abandonedPetCenter", "neutral");
-                    neptunePets.setCircularOrbitPointingDown(WG157, 50, 50, calc.getTime(5f));
-                    neptunePets.setDiscoverable(true);
-                    neptunePets.setSensorProfile(2000f);
-                }
+                spawnStation(system, "IndEvo_abandonedPetCenter", "WG157", 50f, 50f, calc.getTime(5f), 2000f);
             }
 
             addCond(system, "mercury",  "IndEvo_RuinsCondition");
@@ -243,13 +238,7 @@ public class SolMisc {
                 spawnWatchtower(system, system.getEntityById("Farfarout"), 200f, 200f, calc.getTime(20f));
                 spawnWatchtower(system, system.getEntityById("DeeDee"), 200f, 200f, calc.getTime(20f));
 
-                SectorEntityToken Chiminigagua = system.getEntityById("Chiminigagua");
-                if (Chiminigagua != null) {
-                    SectorEntityToken tnoWMDs = system.addCustomEntity(null, null, "IndEvo_arsenalStation", "neutral");
-                    tnoWMDs.setCircularOrbitPointingDown(Chiminigagua, 50, 100, calc.getTime(10f));
-                    tnoWMDs.setDiscoverable(true);
-                    tnoWMDs.setSensorProfile(2000f);
-                }
+                spawnStation(system, "IndEvo_arsenalStation", "Chiminigagua", 50f, 100f, calc.getTime(10f), 2000f);
 
                 addCond(system, "Eris",   "IndEvo_RuinsCondition");
                 addCond(system, "Haumea", "IndEvo_RuinsCondition");
@@ -276,13 +265,11 @@ public class SolMisc {
         // =========================================================================
         if (Global.getSettings().getModManager().isModEnabled("aotd_vok")) {
             addCond(system, "Phoebe", "pre_collapse_facility");
-            if (allowNonVisited) {
-                addCond(system, "Farout",       "pre_collapse_facility");
-                addCond(system, "Chiminigagua", "pre_collapse_facility");
-                addCond(system, "Agamemnon",    "pre_collapse_facility");
-                addCond(system, "Chiron",       "pre_collapse_facility");
-                addCond(system, "SolX", "pre_collapse_facility");
-            }
+            addCond(system, "Farout",       "pre_collapse_facility");
+            addCond(system, "Chiminigagua", "pre_collapse_facility");
+            addCond(system, "Agamemnon",    "pre_collapse_facility");
+            addCond(system, "Chariklo",       "pre_collapse_facility");
+            addCond(system, "SolX", "pre_collapse_facility");
         }
 
         // =========================================================================
@@ -303,11 +290,10 @@ public class SolMisc {
             addCond(system, "mercury", "rat_rampant_military_core");
             addCond(system, "Uranus",  "rat_ancient_fuel_hub");
             addCond(system, "Titania", "rat_warscape");
-            if (allowNonVisited) {
-                addCond(system, "Biden", "rat_rampant_military_core");
-            }
+            addCond(system, "Biden", "rat_rampant_military_core");
+            
             addCond(system, "Mars", "rat_ancient_megacities");
-        } // Rat stuff spawns on its own so this might be kinda dangerous
+        } // Rat stuff spawns on its own so Rat might be kinda dangerous
 
         // =============================================================
         // PROCEDURAL DERELICT GENERATION
@@ -318,11 +304,9 @@ public class SolMisc {
         miscThemeGen.addDerelictShips(solSystemData, 1f, 20, 30, factionPicker);
 
         // In unverse all of these but mercury can be chalked up to being coincidental, especially useless asf Hyperion
-        if (allowNonVisited) {
-            // ## PHAETHON
-            // I thought it was a perfect match, cause I can't read an H. It's still close enough tho.
-            spawnWreck(system, system.getEntityById("Phaethon"), "phaeton_Standard", 90f, 50f, calc.getTime(10f));
-        }
+        // ## PHAETHON
+        // I thought it was a perfect match, cause I can't read an H. It's still close enough tho.
+        spawnWreck(system, system.getEntityById("Phaethon"), "phaeton_Standard", 90f, 50f, calc.getTime(10f));
 
         // ## HYPERION
         spawnWreck(system, system.getEntityById("Hyperion"), "hyperion_Strike", 120f, 50f, calc.getTime(10f));
@@ -349,16 +333,53 @@ public class SolMisc {
 
     private void addCond(StarSystemAPI system, String id, String cond) {
         MarketAPI m = marketOf(system, id);
-        if (m != null) m.addCondition(cond);
+        if (m != null) {
+            m.addCondition(cond);
+        } else {
+            Global.getLogger(SolMisc.class).warn(
+                    "addCond skipped: no market for '" + id + "' (cond " + cond + ")");
+        }
     }
 
     private void removeCond(StarSystemAPI system, String id, String cond) {
         MarketAPI m = marketOf(system, id);
-        if (m != null) m.removeCondition(cond);
+        if (m != null) {
+            m.removeCondition(cond);
+        } else {
+            Global.getLogger(SolMisc.class).warn(
+                    "removeCond skipped: no market for '" + id + "' (cond " + cond + ")");
+        }
+    }
+
+    private void spawnArtillery(StarSystemAPI system, String id, String faction, String weapon) {
+        MarketAPI m = marketOf(system, id);
+        if (m == null) {
+            Global.getLogger(SolMisc.class).warn(
+                    "spawnArtillery skipped: no market for '" + id + "' (" + faction + "/" + weapon + ")");
+            return;
+        }
+        ArtillerySpawnTool.spawnArtilleryStation(m, faction, weapon);
+    }
+
+    private void spawnStation(StarSystemAPI system, String type, String anchorId,
+                              float angle, float orbitRadius, float period, float sensorProfile) {
+        SectorEntityToken anchor = system.getEntityById(anchorId);
+        if (anchor == null) {
+            Global.getLogger(SolMisc.class).warn(
+                    "spawnStation skipped: no anchor '" + anchorId + "' for " + type);
+            return;
+        }
+        SectorEntityToken e = system.addCustomEntity(null, null, type, "neutral");
+        e.setCircularOrbitPointingDown(anchor, angle, orbitRadius, period);
+        e.setDiscoverable(true);
+        e.setSensorProfile(sensorProfile);
     }
 
     private void spawnWatchtower(StarSystemAPI system, SectorEntityToken anchor, float angle, float orbitRadius, float period) {
-        if (anchor == null) return;
+        if (anchor == null) {
+            Global.getLogger(SolMisc.class).warn("spawnWatchtower skipped: null anchor");
+            return;
+        }
         SectorEntityToken wt = system.addCustomEntity(null, null, "IndEvo_Watchtower", "remnant");
         wt.setCircularOrbitPointingDown(anchor, angle, orbitRadius, period);
         wt.setDiscoverable(true);
@@ -366,7 +387,10 @@ public class SolMisc {
     }
 
     private void spawnWreck(StarSystemAPI system, SectorEntityToken anchor, String variantId, float angle, float orbitRadius, float period) {
-        if (anchor == null) return;
+        if (anchor == null) {
+            Global.getLogger(SolMisc.class).warn("spawnWreck skipped: null anchor for variant " + variantId);
+            return;
+        }
         DerelictShipData params = new DerelictShipData(new PerShipData(variantId, ShipCondition.BATTERED), false);
         SectorEntityToken wreck = BaseThemeGenerator.addSalvageEntity(system, Entities.WRECK, Factions.NEUTRAL, params);
         wreck.setCircularOrbit(anchor, angle, orbitRadius, period);

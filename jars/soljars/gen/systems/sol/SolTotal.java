@@ -168,10 +168,10 @@ public class SolTotal {
             cfg = new JSONObject();
         }
 
-        if (cfg.optBoolean("Luddic_Church_Claim_On_Sol", false)) {
-            system.getMemoryWithoutUpdate().set(MemFlags.CLAIMING_FACTION, Factions.LUDDIC_CHURCH);
-        }
+        boolean luddicSystem = cfg.optBoolean("Luddic_Church_Claim_On_Sol", false);
         boolean isSettled       = cfg.optBoolean("Generate_Settled_Planets", true);
+        boolean instantMarkets       = cfg.optBoolean("Settled_Planets_Spawn_In_Instantly", true);
+
         int remnantHorde        = cfg.optInt("remnant_difficulty", 1);
         int remnantSizeModifier = 0;
         if(remnantHorde == 1){ remnantSizeModifier = -10;}
@@ -186,9 +186,9 @@ public class SolTotal {
         boolean transNeptuneMemes = cfg.optBoolean("Trans_Neptunian_Memes", true);
 
         // Object Generation Settings
-        int innerSolDetail               = cfg.optInt("Inner_Sol_Detail", 1);
-        int visitedDetail                = cfg.optInt("Visited_Asteroids_Detail", 1);
-        int asteroidBeltDetail           = cfg.optInt("Asteroid_Belt_Detail", 1);
+        int innerSolDetail               = cfg.optInt("NEA_Detail", 1);
+        int visitedDetail                = cfg.optInt("Visited_Bodies_Detail", 1);
+        int asteroidBeltDetail           = cfg.optInt("Asteroid_Detail", 1);
         int hildaDetail                  = cfg.optInt("Hilda_Detail", 1);
         int jupiterTrojansDetail         = cfg.optInt("Jupiter_Trojans_Detail", 1);
         int jupiterDetail                = cfg.optInt("Jupiter_Detail", 1);
@@ -207,6 +207,9 @@ public class SolTotal {
         boolean fictionalTNOs = cfg.optBoolean("Fictional_Trans_Neptunian_Objects", true);
         // Pins Pallas -> Ceres, Clete -> Neptune for the intel screen
         boolean falseMoons    = cfg.optBoolean("False_Moons", true);
+        boolean hiddenPlanet = cfg.optBoolean("Hidden_Planet", true);
+       
+        boolean lightcurveEntities = cfg.optBoolean("Lightcurve_Entities", true);
 
         // Disables unnamed bodies showing up on map
         int showNamesSetting = cfg.optInt("Show_Names", 0);
@@ -247,7 +250,7 @@ public class SolTotal {
 
         if(allowNonVisited){
             // Phaethon
-            SectorEntityToken Phaethon = calc.spawnSPSObject(system, star, "Phaethon", "Phaethon", "asteroid", showNameMinor, 6f, 1.2714f, 0.8898f, 265.220f, 322.180f, 2020.96f, zeroDegGlobal, 0.150f, 1f);
+            SectorEntityToken Phaethon = calc.spawnSPSObject(system, star, "Phaethon", "Phaethon", lightcurveEntities ? "custom_entity" : "asteroid", lightcurveEntities ? "Phaethon" + showNameMinor : showNameMinor, 6f, 1.2714f, 0.8898f, 265.220f, 322.180f, 2020.96f, zeroDegGlobal, 0.150f, 1f);
             Phaethon.setCustomDescriptionId("sol_phaethon");
 
             // Attach Jump Point
