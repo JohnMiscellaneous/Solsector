@@ -163,30 +163,6 @@ public class SolMisc {
                 Global.getLogger(SolMisc.class).warn("SunYards skipped: no VulcanEnergy");
             }
 
-            if (numberArtilleryStations >= 1) {
-                spawnArtillery(system, "mercury", "remnant", "missile");
-            } else {
-                addCond(system, "mercury", "IndEvo_ArtilleryStationCondition");
-            }
-            if (numberArtilleryStations >= 2) {
-                if (remnantHorde <= 2) {
-                    spawnArtillery(system, "Callisto", "pirates", "railgun");
-                } else {
-                    spawnArtillery(system, "Mars", "remnant", "railgun");
-                }
-            }
-            if (numberArtilleryStations >= 3) {
-                spawnArtillery(system, "Luna", "remnant", "mortar");
-            }
-            if(visitedDetail >= 1 || innerSolDetail >= 1){
-                spawnWatchtower(system, system.getEntityById("Kamooalewa"), 0f, 50f, calc.getTime(10f));
-            } else{
-                SectorEntityToken Luna = system.getEntityById("Luna");
-                if (Luna != null) {
-                    spawnWatchtower(system, Luna, Luna.getCircularOrbitAngle(), Luna.getRadius() * 1.5f, Luna.getCircularOrbitPeriod());
-                }
-            }
-
             if (innerSolDetail >= 1 && allowNonVisited) {
                 spawnWatchtower(system, system.getEntityById("Zoozve"), 0f, 50f, calc.getTime(10f));
             } else {
@@ -244,8 +220,31 @@ public class SolMisc {
                 addCond(system, "Haumea", "IndEvo_RuinsCondition");
             }
 
-            // NOTE: original resolved "Nix" into a var named Pluto here; behavior preserved verbatim
-            addCond(system, "Nix", "IndEvo_RuinsCondition");
+            addCond(system, "Pluto", "IndEvo_RuinsCondition");
+
+            if (numberArtilleryStations >= 1) {
+                spawnArtillery(system, "mercury", "remnant", "missile");
+            } else {
+                addCond(system, "mercury", "IndEvo_ArtilleryStationCondition");
+            }
+            if (numberArtilleryStations >= 2) {
+                if (remnantHorde <= 2) {
+                    spawnArtillery(system, "Callisto", "pirates", "railgun");
+                } else {
+                    spawnArtillery(system, "Mars", "remnant", "railgun");
+                }
+            }
+            if (numberArtilleryStations >= 3) {
+                spawnArtillery(system, "Luna", "remnant", "mortar");
+            }
+            if(visitedDetail >= 1 || innerSolDetail >= 1){
+                spawnWatchtower(system, system.getEntityById("Kamooalewa"), 0f, 50f, calc.getTime(10f));
+            } else{
+                SectorEntityToken Luna = system.getEntityById("Luna");
+                if (Luna != null) {
+                    spawnWatchtower(system, Luna, Luna.getCircularOrbitAngle(), Luna.getRadius() * 1.5f, Luna.getCircularOrbitPeriod());
+                }
+            }
         }
 
         // =========================================================================

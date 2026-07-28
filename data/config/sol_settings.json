@@ -67,18 +67,18 @@
     "NEA_Detail": 1,
 
     ## enables or disables some less important/interesting asteroids
-    ## accepted values 0 (minimal), 1 (default),  2 (more lightcurves), 3 (plus unremarkable asteroids w/o lightcurve)
-    "Asteroid_Detail": 1,
+    ## accepted values 0 (minimal), 1 (some),  2 (more lightcurves) (default), 3 (plus unremarkable asteroids w/o lightcurve)
+    "Asteroid_Detail": 2,
 
     ## you get the point
-    ## accepted values 0 (minimal), 1 (default),  2 (more lightcurves), 3 (plus unremarkable asteroids w/o lightcurve)
-    "Hilda_Detail": 1,
+    ## accepted values 0 (minimal), 1  some,  2 (more lightcurves) (default),  3 (plus unremarkable asteroids w/o lightcurve)
+    "Hilda_Detail": 2,
 
     ## number of generic asteroid belt asteroids to generate
     "Generic_Asteroids": 5,
 
-    ## accepted values 0 (minimal), 1 (default),  2 (more lightcurves) and other stuff, 3 (plus unremarkable asteroids w/o lightcurve)
-    "Jupiter_Trojans_Detail": 1,
+    ## accepted values 0 (minimal), 1 (some),  2 (more lightcurves) and other stuff (default), 3 (plus unremarkable asteroids w/o lightcurve)
+    "Jupiter_Trojans_Detail": 2,
 
     ## accepted values 0 (mininimal, Gallilean + inner + himalia), 1 (default), 2 (extensive), 3 ALL 100+ PEBBLES
     "Jupiter_Detail": 1,
