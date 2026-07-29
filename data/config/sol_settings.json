@@ -19,7 +19,6 @@
     ## 1 disables all minor planet names (bar textured custom entities), (DEFAULT)
     ## 2 disables provisional names, 
     ## 3 shows all names
-    "Show_Names": 1,
 
     ## what is the AD start date,
     ## dictates planet starting position.
@@ -55,7 +54,6 @@
 	"Allow_Non_Visited": true,
 
     ## enables lightcurve, radar, and occultation based custom entities
-    ## accepted values 0, 1    
     "Lightcurve_Entities": true,
 
     ## enables or disables some small Visited Asteroids, these entities can be enabled through this or thier respective detail setting
@@ -196,4 +194,8 @@
     "sizeLinMod": 0.001,
 
     "rotMult":1,
+
+    ## DO NOT TOUCH || DO NOT TOUCH
+    "Show_Names": 1,
+    ## DO NOT TOUCH || DO NOT TOUCH
 }

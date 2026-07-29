@@ -194,7 +194,6 @@ function Get-EntryString {
 
     $tail = "`"scaleNameWithZoom`":false, `"scaleIconWithZoom`":true, `"layers`":[$layer], `"renderCircleIndicator`":false, `"renderCircleIndicatorSelectionFlash`":false, },"
 
-    $named   = "`t`"${name}w_name`":{ $common, `"showNameOnMap`":true, $tail"
     $noName  = "`t`"${name}no_name`":{ $common, `"showNameOnMap`":false, $tail"
 
     return $named + "`r`n" + $noName
