@@ -53,8 +53,6 @@ import com.fs.starfarer.api.impl.campaign.rulecmd.salvage.special.ShipRecoverySp
 import com.fs.starfarer.api.campaign.rules.MemoryAPI;
 import com.fs.starfarer.api.EveryFrameScript;
 import org.json.JSONObject;
-import soljars.gen.terrain.LagrangeBeanMinor;
-import soljars.gen.terrain.LagrangeBean;
 
 import org.lwjgl.util.vector.Vector2f;
 
@@ -339,45 +337,6 @@ float distPrimary = (float) (separation * (massRatio / (1.0 + massRatio)));
 float distSecondary = (float) (separation * (1.0 / (1.0 + massRatio)));
 
 return new float[]{distPrimary, distSecondary};
-}
-
-// --- SMART LAGRANGE BEAN (single lobe) ---
-public SectorEntityToken smartLagrangeBean(StarSystemAPI system, SectorEntityToken bodyA,
-        String name, float massA, float massB, float distanceAU,
-        boolean leading, float extent, float eMedian, String texture,
-        float angleB, float orbitDays) {
-    SectorEntityToken t = system.addTerrain("sol_lagrange_bean",
-        new LagrangeBean.LagrangeBeanParams(bodyA, massA, massB, distanceAU,
-            leading, extent, eMedian, 0.5f, name, texture));
-    t.setCircularOrbit(bodyA, angleB + (leading ? 60f : -60f),
-        getDist(distanceAU, bodyA), orbitDays);
-    return t;
-}
-
-// --- SMART LAGRANGE BEAN PAIR (L4 + L5) ---
-public void smartLagrangeBeanPair(StarSystemAPI system, SectorEntityToken bodyA,
-        String name, float massA, float massB, float distanceAU,
-        float extent, float eMedian, String texture, float angleB, float orbitDays) {
-    smartLagrangeBean(system, bodyA, name + " L4", massA, massB, distanceAU, true,  extent, eMedian, texture, angleB, orbitDays);
-    smartLagrangeBean(system, bodyA, name + " L5", massA, massB, distanceAU, false, extent, eMedian, texture, angleB, orbitDays);
-}
-
-public SectorEntityToken smartLagrangeBeanMinor(StarSystemAPI system, SectorEntityToken bodyA,
-        String name, float distanceAU, boolean leading, float extent, float eMedian,
-        boolean isDense, String texture, float angleB, float orbitDays) {
-    SectorEntityToken t = system.addTerrain("sol_lagrange_bean_minor",
-        new LagrangeBeanMinor.LagrangeBeanMinorParams(bodyA, distanceAU,
-            leading, extent, eMedian, 0.5f, isDense, name, texture));
-    t.setCircularOrbit(bodyA, angleB + (leading ? 60f : -60f),
-        getDist(distanceAU, bodyA), orbitDays);
-    return t;
-}
-
-public void smartLagrangeBeanMinorPair(StarSystemAPI system, SectorEntityToken bodyA,
-        String name, float distanceAU, float extent, float eMedian,
-        boolean isDense, String texture, float angleB, float orbitDays) {
-    smartLagrangeBeanMinor(system, bodyA, name + " L4", distanceAU, true,  extent, eMedian, isDense, texture, angleB, orbitDays);
-    smartLagrangeBeanMinor(system, bodyA, name + " L5", distanceAU, false, extent, eMedian, isDense, texture, angleB, orbitDays);
 }
 
 // ==========================================

@@ -2,11 +2,10 @@
 setlocal
 
 set "STARSECTOR=C:\Program Files (x86)\Fractal Softworks\Starsector"
-set "MOD=%STARSECTOR%\mods\Solsector"
+set "MOD=%STARSECTOR%\mods\SolSystems"
 set "SRCROOT=%MOD%\jars"
-set "SRCROOT_FWD=%SRCROOT:\=/%"
 set "CLSROOT=%SRCROOT%\classes"
-set "JAR_OUT=%SRCROOT%\solsector.jar"
+set "JAR_OUT=%SRCROOT%\solsystems.jar"
 
 set "CLASSPATH=%STARSECTOR%\starsector-core\starfarer.api.jar;%STARSECTOR%\starsector-core\json.jar;%STARSECTOR%\starsector-core\log4j-1.2.9.jar;%STARSECTOR%\starsector-core\lwjgl.jar;%STARSECTOR%\starsector-core\lwjgl_util.jar;%STARSECTOR%\mods\Wide Horizons v1.4.0\jars\WideHorizons.jar;%STARSECTOR%\mods\Industrial.Evolution4.1.b\jars\IndEvo.jar"
 
@@ -19,98 +18,19 @@ if not defined SEVENZIP (
     if not errorlevel 1 set "SEVENZIP=7z.exe"
 )
 
+REM --- Build the argfile: recurse soljars\ for every .java, writing each path
+REM     with forward slashes so javac's @argfile parser doesn't eat the
+REM     backslashes as escape sequences. ---
 set "ARGFILE=%TEMP%\soljars_files.txt"
-> "%ARGFILE%" (
-    echo "%SRCROOT_FWD%/soljars/compat/widehorizons/LocationXY.java"
-    echo "%SRCROOT_FWD%/soljars/compat/industrialevolution/ArtilleryFactionScript.java"
-    echo "%SRCROOT_FWD%/soljars/compat/industrialevolution/ArtillerySpawnTool.java"
-    echo "%SRCROOT_FWD%/soljars/gen/terrain/LagrangeBean.java"
-    echo "%SRCROOT_FWD%/soljars/gen/terrain/LagrangeBeanBase.java"
-    echo "%SRCROOT_FWD%/soljars/gen/terrain/LagrangeBeanMinor.java"
-    echo "%SRCROOT_FWD%/soljars/gen/terrain/CometComa.java"
-    echo "%SRCROOT_FWD%/soljars/gen/terrain/CometTail.java"
-    echo "%SRCROOT_FWD%/soljars/econ/utils/IntelHelper.java"
-    echo "%SRCROOT_FWD%/soljars/econ/utils/IndustryCompat.java"
-    echo "%SRCROOT_FWD%/soljars/econ/utils/Apocalypse.java"
-    echo "%SRCROOT_FWD%/soljars/econ/utils/DistanceConditionManager.java"
-    echo "%SRCROOT_FWD%/soljars/econ/utils/OrbitRulerHelper.java"
-    echo "%SRCROOT_FWD%/soljars/gen/utils/SolHyperspaceGen.java"
-    echo "%SRCROOT_FWD%/soljars/gen/utils/RemnantPatrolFactory.java"
-    echo "%SRCROOT_FWD%/soljars/gen/utils/RemnantNexusFactory.java"
-    echo "%SRCROOT_FWD%/soljars/gen/utils/AstroCalc.java"
-    echo "%SRCROOT_FWD%/soljars/gen/utils/CompoundOrbitTool.java"
-    echo "%SRCROOT_FWD%/soljars/gen/utils/ThreeBodySolution.java"
-    echo "%SRCROOT_FWD%/soljars/gen/utils/SurveyUpdater.java"
-    echo "%SRCROOT_FWD%/soljars/gen/utils/NameGuard.java"
-    echo "%SRCROOT_FWD%/soljars/econ/industries/utils/RemoveReplaceIndustry.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/AncientDrugLab.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/AncientOrbitalManufactories.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/AntimatterInfrastructure.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/AutomatedHabitats.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/ContactBinary.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/Degenerate.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/DegenerateSubpop.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/DistAbyssal.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/DistErebal.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/DistHadal.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/DistTartarean.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/DistDistant.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/DistOortal.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/DistCircumstellar.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/FrozenAtmosphere.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/TenousAtmosphere.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/FrozenAtmospherePolar.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/FastRotator.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/JaggedTerrain.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/GoblinWorld.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/GoblinSubpop.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/InsurgentNetwork.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/InsurgentNetworkDesperate.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/InsurgentNetworkComplete.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/LooseBioweapon.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/LECQHQ.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/Megaforges.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/MegaforgesComplete.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/MegaforgesHyperenergetic.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/MegaforgesHyperenergeticComplete.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/Meteoroids.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/OrbitalFleetworks.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/OrganComplex.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/PenalWorld.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/PreDomainSapience.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/AntimatterNonproliferationTreatyBreacher.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/AntimatterNonproliferationTreatySignatory.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/AITerminators.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/AISecuritySystems.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/AISecuritySystemsComplete.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/AIFreedomFighters.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/AccessCondition.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/CradleOfAsh.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/CivilisedWorld.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/CivilisedSubpop.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/DustStorms.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/MonumentFallen.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/OortStrikes.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/PondScum.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/SubsurfaceOcean.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/WorldWar.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/TinyPolity.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/TinyStripped.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/UnexplodedOrdnance.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/Unpronounceable.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/CometExtreme.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/CometActive.java"
-    echo "%SRCROOT_FWD%/soljars/econ/conditions/CometInactive.java"
-    echo "%SRCROOT_FWD%/soljars/econ/industries/SubsurfaceAquaponicsIndustry.java"
-    echo "%SRCROOT_FWD%/soljars/gen/systems/sol/RemnantHordeGen.java"
-    echo "%SRCROOT_FWD%/soljars/gen/systems/sol/SolEconomies.java"
-    echo "%SRCROOT_FWD%/soljars/gen/systems/sol/SolDeferredSetupScript.java"
-    echo "%SRCROOT_FWD%/soljars/gen/systems/sol/GiantMoonsTotal.java"
-    echo "%SRCROOT_FWD%/soljars/gen/systems/sol/SolTotal.java"
-    echo "%SRCROOT_FWD%/soljars/gen/systems/sol/SolInnit.java"
-    echo "%SRCROOT_FWD%/soljars/gen/systems/sol/SolMisc.java"
-    echo "%SRCROOT_FWD%/soljars/gen/systems/sol/MercuryToNeptune.java"
-    echo "%SRCROOT_FWD%/soljars/gen/systems/sol/CometsCentaursTNOs.java"
+if exist "%ARGFILE%" del /q "%ARGFILE%"
+for /f "delims=" %%F in ('dir /s /b "%SRCROOT%\soljars\*.java"') do call :ADD "%%F"
+
+if not exist "%ARGFILE%" (
+    echo.
+    echo ERROR: no .java files found under "%SRCROOT%\soljars".
+    echo.
+    pause
+    endlocal & exit /b 1
 )
 
 echo.
@@ -135,7 +55,7 @@ echo.
 javac -d "%CLSROOT%" -classpath "%CLASSPATH%" -sourcepath "%SRCROOT%" "@%ARGFILE%"
 set "JAVAC_ERR=%ERRORLEVEL%"
 
-del "%ARGFILE%"
+del /q "%ARGFILE%"
 
 if not "%JAVAC_ERR%"=="0" (
     echo.
@@ -147,7 +67,7 @@ if not "%JAVAC_ERR%"=="0" (
 
 echo === COMPILE OK ===
 echo.
-echo === Packaging solsector.jar ===
+echo === Packaging solsystems.jar ===
 echo.
 
 if not defined SEVENZIP (
@@ -159,9 +79,9 @@ if not defined SEVENZIP (
 REM Delete existing jar so we get a fresh archive instead of an update-merge
 if exist "%JAR_OUT%" del /q "%JAR_OUT%"
 
-REM Zip the CONTENTS of the classes\soljars folder so package paths sit at the
-REM jar root. Sourcing from classes\ means only .class files are packaged;
-REM .java sources never leak into the jar. -tzip = ZIP format (jar is a zip).
+REM Zip the CONTENTS of classes\ so package paths sit at the jar root. Sourcing
+REM from classes\ means only .class files are packaged; .java sources never leak
+REM into the jar. -tzip = ZIP format (jar is a zip).
 pushd "%CLSROOT%"
 "%SEVENZIP%" a -tzip -mx=9 -r "%JAR_OUT%" "soljars\*"
 set "ZIP_ERR=%ERRORLEVEL%"
@@ -180,3 +100,10 @@ echo === BUILD OK ===
 echo Output: %JAR_OUT%
 
 endlocal
+exit /b 0
+
+REM === Subroutine: append one path to the argfile, backslashes -> slashes ===
+:ADD
+set "F=%~1"
+>> "%ARGFILE%" echo "%F:\=/%"
+goto :eof
